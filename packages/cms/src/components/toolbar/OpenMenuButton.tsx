@@ -6,7 +6,6 @@ export class OpenMenuButton extends React.Component<any> {
 
     render() {
         return <>
-        {<div>hop</div>}
         <ToolbarButtonWrapper>
             <MoreOptionsIcon />
         </ToolbarButtonWrapper>

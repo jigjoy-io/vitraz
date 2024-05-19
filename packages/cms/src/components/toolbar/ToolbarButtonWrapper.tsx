@@ -9,7 +9,7 @@ export default class ToolbarButtonWrapper extends React.Component<any> {
 
     render() {
         return (
-            <div className="rounded-md hover:bg-primary-hover border-2 border-[white] hover:border-stroke p-1 cursor-pointer">
+            <div className="rounded-md hover:bg-primary-light border-2 border-[white] hover:border-primary p-1 cursor-pointer">
             {this.props.children}
         </div>
         )

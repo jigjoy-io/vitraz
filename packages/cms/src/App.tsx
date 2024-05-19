@@ -3,8 +3,8 @@ import Heading from './components/building-blocks/Heading'
 import Text from './components/building-blocks/Text'
 import Title from './components/building-blocks/Title'
 import { Tooltip } from './components/building-blocks/Tooltip'
-import Menu from './components/building-blocks/Menu'
-import MenuItem from './components/building-blocks/MenuItem'
+import Menu from './components/building-blocks/menu/Menu'
+import MenuItem from './components/building-blocks/menu/MenuItem'
 
 
 function App() {
