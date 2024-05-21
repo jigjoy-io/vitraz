@@ -1,6 +1,6 @@
 import React from 'react'
-import contentEditing from '../decorators/contentEditing'
-import textToolbar from '../decorators/textToolbar'
+import contentEditing from '../../decorators/contentEditing'
+import textToolbar from '../../decorators/textToolbar'
 
 @textToolbar()
 @contentEditing()

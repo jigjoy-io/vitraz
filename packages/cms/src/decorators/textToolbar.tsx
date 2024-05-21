@@ -1,6 +1,6 @@
 import React, { lazy } from "react"
 
-const DefaultToolbar = lazy(() => import('../toolbar/DefaultToolbar'))
+const DefaultToolbar = lazy(() => import('../components/toolbar/DefaultToolbar'))
 
 const textToolbar = (): any => (WrappedComponent: any) => {
 	return class extends React.Component<any>{
@@ -12,7 +12,7 @@ const textToolbar = (): any => (WrappedComponent: any) => {
 		render() {
 			return this.state.editing ? 
 				 <DefaultToolbar {...this.props}>
-					<WrappedComponent {...this.props} disabled/>
+					<WrappedComponent {...this.props}/>
 				</DefaultToolbar>
 			:
 				<WrappedComponent {...this.props} />

@@ -6,19 +6,9 @@ export class Tooltip extends React.Component<any> {
         on: false
     }
 
-    turnOnTooltip = (e: any) => {
-
-
+    toggle = () => {
         this.setState({
-            on: true
-        })
-
-    }
-
-    turnOffTooltip = (e: any) => {
-
-        this.setState({
-            on: false
+            on: !this.state.on
         })
     }
 
@@ -34,7 +24,7 @@ export class Tooltip extends React.Component<any> {
 
             }
 
-            <div onMouseEnter={this.turnOnTooltip} onMouseLeave={this.turnOffTooltip}>{this.props.children}</div>
+            <div onMouseEnter={this.toggle} onMouseLeave={this.toggle}>{this.props.children}</div>
         </div>
 
     }
