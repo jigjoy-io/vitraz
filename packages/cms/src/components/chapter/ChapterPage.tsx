@@ -18,11 +18,11 @@ function ChapterPage(props: any) {
     }
 
     const calculatePercentage = (pageNumber: number) => {
-        let percentage = (pageNumber/(pages.length - 1)) * 100
-        setPercentage(percentage) 
+        let percentage = (pageNumber / (pages.length - 1)) * 100
+        setPercentage(percentage)
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         calculatePercentage(current)
     }, [])
 
@@ -36,26 +36,26 @@ function ChapterPage(props: any) {
         setCurrent(current - 1)
     }
 
-    return <div className="h-fit relative block min-w-[100vw] md:min-w-[400px] max-w-[100vw] md:max-w-[400px]">
-        <div className="flex flex-row h-max mb-4 p-4">
-            <Progress percentage={percentage}/>
-            <div className='w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => loadPage({ pageId: origin, mode: props.mode })}>
-                <CloseIcon />
+    return <>{origin && <div className="flex flex-col h-[100%]">
+            <div className="flex flex-row h-max mb-4 p-4">
+                <Progress percentage={percentage} />
+                <div className='w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => loadPage({ pageId: origin, mode: props.mode })}>
+                    <CloseIcon />
+                </div>
             </div>
-        </div>
-        {(pages && pages.length > 0) && <Page mode={props.mode} id={pages[current]} key={pages[current]} />}
-        {
-            (current != pages.length - 1) && <div className="flex flex-row mt-4 gap-3 px-4">
-                <Button text="Previous" action={previousPage}/> <Button text="Next" action={nextPage}/>
-            </div>
-        }
-        {
-            (current == pages.length - 1) && <div className="flex flex-row mt-4 gap-3 px-4">
-                <Button text="Back to Home" action={() => loadPage({ pageId: origin, mode: props.mode })} />
-            </div>
-        }
+            {(pages && pages.length > 0) && <div className="overflow-y-auto"><Page mode={props.mode} id={pages[current]} key={pages[current]} /></div>}
+            {
+                (current != pages.length - 1) && <div className="flex flex-row mt-4 gap-3 px-4">
+                    <Button text="Previous" action={previousPage} /> <Button text="Next" action={nextPage} />
+                </div>
+            }
+            {
+                (current == pages.length - 1) && <div className="flex flex-row mt-4 gap-3 px-4">
+                    <Button text="Back to Home" action={() => loadPage({ pageId: origin, mode: props.mode })} />
+                </div>
+            }
 
-    </div>
+        </div>}</>
 }
 
 const mapDispatchToProps = {

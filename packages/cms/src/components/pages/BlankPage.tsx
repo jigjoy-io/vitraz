@@ -15,8 +15,7 @@ export default function BlankPage(props: any) {
         })
     }, [])
 
-    return <div className="h-fit prelative block min-w-[100vw] md:min-w-[400px] max-w-[100vw] md:max-w-[400px]">
-        <div className="bg-[white] rounded-lg h-[100%] overflow-y-auto overwflow-x-hidden p-4">
+    return <div className="bg-[white] rounded-lg h-[100%] overflow-y-auto overwflow-x-hidden p-4">
             {
                 (config && config.type && config.buildingBlocks) && <>{config.buildingBlocks.map((block: any) => (
                     <div className="mt-3" key={block.id}>
@@ -25,5 +24,4 @@ export default function BlankPage(props: any) {
                 ))}</>
             }
         </div>
-    </div>
 }

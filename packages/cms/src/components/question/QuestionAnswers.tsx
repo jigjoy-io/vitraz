@@ -36,7 +36,7 @@ function QuestionAnswers(props: any) {
 
             {answered && <Alert  {...alert} />}
 
-            <Button text="Check the answer" key={selected} width="full" color={selected!=null ? "secondary": "default"} action={checkAnswer} disabled={selected==null}/>
+            {!answered && <Button text="Check the answer" key={selected} width="full" color={selected!=null ? "secondary": "default"} action={checkAnswer} disabled={selected==null}/>}
 
         </div>
     )

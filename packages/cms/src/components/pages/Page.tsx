@@ -17,7 +17,9 @@ function Page(props: any) {
 
 
     return <>{
-        <>{config!=null && PageFactory.get(config)}</>
+        <div className="max-w-[100vw] md:max-w-[400px] max-h-[100dvh] h-[100dvh] md:max-h-[725px] md:h-[725px]">
+            {config!=null && PageFactory.get(config)}
+        </div>
     }
     </>
 }
