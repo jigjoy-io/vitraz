@@ -7,9 +7,9 @@ export default class ContentEditingWrapper extends React.Component<any> {
 
     }
 
-    updateText(event) {
+    updateText(event : any) {
 
-        console.log(event.nativeEvent.target.innerText.trim())
+        //console.log(event.nativeEvent.target.innerText.trim())
     }
 
     handleKeyDown = (event: any) => {

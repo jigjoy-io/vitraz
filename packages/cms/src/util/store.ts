@@ -1,10 +1,12 @@
 
 import { configureStore } from '@reduxjs/toolkit'
-import page from '../reducers/page'
+import toolbarReducer from '../reducers/toolbarReducer'
+import pageReducer from '../reducers/pageReducer'
 
 export const store = configureStore({
     reducer: {
-        page: page
+        toolbar: toolbarReducer,
+        page: pageReducer
     }
 })
 

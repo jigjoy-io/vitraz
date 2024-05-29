@@ -1,26 +1,27 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { closeToolbar, openToolbar } from '../../reducers/page'
-import Group from '../building-blocks/Group'
-import Item from '../building-blocks/Item'
-import Content from '../building-blocks/popover/Content'
-import Popover from '../building-blocks/popover/Popover'
-import Trigger from '../building-blocks/popover/Trigger'
-import { AddBlockIcon } from './AddBlockIcon'
-import { OpenMenuIcon } from './OpenMenuIcon'
+
 import ToolbarButtonWrapper from './ToolbarButtonWrapper'
+import { closeToolbar, openToolbar } from '../../reducers/toolbarReducer'
+import { AddBlockIcon } from '../../icons/AddBlockIcon'
+import Item from '../item/Item'
+import Grid from '../grid/Grid'
+import Content from '../popover/Content'
+import Trigger from '../popover/Trigger'
+import OpenMenuIcon from '../../icons/OpenMenuIcon'
+import Popover from '../popover/Popover'
 
 class DefaultToolbar extends React.Component<any> {
 
     state = {
         on: false,
-        toolbarExpaned: this.props.toolbar == this.props.id
+        toolbarExpaned: false
     }
 
     componentDidUpdate(prevProps: any) {
 
-        if (this.props.toolbar != prevProps.toolbar) {
-            this.setState({ toolbarExpaned: this.props.toolbar == this.props.id })
+        if (this.props.activeToolbarBlockId != prevProps.activeToolbarBlockId) {
+            this.setState({ toolbarExpaned: this.props.activeToolbarBlockId == this.props.id })
         }
 
     }
@@ -59,13 +60,13 @@ class DefaultToolbar extends React.Component<any> {
                                         </ToolbarButtonWrapper>
                                     </Trigger>
                                     <Content>
-                                        <Group layout="column">
+                                        <Grid layout="column">
                                             <Item><div className='w-[200px]'>Item 1</div></Item>
                                             <Item>Item 2</Item>
                                             <Item>Item 3</Item>
                                             <Item>Item 4</Item>
                                             <Item>Item 5</Item>
-                                        </Group>
+                                        </Grid>
                                     </Content>
                                 </Popover>
                             </div>
@@ -85,7 +86,7 @@ class DefaultToolbar extends React.Component<any> {
 
 const mapStateToProps = (state: any) => {
     return {
-        toolbar: state.page.toolbar
+        activeToolbarBlockId: state.toolbar.activeToolbarBlockId
     }
 }
 

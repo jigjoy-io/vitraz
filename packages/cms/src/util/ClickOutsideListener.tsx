@@ -1,6 +1,6 @@
 import React from "react"
 import { connect } from "react-redux"
-import { closeToolbar } from "../reducers/page"
+import { closeToolbar } from "../reducers/toolbarReducer"
 
 /**
  * Component that execute callback function if user click outside of child component
