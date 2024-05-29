@@ -37,7 +37,7 @@ function ChapterPage(props: any) {
     }
 
     return <>{origin && <div className="flex flex-col h-[100%]">
-            <div className="flex flex-row h-max mb-4">
+            <div className="flex flex-row h-max mb-4 px-4">
                 <Progress percentage={percentage} />
                 <div className='w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => loadPage({ pageId: origin, mode: props.mode })}>
                     <CloseIcon />
