@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { PageFactory } from "../../factories/PageFactory"
 import container from '../../util/container'
-import Conversation from "../conversation/Conversation"
 
 function Page(props: any) {
 
@@ -18,7 +17,7 @@ function Page(props: any) {
 
 
     return <>{
-        <div className="min-w-[100dvw] md:min-w-[400px] md:max-w-[400px] max-h-[100dvh] h-[100dvh] md:max-h-[725px] md:h-[725px]">
+        <div className="min-w-[100dvw] md:min-w-[400px] md:max-w-[400px] max-h-[100dvh] min-h-[625px]">
                 {config != null && PageFactory.get(config)}
         </div>
     }
