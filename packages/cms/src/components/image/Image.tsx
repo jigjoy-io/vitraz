@@ -6,7 +6,7 @@ export default function Image(props: any) {
     const [position, setPosition] = useState(props.position)
     const [imageUrl, setImageUrl] = useState(props.imageUrl)
 
-    return <div className="flex h-max w-max" style={{ justifyContent: position }} >
-        <img className="rounded-lg" style={{ width: width }} src={imageUrl} />
+    return <div className="flex h-max w-full" style={{ justifyContent: position }} >
+        <img className="rounded-lg" src={imageUrl} />
     </div>
 }
