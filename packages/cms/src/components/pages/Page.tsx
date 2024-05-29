@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { PageFactory } from "../../factories/PageFactory"
 import container from '../../util/container'
+import Conversation from "../conversation/Conversation"
 
 function Page(props: any) {
 

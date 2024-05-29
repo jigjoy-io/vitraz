@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Page from './components/pages/Page'
 import AudioButton from './components/audio/AudioButton'
 import { loadPage } from './reducers/pageReducer'
+import Conversation from './components/conversation/Conversation'
 
 // import RemoteButtonProps from "@mfTypes/Button"
 // const RemoteButton = React.lazy(

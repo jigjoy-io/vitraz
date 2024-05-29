@@ -15,7 +15,7 @@ export default function BlankPage(props: any) {
         })
     }, [])
 
-    return <div className="bg-[white] rounded-lg h-[100%] overflow-y-auto overwflow-x-hidden">
+    return <div className="bg-[white] rounded-lg h-[100%] overflow-y-auto overwflow-x-hidden p-4">
             {
                 (config && config.type && config.buildingBlocks) && <>{config.buildingBlocks.map((block: any) => (
                     <div className="mt-3" key={block.id}>
