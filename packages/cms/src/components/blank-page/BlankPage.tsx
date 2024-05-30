@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import container from "../../util/container"
 import BuildingBlock from "../../factories/BuildingBlock"
+import Profile from "../profile/Profile"
 
 export default function BlankPage(props: any) {
 

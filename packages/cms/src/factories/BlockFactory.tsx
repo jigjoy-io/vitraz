@@ -6,9 +6,10 @@ import Title from "../components/title/Title"
 import Image from "../components/image/Image"
 import Button from "../components/button/Button"
 import Question from "../components/question/Question"
-import ChapterTile from "../components/chapter/ChapterTile"
+import Chapter from "../components/chapter/Chapter"
 import Conversation from "../components/conversation/Conversation"
 import Reel from "../components/reel/Reel"
+import Profile from "../components/profile/Profile"
 
 // const AudioButton = lazy(() => import('../components/audio/AudioButton'))
 // const Text = lazy(() => import('../components/text/Text'))
@@ -17,7 +18,7 @@ import Reel from "../components/reel/Reel"
 // const Image = lazy(() => import('../components/image/Image'))
 // const Button = lazy(() => import('../components/button/Button'))
 // const Question = lazy(() => import('../components/question/Question'))
-// const ChapterTile = lazy(() => import('../components/chapter/ChapterTile'))
+// const Chapter = lazy(() => import('../components/chapter/Chapter'))
 
 export default class BlockFactory extends React.Component {
 
@@ -44,13 +45,16 @@ export default class BlockFactory extends React.Component {
             component: Question
         },
         "chapter": {
-            component: ChapterTile
+            component: Chapter
         },
         "conversation": {
             component: Conversation
         },
         "reel": {
             component: Reel
+        },
+        "profile": {
+            component: Profile
         }
     }
     
