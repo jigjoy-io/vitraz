@@ -19,7 +19,7 @@ export default function Tile(props: any){
 
     }, [props.color])
 
-    return <div className={`${color} rounded-lg shadow w-[100%] px-4 py-8 border border-light`}>
+    return <div className={`${color} rounded-[20px] shadow w-[100%] px-4 py-8 border border-light`}>
         {props.children}
     </div>
 }
