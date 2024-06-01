@@ -78,7 +78,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: 'public/index.html',
-      title: 'CMS App',
+      title: 'JigJoy – The Playground for Your Followers',
       filename: 'index.html',
       chunks: ['main'],
     }),
