@@ -1,0 +1,15 @@
+{
+    "version": "1.0.0",
+    "manifest_version": 3,
+    "name": "Jig Joy",
+    "description": "The link-in-bio tailored to educational influencers",
+    "icons": {
+        "16": "./public/logo16.png",
+        "48": "./public/logo192.png",
+       "128": "./public/logo512.png"
+      },
+    "action": {
+        "default_popup": "index.html",
+        "default_title": "The link-in-bio tailored to educational influencers"
+    }
+}
