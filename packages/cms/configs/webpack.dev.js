@@ -1,8 +1,7 @@
-const path = require("path")
-const { merge } = require("webpack-merge")
-const webpackBaseConfig = require("./webpack.base")
+const path = require('path')
+const { merge } = require('webpack-merge')
+const webpackBaseConfig = require('./webpack.base')
 
-// @ts-ignore
 module.exports = merge(webpackBaseConfig, {
   mode: "development",
   devtool: "eval",
@@ -14,9 +13,8 @@ module.exports = merge(webpackBaseConfig, {
     static: {
       directory: path.join(__dirname, "../dist"),
     },
-    port: 4000,
+    port: 3000,
     hot: true,
-    open: true,
     compress: false,
     historyApiFallback: false,
   },

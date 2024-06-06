@@ -1,0 +1,122 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  dashboard-backend
+
+Transform:
+- AWS::Serverless-2016-10-31
+
+Globals:
+  Api:
+    Cors:
+      AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+      AllowHeaders: "'content-type'"
+      AllowOrigin: "'*'"
+
+Resources:
+
+  	# User Pool
+  	JigJoyUserPool:
+		Type: AWS::Cognito::UserPool
+		Properties:
+		EmailConfiguration:
+			EmailSendingAccount: COGNITO_DEFAULT
+			# From: !Ref EmailFrom                TODO: Uncomment for production
+			# SourceArn: !Ref VerifiedAddress     TODO: Uncomment for production
+		UserPoolName: userPool
+		AutoVerifiedAttributes:
+			- email
+		VerificationMessageTemplate:
+			DefaultEmailOption: CONFIRM_WITH_CODE
+		Policies:
+			PasswordPolicy:
+			MinimumLength: 8
+		AliasAttributes:
+			- email
+			- preferred_username
+		Schema:
+			- AttributeDataType: String
+			Name: email
+			Required: false
+			- AttributeDataType: String
+			Name: preferred_username
+			Required: false
+    
+  	InfluencersGroup:
+		Type: AWS::Cognito::UserPoolGroup
+		Properties:
+			GroupName: influencers
+			Description: "Influencers has creator privileges"
+			UserPoolId:
+			Ref: !Ref JigJoyUserPool
+			Precedence: 1
+
+	FollowersGroup:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties:
+        GroupName: followers
+        Description: "Followers group"
+        UserPoolId:
+          Ref: !Ref JigJoyUserPool
+        Precedence: 2
+  
+  # Domain For Sending Confirmation Email
+  UserPoolDomain: 
+    Type: AWS::Cognito::UserPoolDomain 
+    Properties:
+      UserPoolId: !Ref JigJoyUserPool
+      Domain: "dev-jigjoy-user-pool-domain"
+  
+    # Account Confirmation Email Sending
+  sendConfirmationEmailFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/send-confirmation-email.sendConfirmationEmailHandler
+      Runtime: nodejs16.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Send JigJoy styled email for account confirmation
+      Policies:
+      - Statement:
+        - Sid: AttributesUpdate
+          Effect: Allow
+          Action:
+          - cognito-idp:AdminUpdateUserAttributes
+          Resource: '*'
+      Events:
+        CognitoEvent:
+          Type: Cognito
+          Properties:
+            UserPool: !Ref JigJoyUserPool
+            Trigger: CustomMessage
+
+  verifyEmailFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/verify-email.verifyEmailHandler
+      Runtime: nodejs16.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Verify email and redirect user to builder
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /verify
+            Method: GET
+
+  # Web Client
+  WebClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref JigJoyUserPool
+      ClientName: webClient
+      GenerateSecret: false
+
+Outputs:
+  WebEndpoint:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"

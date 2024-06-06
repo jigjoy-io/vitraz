@@ -14,6 +14,6 @@ export default function Image(props: any) {
     }, [props.radius])
 
     return <div className="flex h-max w-full" style={{ justifyContent: position }} >
-        <img className={`${radius}`} src={imageUrl} />
+        <img className={`${radius}`} width={width} height="auto" src={imageUrl} loading="lazy" />
     </div>
 }

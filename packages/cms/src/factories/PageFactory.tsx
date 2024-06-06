@@ -1,6 +1,6 @@
 import React from "react"
-import ChapterPage from "../components/chapter/ChapterPage"
-import BlankPage from "../components/blank-page/BlankPage"
+import ChapterPage from "../components/ChapterPage"
+import BlankPage from "../components/BlankPage"
 
 export class PageFactory extends React.Component {
 

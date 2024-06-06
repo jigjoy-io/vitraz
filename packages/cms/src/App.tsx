@@ -2,13 +2,8 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import Page from './components/Page'
-import { loadPage } from './reducers/pageReducer'
 import Smartlook from 'smartlook-client'
-
-// import RemoteButtonProps from "@mfTypes/Button"
-// const RemoteButton = React.lazy(
-//   () => import("ui/Button")
-// ) as typeof RemoteButtonProps
+import { loadPage } from './reducers/pageReducer'
 
 function App(props: any) {
 
@@ -39,7 +34,7 @@ function App(props: any) {
 
 
 	return <div style={{ pointerEvents: isInteractionBlocked ? 'none' : 'auto', zIndex: 100 }}>
-		{(pageId != null && mode != null) && <Page key={pageId} id={pageId} mode={mode} />}
+		{(pageId != null && mode != null) && <Page key={pageId} />}
 		{/* <React.Suspense >
 			<RemoteButton text="JigJoy 🦄" />
 		</React.Suspense> */}
@@ -57,7 +52,7 @@ const mapStateToProps = (state: any) => {
 }
 
 const mapDispatchToProps = {
-    loadPage
+	loadPage
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

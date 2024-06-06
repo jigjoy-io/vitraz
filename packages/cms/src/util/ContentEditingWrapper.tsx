@@ -2,11 +2,6 @@ import React from 'react'
 
 export default class ContentEditingWrapper extends React.Component<any> {
 
-    constructor(props: any) {
-        super(props)
-
-    }
-
     updateText(event : any) {
 
         //console.log(event.nativeEvent.target.innerText.trim())
