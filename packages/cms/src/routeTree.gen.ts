@@ -16,9 +16,15 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const EditorLazyImport = createFileRoute('/editor')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const EditorLazyRoute = EditorLazyImport.update({
+  path: '/editor',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/editor.lazy').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
@@ -36,12 +42,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/editor': {
+      id: '/editor'
+      path: '/editor'
+      fullPath: '/editor'
+      preLoaderRoute: typeof EditorLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({ IndexLazyRoute })
+export const routeTree = rootRoute.addChildren({
+  IndexLazyRoute,
+  EditorLazyRoute,
+})
 
 /* prettier-ignore-end */
 
@@ -51,11 +67,15 @@ export const routeTree = rootRoute.addChildren({ IndexLazyRoute })
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/editor"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
+    },
+    "/editor": {
+      "filePath": "editor.lazy.tsx"
     }
   }
 }

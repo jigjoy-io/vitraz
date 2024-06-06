@@ -15,9 +15,9 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch;
 
-export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
-export const useAppSelector = useSelector.withTypes<RootState>();
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
+export const useAppSelector = useSelector.withTypes<RootState>()
 
-export const usePageId = () => useAppSelector((state) => state.page.pageId)
-export const usePage = () => useAppSelector((state) => state.page.page)
-export const useMode = () => useAppSelector((state) => state.page.mode)
+export const usePageId = () => useAppSelector((state: any) => state.page.pageId)
+export const usePage = () => useAppSelector((state: any) => state.page.page)
+export const useMode = () => useAppSelector((state: any) => state.page.mode)
