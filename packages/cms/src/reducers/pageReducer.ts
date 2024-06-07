@@ -3,13 +3,17 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 interface PageState {
     pageId: string
     page: any
-    mode: string
+    mode: string,
+    blocked: boolean,
+    expanedToolbar: string | null
   }
 
 let initialState: PageState = {
     pageId: "01858c7d-17dc-4c64-93e2-f2df71f3657l",
     page: null,
-    mode: "visiting"
+    mode: "visiting",
+    blocked: false,
+    expanedToolbar: null
 }
 
 
@@ -30,7 +34,6 @@ export const pageSlice = createSlice({
         modeUpdated: (state, action: PayloadAction<any>) => {
             state.mode = action.payload
         }
-
     }
 })
 

@@ -1,9 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
-let initialState: any = {
-    activeToolbarBlockId: null,
-    isInteractionBlocked: false,
+interface ToolbarState {
+    blocked: boolean,
+    expanedToolbar: string | null
+  }
+
+let initialState: ToolbarState = {
+    blocked: false,
+    expanedToolbar: null
 }
+
 
 export const toolbarSlice = createSlice({
     name: 'toolbar',
@@ -11,22 +17,17 @@ export const toolbarSlice = createSlice({
 
     reducers: {
 
-        openToolbar: (state, action: PayloadAction<any>) => {
-            state.activeToolbarBlockId = action.payload
+        blockingUpdated: (state, action: PayloadAction<any>) => {
+            state.blocked = action.payload
         },
 
-        closeToolbar: (state) => {
-            state.activeToolbarBlockId = null
-        },
-
-        blockInteraction: (state, action: PayloadAction<any>) => {
-            state.isBlock = action.payload
-        },
-
+        expanedToolbarUpdated: (state, action: PayloadAction<any>) => {
+            state.expanedToolbar = action.payload
+        }
     }
 })
 
-export const { openToolbar, closeToolbar, blockInteraction } = toolbarSlice.actions
+export const { blockingUpdated, expanedToolbarUpdated } = toolbarSlice.actions
 
 
 export default toolbarSlice.reducer

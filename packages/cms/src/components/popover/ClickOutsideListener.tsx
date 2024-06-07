@@ -16,8 +16,6 @@ class ClickOutsideListener extends React.Component<any> {
 
     componentDidMount() {
         document.addEventListener("mousedown", this.handleClickOutside)
-
-
     }
 
     componentWillUnmount() {
@@ -30,7 +28,6 @@ class ClickOutsideListener extends React.Component<any> {
     handleClickOutside(event: any) {
         if (this.wrapperRef && !this.wrapperRef.current?.contains(event.target)) {
             this.props.callback()
-
         }
     }
 

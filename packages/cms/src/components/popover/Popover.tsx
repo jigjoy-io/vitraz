@@ -7,7 +7,6 @@ function Popover(props: any) {
     const [rect, setRect] = useState<null | any>(null)
     const ref = useRef<HTMLDivElement>(null)
 
-
     const toggle = () => {
         setOn(!on)
     }
@@ -20,7 +19,7 @@ function Popover(props: any) {
     return (
         <div className='relative flex flex-row w-max' ref={ref} >
             {React.Children.map(props.children, child =>
-                React.cloneElement(child, { on: on, toggle: toggle, rect: rect }))}
+                React.cloneElement(child, { on: on, toggle: toggle, onClose: props.onClose, rect: rect }))}
         </div>
     )
 

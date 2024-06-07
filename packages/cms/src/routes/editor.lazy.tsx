@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import { getPage } from "../api/page"
 import Page from "../components/Page"
 import { modeUpdated, pageUpdated } from "../reducers/pageReducer"
-import { useMode, usePageId } from "../util/store"
+import { useBlocked, useMode, usePageId } from "../util/store"
 
 import { createLazyFileRoute } from '@tanstack/react-router'
 
@@ -13,6 +13,7 @@ export const Route : any = createLazyFileRoute("/editor")({
 
 export default function Editor() {
 
+    const blocked = useBlocked()
     const pageId = usePageId()
     const mode = useMode()
     const dispatch = useDispatch()
@@ -26,5 +27,5 @@ export default function Editor() {
 
     }, [pageId])
 
-    return (pageId && mode) && <Page />
+    return <div style={{ pointerEvents: blocked ? 'none' : 'auto', zIndex: 100 }}>{(pageId && mode) && <Page />}</div>
 }

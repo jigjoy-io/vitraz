@@ -1,8 +1,8 @@
 
 import { configureStore } from '@reduxjs/toolkit'
-import toolbarReducer from '../reducers/toolbarReducer'
 import pageReducer from '../reducers/pageReducer'
 import { useDispatch, useSelector } from "react-redux"
+import toolbarReducer from '../reducers/toolbarReducer'
 
 export const store = configureStore({
     reducer: {
@@ -17,6 +17,9 @@ export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
 export const useAppSelector = useSelector.withTypes<RootState>()
+
+export const useBlocked = () => useAppSelector((state: any) => state.toolbar.blocked)
+export const useExpanedToolbar = () => useAppSelector((state: any) => state.toolbar.expanedToolbar)
 
 export const usePageId = () => useAppSelector((state: any) => state.page.pageId)
 export const usePage = () => useAppSelector((state: any) => state.page.page)
