@@ -7,7 +7,7 @@ function AudioButton(props: any) {
         new Audio(audio).play()
     })
 
-    return <div className='w-max hover:bg-primary-light border-2 border-[white] hover:border-primary p-1 rounded-md cursor-pointer' onClick={() => play(props.source)}>
+    return <div className='w-max hover:bg-primary-light border-2 border-[transparent] hover:border-primary p-1 rounded-md cursor-pointer' onClick={() => play(props.source)}>
         <SpeakerOnIcon />
     </div>
 }

@@ -8,7 +8,7 @@ const Image = lazy(() => import('../components/image/Image'))
 const Button = lazy(() => import('../components/button/Button'))
 const Question = lazy(() => import('../components/question/Question'))
 const ChapterTile = lazy(() => import('../components/ChapterTile'))
-const Conversation = lazy(() => import('../components/conversation/Conversation'))
+const Message = lazy(() => import('../components/message/Message'))
 const Reel = lazy(() => import('../components/reel/Reel'))
 const Profile = lazy(() => import('../components/profile/Profile'))
 
@@ -39,8 +39,8 @@ export default class BlockFactory extends React.Component {
         "chapter": {
             component: ChapterTile
         },
-        "conversation": {
-            component: Conversation
+        "message": {
+            component: Message
         },
         "reel": {
             component: Reel

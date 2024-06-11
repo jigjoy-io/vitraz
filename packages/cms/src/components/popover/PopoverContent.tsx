@@ -8,7 +8,7 @@ export default function PopoverContent(props: any) {
 		{
 			props.on && <>
 				{createPortal(<ClickOutsideListener callback={props.onClose}>
-					<div className={`fixed z-10 flex rounded-md p-1 shadow bg-[white]`} style={{ top: props.rect.top, left: props.rect.x + props.rect.width + 10 }}>
+					<div className={`fixed z-10 flex rounded-md p-1 shadow bg-[white] -translate-x-[100%]`} style={{ top: props.rect.top + props.rect.height, left: props.rect.x + props.rect.width - 5 }}>
 						{props.children}
 					</div>
 				</ClickOutsideListener>, document.body)}

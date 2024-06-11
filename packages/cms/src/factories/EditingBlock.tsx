@@ -1,14 +1,8 @@
 import React from "react"
-import BlockFactory from "./BlockFactory"
-import ContentEditingWrapper from "../util/ContentEditingWrapper"
-import DefaultToolbar from "../components/toolbar/DefaultToolbar"
+import EditorFactory from "./EditorFactory"
 
 export default function EditingBlock(props: any) {
 
-    return <DefaultToolbar id={props.id}>
-        <ContentEditingWrapper>
-            {BlockFactory.get(props)}
-        </ContentEditingWrapper>
-    </DefaultToolbar>
+    return <>{EditorFactory.getEditableBlock(props) }</>
 
 }

@@ -1,18 +1,26 @@
 import React, { useState } from 'react'
 
 import ToolbarButtonWrapper from './ToolbarButtonWrapper'
-import { AddBlockIcon } from '../../icons/AddBlockIcon'
 import Item from '../item/Item'
 import Grid from '../grid/Grid'
 import PopoverContent from '../popover/PopoverContent'
-import Trigger from '../popover/Trigger'
+import PopoverTrigger from '../popover/PopoverTrigger'
 import OpenMenuIcon from '../../icons/OpenMenuIcon'
 import Popover from '../popover/Popover'
 import { useExpanedToolbar } from '../../util/store'
 import { useDispatch } from 'react-redux'
 import { blockingUpdated, expanedToolbarUpdated } from '../../reducers/toolbarReducer'
+import { AddNewBlock } from './editors/AddNewBlock'
+import { DuplicateBlockIcon } from '../../icons/DuplicateBlockIcon'
+import DeleteBlockIcon from '../../icons/DeleteBlockIcon'
 
-export default function DefaultToolbar(props: any) {
+interface ToolbarOptions {
+    id: string,
+    editingOptions: any,
+    children: any
+
+}
+export default function Toolbar(props: ToolbarOptions) {
 
     const [on, setOn] = useState(false)
     const expanedToolbar = useExpanedToolbar()
@@ -33,7 +41,7 @@ export default function DefaultToolbar(props: any) {
 
     const onClose = () => {
         dispatch(blockingUpdated(false))
-		dispatch(expanedToolbarUpdated(null))
+        dispatch(expanedToolbarUpdated(null))
     }
 
     return (
@@ -41,19 +49,22 @@ export default function DefaultToolbar(props: any) {
             {(on || expanedToolbar == props.id) &&
                 <div className="absolute -translate-x-[100%]">
                     <div className='flex flex-row'>
-                        <ToolbarButtonWrapper tooltip="add block">
-                            <AddBlockIcon />
-                        </ToolbarButtonWrapper>
+                        <AddNewBlock />
                         <div onClick={() => expandToolbar()}>
                             <Popover onClose={onClose}>
-                                <Trigger>
+                                <PopoverTrigger>
                                     <ToolbarButtonWrapper tooltip="open menu">
                                         <OpenMenuIcon />
                                     </ToolbarButtonWrapper>
-                                </Trigger>
+                                </PopoverTrigger>
                                 <PopoverContent>
                                     <Grid numberOfCols={1}>
-                                        <Item text="Item 1" action={() => { alert("home") }} />
+                                        <Item text="Duplicate block" icon={DuplicateBlockIcon} action={() => { alert("home") }} />
+                                        <Item text="Delete block" color="red" icon={DeleteBlockIcon} action={() => { alert("home") }} />
+                                        <hr className='text-light'/>
+                                        {
+                                            props.editingOptions.map((option: any) => <Item text={option.name} icon={option.icon} action={() => { alert("home") }} />)
+                                        }
                                     </Grid>
                                 </PopoverContent>
                             </Popover>

@@ -9,7 +9,7 @@ interface PageState {
   }
 
 let initialState: PageState = {
-    pageId: "01858c7d-17dc-4c64-93e2-f2df71f3657l",
+    pageId: "01858c7d-17dc-4c64",
     page: null,
     mode: "visiting",
     blocked: false,
