@@ -11,13 +11,16 @@ export default function Message(props: any) {
     useEffect(() => {
 
         if (props.color == "primary") {
-            setColor("bg-primary text-[black]")
-
+            setColor("bg-primary-light text-[black]")
         } else if (props.color == "secondary") {
             setColor("bg-default-light text-[black]")
         }
 
     }, [props.color])
+
+    useEffect(() => {
+        setMessage(props.message)
+    }, [props.message])
 
 
     return (<div className="flex h-max w-full" style={{ justifyContent: position }}>

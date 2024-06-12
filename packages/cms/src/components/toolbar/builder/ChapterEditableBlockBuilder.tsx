@@ -27,7 +27,7 @@ export default class ChapterEditableBlockBuilder extends EditableBlockBuilder {
     }]
 
     addToolbar(props: any) {
-        this.block = <Toolbar id={props.id} editingOptions={this.editingOptions}>{this.block}</Toolbar>
+        this.block = <Toolbar id={props.id} block={props} editingOptions={this.editingOptions}>{this.block}</Toolbar>
         return this
     }
 

@@ -9,7 +9,8 @@ const tableName = process.env.PAGE_TABLE
 /**
  * Update existing page.
  */
-exports.updatePageHandler = async (event) => {
+
+export const updatePageHandler = async (event) => {
     
     if (event.httpMethod !== 'PUT') {
         throw new Error(`PUT method only accepts PUT method, you tried: ${event.httpMethod} method.`)

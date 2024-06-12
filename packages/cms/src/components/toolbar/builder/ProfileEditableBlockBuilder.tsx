@@ -1,29 +1,38 @@
 import React from "react"
-import AnswersEditingIcon from "../../../icons/AnswersEditingIcon"
+import ColorEditingIcon from "../../../icons/ColorEditingIcon"
+import DescriptionEditingIcon from "../../../icons/DescriptionEditingIcon"
 import ImageEditingIcon from "../../../icons/ImageEditingIcon"
-import OutcomeMessageEditingIcon from "../../../icons/OutcomeMessageEditingIcon"
 import TextEditingIcon from "../../../icons/TextEditingIcon"
+import ColorEditor from "../editors/ColorEditor"
+import TextAreaEditor from "../editors/TextAreaEditor"
+import TextEditor from "../editors/TextEditor"
 import Toolbar from "../Toolbar"
 import EditableBlockBuilder from "./EditableBlockBuilder"
 
-export default class QuestionEditableBlockBuilder extends EditableBlockBuilder {
+export default class ProfileEditableBlockBuilder extends EditableBlockBuilder {
 
     editingOptions = [{
-        name: 'Edit question text',
+        name: 'Edit headline',
         type: 'selector',
-        icon: TextEditingIcon
+        icon: TextEditingIcon,
+        key: 'headline',
+        editor: TextEditor
     },{
-        name: 'Edit question image',
+        name: 'Edit image',
         type: 'selector',
         icon: ImageEditingIcon
     },{
-        name: 'Edit answers',
+        name: 'Edit description',
         type: 'selector',
-        icon: AnswersEditingIcon
+        key: 'description',
+        icon: DescriptionEditingIcon,
+        editor: TextAreaEditor
     },{
-        name: 'Edit outcome messages',
+        name: 'Edit color',
         type: 'selector',
-        icon: OutcomeMessageEditingIcon
+        icon: ColorEditingIcon,
+        editor: ColorEditor,
+        key: 'color'
     }]
 
     addToolbar(props: any) {

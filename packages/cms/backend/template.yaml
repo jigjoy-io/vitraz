@@ -61,6 +61,29 @@ Resources:
             Path: /{id}
             Method: GET
 
+  updatePageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/update-page.updatePageHandler
+      Runtime: nodejs20.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Update existing page
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: !Ref PageTable
+      Environment:
+        Variables:
+          PAGE_TABLE: !Ref PageTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /
+            Method: PUT
+
   getPagesByOriginHandler:
     Type: AWS::Serverless::Function
     Properties:

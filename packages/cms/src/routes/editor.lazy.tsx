@@ -27,5 +27,5 @@ export default function Editor() {
 
     }, [pageId])
 
-    return <div style={{ pointerEvents: blocked ? 'none' : 'auto', zIndex: 100 }}>{(pageId && mode) && <Page />}</div>
+    return <div className="mt-8" style={{ pointerEvents: blocked ? 'none' : 'auto', zIndex: 100 }}>{(pageId && mode) && <Page />}</div>
 }

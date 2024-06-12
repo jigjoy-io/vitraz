@@ -1,0 +1,17 @@
+import React from "react"
+import Button from "../button/Button"
+import Grid from "../grid/Grid"
+
+
+export default function Cta() {
+
+    const redirect = () => {
+        window.location.href = "https://jigjoy.io/"
+    }
+
+    return <div className="pb-4 flex justify-end">
+        <Grid numberOfCols={1}>
+            <Button text="Create your store" action={redirect} />
+        </Grid>
+    </div>
+}

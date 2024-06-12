@@ -11,6 +11,7 @@ const ChapterTile = lazy(() => import('../components/ChapterTile'))
 const Message = lazy(() => import('../components/message/Message'))
 const Reel = lazy(() => import('../components/reel/Reel'))
 const Profile = lazy(() => import('../components/profile/Profile'))
+const Cta = lazy(() => import('../components/cta/Cta'))
 
 export default class BlockFactory extends React.Component {
 
@@ -47,6 +48,9 @@ export default class BlockFactory extends React.Component {
         },
         "profile": {
             component: Profile
+        },
+        "cta": {
+            component: Cta
         }
     }
     

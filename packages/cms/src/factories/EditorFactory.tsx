@@ -2,6 +2,9 @@ import React, { lazy, Suspense } from "react"
 import AudioEditableBlockBuilder from "../components/toolbar/builder/AudioEditableBlockBuilder"
 import ChapterEditableBlockBuilder from "../components/toolbar/builder/ChapterEditableBlockBuilder"
 import ImageEditableBlockBuilder from "../components/toolbar/builder/ImageEditableBlockBuilder"
+import MessageEditableBlockBuilder from "../components/toolbar/builder/MessageEditableBlockBuilder"
+import NoneEditableBlockBuilder from "../components/toolbar/builder/NoneEditableBlockBuilder"
+import ProfileEditableBlockBuilder from "../components/toolbar/builder/ProfileEditableBlockBuilder"
 import QuestionEditableBlockBuilder from "../components/toolbar/builder/QuestionEditableBlockBuilder"
 import TextEditableBlockBuilder from "../components/toolbar/builder/TextEditableBlockBuilder"
 
@@ -28,19 +31,22 @@ export default class EditorFactory extends React.Component {
             builder: new QuestionEditableBlockBuilder()
         },
         "profile": {
-            builder: new TextEditableBlockBuilder()
+            builder: new ProfileEditableBlockBuilder()
         },
         "reel": {
             builder: new ImageEditableBlockBuilder()
         },
         "message": {
-            builder: new ImageEditableBlockBuilder()
+            builder: new MessageEditableBlockBuilder()
         },
         "audio": {
             builder: new AudioEditableBlockBuilder()
         },
         "chapter": {
             builder: new ChapterEditableBlockBuilder()
+        },
+        "cta": {
+            builder: new NoneEditableBlockBuilder()
         }
     }
 
