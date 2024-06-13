@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-export default function Text(props: any) {
+export default function Heading(props: any) {
+
+
+	const [position, setPosition] = useState(props.position)
+
+	useEffect(() => {
+		setPosition(props.position)
+	}, [props.position])
 
 	return (
-		<p className='text-heading'>{props.text}</p>
+		<div className="flex h-max w-full" style={{ justifyContent: position }} >
+			<p className='text-heading'>{props.text}</p>
+		</div>
 	)
 
 }

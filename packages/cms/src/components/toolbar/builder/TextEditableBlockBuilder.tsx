@@ -1,5 +1,6 @@
 import React from "react"
 import PositionEditingIcon from "../../../icons/PositionEditingIcon"
+import PositionEditor from "../editors/PositionEditor"
 import Toolbar from "../Toolbar"
 import EditableBlockBuilder from "./EditableBlockBuilder"
 
@@ -7,8 +8,9 @@ export default class TextEditableBlockBuilder extends EditableBlockBuilder {
 
     editingOptions = [{
         name: 'Edit position',
-        type: 'selector',
-        icon: PositionEditingIcon
+        icon: PositionEditingIcon,
+        editor: PositionEditor,
+        key: 'position'
     }]
 
     addToolbar(props: any) {
@@ -19,9 +21,9 @@ export default class TextEditableBlockBuilder extends EditableBlockBuilder {
     createEditableBlock(props: any): any {
 
         return this.setBlock(props)
-                .enableContentEditing()
-                .addToolbar(props)
-                .block
+            .addToolbar(props)
+            .enableContentEditing()
+            .block
     }
 
 
