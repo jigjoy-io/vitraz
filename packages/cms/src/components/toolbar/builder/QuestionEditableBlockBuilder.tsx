@@ -1,27 +1,28 @@
 import React from "react"
 import AnswersEditingIcon from "../../../icons/AnswersEditingIcon"
-import ImageEditingIcon from "../../../icons/ImageEditingIcon"
 import OutcomeMessageEditingIcon from "../../../icons/OutcomeMessageEditingIcon"
 import TextEditingIcon from "../../../icons/TextEditingIcon"
+import QuestionAnswersEditor from "../editors/QuestionAnswersEditor"
+import QuestionContentEditor from "../editors/QuestionContentEditor"
 import Toolbar from "../Toolbar"
 import EditableBlockBuilder from "./EditableBlockBuilder"
 
 export default class QuestionEditableBlockBuilder extends EditableBlockBuilder {
 
     editingOptions = [{
-        name: 'Edit question text',
+        name: 'Edit question',
         type: 'selector',
-        icon: TextEditingIcon
-    },{
-        name: 'Edit question image',
-        type: 'selector',
-        icon: ImageEditingIcon
+        icon: TextEditingIcon,
+        editor: QuestionContentEditor,
+        key: 'content'
     },{
         name: 'Edit answers',
         type: 'selector',
-        icon: AnswersEditingIcon
+        icon: AnswersEditingIcon,
+        editor: QuestionAnswersEditor,
+        key: 'answers'
     },{
-        name: 'Edit outcome messages',
+        name: 'Edit outcomes',
         type: 'selector',
         icon: OutcomeMessageEditingIcon
     }]

@@ -6,18 +6,18 @@ import Item from "../item/Item"
 
 function QuestionAnswers(props: any) {
 
-    const [selected, setSelected] = useState(null)
+    const [selected, setSelected] = useState({} as any)
     const [alert, setAlert] = useState({})
     const [answered, setAnswered] = useState(false)
 
     const selectAnswer = (outcome: any) => {
         setAnswered(false)
-        setSelected(outcome.id)
+        setSelected(outcome)
     }
 
     const checkAnswer = () => {
 
-        if (selected == props.correctAnswerId) {
+        if (selected.correct) {
             setAlert(props.correct)
             setAnswered(true)
         } else {
@@ -32,11 +32,11 @@ function QuestionAnswers(props: any) {
 
         <div className='flex flex-col gap-3 mt-3'>
 
-            {props.answers.map((answer: any) => <Item borderOn={true} {...answer} answered={answered} selected={selected} action={selectAnswer} />)}
+            {props.answers.map((answer: any) => <Item borderOn={true} {...answer} answered={answered} selected={selected.id} action={selectAnswer} />)}
 
             {answered && <Alert  {...alert} />}
 
-            {!answered && <Button text="Check the answer" key={selected} width="full" color={selected!=null ? "secondary": "default"} action={checkAnswer} disabled={selected==null}/>}
+            {!answered && <Button text="Check the answer" key={selected.id} width="full" color={selected!=null ? "secondary": "default"} action={checkAnswer} disabled={selected.id==null}/>}
 
         </div>
     )

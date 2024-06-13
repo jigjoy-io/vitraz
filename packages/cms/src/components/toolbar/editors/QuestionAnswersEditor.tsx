@@ -1,0 +1,64 @@
+import React, { useState } from "react"
+import { useDispatch } from "react-redux"
+import CloseIcon from "../../../icons/CloseIcon"
+import { updateBlock } from "../../../reducers/pageReducer"
+import Button from "../../button/Button"
+import { v4 as uuid } from 'uuid'
+import Checkbox from "../../checkbox/Checkbox"
+import Grid from "../../grid/Grid"
+
+export default function QuestionAnswersEditor(props: any) {
+
+    const [value, setValue] = useState(props.value)
+
+    const dispatch = useDispatch()
+
+
+    const update = () => {
+        let block = JSON.parse(JSON.stringify(props.block))
+        block[props.attribute] = value
+        dispatch(updateBlock(block))
+    }
+
+    const addAnswer = () => {
+        let answers = JSON.parse(JSON.stringify(value))
+        answers.push({ id: uuid(), correct: false, text: `Answer ${answers.length + 1} text` })
+        setValue(answers)
+    }
+
+    const removeAnswer = (index) => {
+
+        if (value.length == 2) return
+
+
+        let answers = JSON.parse(JSON.stringify(value))
+        answers.splice(index, 1)
+        setValue(answers)
+    }
+
+    const selectCorrectAnswer = (index) => {
+        let answers = JSON.parse(JSON.stringify(value))
+        answers.map((answer: any, i) => {i==index ? answer.correct=true : answer.correct=false})
+        setValue(answers)
+    }
+
+    return <div className="flex flex-col p-2 w-[300px] mt-4">
+        {value.map((answer: any, index) => <div className="flex my-1 justify-center items-center">
+
+
+            <Checkbox selected={answer.correct} onChange={() => selectCorrectAnswer(index)}/>
+
+
+            <input className="p-1 rounded-lg border w-[100%]" value={answer.text} />
+            <div className='ml-2 w-max p-1 h-fit bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => removeAnswer(index)}>
+                <CloseIcon />
+            </div>
+
+        </div>)}
+
+        <div className="my-2">
+            <Button text="Add answer" color="default" action={addAnswer} />
+        </div>
+        <Button text="Update" action={update} />
+    </div>
+}
