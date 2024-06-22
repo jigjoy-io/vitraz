@@ -2,7 +2,10 @@ import packageInfo from '../../package.json'
 
 export const templates = {
     "audio": {
-
+        type: "audio",
+        source: "https://www.w3schools.com/html/mov_bbb.mp4",
+        position: "left",
+        builderVersion: packageInfo.version
     },
     "text": {
         type: "text",
@@ -36,6 +39,10 @@ export const templates = {
     "message": {
     },
     "reel": {
+        type: "reel",
+        source: "https://www.w3schools.com/html/mov_bbb.mp4",
+        position: "left",
+        builderVersion: packageInfo.version
     },
     "profile": {
     },

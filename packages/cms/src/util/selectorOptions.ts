@@ -60,8 +60,8 @@ export const selectorOptions = [
                 icon: ImageEditingIcon
             },
             {
-                key: "video",
-                label: "Video",
+                key: "reel",
+                label: "Reel",
                 description: "Upload video file or embed video link",
                 icon: VideoEditingIcon
             },
