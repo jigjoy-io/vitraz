@@ -5,14 +5,14 @@ interface PageState {
     pageId: string
     page: any
     mode: string,
-    activeSelector: string | null
+    activeBlock: string | null
 }
 
 let initialState: PageState = {
     pageId: "01858c7d-17dc-4c64",
     page: null,
     mode: "visiting",
-    activeSelector: null
+    activeBlock: null
 }
 
 export const pageSlice = createSlice({
@@ -50,14 +50,26 @@ export const pageSlice = createSlice({
             updatePage(page)
         },
 
-        removeBlock: (state, action: PayloadAction<string>) => {
-            state.page.buildingBlocks = state.page.buildingBlocks.filter((block: any) => block.id !== action.payload)
+        replaceBlock: (state, action: PayloadAction<any>) => {
+            let page = JSON.parse(JSON.stringify(state.page))
 
-            updatePage(state.page)
+            let index = page.buildingBlocks.findIndex((block: any) => block.id == action.payload.referenceBlockIndex)
+            page.buildingBlocks.splice(index, 1, action.payload.newBlock)
+
+            state.page = page
+            updatePage(page)
         },
 
-        focusSelector: (state, action: PayloadAction<any>) => {
-            state.activeSelector = action.payload
+        removeBlock: (state, action: PayloadAction<string>) => {
+            let page = JSON.parse(JSON.stringify(state.page))
+            page.buildingBlocks = page.buildingBlocks.filter((block: any) => block.id !== action.payload)
+
+            state.page = page
+            updatePage(page)
+        },
+
+        focusBlock: (state, action: PayloadAction<any>) => {
+            state.activeBlock = action.payload
         },
 
         modeUpdated: (state, action: PayloadAction<any>) => {
@@ -66,7 +78,7 @@ export const pageSlice = createSlice({
     }
 })
 
-export const { pageUpdated, modeUpdated, loadPage, insertBlock, updateBlock, removeBlock, focusSelector } = pageSlice.actions
+export const { pageUpdated, modeUpdated, loadPage, insertBlock, updateBlock, removeBlock, replaceBlock, focusBlock } = pageSlice.actions
 
 
 export default pageSlice.reducer

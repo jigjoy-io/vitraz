@@ -1,9 +1,9 @@
-import React, { useRef } from "react"
+import React from "react"
 import BuildingBlock from "../factories/BuildingBlock"
 import { LazyMotion, m } from "framer-motion"
 import { useMode } from "../util/store"
 import TemplateFactory from "../factories/TemplateFactory"
-import { focusSelector, insertBlock } from "../reducers/pageReducer"
+import { focusBlock, insertBlock } from "../reducers/pageReducer"
 import { useDispatch } from "react-redux"
 
 
@@ -30,12 +30,11 @@ export default function PageContent(props: any) {
     const mode: any = useMode()
     const blocks: any = props.blocks
     const dispatch = useDispatch()
-    const ref = useRef(null)
 
     const ativateSelector = () => {
 
         if (blocks[blocks.length - 1].type == "block-selector") {
-            dispatch(focusSelector(blocks[blocks.length - 1].id))
+            dispatch(focusBlock(blocks[blocks.length - 1].id))
         } else {
             let selector = TemplateFactory.get("block-selector")
 

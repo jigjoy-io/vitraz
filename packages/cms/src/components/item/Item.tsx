@@ -8,12 +8,22 @@ export default function Item(props: any) {
 		setSelected(props.selected)
 	}, [props.selected])
 
+	const callback = () => {
+		props.action(props)
+	}
+
+    const handleKeyDown = (event: any) => {
+        if (event.key === 'Enter') {
+            callback()
+        }
+    }
+
 	return (
 
 		<>
 
 
-			<div onClick={() => props.action(props)}
+			<div onClick={callback} onKeyDown={handleKeyDown} tabIndex = {0}
 				className={`min-w-[225px] ${(selected != null && selected === props.id) ? "bg-primary-light" : "bg-[white]"} 
 								border-2 border-[white] hover:bg-primary-light  
 								${props.borderOn && "border border-light shadow-md"} 
@@ -28,9 +38,6 @@ export default function Item(props: any) {
 			</div>
 
 		</>
-
-
-
 
 
 	)

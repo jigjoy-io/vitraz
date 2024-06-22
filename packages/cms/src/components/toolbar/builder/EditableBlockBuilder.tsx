@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react"
-import ContentEditingWrapper from "../../../util/ContentEditingWrapper"
 import BlockFactory from "../../../factories/BlockFactory"
 
 export default abstract class EditableBlockBuilder {
@@ -7,11 +6,6 @@ export default abstract class EditableBlockBuilder {
     block: ReactElement
 
     abstract addToolbar(props: any): EditableBlockBuilder
-
-    enableContentEditing(props: any): EditableBlockBuilder {
-        this.block = <ContentEditingWrapper {...props}>{this.block}</ContentEditingWrapper>
-        return this
-    }
 
     setBlock(props: any): EditableBlockBuilder {
         this.block = BlockFactory.get(props)

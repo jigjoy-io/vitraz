@@ -26,4 +26,4 @@ export const useEditorOptions = () => useAppSelector((state: any) => state.toolb
 export const usePageId = () => useAppSelector((state: any) => state.page.pageId)
 export const usePage = () => useAppSelector((state: any) => state.page.page)
 export const useMode = () => useAppSelector((state: any) => state.page.mode)
-export const useActiveSelector = () => useAppSelector((state: any) => state.page.activeSelector)
+export const useActiveBlock = () => useAppSelector((state: any) => state.page.activeBlock)
