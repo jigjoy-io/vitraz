@@ -25,6 +25,14 @@ export default function QuestionAnswersEditor(props: any) {
         setValue(answers)
     }
 
+    const updateAnswer = (e, index) => {
+
+
+        let answers = JSON.parse(JSON.stringify(value))
+        answers.map((answer: any, i) => {i==index ? answer.text=e.target.value.trim() : answer})
+        setValue(answers)
+    }
+
     const removeAnswer = (index) => {
 
         if (value.length == 2) return
@@ -48,7 +56,7 @@ export default function QuestionAnswersEditor(props: any) {
             <Checkbox selected={answer.correct} onChange={() => selectCorrectAnswer(index)}/>
 
 
-            <input className="p-1 rounded-lg border w-[100%]" value={answer.text} />
+            <input className="p-1 rounded-lg border w-[100%]" value={answer.text} onChange={(e) => updateAnswer(e, index)}/>
             <div className='ml-2 w-max p-1 h-fit bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => removeAnswer(index)}>
                 <CloseIcon />
             </div>

@@ -55,7 +55,7 @@ export default function Toolbar(props: ToolbarOptions) {
 
     return (<>
         <div onMouseEnter={turnOnToolbar} onMouseLeave={turnOffToolbar} className="flex flex-col">
-            {(on || expandedToolbar == props.id || editingActive!=null) &&
+            {(on || expandedToolbar == props.id || editingActive != null) &&
                 <div className="absolute -translate-x-[100%] px-2">
                     <div className='flex flex-row'>
                         <AddNewBlock />
@@ -80,8 +80,8 @@ export default function Toolbar(props: ToolbarOptions) {
                                                     <PopoverTrigger>
                                                         <Item text={option.name} icon={option.icon} action={() => setEditingActive(index)} />
                                                     </PopoverTrigger>
-                                                    <PopoverContent isOpen={editingActive===index}>
-                                                        <option.editor block={props.block} attribute={option.key} value={props.block[option.key]} />
+                                                    <PopoverContent isOpen={editingActive === index}>
+                                                        <option.editor id={props.id} block={props.block} attribute={option.key} value={props.block[option.key]} />
                                                     </PopoverContent>
                                                 </Popover>
 
@@ -97,7 +97,11 @@ export default function Toolbar(props: ToolbarOptions) {
 
                 </div>
             }
-            {props.children}
+            <div className='relative w-[100%]'>
+                <div className={(expandedToolbar == props.id || editingActive != null) ? "absolute opacity-40 bg-primary z-80 rounded-md h-[100%] w-[100%]" : ''}></div>
+                {props.children}
+            </div>
+
         </div>
 
     </>

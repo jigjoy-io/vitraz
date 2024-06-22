@@ -12,7 +12,6 @@ export default function ContentEditingText(props: any) {
 	const [position, setPosition] = useState(props.position)
 	const [type, setType] = useState(props.type)
 	const [style, setStyle] = useState({} as any)
-	const expandedToolbar = useExpandedToolbar()
 
 	useEffect(() => {
 		setPosition(props.position)
@@ -71,7 +70,6 @@ export default function ContentEditingText(props: any) {
 			onKeyDown={handleKeyDown}
 			onBlur={(e) => updateText(e)}
 			className={`${style.class} 
-			${expandedToolbar==props.id && 'bg-primary-light rounded-md'}
 			whitespace-pre [&[contenteditable]]:focus:border-none [&[contenteditable]]:focus:outline-none w-[100%]`}
 			ref={ref}>{props.text}</div>
 	</div>

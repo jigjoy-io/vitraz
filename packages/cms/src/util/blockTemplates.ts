@@ -29,8 +29,6 @@ export const templates = {
         size: 'large',
         builderVersion: packageInfo.version
     },
-    "button": {
-    },
     "question": {
     },
     "carousel": {
@@ -40,8 +38,6 @@ export const templates = {
     "reel": {
     },
     "profile": {
-    },
-    "cta": {
     },
     "block-selector": {
         type: "block-selector",
