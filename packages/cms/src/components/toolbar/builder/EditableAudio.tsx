@@ -1,30 +1,23 @@
 import React from "react"
-import ImageEditingIcon from "../../../icons/ImageEditingIcon"
+import AudioEditingIcon from "../../../icons/AudioEditingIcon"
 import PositionEditingIcon from "../../../icons/PositionEditingIcon"
-import SizeIcon from "../../../icons/SizeIcon"
-import ImageEditor from "../editors/ImageEditor"
+import AudioEditor from "../editors/AudioEditor"
 import PositionEditor from "../editors/PositionEditor"
-import SizeEditor from "../editors/SizeEditor"
 import Toolbar from "../Toolbar"
-import EditableBlockBuilder from "./EditableBlockBuilder"
+import EditableBlockBuilder from "./EditableBlock"
 
-export default class ImageEditableBlockBuilder extends EditableBlockBuilder {
+export default class EditableAudio extends EditableBlockBuilder {
 
     editingOptions = [{
-        name: 'Edit image',
-        icon: ImageEditingIcon,
-        editor: ImageEditor,
+        name: 'Edit audio',
+        icon: AudioEditingIcon,
+        editor: AudioEditor,
         key: 'source'
-    }, {
-        name: 'Edit size',
-        icon: SizeIcon,
-        editor: SizeEditor,
-        key: "size"
     }, {
         name: 'Edit position',
         icon: PositionEditingIcon,
         editor: PositionEditor,
-        key: "position"
+        key: 'position'
     }]
 
     addToolbar(props: any) {
@@ -32,7 +25,7 @@ export default class ImageEditableBlockBuilder extends EditableBlockBuilder {
         return this
     }
 
-    createEditableBlock(props: any): any {
+    get(props: any): any {
 
         return this.setBlock(props)
                 .addToolbar(props)

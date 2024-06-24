@@ -39,7 +39,7 @@ export default class BlockFactory extends React.Component {
         "question": {
             component: Question,
         },
-        "carousel": {
+        "carousel-tile": {
             component: CarouselTile
         },
         "message": {

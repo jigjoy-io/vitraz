@@ -4,9 +4,9 @@ import DescriptionEditingIcon from "../../../icons/DescriptionEditingIcon"
 import PriceEditingIcon from "../../../icons/PriceEditingIcon"
 import TextEditingIcon from "../../../icons/TextEditingIcon"
 import Toolbar from "../Toolbar"
-import EditableBlockBuilder from "./EditableBlockBuilder"
+import EditableBlock from "./EditableBlock"
 
-export default class CarouselEditableBlockBuilder extends EditableBlockBuilder {
+export default class EditableCarousel extends EditableBlock {
 
     editingOptions = [{
         name: 'Edit title',
@@ -27,7 +27,7 @@ export default class CarouselEditableBlockBuilder extends EditableBlockBuilder {
         return this
     }
 
-    createEditableBlock(props: any): any {
+    get(props: any): any {
 
         return this.setBlock(props)
                 .addToolbar(props)

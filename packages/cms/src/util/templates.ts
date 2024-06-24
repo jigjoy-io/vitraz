@@ -73,8 +73,6 @@ export const templates = {
             }
            },
     },
-    "carousel": {
-    },
     "message": {
         type: "message",
         message: "Message text goes here...",
@@ -103,6 +101,16 @@ export const templates = {
     },
     "carousel-configurer": {
         type: "carousel-configurer",
+        accessType: "freebie",
+        headline: "Headline",
+        description: "Description...",
+        numberOfPages: 3,
+        display: true,
+        builderVersion: packageInfo.version
+    },
+    "blank": {
+        type: "blank",
+        buildingBlocks: [],
         builderVersion: packageInfo.version
     }
 }

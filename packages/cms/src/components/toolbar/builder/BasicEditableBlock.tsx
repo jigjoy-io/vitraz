@@ -1,8 +1,8 @@
 import React from "react"
 import Toolbar from "../Toolbar"
-import EditableBlockBuilder from "./EditableBlockBuilder"
+import EditableBlockBuilder from "./EditableBlock"
 
-export default class BasicEditingBlockBuilder extends EditableBlockBuilder {
+export default class BasicEditableBlock extends EditableBlockBuilder {
 
     editingOptions = []
 
@@ -11,7 +11,7 @@ export default class BasicEditingBlockBuilder extends EditableBlockBuilder {
         return this
     }
 
-    createEditableBlock(props: any): any {
+    get(props: any): any {
 
         return this.setBlock(props)
                 .addToolbar(props)

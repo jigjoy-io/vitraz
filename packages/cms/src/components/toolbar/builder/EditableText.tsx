@@ -3,9 +3,9 @@ import PositionEditingIcon from "../../../icons/PositionEditingIcon"
 import ContentEditingText from "../editors/ContentEditingText"
 import PositionEditor from "../editors/PositionEditor"
 import Toolbar from "../Toolbar"
-import EditableBlockBuilder from "./EditableBlockBuilder"
+import EditableBlockBuilder from "./EditableBlock"
 
-export default class TextEditableBlockBuilder extends EditableBlockBuilder {
+export default class EditableText extends EditableBlockBuilder {
 
     editingOptions = [{
         name: 'Edit position',
@@ -24,7 +24,7 @@ export default class TextEditableBlockBuilder extends EditableBlockBuilder {
         return this
     }
 
-    createEditableBlock(props: any): any {
+    get(props: any): any {
         return this.setBlock(props)
             .addToolbar(props)
             .block

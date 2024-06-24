@@ -1,12 +1,12 @@
-import EditableBlockBuilder from "./EditableBlockBuilder"
+import EditableBlockBuilder from "./EditableBlock"
 
-export default class NoneEditableBlockBuilder extends EditableBlockBuilder {
+export default class NoneEditableBlock extends EditableBlockBuilder {
 
     addToolbar(props: any): EditableBlockBuilder {
         throw new Error("Method not implemented.")
     }
 
-    createEditableBlock(props: any): any {
+    get(props: any): any {
 
         return this.setBlock(props)
                 .block

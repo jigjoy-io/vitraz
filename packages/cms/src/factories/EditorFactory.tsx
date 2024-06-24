@@ -1,65 +1,65 @@
 import React, { lazy, Suspense } from "react"
-import AudioEditableBlockBuilder from "../components/toolbar/builder/AudioEditableBlockBuilder"
-import ChapterEditableBlockBuilder from "../components/toolbar/builder/ChapterEditableBlockBuilder"
-import ImageEditableBlockBuilder from "../components/toolbar/builder/ImageEditableBlockBuilder"
-import MessageEditableBlockBuilder from "../components/toolbar/builder/MessageEditableBlockBuilder"
-import NoneEditableBlockBuilder from "../components/toolbar/builder/NoneEditableBlockBuilder"
-import ProfileEditableBlockBuilder from "../components/toolbar/builder/ProfileEditableBlockBuilder"
-import QuestionEditableBlockBuilder from "../components/toolbar/builder/QuestionEditableBlockBuilder"
-import ReelEditableBlockBuilder from "../components/toolbar/builder/ReelEditableBlockBuilder"
-import BasicEditingBlockBuilder from "../components/toolbar/builder/BasicEditingBlockBuilder"
-import TextEditableBlockBuilder from "../components/toolbar/builder/TextEditableBlockBuilder"
+import EditableAudio from "../components/toolbar/builder/EditableAudio"
+import EditableCarousel from "../components/toolbar/builder/EditableCarousel"
+import EditableImage from "../components/toolbar/builder/EditableImage"
+import EditableMessage from "../components/toolbar/builder/EditableMessage"
+import NoneEditableBlock from "../components/toolbar/builder/NoneEditableBlock"
+import EditableProfile from "../components/toolbar/builder/EditableProfile"
+import EditableQuestion from "../components/toolbar/builder/EditableQuestion"
+import EditableReel from "../components/toolbar/builder/EditableReel"
+import BasicEditableBlock from "../components/toolbar/builder/BasicEditableBlock"
+import EditableText from "../components/toolbar/builder/EditableText"
 
 
 export default class EditorFactory extends React.Component {
 
     static builders: any = {
         "text": {
-            builder: new TextEditableBlockBuilder()
+            builder: new EditableText()
         },
         "heading": {
-            builder: new TextEditableBlockBuilder()
+            builder: new EditableText()
         },
         "title": {
-            builder: new TextEditableBlockBuilder()
+            builder: new EditableText()
         },
         "image": {
-            builder: new ImageEditableBlockBuilder()
+            builder: new EditableImage()
         },
         "button": {
-            builder: new TextEditableBlockBuilder()
+            builder: new NoneEditableBlock()
         },
         "question": {
-            builder: new QuestionEditableBlockBuilder()
+            builder: new EditableQuestion()
         },
         "profile": {
-            builder: new ProfileEditableBlockBuilder()
+            builder: new EditableProfile()
         },
         "reel": {
-            builder: new ReelEditableBlockBuilder()
+            builder: new EditableReel()
         },
         "message": {
-            builder: new MessageEditableBlockBuilder()
+            builder: new EditableMessage()
         },
         "audio": {
-            builder: new AudioEditableBlockBuilder()
+            builder: new EditableAudio()
         },
-        "chapter": {
-            builder: new ChapterEditableBlockBuilder()
+        "carousel-tile": {
+            builder: new EditableCarousel()
         },
         "cta": {
-            builder: new NoneEditableBlockBuilder()
+            builder: new NoneEditableBlock()
         },
         "carousel-configurer": {
-            builder: new BasicEditingBlockBuilder()
+            builder: new BasicEditableBlock()
         },
         "block-selector": {
-            builder: new BasicEditingBlockBuilder()
+            builder: new BasicEditableBlock()
         }
     }
 
     static getEditableBlock(props: any) {
         let builder = this.builders[props.type].builder
-        return builder.createEditableBlock(props)
+        return builder.get(props)
     }
 }

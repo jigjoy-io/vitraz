@@ -8,9 +8,9 @@ import ColorEditor from "../editors/ColorEditor"
 import PositionEditor from "../editors/PositionEditor"
 import TextAreaEditor from "../editors/TextAreaEditor"
 import Toolbar from "../Toolbar"
-import EditableBlockBuilder from "./EditableBlockBuilder"
+import EditableBlockBuilder from "./EditableBlock"
 
-export default class MessageEditableBlockBuilder extends EditableBlockBuilder {
+export default class EditableMessage extends EditableBlockBuilder {
 
     editingOptions = [{
         name: 'Edit message',
@@ -39,7 +39,7 @@ export default class MessageEditableBlockBuilder extends EditableBlockBuilder {
         return this
     }
 
-    createEditableBlock(props: any): any {
+    get(props: any): any {
 
         return this.setBlock(props)
                 .addToolbar(props)

@@ -1,6 +1,6 @@
 import React from "react"
 import { v4 as uuidv4 } from 'uuid'
-import { templates } from "../util/blockTemplates"
+import { templates } from "../util/templates"
 
 export default class TemplateFactory extends React.Component {
 

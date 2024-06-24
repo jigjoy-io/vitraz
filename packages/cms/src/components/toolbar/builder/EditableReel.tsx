@@ -2,9 +2,9 @@ import React from "react"
 import VideoEditingIcon from "../../../icons/VideoEditingIcon"
 import VideoEditor from "../editors/VideoEditor"
 import Toolbar from "../Toolbar"
-import EditableBlockBuilder from "./EditableBlockBuilder"
+import EditableBlockBuilder from "./EditableBlock"
 
-export default class ReelEditableBlockBuilder extends EditableBlockBuilder {
+export default class EditableReel extends EditableBlockBuilder {
 
     editingOptions = [{
         name: 'Edit video',
@@ -18,7 +18,7 @@ export default class ReelEditableBlockBuilder extends EditableBlockBuilder {
         return this
     }
 
-    createEditableBlock(props: any): any {
+    get(props: any): any {
 
         return this.setBlock(props)
                 .addToolbar(props)
