@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react"
 import CarouselIcon from "../../icons/CarouselIcon"
 import Button from "../button/Button"
 import Checkbox from "../checkbox/Checkbox"
+import Tabs from "../tabs/Tabs"
 import ClickOutsideListener from "../popover/ClickOutsideListener"
 
 export default function CarouselConfigurer(props: any) {
@@ -35,6 +36,10 @@ export default function CarouselConfigurer(props: any) {
 
             <div className="p-[5%]">
                 <div>
+                    <Tabs>
+                        <div key="Carousel Settings" />
+                        <div key="Access Type" />
+                    </Tabs>
                     <div className="font-bold flex-none flex items-center">
                         Carousel Settings
                     </div>

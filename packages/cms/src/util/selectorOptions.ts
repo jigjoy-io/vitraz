@@ -1,9 +1,9 @@
-import AudioEditingIcon from "../icons/AudioEditingIcon";
-import CarouselIcon from "../icons/CarouselIcon";
-import ImageEditingIcon from "../icons/ImageEditingIcon";
-import ProfileIcon from "../icons/ProfileIcon";
-import TextEditingIcon from "../icons/TextEditingIcon";
-import VideoEditingIcon from "../icons/VideoEditingIcon";
+import AudioEditingIcon from "../icons/AudioEditingIcon"
+import CarouselIcon from "../icons/CarouselIcon"
+import ImageEditingIcon from "../icons/ImageEditingIcon"
+import ProfileIcon from "../icons/ProfileIcon"
+import TextEditingIcon from "../icons/TextEditingIcon"
+import VideoEditingIcon from "../icons/VideoEditingIcon"
 
 export const selectorOptions = [
 
