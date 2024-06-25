@@ -1,5 +1,7 @@
+import React from "react"
 import { ReactElement } from "react"
 import BlockFactory from "../../../factories/BlockFactory"
+import gaps from "../../../util/gaps"
 
 export default abstract class EditableBlock {
 
@@ -7,13 +9,16 @@ export default abstract class EditableBlock {
 
     abstract addToolbar(props: any): EditableBlock
 
+    addGap(props: any): EditableBlock {
+        this.block = <div className={`${gaps[props.type]}`}>{this.block}</div>
+        return this
+    }
+
     setBlock(props: any): EditableBlock {
         this.block = BlockFactory.get(props)
         return this
     }
 
     abstract get(props: any): ReactElement
-
-
 
 } 

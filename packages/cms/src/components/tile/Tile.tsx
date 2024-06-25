@@ -1,5 +1,5 @@
 import React from "react"
-import colorVariants from "./colorVariants"
+import colorVariants from "../../util/colorVariants"
 
 export default function Tile(props: any){
 

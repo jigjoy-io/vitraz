@@ -10,6 +10,7 @@ import EditableBlock from "./EditableBlock"
 
 export default class EditableImage extends EditableBlock {
 
+
     editingOptions = [{
         name: 'Edit image',
         icon: ImageEditingIcon,

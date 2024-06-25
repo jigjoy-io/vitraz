@@ -31,6 +31,7 @@ export default class EditableCarousel extends EditableBlock {
 
         return this.setBlock(props)
                 .addToolbar(props)
+                .addGap(props)
                 .block
     }
 

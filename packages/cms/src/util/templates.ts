@@ -95,6 +95,11 @@ export const templates = {
         username: "@username",
         builderVersion: packageInfo.version
     },
+    "carousel-tile": {
+        type: "carousel-tile",
+        cta: "Start",
+        builderVersion: packageInfo.version
+    },
     "block-selector": {
         type: "block-selector",
         builderVersion: packageInfo.version
@@ -102,10 +107,15 @@ export const templates = {
     "carousel-configurer": {
         type: "carousel-configurer",
         accessType: "freebie",
-        headline: "Headline",
+        title: "Title",
         description: "Description...",
         numberOfPages: 3,
         display: true,
+        builderVersion: packageInfo.version
+    },    
+    "carousel": {
+        type: "carousel",
+        pages: [],
         builderVersion: packageInfo.version
     },
     "blank": {

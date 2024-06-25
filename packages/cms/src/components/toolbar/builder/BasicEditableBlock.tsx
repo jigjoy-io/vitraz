@@ -1,8 +1,8 @@
 import React from "react"
 import Toolbar from "../Toolbar"
-import EditableBlockBuilder from "./EditableBlock"
+import EditableBlock from "./EditableBlock"
 
-export default class BasicEditableBlock extends EditableBlockBuilder {
+export default class BasicEditableBlock extends EditableBlock {
 
     editingOptions = []
 

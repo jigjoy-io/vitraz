@@ -1,13 +1,12 @@
 import React from "react"
-import Tile from "../../util/Tile"
+import Tile from "../tile/Tile"
 import Heading from "../heading/Heading"
 import Text from "../text/Text"
 import Image from "../image/Image"
 
 export default function Profile(props: any) {
     
-    return <div className="my-3">
-        <Tile color={props.color}>
+    return <Tile color={props.color}>
             <div className="flex flex-row gap-4">
                 <div>
                     <Image source={props.image} size="small" radius="full" />
@@ -23,5 +22,4 @@ export default function Profile(props: any) {
                 <Text text={props.description}></Text>
             </div>
         </Tile>
-    </div>
 }

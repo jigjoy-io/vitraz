@@ -2,9 +2,9 @@ import React from "react"
 import VideoEditingIcon from "../../../icons/VideoEditingIcon"
 import VideoEditor from "../editors/VideoEditor"
 import Toolbar from "../Toolbar"
-import EditableBlockBuilder from "./EditableBlock"
+import EditableBlock from "./EditableBlock"
 
-export default class EditableReel extends EditableBlockBuilder {
+export default class EditableReel extends EditableBlock {
 
     editingOptions = [{
         name: 'Edit video',

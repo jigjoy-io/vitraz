@@ -98,7 +98,7 @@ export default function Toolbar(props: ToolbarOptions) {
                 </div>
             }
             <div className='relative w-[100%]'>
-                <div className={(expandedToolbar == props.id || editingActive != null) ? "absolute opacity-40 bg-primary z-80 rounded-md h-[100%] w-[100%]" : ''}></div>
+                <div className={(expandedToolbar == props.id || editingActive != null) ? "absolute opacity-40 bg-primary z-80 rounded-lg h-[100%] w-[100%]" : ''}></div>
                 {props.children}
             </div>
 

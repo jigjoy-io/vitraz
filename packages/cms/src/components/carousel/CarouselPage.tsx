@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import { loadPage } from '../../reducers/pageReducer'
+import { innerPageUpdated, loadPage } from '../../reducers/pageReducer'
 import CloseIcon from "../../icons/CloseIcon"
 import Button from "../button/Button"
 import Progress from "../progress/Progress"
 import Content from "../PageContent"
 import { getPage } from "../../api/page"
+import { useInnerPage } from "../../util/store"
 
 export default function CarouselPage(props: any) {
 
@@ -13,7 +14,7 @@ export default function CarouselPage(props: any) {
     const [percentage, setPercentage] = useState(0)
     const [pages, setPages] = useState(props.pages)
     const [origin, setOrigin] = useState(props.origin)
-    const [innerPage, setInnerPage] = useState(null as any)
+    const innerPage = useInnerPage()
     const dispatch = useDispatch()
 
     const load = (pageId: any) => {
@@ -24,7 +25,7 @@ export default function CarouselPage(props: any) {
 
         (async function loadPage() {
             let page = await getPage(pages[current])
-            setInnerPage(page)
+            dispatch(innerPageUpdated(page))
         })()
 
     }, [current])

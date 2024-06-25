@@ -5,21 +5,52 @@ import Checkbox from "../checkbox/Checkbox"
 import Tabs from "../tabs/Tabs"
 import ClickOutsideListener from "../popover/ClickOutsideListener"
 import Tab from "../tabs/Tab"
+import TemplateFactory from "../../factories/TemplateFactory"
+import { replaceBlock } from "../../reducers/pageReducer"
+import { useDispatch } from "react-redux"
+import { createPage } from "../../api/page"
 
 export default function CarouselConfigurer(props: any) {
 
+
+    const dispatch = useDispatch()
 
     const [display, setDisplay] = useState(props.display)
     const [accessType, setAccessType] = useState(props.accessType)
     const [numberOfPages, setNumberOfPages] = useState(props.numberOfPages)
     const [description, setDescription] = useState(props.description)
-    const [headline, setHeadline] = useState(props.headline)
+    const [title, setHeadline] = useState(props.title)
 
     const ref = useRef<HTMLInputElement>(null)
 
 
-    const create = () => {
+    const create = async () => {
 
+        let pages: any = []
+        // create carousel inner pages
+        for (let i = 0; i < numberOfPages; i++) {
+            let page = TemplateFactory.get("blank")
+            await createPage(page)
+            pages.push(page.id)
+        }
+
+        // create carousel page
+        let page = TemplateFactory.get("carousel")
+        page.pages = pages
+
+        await createPage(page)
+
+        // insert carousel block tile
+        let block = TemplateFactory.get('carousel-tile')
+
+        block.title = title
+        block.description = description
+        block.pageId = page.id
+
+        dispatch(replaceBlock({
+            referenceBlock: props.id,
+            newBlock: block
+        }))
 
 
     }
@@ -45,9 +76,9 @@ export default function CarouselConfigurer(props: any) {
                                         className="flex-none flex items-center w-[33%]"
                                         htmlFor="headline"
                                     >
-                                        Headline:
+                                        Title:
                                     </label>
-                                    <input className="ml-4 p-1 rounded-lg border w-[100%]" value={headline} onChange={(e: any) => setHeadline(e.target.value)} />
+                                    <input className="ml-4 p-1 rounded-lg border w-[100%]" value={title} onChange={(e: any) => setHeadline(e.target.value)} />
                                 </div>
                             </div>
 

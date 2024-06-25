@@ -3,9 +3,10 @@ import PositionEditingIcon from "../../../icons/PositionEditingIcon"
 import ContentEditingText from "../editors/ContentEditingText"
 import PositionEditor from "../editors/PositionEditor"
 import Toolbar from "../Toolbar"
-import EditableBlockBuilder from "./EditableBlock"
+import EditableBlock from "./EditableBlock"
 
-export default class EditableText extends EditableBlockBuilder {
+export default class EditableText extends EditableBlock {
+
 
     editingOptions = [{
         name: 'Edit position',

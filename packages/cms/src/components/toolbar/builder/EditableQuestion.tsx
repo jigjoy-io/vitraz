@@ -6,9 +6,10 @@ import QuestionAnswersEditor from "../editors/QuestionAnswersEditor"
 import QuestionContentEditor from "../editors/QuestionContentEditor"
 import QuestionOutcomesEditor from "../editors/QuestionOutcomesEditor"
 import Toolbar from "../Toolbar"
-import EditableBlockBuilder from "./EditableBlock"
+import EditableBlock from "./EditableBlock"
 
-export default class EditableQuestion extends EditableBlockBuilder {
+export default class EditableQuestion extends EditableBlock {
+
 
     editingOptions = [{
         name: 'Edit question',
@@ -36,6 +37,7 @@ export default class EditableQuestion extends EditableBlockBuilder {
 
         return this.setBlock(props)
                 .addToolbar(props)
+                .addGap(props)
                 .block
     }
 

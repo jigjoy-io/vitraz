@@ -8,9 +8,9 @@ import ImageEditor from "../editors/ImageEditor"
 import TextAreaEditor from "../editors/TextAreaEditor"
 import TextEditor from "../editors/TextEditor"
 import Toolbar from "../Toolbar"
-import EditableBlockBuilder from "./EditableBlock"
+import EditableBlock from "./EditableBlock"
 
-export default class EditableProfile extends EditableBlockBuilder {
+export default class EditableProfile extends EditableBlock {
 
     editingOptions = [{
         name: 'Edit headline',
@@ -43,6 +43,7 @@ export default class EditableProfile extends EditableBlockBuilder {
 
         return this.setBlock(props)
                 .addToolbar(props)
+                .addGap(props)
                 .block
     }
 

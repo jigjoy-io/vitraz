@@ -20,7 +20,7 @@ export const createPageHandler = async (event) => {
 
     var params = {
         TableName: tableName,
-        Item: { ...page, id: uuidv4(), creationDate: creationDate }
+        Item: { id: uuidv4(), ...page, creationDate: creationDate }
     }
 
     const data = await ddbDocClient.send(new PutCommand(params))

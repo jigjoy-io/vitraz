@@ -4,9 +4,9 @@ import PositionEditingIcon from "../../../icons/PositionEditingIcon"
 import AudioEditor from "../editors/AudioEditor"
 import PositionEditor from "../editors/PositionEditor"
 import Toolbar from "../Toolbar"
-import EditableBlockBuilder from "./EditableBlock"
+import EditableBlock from "./EditableBlock"
 
-export default class EditableAudio extends EditableBlockBuilder {
+export default class EditableAudio extends EditableBlock {
 
     editingOptions = [{
         name: 'Edit audio',
