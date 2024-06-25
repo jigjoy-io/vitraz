@@ -3,11 +3,12 @@ import { useDispatch } from "react-redux"
 import { updateBlock } from "../../../reducers/pageReducer"
 import AudioButton from "../../audio/AudioButton"
 import Button from "../../button/Button"
+import Tab from "../../tabs/Tab"
+import Tabs from "../../tabs/Tabs"
 
 export default function AudioEditor(props: any) {
 
     const [value, setValue] = useState(props.value)
-    const [displayUrlInput, setDisplayUrlInput] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -20,11 +21,17 @@ export default function AudioEditor(props: any) {
 
     return <div className="flex flex-col p-2 w-[300px] mt-4">
         <AudioButton source={value} />
-        <div className="flex gap-3 my-3">
-            <Button text="Upload audio" color="default" />
-            <Button text="Embed link" color="default" action={() => setDisplayUrlInput(true)} />
-        </div>
-        {displayUrlInput && <input className="p-1 rounded-lg border w-[100%] mb-3" value={value} onChange={(e: any) => setValue(e.target.value)} />}
+
+        <Tabs>
+            <Tab key="Upload audio">
+                <Button text="Click to upload" color="default" />
+            </Tab>
+
+            <Tab key="Embed link">
+                <input className="p-1 rounded-lg border w-[100%] mb-3" value={value} onChange={(e: any) => setValue(e.target.value)} />
+            </Tab>
+        </Tabs>
+
         <Button text="Update" action={update} />
     </div>
 }

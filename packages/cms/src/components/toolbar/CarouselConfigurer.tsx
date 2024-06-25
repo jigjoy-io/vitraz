@@ -4,6 +4,7 @@ import Button from "../button/Button"
 import Checkbox from "../checkbox/Checkbox"
 import Tabs from "../tabs/Tabs"
 import ClickOutsideListener from "../popover/ClickOutsideListener"
+import Tab from "../tabs/Tab"
 
 export default function CarouselConfigurer(props: any) {
 
@@ -19,7 +20,7 @@ export default function CarouselConfigurer(props: any) {
 
     const create = () => {
 
-        
+
 
     }
 
@@ -37,60 +38,57 @@ export default function CarouselConfigurer(props: any) {
             <div className="p-[5%]">
                 <div>
                     <Tabs>
-                        <div key="Carousel Settings" />
-                        <div key="Access Type" />
+                        <Tab key="Carousel Settings">
+                            <div className="w-[100%] mt-[1rem]">
+                                <div className="flex flex-row w-full">
+                                    <label
+                                        className="flex-none flex items-center w-[33%]"
+                                        htmlFor="headline"
+                                    >
+                                        Headline:
+                                    </label>
+                                    <input className="ml-4 p-1 rounded-lg border w-[100%]" value={headline} onChange={(e: any) => setHeadline(e.target.value)} />
+                                </div>
+                            </div>
+
+                            <div className="w-[100%] mt-[1rem]">
+                                <div className="flex flex-row w-full">
+                                    <label
+                                        className="flex-none flex items-center w-[33%]"
+                                        htmlFor="headline"
+                                    >
+                                        Description:
+                                    </label>
+                                    <input className="ml-4 p-1 rounded-lg border w-[100%]" value={description} onChange={(e: any) => setDescription(e.target.value)} />
+                                </div>
+                            </div>
+
+
+                            <div className="w-[100%] mt-[1rem]">
+                                <div className="flex flex-row w-full">
+                                    <label
+                                        className="flex-none flex items-center w-[33%]"
+                                        htmlFor="numberOfPages"
+                                    >
+                                        Number of pages:
+                                    </label>
+                                    <input className="ml-4 p-1 rounded-lg border w-[100%]" type="number" min={1} value={numberOfPages} onChange={(e: any) => setNumberOfPages(e.target.value)} />
+                                </div>
+                            </div>
+                        </Tab>
+
+                        <Tab key="Access Type">
+                            <div className="w-[100%]">
+                                <div className="opacity-40">Coming soon!</div>
+                                <div className="flex flex-row w-full mt-3 gap-3">
+                                    <Checkbox disabled={true} selected={accessType == 'freebie'} onChange={() => setAccessType('freebie')}>Freebie</Checkbox>
+                                    <Checkbox disabled={true} selected={accessType == 'lead magnet'} onChange={() => setAccessType('lead magnet')}>Lead magnet</Checkbox>
+                                    <Checkbox disabled={true} selected={accessType == 'paid'} onChange={() => setAccessType('paid')}>Paid</Checkbox>
+                                </div>
+                            </div>
+                        </Tab>
                     </Tabs>
-                    <div className="font-bold flex-none flex items-center">
-                        Carousel Settings
-                    </div>
 
-                    <div className="w-[100%] mt-[1rem]">
-                        <div className="flex flex-row w-full">
-                            <label
-                                className="flex-none flex items-center w-[33%]"
-                                htmlFor="headline"
-                            >
-                                Headline:
-                            </label>
-                            <input className="ml-4 p-1 rounded-lg border w-[100%]" value={headline} onChange={(e: any) => setHeadline(e.target.value) } />
-                        </div>
-                    </div>
-
-                    <div className="w-[100%] mt-[1rem]">
-                        <div className="flex flex-row w-full">
-                            <label
-                                className="flex-none flex items-center w-[33%]"
-                                htmlFor="headline"
-                            >
-                                Description:
-                            </label>
-                            <input className="ml-4 p-1 rounded-lg border w-[100%]" value={description} onChange={(e: any) => setDescription(e.target.value) } />
-                        </div>
-                    </div>
-
-
-                    <div className="w-[100%] mt-[1rem]">
-                        <div className="flex flex-row w-full">
-                            <label
-                                className="flex-none flex items-center w-[33%]"
-                                htmlFor="numberOfPages"
-                            >
-                                Number of pages:
-                            </label>
-                            <input className="ml-4 p-1 rounded-lg border w-[100%]" type="number" min={1} value={numberOfPages} onChange={(e: any) => setNumberOfPages(e.target.value) } />
-                        </div>
-                    </div>
-
-                    <div className="w-[100%] my-[2rem]">
-                        <h3 className="font-bold flex-none flex items-center opacity-30">
-                            Access Type (Comming Soon)
-                        </h3>
-                        <div className="flex flex-row w-full mt-3 gap-3">
-                            <Checkbox disabled={true} selected={accessType == 'freebie'} onChange={() => setAccessType('freebie')}>Freebie</Checkbox>
-                            <Checkbox disabled={true} selected={accessType == 'lead magnet'} onChange={() => setAccessType('lead magnet')}>Lead magnet</Checkbox>
-                            <Checkbox disabled={true} selected={accessType == 'paid'} onChange={() => setAccessType('paid')}>Paid</Checkbox>
-                        </div>
-                    </div>
                     <div className="mt-[1rem]">
                         <Button text="Create" action={create} />
                     </div>
