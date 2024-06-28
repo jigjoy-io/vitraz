@@ -9,6 +9,7 @@ import TemplateFactory from "../../factories/TemplateFactory"
 import { replaceBlock } from "../../reducers/pageReducer"
 import { useDispatch } from "react-redux"
 import { createPage } from "../../api/page"
+import { usePageId } from "../../util/store"
 
 export default function CarouselConfigurer(props: any) {
 
@@ -20,6 +21,7 @@ export default function CarouselConfigurer(props: any) {
     const [numberOfPages, setNumberOfPages] = useState(props.numberOfPages)
     const [description, setDescription] = useState(props.description)
     const [title, setHeadline] = useState(props.title)
+    const pageId = usePageId()
 
     const ref = useRef<HTMLInputElement>(null)
 
@@ -30,15 +32,16 @@ export default function CarouselConfigurer(props: any) {
         // create carousel inner pages
         for (let i = 0; i < numberOfPages; i++) {
             let page = TemplateFactory.get("blank")
-            await createPage(page)
+            createPage(page)
             pages.push(page.id)
         }
 
         // create carousel page
         let page = TemplateFactory.get("carousel")
+        page.origin = pageId
         page.pages = pages
 
-        await createPage(page)
+        createPage(page)
 
         // insert carousel block tile
         let block = TemplateFactory.get('carousel-tile')
@@ -49,7 +52,7 @@ export default function CarouselConfigurer(props: any) {
 
         dispatch(replaceBlock({
             referenceBlock: props.id,
-            newBlock: block
+            block: block
         }))
 
 

@@ -6,7 +6,7 @@ import Button from "../button/Button"
 import Progress from "../progress/Progress"
 import Content from "../PageContent"
 import { getPage } from "../../api/page"
-import { useInnerPage } from "../../util/store"
+import { useInnerPage, usePage } from "../../util/store"
 
 export default function CarouselPage(props: any) {
 
@@ -51,7 +51,7 @@ export default function CarouselPage(props: any) {
 
     return <>
         {innerPage && <div className="flex flex-col h-[100%]">
-            <div className="flex flex-row h-max mb-4 px-4 pt-4">
+            <div className="flex flex-row h-max mb-4 pt-4">
                 <Progress percentage={percentage} />
                 <div className='w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => load(origin)}>
                     <CloseIcon />

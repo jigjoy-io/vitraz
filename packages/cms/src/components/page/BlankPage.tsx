@@ -1,6 +1,6 @@
 import React from "react"
-import { usePage } from "../util/store"
-import Content from "./PageContent"
+import { usePage } from "../../util/store"
+import Content from "../PageContent"
 
 
 export default function BlankPage() {

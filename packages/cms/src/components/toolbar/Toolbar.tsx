@@ -15,17 +15,11 @@ import { DuplicateBlockIcon } from '../../icons/DuplicateBlockIcon'
 import DeleteBlockIcon from '../../icons/DeleteBlockIcon'
 import { removeBlock } from '../../reducers/pageReducer'
 
-interface ToolbarOptions {
-    id: string,
-    editingOptions: any,
-    block: any,
-    children: any
-}
-
-export default function Toolbar(props: ToolbarOptions) {
+export default function Toolbar(props: any) {
 
     const [on, setOn] = useState(false)
     const [editingActive, setEditingActive] = useState(null)
+    const [blockRadius, setBlockRadius ]= useState(props.blockRadius ? props.blockRadius : "rounded-lg")
 
     const expandedToolbar = useExpandedToolbar()
     const dispatch = useDispatch()
@@ -98,7 +92,7 @@ export default function Toolbar(props: ToolbarOptions) {
                 </div>
             }
             <div className='relative w-[100%]'>
-                <div className={(expandedToolbar == props.id || editingActive != null) ? "absolute opacity-40 bg-primary z-80 rounded-lg h-[100%] w-[100%]" : ''}></div>
+                <div className={(expandedToolbar == props.id || editingActive != null) ? `absolute opacity-40 bg-primary z-80 ${blockRadius} h-[100%] w-[100%]` : ''}></div>
                 {props.children}
             </div>
 

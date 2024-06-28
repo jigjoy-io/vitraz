@@ -118,6 +118,19 @@ export const templates = {
         pages: [],
         builderVersion: packageInfo.version
     },
+    "page-configurer": {
+        type: "page-configurer",
+        accessType: "freebie",
+        title: "Title",
+        description: "Description...",
+        display: true,
+        builderVersion: packageInfo.version
+    },
+    "page-tile": {
+        type: "page-tile",
+        cta: "Start",
+        builderVersion: packageInfo.version
+    },
     "blank": {
         type: "blank",
         buildingBlocks: [],

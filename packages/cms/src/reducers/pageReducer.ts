@@ -41,9 +41,9 @@ export const pageSlice = createSlice({
 
             let referenceBlockIndex = page.buildingBlocks.findIndex((block: any) => block.id == action.payload.referenceBlock)
             let index = action.payload.position === 'above' ? referenceBlockIndex : referenceBlockIndex + 1
-            page.buildingBlocks.splice(index, 0, action.payload.newBlock)
+            page.buildingBlocks.splice(index, 0, action.payload.block)
 
-            state.page = page
+            state.page.type == "blank" ? state.page = page : state.innerPage = page
             updatePage(page)
         },
 
@@ -51,9 +51,9 @@ export const pageSlice = createSlice({
             let page = state.page.type == "blank" ? state.page : state.innerPage
             page = JSON.parse(JSON.stringify(page))
 
-            page.buildingBlocks.push(action.payload.block)
+            page.buildingBlocks.push(action.payload)
 
-            state.page = page
+            state.page.type == "blank" ? state.page = page : state.innerPage = page
             updatePage(page)
         },
 
@@ -64,7 +64,7 @@ export const pageSlice = createSlice({
             let index = page.buildingBlocks.findIndex((block: any) => block.id == action.payload.id)
             page.buildingBlocks[index] = action.payload
 
-            state.page = page
+            state.page.type == "blank" ? state.page = page : state.innerPage = page
             updatePage(page)
         },
 
@@ -73,9 +73,9 @@ export const pageSlice = createSlice({
             page = JSON.parse(JSON.stringify(page))
 
             let index = page.buildingBlocks.findIndex((block: any) => block.id == action.payload.referenceBlock)
-            page.buildingBlocks.splice(index, 1, action.payload.newBlock)
+            page.buildingBlocks.splice(index, 1, action.payload.block)
 
-            state.page = page
+            state.page.type == "blank" ? state.page = page : state.innerPage = page
             updatePage(page)
         },
 
@@ -84,7 +84,7 @@ export const pageSlice = createSlice({
             page = JSON.parse(JSON.stringify(page))
             page.buildingBlocks = page.buildingBlocks.filter((block: any) => block.id !== action.payload)
 
-            state.page = page
+            state.page.type == "blank" ? state.page = page : state.innerPage = page
             updatePage(page)
         },
 

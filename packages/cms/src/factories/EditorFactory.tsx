@@ -1,6 +1,6 @@
-import React, { lazy, Suspense } from "react"
+import React from "react"
 import EditableAudio from "../components/toolbar/builder/EditableAudio"
-import EditableCarousel from "../components/toolbar/builder/EditableCarousel"
+import EditableCarouselTile from "../components/toolbar/builder/EditableCarouselTile"
 import EditableImage from "../components/toolbar/builder/EditableImage"
 import EditableMessage from "../components/toolbar/builder/EditableMessage"
 import NoneEditableBlock from "../components/toolbar/builder/NoneEditableBlock"
@@ -9,6 +9,7 @@ import EditableQuestion from "../components/toolbar/builder/EditableQuestion"
 import EditableReel from "../components/toolbar/builder/EditableReel"
 import BasicEditableBlock from "../components/toolbar/builder/BasicEditableBlock"
 import EditableText from "../components/toolbar/builder/EditableText"
+import EditablePageTile from "../components/toolbar/builder/EditablePageTile"
 
 
 export default class EditorFactory extends React.Component {
@@ -45,13 +46,19 @@ export default class EditorFactory extends React.Component {
             builder: new EditableAudio()
         },
         "carousel-tile": {
-            builder: new EditableCarousel()
+            builder: new EditableCarouselTile()
         },
         "cta": {
             builder: new NoneEditableBlock()
         },
         "carousel-configurer": {
             builder: new BasicEditableBlock()
+        },
+        "page-configurer": {
+            builder: new BasicEditableBlock()
+        },
+        "page-tile": {
+            builder: new EditablePageTile()
         },
         "block-selector": {
             builder: new BasicEditableBlock()

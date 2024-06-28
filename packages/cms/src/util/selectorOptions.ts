@@ -18,6 +18,12 @@ export const selectorOptions = [
                 icon: ProfileIcon
             },
             {
+                key: "page-configurer",
+                label: "Page",
+                description: "Create a sub-page inside this page",
+                icon: CarouselIcon
+            },
+            {
                 key: "carousel-configurer",
                 label: "Page Carousel",
                 description: "Separate content into multiple connected pages.",

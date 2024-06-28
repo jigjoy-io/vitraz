@@ -1,6 +1,6 @@
 import React from "react"
 import CarouselPage from "../components/carousel/CarouselPage"
-import BlankPage from "../components/BlankPage"
+import BlankPage from "../components/page/BlankPage"
 
 export class PageFactory extends React.Component {
 

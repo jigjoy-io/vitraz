@@ -5,7 +5,7 @@ import BlockFactory from "./BlockFactory"
 
 export default class PlainBlockFactory extends React.Component {
 
-    static validBlocks = ["text", "heading", "title", "image", "question", "profile", "carousel-tile", "reel", "message", "audio", "cta"]
+    static validBlocks = ["text", "heading", "title", "image", "question", "profile", "carousel-tile", "page-tile", "reel", "message", "audio", "cta"]
 
     static getBlock(props: any) {
 

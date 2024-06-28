@@ -38,9 +38,7 @@ export default function PageContent(props: any) {
         } else {
             let selector = TemplateFactory.get("block-selector")
 
-            dispatch(appendBlock({
-                block: selector
-            }))
+            dispatch(appendBlock(selector))
         }
 
     }

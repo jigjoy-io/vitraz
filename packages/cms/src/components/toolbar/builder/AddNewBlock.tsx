@@ -28,7 +28,7 @@ export function AddNewBlock(props) {
 
         dispatch(insertBlock({
             referenceBlock: props.id,
-            newBlock: selector,
+            block: selector,
             position: position
         }))
 

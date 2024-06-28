@@ -68,7 +68,7 @@ export default function BlockSelector(props: any) {
             block.text = event.target.value.trim()
             dispatch(insertBlock({
                 referenceBlock: props.id,
-                newBlock: block,
+                block: block,
                 position: 'above'
             }))
 

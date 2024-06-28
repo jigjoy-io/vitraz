@@ -55,7 +55,7 @@ export default function ContentEditingText(props: any) {
 
 			dispatch(insertBlock({
 				referenceBlock: props.id,
-				newBlock: selector
+				block: selector
 			}))
 
 
