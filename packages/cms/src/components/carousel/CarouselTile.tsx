@@ -3,7 +3,7 @@ import Button from '../button/Button'
 import Grid from '../grid/Grid'
 import { useDispatch } from "react-redux"
 import Tile from '../tile/Tile'
-import { loadPage } from '../../reducers/pageReducer'
+import { pageUpdated } from '../../reducers/pageReducer'
 
 export default function CarouselTile(props: any) {
 
@@ -20,7 +20,7 @@ export default function CarouselTile(props: any) {
     }, [props.cta])
 
     const load = () => {
-        dispatch(loadPage(props.pageId))
+        dispatch(pageUpdated(props.page))
     }
 
     return (

@@ -24,7 +24,7 @@ export const useExpandedToolbar = () => useAppSelector((state: any) => state.too
 export const useEditorOptions = () => useAppSelector((state: any) => state.toolbar.editingOptions)
 
 export const usePageId = () => useAppSelector((state: any) => state.page.pageId)
-export const usePage = () => useAppSelector((state: any) => state.page.page)
-export const useInnerPage = () => useAppSelector((state: any) => state.page.innerPage)
+export const usePage = () => useAppSelector((state: any) => state.page.activePage)
+export const useRootPage = () => useAppSelector((state: any) => state.page.rootPage)
 export const useMode = () => useAppSelector((state: any) => state.page.mode)
 export const useActiveBlock = () => useAppSelector((state: any) => state.page.activeBlock)

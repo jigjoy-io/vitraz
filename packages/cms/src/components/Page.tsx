@@ -7,7 +7,7 @@ function Page() {
     const page = usePage()
 
     return <>{
-        <div className="min-w-[100dvw] md:min-w-[400px] md:max-w-[400px] lg:max-h-[100dvh] lg:h-[100dvh] md:h-[750px] md:min-h-[750px]">
+        <div className="min-w-[100dvw] md:min-w-[400px] md:max-w-[400px] lg:max-h-[100dvh] lg:h-[100dvh] md:h-[750px] md:min-h-[750px] lg:mt-20">
             {page != null && PageFactory.get(page)}
         </div>
     }</>

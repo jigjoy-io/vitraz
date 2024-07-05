@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { ValidationError } from '@errors/validation-error'
-import { createNewPageUseCase } from '@use-cases/create-new-page'
+import { createPageUseCase } from '@use-cases/create-page'
 import { errorHandler } from '@packages/apigw-error-handler'
 import { CreatePageDto, ReturnPageDto } from '@dto/page/page'
 import { schema } from '@schemas/create-page.schema'
@@ -12,7 +12,7 @@ import { schemaValidator } from '@packages/schema-validator'
  * @returns {Promise<APIGatewayProxyResult>} A promise that resolves to an API Gateway response with the created page details.
  * @throws {ValidationError} If the request body is empty.
  */
-export async function createNewPageHandler({
+export async function createPageHandler({
 	body,
 }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 
@@ -26,7 +26,7 @@ export async function createNewPageHandler({
 
 		console.log(`page: ${JSON.stringify(page)}`)
 
-		const createdPage: ReturnPageDto = await createNewPageUseCase(page)
+		const createdPage: ReturnPageDto = await createPageUseCase(page)
 
 		console.log(`page created: ${JSON.stringify(createdPage)}`)
 

@@ -1,21 +1,26 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { updatePage } from "../api/page"
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { getPage } from "../api/page"
+import { replaceBlock } from "../util/traversals/replaceBlock"
 
 interface PageState {
-    pageId: string
-    page: any,
-    innerPage: any,
+    pageId: string,
+    rootPage: any,
+    activePage: any,
     mode: string,
     activeBlock: string | null
 }
 
 let initialState: PageState = {
     pageId: "01858c7d-17dc-4c64",
-    page: null,
-    innerPage: null,
+    rootPage: null,
+    activePage: null,
     mode: "visiting",
     activeBlock: null
 }
+
+export const fetchPage = createAsyncThunk('loadPage', async (id: string) => {
+    return await getPage(id)
+})
 
 export const pageSlice = createSlice({
     name: 'page',
@@ -23,69 +28,39 @@ export const pageSlice = createSlice({
 
     reducers: {
 
-        loadPage: (state, action: PayloadAction<any>) => {
-            state.pageId = action.payload
+        rootPageUpdated: (state, action: PayloadAction<any>) =>{
+            state.rootPage = action.payload
         },
 
         pageUpdated: (state, action: PayloadAction<any>) => {
-            state.page = action.payload
-        },
-
-        innerPageUpdated: (state, action: PayloadAction<any>) => {
-            state.innerPage = action.payload
+            state.activePage = action.payload
         },
 
         insertBlock: (state, action: PayloadAction<any>) => {
-            let page = state.page.type == "blank" ? state.page : state.innerPage
-            page = JSON.parse(JSON.stringify(page))
+            let page = JSON.parse(JSON.stringify(state.activePage))
 
             let referenceBlockIndex = page.buildingBlocks.findIndex((block: any) => block.id == action.payload.referenceBlock)
             let index = action.payload.position === 'above' ? referenceBlockIndex : referenceBlockIndex + 1
             page.buildingBlocks.splice(index, 0, action.payload.block)
 
-            state.page.type == "blank" ? state.page = page : state.innerPage = page
-            updatePage(page)
+            state.activePage = page
         },
 
         appendBlock: (state, action: PayloadAction<any>) => {
-            let page = state.page.type == "blank" ? state.page : state.innerPage
-            page = JSON.parse(JSON.stringify(page))
-
+            let page = JSON.parse(JSON.stringify(state.activePage))
             page.buildingBlocks.push(action.payload)
-
-            state.page.type == "blank" ? state.page = page : state.innerPage = page
-            updatePage(page)
+            state.activePage = page
         },
 
         updateBlock: (state, action: PayloadAction<any>) => {
-            let page = state.page.type == "blank" ? state.page : state.innerPage
-            page = JSON.parse(JSON.stringify(page))
-
-            let index = page.buildingBlocks.findIndex((block: any) => block.id == action.payload.id)
-            page.buildingBlocks[index] = action.payload
-
-            state.page.type == "blank" ? state.page = page : state.innerPage = page
-            updatePage(page)
-        },
-
-        replaceBlock: (state, action: PayloadAction<any>) => {
-            let page = state.page.type == "blank" ? state.page : state.innerPage
-            page = JSON.parse(JSON.stringify(page))
-
-            let index = page.buildingBlocks.findIndex((block: any) => block.id == action.payload.referenceBlock)
-            page.buildingBlocks.splice(index, 1, action.payload.block)
-
-            state.page.type == "blank" ? state.page = page : state.innerPage = page
-            updatePage(page)
+            let page = JSON.parse(JSON.stringify(state.activePage))
+            state.activePage = replaceBlock(page, action.payload)
         },
 
         removeBlock: (state, action: PayloadAction<string>) => {
-            let page = state.page.type == "blank" ? state.page : state.innerPage
-            page = JSON.parse(JSON.stringify(page))
+            let page = JSON.parse(JSON.stringify(state.activePage))
             page.buildingBlocks = page.buildingBlocks.filter((block: any) => block.id !== action.payload)
-
-            state.page.type == "blank" ? state.page = page : state.innerPage = page
-            updatePage(page)
+            state.activePage = page
         },
 
         focusBlock: (state, action: PayloadAction<any>) => {
@@ -95,10 +70,17 @@ export const pageSlice = createSlice({
         modeUpdated: (state, action: PayloadAction<any>) => {
             state.mode = action.payload
         }
+    },
+    extraReducers(builder) {
+        builder
+            .addCase(fetchPage.fulfilled, (state, action) => {
+                state.rootPage = action.payload
+                state.activePage = action.payload
+            })
     }
 })
 
-export const { pageUpdated, innerPageUpdated, modeUpdated, loadPage, insertBlock, updateBlock, removeBlock, replaceBlock, focusBlock, appendBlock } = pageSlice.actions
+export const { rootPageUpdated, pageUpdated, modeUpdated, insertBlock, removeBlock, updateBlock, focusBlock, appendBlock } = pageSlice.actions
 
 
 export default pageSlice.reducer

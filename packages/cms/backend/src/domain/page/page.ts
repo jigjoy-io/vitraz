@@ -1,6 +1,6 @@
-import { CreatePageDto, ReturnPageDto } from "@dto/page/page"
+import { CreatePageDto, ReturnPageDto, UpdatePageDto } from "@dto/page/page"
 import { Entity } from "@entity/entity"
-import { CreatePageProps, EnvironmentType, UnmarsalledPage } from "@models/types"
+import { CreatePageProps, EnvironmentType, UnmarsalledPage, UpdatePageProps } from "@models/types"
 import { schema } from '@schemas/page.schema'
 
 
@@ -22,6 +22,24 @@ export class Page extends Entity<CreatePageProps> {
             origin: props.origin,
             devConfig: props.config,
             prodConfig: null
+        }
+
+
+        const instance: Page = new Page(pageProps)
+        instance.validate(schema)
+
+        return instance
+    }
+
+    public static update(newPage: UpdatePageDto, page: Page): Page {
+
+        const pageProps: UpdatePageProps = {
+            id: page.id,
+            created: page.created,
+            type: newPage.type,
+            origin: newPage.origin,
+            devConfig: newPage.config,
+            prodConfig: page.props.prodConfig
         }
 
 
@@ -60,6 +78,10 @@ export class Page extends Entity<CreatePageProps> {
         const instance = new Page(raw)
         instance.validate(schema)
         return instance
+    }
+
+    public getInnerPages(pageId: string){
+
     }
 
 

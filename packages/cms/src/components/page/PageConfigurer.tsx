@@ -6,9 +6,8 @@ import Tabs from "../tabs/Tabs"
 import ClickOutsideListener from "../popover/ClickOutsideListener"
 import Tab from "../tabs/Tab"
 import TemplateFactory from "../../factories/TemplateFactory"
-import { replaceBlock } from "../../reducers/pageReducer"
+import { updateBlock } from "../../reducers/pageReducer"
 import { useDispatch } from "react-redux"
-import { createPage } from "../../api/page"
 import { usePageId } from "../../util/store"
 
 export default function CarouselConfigurer(props: any) {
@@ -24,27 +23,24 @@ export default function CarouselConfigurer(props: any) {
 
     const ref = useRef<HTMLInputElement>(null)
 
+    /**
+     * Creates a new page block and replace page configurer block with newly created page tile.
+     * Dispatches an action to replace the existing block with the new block.
+     * @returns None
+     */
+    const create = () => {
 
-    const create = async () => {
-
-        // create page
         let page = TemplateFactory.get("blank")
         page.origin = pageId
 
-        createPage(page)
-
-        // insert carousel block tile
         let block = TemplateFactory.get('page-tile')
 
         block.title = title
         block.description = description
-        block.pageId = page.id
+        block.page = page
+        block.id = props.id
 
-        dispatch(replaceBlock({
-            referenceBlock: props.id,
-            block: block
-        }))
-
+        dispatch(updateBlock(block))
 
     }
 

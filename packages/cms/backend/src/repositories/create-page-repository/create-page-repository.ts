@@ -1,4 +1,4 @@
-import { createPage } from "@adapters/secondary/database-adapter"
+import { putPage } from "@adapters/secondary/database-adapter"
 import { Page } from "@domain/page/page"
 import { PageProps } from "@models/types"
 
@@ -7,11 +7,11 @@ import { PageProps } from "@models/types"
  * @param {Page} page - The page object to be created in the database.
  * @returns {Promise<Page>} A promise that resolves to the created page object.
  */
-export async function createNewPage(
+export async function createPage(
 	page: Page
 ): Promise<Page> {
 	// use the adapter to call the database
-	const createdPage: PageProps = await createPage(
+	const createdPage: PageProps = await putPage(
 		page.toInputDto()
 	)
 	return Page.toDomain(createdPage)

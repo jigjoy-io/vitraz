@@ -19,6 +19,15 @@ export type CreatePageDto = {
     config: BlankPageConfig | CarouselPageConfig
 }
 
+export type UpdatePageDto = {
+    id: string
+    created: string
+    updated?: string
+    type: PageType
+    origin: string
+    config: BlankPageConfig | CarouselPageConfig
+}
+
 export type ReturnPageDto = {
     id: string
     created: string

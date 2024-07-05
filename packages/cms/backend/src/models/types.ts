@@ -26,6 +26,16 @@ export type CreatePageProps = {
     prodConfig: BlankPageConfig | CarouselPageConfig | null
 }
 
+export type UpdatePageProps = {
+    id: string
+    created: string
+    updated?: string
+    type: PageType
+    origin: string
+    devConfig: BlankPageConfig | CarouselPageConfig
+    prodConfig: BlankPageConfig | CarouselPageConfig | null
+}
+
 export type PageProps = {
     id: string
     created: string
