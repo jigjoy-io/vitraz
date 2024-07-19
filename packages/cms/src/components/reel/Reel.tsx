@@ -11,7 +11,7 @@ export default function Reel(props: any){
     }, [props.source])
 
     return <div className="rounded-lg h-fit flex justify-center">
-    <video ref={videoRef} controls playsInline autoPlay className="w-[85%] rounded-lg ">
+    <video ref={videoRef} controls playsInline autoPlay className="rounded-lg">
         <source src={source} type="video/mp4"/>
         Sorry, your browser doesn't support embedded videos.
     </video>
