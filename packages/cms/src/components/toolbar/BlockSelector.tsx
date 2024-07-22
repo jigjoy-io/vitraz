@@ -113,7 +113,7 @@ export default function BlockSelector(props: any) {
         />
 
         {
-            showMenu && <div className="absolute w-[400px] min-w-[400px] max-h-[500px] h-auto overflow-y-auto z-40 bg-white shadow rounded-lg">
+            showMenu && <div className="absolute w-[400px] min-w-[400px] max-h-[500px] h-auto overflow-y-auto z-80 bg-white shadow rounded-lg">
                 {
                     options.map((option: any, index) => <div style={{ pointerEvents: 'auto', zIndex: 100 }}>
                         <>

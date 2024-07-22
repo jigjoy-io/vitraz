@@ -1,23 +1,23 @@
 
 function traversBlankPage(page: any, block: any) {
-    for (let i = 0; i < page.buildingBlocks.length; i++) {
-        if(page.buildingBlocks[i].id == block.id){
-            page.buildingBlocks[i] = block
+    for (let i = 0; i < page.config.buildingBlocks.length; i++) {
+        if(page.config.buildingBlocks[i].id == block.id){
+            page.config.buildingBlocks[i] = block
             return page
-        }else if (page.buildingBlocks[i].type == 'page-tile' || page.buildingBlocks[i].type == 'carousel-tile'){
-            page.buildingBlocks[i].page = traversPage(page.buildingBlocks[i].page, block)
+        }else if (page.config.buildingBlocks[i].type == 'page-tile' || page.config.buildingBlocks[i].type == 'carousel-tile'){
+            page.config.buildingBlocks[i].page = traversPage(page.config.buildingBlocks[i].page, block)
         }
     }
     return page
 }
 
 function traversCarouselPage(page: any, block: any) {
-    for (let i = 0; i < page.pages.length; i++) {
-        if(page.pages[i].id == block.id){
-            page.pages[i] = block
+    for (let i = 0; i < page.config.pages.length; i++) {
+        if(page.config.pages[i].id == block.id){
+            page.config.pages[i] = block
             return page
         }else{
-            page.pages[i] = traversPage(page.pages[i], block)
+            page.config.pages[i] = traversPage(page.config.pages[i], block)
         }
     }
 

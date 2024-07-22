@@ -117,6 +117,9 @@ export const templates = {
     },
     "blank": {
         type: "blank",
-        buildingBlocks: []
+        config: {
+            buildingBlocks: []
+
+        }
     }
 }

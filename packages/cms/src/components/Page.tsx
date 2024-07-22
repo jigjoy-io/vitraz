@@ -7,9 +7,9 @@ function Page() {
     const page = usePage()
 
     return <>{
-        <div className="max-h-[100dvh] h-[100dvh] md:min-w-[400px] md:max-w-[400px] w-[100dvw]">
+            <div>
                 {page != null && PageFactory.get(page)}
-        </div>
+            </div>
     }</>
 }
 

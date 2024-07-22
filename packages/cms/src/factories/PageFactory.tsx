@@ -15,6 +15,7 @@ export class PageFactory extends React.Component {
     
     static get(props: any) {
         let layout : any = this.layouts[props.type]
+        console.log(props)
         return <layout.component {...props} key={props.id}/> 
     }
 }

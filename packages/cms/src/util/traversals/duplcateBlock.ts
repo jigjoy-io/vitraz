@@ -1,15 +1,15 @@
 import { v4 as uuid } from 'uuid'
 
 function refineBuildingBlocks(block: any) {
-    for (let i = 0; i < block.buildingBlocks.length; i++) {
-        block.buildingBlocks[i] = replaceIds(block.buildingBlocks[i])
+    for (let i = 0; i < block.config.buildingBlocks.length; i++) {
+        block.config.buildingBlocks[i] = replaceIds(block.config.buildingBlocks[i])
     }
     return block
 }
 
 function refinePages(block: any) {
-    for (let i = 0; i < block.pages.length; i++) {
-        block.pages[i] = replaceIds(block.pages[i])
+    for (let i = 0; i < block.config.pages.length; i++) {
+        block.config.pages[i] = replaceIds(block.config.pages[i])
     }
 
     return block

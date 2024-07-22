@@ -32,11 +32,12 @@ export default function PageContent(props: any) {
     const dispatch = useDispatch()
 
 
-    const [blocks, setBlocks] = useState(props.blocks)
+    const [blocks, setBlocks] = useState(props.config.buildingBlocks)
 
     useEffect(() => {
-        setBlocks(props.blocks)
-    }, [props.blocks])
+        console.log(props.config.buildingBlocks)
+        setBlocks(props.config.buildingBlocks)
+    }, [props.config])
 
     const ativateSelector = () => {
 
@@ -54,7 +55,7 @@ export default function PageContent(props: any) {
     }
 
     return <>{
-        (blocks != null) && <div className="bg-[white] rounded-lg h-[100%] flex flex-col p-4 overflow-y-auto">
+        (blocks != null) && <div className="bg-[white] rounded-lg h-[100%] w-[100%] flex flex-col py-4">
             <div>
                 <LazyMotion features={loadFeatures}>
                     <m.div variants={animation} initial="hidden" animate="show" >

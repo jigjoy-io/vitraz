@@ -15,29 +15,6 @@ Globals:
 
 Resources:
 
-  createPageFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/create-page.createPageHandler
-      Runtime: nodejs20.x
-      Architectures:
-      - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Create a new page
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName: !Ref PageTable
-      Environment:
-        Variables:
-          PAGE_TABLE: !Ref PageTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /
-            Method: POST
-
   createNewPageFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -100,29 +77,6 @@ Resources:
         EntryPoints: 
         - src/adapters/primary/retrieve-page/retrieve-page-adapter.ts
 
-  getPageFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/get-page.getPageHandler
-      Runtime: nodejs20.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Get page by id
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref PageTable
-      Environment:
-        Variables:
-          PAGE_TABLE: !Ref PageTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /{id}
-            Method: GET
-
   updateNewPageFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -153,29 +107,6 @@ Resources:
         Sourcemap: true
         EntryPoints: 
         - src/adapters/primary/update-page/update-page-adapter.ts
-
-  updatePageFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/update-page.updatePageHandler
-      Runtime: nodejs20.x
-      Architectures:
-      - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Update existing page
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName: !Ref PageTable
-      Environment:
-        Variables:
-          PAGE_TABLE: !Ref PageTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /
-            Method: PUT
 
   getPagesByOriginHandler:
     Type: AWS::Serverless::Function

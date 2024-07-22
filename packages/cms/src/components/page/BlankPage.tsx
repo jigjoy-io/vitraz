@@ -7,5 +7,5 @@ export default function BlankPage() {
 
     const page : any = usePage()
 
-    return <>{(page.buildingBlocks) && <Content blocks={page.buildingBlocks} key={page.id} id={page.id} />}</>
+    return <>{(page.config) && <div className="min-h-[100dvh] max-h-[100dvh] h-[100dvh] w-[400px]"><Content config={page.config} key={page.id} id={page.id} /></div>}</>
 }

@@ -1,13 +1,13 @@
 
 function deleteFromBlankPage(page: any, blockId: any) {
-    page.buildingBlocks = page.buildingBlocks.filter((block: any) => block.id !== blockId)
+    page.config.buildingBlocks = page.config.buildingBlocks.filter((block: any) => block.id !== blockId)
     return page
 }
 
 function deleteFromCarouselPage(page: any, blockId: any) {
 
-    for (let i = 0; i < page.pages.length; i++) {
-        page.pages[i].buildingBlocks = page.pages[i].buildingBlocks.filter((b: any) => b.id !== blockId)
+    for (let i = 0; i < page.config.pages.length; i++) {
+        page.config.pages[i].config.buildingBlocks = page.config.pages[i].config.buildingBlocks.filter((b: any) => b.id !== blockId)
     }
 
     return page

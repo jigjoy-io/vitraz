@@ -3,9 +3,9 @@ function addToBlankPage(page: any, payload: any) {
 
     let { referenceBlock, block, position } = payload
 
-    let referenceBlockIndex = page.buildingBlocks.findIndex((b: any) => b.id == referenceBlock)
+    let referenceBlockIndex = page.config.buildingBlocks.findIndex((b: any) => b.id == referenceBlock)
     let index = (position === 'above') ? referenceBlockIndex : referenceBlockIndex + 1
-    page.buildingBlocks.splice(index, 0, block)
+    page.config.buildingBlocks.splice(index, 0, block)
 
 
     return page
@@ -15,13 +15,13 @@ function addToCarouselPage(page: any, payload: any) {
 
     let { referenceBlock, block, position } = payload
 
-    for (let i = 0; i < page.pages.length; i++) {
+    for (let i = 0; i < page.config.pages.length; i++) {
 
-        let referenceBlockIndex = page.pages[i].buildingBlocks.findIndex((b: any) => b.id == referenceBlock)
+        let referenceBlockIndex = page.config.pages[i].config.buildingBlocks.findIndex((b: any) => b.id == referenceBlock)
 
         if (referenceBlockIndex != -1) {
             let index = (position === 'above') ? referenceBlockIndex : referenceBlockIndex + 1
-            page.pages[i].buildingBlocks.splice(index, 0, block)
+            page.config.pages[i].config.buildingBlocks.splice(index, 0, block)
             return page
         }
     }

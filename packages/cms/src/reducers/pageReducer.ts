@@ -70,6 +70,7 @@ export const pageSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(fetchPage.fulfilled, (state, action) => {
+                console.log(action.payload)
                 state.rootPage = action.payload
                 state.activePage = action.payload
             })

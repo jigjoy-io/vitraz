@@ -7,8 +7,8 @@ export const API_HOST = process.env.REACT_APP_API
  * @returns {Promise<string>} A promise that resolves to the body of the fetched page.
  */
 export async function getPage(id: string) {
-    const res : any = await fetch(`${API_HOST}/${id}`)
-    return (await res.json()).body
+    const res : any = await fetch(`${API_HOST}/new/${id}`)
+    return (await res.json())
 }
 
 /**
@@ -26,7 +26,7 @@ export async function createPage(page: any) {
         body: JSON.stringify(page),
     }
 
-    const res : any = await fetch(`${API_HOST}/`, options)
+    const res : any = await fetch(`${API_HOST}/new/`, options)
     return (await res.json())
 }
 
@@ -45,7 +45,7 @@ export async function updatePage(page: any) {
         body: JSON.stringify(page),
     }
 
-    const res = await fetch(`${API_HOST}/`, options)
+    const res = await fetch(`${API_HOST}/new/`, options)
     return (await res.json())
 }
 

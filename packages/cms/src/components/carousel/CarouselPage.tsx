@@ -11,7 +11,7 @@ export default function CarouselPage(props: any) {
 
     const [current, setCurrent] = useState(0)
     const [percentage, setPercentage] = useState(0)
-    const [pages, setPages] = useState(props.pages)
+    const [pages, setPages] = useState(props.config.pages)
     const [origin, setOrigin] = useState(props.origin)
     const page = usePage()
     const rootPage = useRootPage()
@@ -31,8 +31,8 @@ export default function CarouselPage(props: any) {
     }, [])
 
     useEffect(() => {
-        setPages(props.pages)
-    }, [props.pages])
+        setPages(props.config.pages)
+    }, [props.config.pages])
 
     const nextPage = () => {
         calculatePercentage(1 + current)
@@ -45,21 +45,23 @@ export default function CarouselPage(props: any) {
     }
 
     return <>
-        {page && <div className="flex flex-col h-[100dvh] p-3">
-            <div className="flex flex-row h-max mb-4">
+        {page && <div className="flex flex-col max-h-[100dvh] h-[100dvh] w-[400px]">
+            <div className="flex flex-row h-max pt-4">
                 <Progress percentage={percentage} />
                 <div className='w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => backToHome(origin)}>
                     <CloseIcon />
                 </div>
             </div>
-            <Content blocks={pages[current].buildingBlocks} key={pages[current].id} id={pages[current].id} />
+            <div className="h-[100%] overflow-y-auto">
+                <Content config={pages[current].config} key={pages[current].id} id={pages[current].id} />
+            </div>
             {
-                (current != pages.length - 1) && <div className="flex flex-row mt-4 gap-3">
+                (current != pages.length - 1) && <div className="flex flex-row mt-4 py-4 gap-3">
                     <Button text="Previous" action={previousPage} /> <Button text="Next" action={nextPage} />
                 </div>
             }
             {
-                (current == pages.length - 1) && <div className="flex flex-row mt-4 gap-3">
+                (current == pages.length - 1) && <div className="flex flex-row mt-4 py-4 gap-3">
                     <Button text="Back to Home" action={() => backToHome(origin)} />
                 </div>
             }

@@ -1,7 +1,7 @@
 
 function addToBlankPage(page: any, payload: any) {
 
-    page.buildingBlocks.push(payload.block)
+    page.config.buildingBlocks.push(payload.block)
     return page
 }
 
@@ -9,10 +9,10 @@ function addToCarouselPage(page: any, payload: any) {
 
     let { pageId, block } = payload
 
-    for (let i = 0; i < page.pages.length; i++) {
+    for (let i = 0; i < page.config.pages.length; i++) {
 
-        if (page.pages[i].id == pageId) {
-            page.pages[i].buildingBlocks.push(block)
+        if (page.config.pages[i].id == pageId) {
+            page.config.pages[i].config.buildingBlocks.push(block)
             return page
         }
     }
