@@ -3,8 +3,7 @@ import { useDispatch } from "react-redux"
 import { getPages } from "../../api/page"
 import Button from "../../components/button/Button"
 import { AddBlockIcon } from "../../icons/AddBlockIcon"
-import { CopyLinkIcon } from "../../icons/CopyLinkIcon"
-import { pagesUpdated } from "../../reducers/pageReducer"
+import { modeUpdated, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/pageReducer"
 import { useAccount, usePages } from "../../util/store"
 import { Node } from './Node'
 
@@ -20,13 +19,19 @@ export default function PageTree() {
     async function fetchData() {
         let pages = await getPages(account)
         dispatch(pagesUpdated(pages))
+        if(pages.length > 0 ){
+            dispatch(rootPageUpdated(pages[0]))
+            dispatch(pageUpdated(pages[0]))
+        }
     }
 
     useEffect(() => {
         fetchData()
     }, [])
 
-
+    const enterPreview = () => {
+        dispatch(modeUpdated("visiting"))
+    }
 
 
     return <div className="h-[100dvh] w-[260px] bg-[#F2EEF0] bg-opacity-40 border-r border-light shadow-lg">
@@ -47,19 +52,15 @@ export default function PageTree() {
                     </div>
                     <div className="flex flex-col">
                         {
-                            pages.map((page) => <Node {...page} />)}
+                            pages.map((page) => <Node {...page} ident={0}/>)}
                     </div>
                 </div>
 
-                <div>
-                    <div>
-                        <div className="mx-3 px-3 py-2 flex flex-row items-center hover:bg-primary-light hover:bg-opacity-60 rounded-sm cursor-pointer">
-                            <CopyLinkIcon /><div>Copy live link</div>
-                        </div>
-                    </div>
+                <div className="pt-4">
                     <div className="w-full py-2">
-                        <div className="w-[100%] px-3 py-1">
-                            <Button text="Preview draft" color="default" />
+                        <div className="w-[100%] px-3 py-1 flex gap-x-2">
+                            <Button text="Preview" color="default" action={enterPreview}/>
+                            <Button text="Share" color="default" />
                         </div>
                         <div className="w-[100%] px-3 py-1">
                             <Button text="Publish" />

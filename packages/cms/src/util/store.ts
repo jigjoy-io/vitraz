@@ -4,10 +4,12 @@ import pageReducer from '../reducers/pageReducer'
 import { useDispatch, useSelector } from "react-redux"
 import toolbarReducer from '../reducers/toolbarReducer'
 import authReducer from '../reducers/authReducer'
+import treeReducer from '../reducers/treeReducer'
 
 export const store = configureStore({
     reducer: {
         toolbar: toolbarReducer,
+        tree: treeReducer,
         page: pageReducer,
         auth: authReducer
     }
@@ -22,6 +24,7 @@ export const useAppSelector = useSelector.withTypes<RootState>()
 
 export const useBlocked = () => useAppSelector((state: any) => state.toolbar.blocked)
 export const useExpandedToolbar = () => useAppSelector((state: any) => state.toolbar.expandedToolbar)
+export const useExpandedPages = () => useAppSelector((state: any) => state.tree.expandedPages)
 
 export const useAuthorized = () => useAppSelector((state: any) => state.auth.authorized)
 export const useAccount = () => useAppSelector((state: any) => state.auth.account)

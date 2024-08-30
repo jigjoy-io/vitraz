@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import Page from "../../components/Page"
-import { modeUpdated, rootPageUpdated } from "../../reducers/pageReducer"
+import { rootPageUpdated } from "../../reducers/pageReducer"
 import { AppDispatch, useBlocked, useMode, usePage, useRootPage } from "../../util/store"
 
 import { updatePage } from "../../api/page"
@@ -11,7 +11,6 @@ import PageTree from "./PageTree"
 export default function Designer() {
 
     const blocked = useBlocked()
-    const mode = useMode()
     const page = usePage()
     const rootPage = useRootPage()
     const dispatch = useDispatch<AppDispatch>()
@@ -32,10 +31,6 @@ export default function Designer() {
     }
 
     useEffect(() => {
-        dispatch(modeUpdated("editing"))
-    }, [])
-
-    useEffect(() => {
         update(rootPage, page)
 
     }, [page])
@@ -43,9 +38,7 @@ export default function Designer() {
     return <div style={{ pointerEvents: blocked ? 'none' : 'auto', zIndex: 100 }}>
         <div className="flex flex-row">
             <PageTree />
-            {(page && mode) && <div key={page.id} className="grow flex flex-col justify-center items-center">
-                <Page />
-            </div>}
+            {page && <Page />}
         </div>
     </div>
 }

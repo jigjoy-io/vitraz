@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import Grid from "../../components/grid/Grid"
 import Item from "../../components/item/Item"
@@ -14,15 +14,17 @@ import { MoreIcon } from "../../icons/MoreIcon"
 import { RenameIcon } from "../../icons/RenameIcon"
 import { pageUpdated, rootPageUpdated } from "../../reducers/pageReducer"
 import { blockingUpdated, expandedToolbarUpdated } from "../../reducers/toolbarReducer"
-import { useExpandedToolbar, usePage } from "../../util/store"
+import { pageCollapsed, pageExpanded } from "../../reducers/treeReducer"
+import { useExpandedPages, useExpandedToolbar, usePage } from "../../util/store"
 
 export function Node(props: any) {
 
     const activePage = usePage()
     const [hover, setHover] = useState(null)
+    const ident= useState(props.ident + 12)
 
     const expandedToolbar = useExpandedToolbar()
-    const expandedPages = {}
+    const expandedPages = useExpandedPages()
 
     const dispatch = useDispatch()
 
@@ -50,8 +52,15 @@ export function Node(props: any) {
 
     }
 
-    const expandPage = (id) => {
-
+    const expandPage = () => {
+        const expanded = expandedPages.includes(props.id)
+        console.log(expanded)
+        console.log(props.id)
+        if(expanded){
+            dispatch(pageCollapsed(props.id))
+        }else{
+            dispatch(pageExpanded(props.id))
+        }
     }
 
     const loadPage = async (e: React.MouseEvent, page) => {
@@ -64,13 +73,15 @@ export function Node(props: any) {
     return <div>
         <div key={props.id}
             onClick={(e: React.MouseEvent) => loadPage(e, props)}
-            className={`w-[100%] h-[30px] p-1 pl-3 ${(activePage && activePage.id == props.id) && 'bg-primary-light'}
+            className={`w-[100%] h-[30px] p-1 ${(activePage && activePage.id == props.id) && 'bg-primary-light'}
             hover:bg-primary-light hover:bg-opacity-60 rounded-sm flex flex-row items-center  
             ${expandedToolbar == props.id && 'bg-primary-light'}`}
             onMouseEnter={() => setHover(props.id)}
-            onMouseLeave={() => setHover(null)}>
+            onMouseLeave={() => setHover(null)}
+            style={{paddingLeft: `${ident}px`}}
+            >
 
-            <ExpandPage id={props.id} expand={expandPage} hover={hover}/>
+            <ExpandPage id={props.id} type={props.type} expand={expandPage} hover={hover} />
 
             <div className="ml-1 px-1 hover:cursor-pointer grow flex">Page</div>
             {
@@ -102,11 +113,11 @@ export function Node(props: any) {
         </div>
 
         <div className="flex flex-col">
-            {props.config.buildingBlocks && props.config.buildingBlocks.map((block) => <>
-                {(block.type == 'page-tile' || block.type == 'carousel-tile') && <Node {...block.page} />}
+            {(expandedPages.includes(props.id) && props.config.buildingBlocks) && props.config.buildingBlocks.map((block) => <>
+                {(block.type == 'page-tile' || block.type == 'carousel-tile') && <Node {...block.page} ident={ident} />}
 
             </>)}
-            {props.config.pages && props.config.pages.map((page) => <Node {...page} />)}
+            {(expandedPages.includes(props.id) && props.config.pages) && props.config.pages.map((page) => <Node {...page} ident={ident} />)}
         </div>
 
     </div>

@@ -1,9 +1,11 @@
 import React, { useEffect } from "react"
 import Designer from "../designer/Designer"
 import { handleConfirmSignIn } from "../../api/authorize"
-import { useAuthorized } from "../../util/store"
+import { useAuthorized, useMode } from "../../util/store"
 import { accountUpdated } from "../../reducers/authReducer"
 import { useDispatch } from "react-redux"
+import { modeUpdated } from "../../reducers/pageReducer"
+import { Preview } from "../designer/Preview"
 
 export default function Dashboard() {
 
@@ -15,8 +17,13 @@ export default function Dashboard() {
 
     const authorized = useAuthorized()
     const dispatch = useDispatch()
+    const mode = useMode()
     const email = urlParams.get('email')
     const token: any = urlParams.get('token')
+
+    useEffect(() => {
+        dispatch(modeUpdated("editing"))
+    }, [])
 
     async function authorize(email, token) {
 
@@ -65,5 +72,9 @@ export default function Dashboard() {
         authorize(email, token)
     }, [])
 
-    return <>{authorized && <Designer />}</>
+    return <>{authorized && <>
+            {mode == 'editing' && <Designer />}
+            {mode == 'visiting' && <Preview />}
+        </>}
+    </>
 }
