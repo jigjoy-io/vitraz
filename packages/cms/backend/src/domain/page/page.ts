@@ -49,6 +49,24 @@ export class Page extends Entity<CreatePageProps> {
         return instance
     }
 
+    public static publish(page: Page): Page {
+
+        const pageProps: UpdatePageProps = {
+            id: page.id,
+            created: page.created,
+            type: page.props.type,
+            origin: page.props.origin,
+            devConfig: page.props.devConfig,
+            prodConfig: page.props.devConfig // coping dev config
+        }
+
+
+        const instance: Page = new Page(pageProps)
+        instance.validate(schema)
+
+        return instance
+    }
+
     // create a dto based on the domain instance
     public toInputDto(): UnmarsalledPage {
         return {

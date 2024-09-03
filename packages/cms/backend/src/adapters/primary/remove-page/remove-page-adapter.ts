@@ -1,7 +1,7 @@
 import { ReturnPageDto } from "@dto/page"
 import { ValidationError } from "@errors/validation-error"
 import { errorHandler } from "@packages/apigw-error-handler"
-import { removePageUseCase } from "@use-cases/remove-page/remove-page"
+import { removePageUseCase } from "@use-cases/remove-page"
 import Responses from "@utils/api-responses"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 

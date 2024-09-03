@@ -4,8 +4,8 @@ import { errorHandler } from '@packages/apigw-error-handler'
 import { ReturnPageDto, UpdatePageDto } from '@dto/page/page'
 import { schema } from '@schemas/create-page.schema'
 import { schemaValidator } from '@packages/schema-validator'
-import { updatePageUseCase } from '@use-cases/update-page/update-page'
 import Responses from '@utils/api-responses'
+import { updatePageUseCase } from '@use-cases/update-page'
 
 
 /**
@@ -33,7 +33,7 @@ export async function updatePageHandler({
 
 		const updatedPage: ReturnPageDto = await updatePageUseCase(page)
 
-		console.log(`page created: ${JSON.stringify(updatedPage)}`)
+		console.log(`page updated: ${JSON.stringify(updatedPage)}`)
 
 		return Responses._201(updatedPage)
 

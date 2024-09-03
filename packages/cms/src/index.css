@@ -5,9 +5,7 @@
 body {
   margin: 0;
   font-family: "Open-sans", sans-serif;
-  display: block;
   width: 100%;
-  position: absolute
 }
 
 :root {

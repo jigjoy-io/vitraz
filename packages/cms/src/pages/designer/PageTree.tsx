@@ -1,10 +1,10 @@
 import React, { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { getPages } from "../../api/page"
+import { getPages, publishPage } from "../../api/page"
 import Button from "../../components/button/Button"
 import { AddBlockIcon } from "../../icons/AddBlockIcon"
 import { modeUpdated, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/pageReducer"
-import { useAccount, usePages } from "../../util/store"
+import { useAccount, usePage, usePages } from "../../util/store"
 import { Node } from './Node'
 
 export default function PageTree() {
@@ -12,6 +12,7 @@ export default function PageTree() {
 
     const account = useAccount()
     const pages = usePages()
+    const page = usePage()
 
 
     const dispatch = useDispatch()
@@ -31,6 +32,11 @@ export default function PageTree() {
 
     const enterPreview = () => {
         dispatch(modeUpdated("visiting"))
+    }
+
+    const publish = async () => {
+        await publishPage(page.id)
+        alert('page published')
     }
 
 
@@ -63,7 +69,7 @@ export default function PageTree() {
                             <Button text="Share" color="default" />
                         </div>
                         <div className="w-[100%] px-3 py-1">
-                            <Button text="Publish" />
+                            <Button text="Publish" action={publish}/>
                         </div>
                     </div>
 

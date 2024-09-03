@@ -30,6 +30,8 @@ export const useAuthorized = () => useAppSelector((state: any) => state.auth.aut
 export const useAccount = () => useAppSelector((state: any) => state.auth.account)
 
 export const usePage = () => useAppSelector((state: any) => state.page.activePage)
+export const useCurrentCarouselPage = () => useAppSelector((state: any) => state.page.currentCarouselPage)
+export const useModified = () => useAppSelector((state: any) => state.page.modified)
 export const usePages = () => useAppSelector((state: any) => state.page.pages)
 export const useRootPage = () => useAppSelector((state: any) => state.page.rootPage)
 export const useMode = () => useAppSelector((state: any) => state.page.mode)

@@ -2,9 +2,9 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { ValidationError } from '@errors/validation-error'
 import { errorHandler } from '@packages/apigw-error-handler'
 import { ReturnPageDto } from '@dto/page/page'
-import { retrievePageUseCase } from '@use-cases/retrieve-page'
 import { EnvironmentType } from '@models/types'
 import Responses from '@utils/api-responses'
+import { retrievePageUseCase } from '@use-cases/retrieve-page'
 
 /**
  * Handles the API Gateway event to get a specific page based on the provided ID.

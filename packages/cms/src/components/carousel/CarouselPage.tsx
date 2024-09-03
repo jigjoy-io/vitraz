@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import { pageUpdated } from '../../reducers/pageReducer'
+import { carouselPageSwitched, pageUpdated } from '../../reducers/pageReducer'
 import CloseIcon from "../../icons/CloseIcon"
 import Button from "../button/Button"
 import Progress from "../progress/Progress"
 import Content from "../PageContent"
-import { usePage, useRootPage } from "../../util/store"
+import { useCurrentCarouselPage, usePage, useRootPage } from "../../util/store"
 
 export default function CarouselPage(props: any) {
 
     const [current, setCurrent] = useState(0)
+    const activeCarousel = useCurrentCarouselPage()
     const [percentage, setPercentage] = useState(0)
     const [pages, setPages] = useState(props.config.pages)
     const [origin, setOrigin] = useState(props.origin)
@@ -27,21 +28,29 @@ export default function CarouselPage(props: any) {
     }
 
     useEffect(() => {
-        calculatePercentage(current)
+        dispatch(carouselPageSwitched(pages[0]))
     }, [])
+
+    useEffect(() => {
+        let current = pages.findIndex((p: any) => p.id == activeCarousel)
+        if (current != -1) {
+            setCurrent(current)
+            calculatePercentage(current)
+        }
+    }, [activeCarousel])
 
     useEffect(() => {
         setPages(props.config.pages)
     }, [props.config.pages])
 
     const nextPage = () => {
-        calculatePercentage(1 + current)
-        setCurrent(1 + current)
+        let nextPage = pages[current + 1]
+        dispatch(carouselPageSwitched(nextPage.id))
     }
 
     const previousPage = () => {
-        calculatePercentage(current - 1)
-        setCurrent(current - 1)
+        let nextPage = pages[current - 1]
+        dispatch(carouselPageSwitched(nextPage.id))
     }
 
     return <>

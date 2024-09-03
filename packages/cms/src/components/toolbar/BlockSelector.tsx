@@ -15,7 +15,7 @@ export default function BlockSelector(props: any) {
     const [options, setOptions] = useState(selectorOptions)
     const [allOptions, setAllOptions] = useState(selectorOptions)
     const [showMenu, setShowMenu] = useState(false)
-    const [placeholder, setPlaceholder] = useState('')
+    const [placeholder, setPlaceholder] = useState("Click or type to add element...")
     const activeBlock = useActiveBlock()
     const ref = useRef<HTMLInputElement>(null)
 
@@ -47,7 +47,7 @@ export default function BlockSelector(props: any) {
             dispatch(blockingUpdated(true))
             setShowMenu(true)
 
-            let comm = JSON.parse(JSON.stringify(allOptions)) //deep copy
+            let comm = JSON.parse(JSON.stringify(allOptions))
             let temp = comm.map((option: any, index: number) => filterCommands(option, event.target.value, index))
 
             let result = temp.filter((option) => option.commands.length > 0)
@@ -95,7 +95,7 @@ export default function BlockSelector(props: any) {
     }
 
     const handleLoseFocus = () => {
-        setPlaceholder("")
+        //setPlaceholder("")
         dispatch(focusBlock(null))
     }
 
@@ -104,8 +104,8 @@ export default function BlockSelector(props: any) {
             ref={ref}
             type="text"
             value={option}
-            onFocus={() => setPlaceholder("Write something or type '/' to add element...")}
-            className="w-[100%] h-[1.8rem] rounded-lg hover:bg-gray-300 flex items-center focus:outline-0 placeholder:text-[gray]"
+            onFocus={() => setPlaceholder("Click or type to add element...")}
+            className="w-[100%] h-[1.8rem] bg-primary-light rounded-md hover:bg-gray-300 flex items-center focus:outline-0 placeholder:text-[black] py-4 px-2"
             placeholder={placeholder}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
@@ -113,7 +113,7 @@ export default function BlockSelector(props: any) {
         />
 
         {
-            showMenu && <div className="absolute w-[400px] min-w-[400px] max-h-[500px] h-auto overflow-y-auto z-80 bg-white shadow rounded-lg">
+            showMenu && <div className="absolute w-[400px] min-w-[400px] max-h-[500px] h-auto overflow-y-auto z-10 bg-white shadow rounded-lg">
                 {
                     options.map((option: any, index) => <div style={{ pointerEvents: 'auto', zIndex: 100 }}>
                         <>

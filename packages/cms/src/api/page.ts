@@ -72,3 +72,9 @@ export async function removePage(page: any) {
     const res = await fetch(`${API_HOST}/`, options)
     return (await res.json())
 }
+
+export async function publishPage(id: string) {
+
+    const res : any = await fetch(`${API_HOST}/publish/${id}`)
+    return (await res.json())
+}

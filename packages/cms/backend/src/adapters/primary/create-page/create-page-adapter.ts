@@ -1,11 +1,11 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { ValidationError } from '@errors/validation-error'
-import { createPageUseCase } from '@use-cases/create-page'
 import { errorHandler } from '@packages/apigw-error-handler'
 import { CreatePageDto, ReturnPageDto } from '@dto/page/page'
 import { schema } from '@schemas/create-page.schema'
 import { schemaValidator } from '@packages/schema-validator'
 import Responses from '@utils/api-responses'
+import { createPageUseCase } from '@use-cases/create-page'
 
 /**
  * Handles the creation of a new page based on the provided request body.

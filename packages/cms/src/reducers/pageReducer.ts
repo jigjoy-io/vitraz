@@ -1,24 +1,28 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { getPage, updatePage } from "../api/page"
+import { getPage } from "../api/page"
 import { addBlock } from "../util/traversals/addBlock"
 import { deleteBlock } from "../util/traversals/deleteBlock"
 import { pushBlock } from "../util/traversals/pushBlock"
 import { replaceBlock } from "../util/traversals/replaceBlock"
 
 interface PageState {
+    modified: any,
     rootPage: any,
     activePage: any,
     mode: string,
     activeBlock: string | null,
-    pages: any []
+    pages: any [],
+    currentCarouselPage: number | null
 }
 
 let initialState: PageState = {
+    modified: null,
     rootPage: null,
     activePage: null,
     mode: "visiting",
     activeBlock: null,
-    pages: []
+    pages: [],
+    currentCarouselPage: null
 }
 
 export const fetchPage = createAsyncThunk('loadPage', async (id: string) => {
@@ -46,21 +50,25 @@ export const pageSlice = createSlice({
         insertBlock: (state, action: PayloadAction<any>) => {
             let page = JSON.parse(JSON.stringify(state.activePage))
             state.activePage = addBlock(page, action.payload)
+            state.modified = Date.now()
         },
 
         appendBlock: (state, action: PayloadAction<any>) => {
             let page = JSON.parse(JSON.stringify(state.activePage))
             state.activePage = pushBlock(page, action.payload)
+            state.modified = Date.now()
         },
 
         updateBlock: (state, action: PayloadAction<any>) => {
             let page = JSON.parse(JSON.stringify(state.activePage))
             state.activePage = replaceBlock(page, action.payload)
+            state.modified = Date.now()
         },
 
         removeBlock: (state, action: PayloadAction<string>) => {
             let page = JSON.parse(JSON.stringify(state.activePage))
             state.activePage = deleteBlock(page, action.payload)
+            state.modified = Date.now()
         },
 
         focusBlock: (state, action: PayloadAction<any>) => {
@@ -73,7 +81,11 @@ export const pageSlice = createSlice({
 
         pagesUpdated: (state, action: PayloadAction<any>) => {
             state.pages = action.payload
-        }
+        },
+
+        carouselPageSwitched: (state, action: PayloadAction<any>) => {
+            state.currentCarouselPage = action.payload
+        },
     },
     extraReducers(builder) {
         builder
@@ -84,7 +96,7 @@ export const pageSlice = createSlice({
     }
 })
 
-export const { rootPageUpdated, pageUpdated, modeUpdated, insertBlock, removeBlock, updateBlock, appendBlock, focusBlock, pagesUpdated } = pageSlice.actions
+export const { rootPageUpdated, pageUpdated, modeUpdated, insertBlock, removeBlock, updateBlock, appendBlock, focusBlock, pagesUpdated, carouselPageSwitched } = pageSlice.actions
 
 
 export default pageSlice.reducer

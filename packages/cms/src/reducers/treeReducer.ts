@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface TreeState {
-    expandedPages: string []
+    expandedPages: string [],
   }
 
 let initialState: TreeState = {

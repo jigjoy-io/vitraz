@@ -69,7 +69,7 @@ export default function Toolbar(props: any) {
                             <Popover onClose={onClose}>
                                 <PopoverTrigger >
                                     <div onClick={() => expandToolbar()}>
-                                        <ToolbarButtonWrapper tooltip={<div className='text-center text-[14px]'>Open menu</div>}>
+                                        <ToolbarButtonWrapper tooltip={<div className='text-center text-[14px]'>Open menu</div>} transformed={true}>
                                             <OpenMenuIcon />
                                         </ToolbarButtonWrapper>
                                     </div>
