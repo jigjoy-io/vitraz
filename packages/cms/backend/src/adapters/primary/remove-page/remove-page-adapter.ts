@@ -1,4 +1,3 @@
-import { ReturnPageDto } from "@dto/page"
 import { ValidationError } from "@errors/validation-error"
 import { errorHandler } from "@packages/apigw-error-handler"
 import { removePageUseCase } from "@use-cases/remove-page"
@@ -15,13 +14,13 @@ export async function removePageHandler({
 
         const { id } = pathParameters
 
-        console.log(`reqiested page: ${id}`)
+        console.log(`Page to delete: ${id}`)
 
-        const page: ReturnPageDto = await removePageUseCase(id)
+        await removePageUseCase(id)
 
-        console.log(`page fetched: ${JSON.stringify(page)}`)
+        console.log(`Page deleted: ${JSON.stringify(id)}`)
 
-		return Responses._202(page)
+		return Responses._200(id)
 
     } catch (error) {
         return errorHandler(error)

@@ -79,7 +79,7 @@ export default function Toolbar(props: any) {
                                         <Item text="Duplicate block" icon={DuplicateIcon} action={duplicate} />
                                         <Item text="Delete block" textColor="red" icon={DeleteBlockIcon} action={deleteBlock} />
                                         {
-                                            props.editingOptions.map((option: any, index) => <>
+                                            props.editingOptions.map((option: any, index) => <div key={index}>
                                                 {index == 0 && <div className='border-b border-default-light' />}
                                                 <Popover key={index} onClose={() => setEditingActive(null)}>
                                                     <PopoverTrigger>
@@ -89,7 +89,7 @@ export default function Toolbar(props: any) {
                                                         <option.editor id={props.id} block={props.block} attribute={option.key} value={props.block[option.key]} />
                                                     </PopoverContent>
                                                 </Popover>
-                                            </>
+                                            </div>
                                             )
                                         }
                                     </Grid>

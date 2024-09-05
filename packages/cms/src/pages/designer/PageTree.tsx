@@ -20,7 +20,7 @@ export default function PageTree() {
     async function fetchData() {
         let pages = await getPages(account)
         dispatch(pagesUpdated(pages))
-        if(pages.length > 0 ){
+        if (pages.length > 0) {
             dispatch(rootPageUpdated(pages[0]))
             dispatch(pageUpdated(pages[0]))
         }
@@ -58,18 +58,19 @@ export default function PageTree() {
                     </div>
                     <div className="flex flex-col">
                         {
-                            pages.map((page) => <Node {...page} root={page} ident={0}/>)}
+                            pages.map((page) => <Node key={page.id} {...page} root={page} ident={0} />)
+                        }
                     </div>
                 </div>
 
                 <div className="pt-4">
                     <div className="w-full py-2">
                         <div className="w-[100%] px-3 py-1 flex gap-x-2">
-                            <Button text="Preview" color="default" action={enterPreview}/>
+                            <Button text="Preview" color="default" action={enterPreview} />
                             <Button text="Share" color="default" />
                         </div>
                         <div className="w-[100%] px-3 py-1">
-                            <Button text="Publish" action={publish}/>
+                            <Button text="Publish" action={publish} />
                         </div>
                     </div>
 

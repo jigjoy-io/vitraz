@@ -71,12 +71,6 @@ export const pageSlice = createSlice({
             state.modified = Date.now()
         },
 
-        removePage: (state, action: PayloadAction<any>) => {
-            
-            state.activePage = deleteBlock(action.payload.root, action.payload.pageId)
-            state.modified = Date.now()
-        },
-
         focusBlock: (state, action: PayloadAction<any>) => {
             state.activeBlock = action.payload
         },

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
+import { removePage, updatePage } from "../../api/page"
 import Grid from "../../components/grid/Grid"
 import Item from "../../components/item/Item"
 import Popover from "../../components/popover/Popover"
@@ -12,19 +13,20 @@ import { DuplicateIcon } from "../../icons/DuplicateIcon"
 import { ExpandPage } from "../../icons/ExpandPage"
 import { MoreIcon } from "../../icons/MoreIcon"
 import { RenameIcon } from "../../icons/RenameIcon"
-import { carouselPageSwitched, pageUpdated, rootPageUpdated } from "../../reducers/pageReducer"
+import { carouselPageSwitched, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/pageReducer"
 import { blockingUpdated, expandedToolbarUpdated } from "../../reducers/toolbarReducer"
 import { pageCollapsed, pageExpanded } from "../../reducers/treeReducer"
 import { useCurrentCarouselPage, useExpandedPages, useExpandedToolbar, usePage, usePages } from "../../util/store"
+import { deletePage } from "../../util/traversals/deletePage"
 import { findParent } from "../../util/traversals/findParent"
 
 export function Node(props: any) {
 
     const activePage = usePage()
     const activeCarousel = useCurrentCarouselPage()
-    const pages = usePages()
     const [hover, setHover] = useState(null)
     const [ident, setIdent] = useState(props.ident + 12)
+    const pages = usePages()
     const [selected, setSelected] = useState(null)
 
     const expandedToolbar = useExpandedToolbar()
@@ -32,14 +34,35 @@ export function Node(props: any) {
 
     const dispatch = useDispatch()
 
-    const deletePage = (e: any) => {
-        e.stopPropagation()
+    const remove = async () => {
+
+        if (props.root.id == props.id) {
+            removePage(props.id)
+            let result = pages.filter((page) => page.id !== props.id)
+            if (result.length > 0) {
+                dispatch(rootPageUpdated(result[0]))
+                dispatch(pageUpdated(result[0]))
+            }
+            dispatch(pagesUpdated(result))
+
+            return
+        }
+
+        let page = deletePage(JSON.parse(JSON.stringify(props.root)), props.id)
+        updatePage(page)
+        dispatch(rootPageUpdated(page))
+        dispatch(pageUpdated(page))
+
 
 
     }
 
     const duplicatePage = () => {
 
+        if (props.root.id == props.id) {
+            // create new page
+            return
+        }
     }
 
     const renamePage = () => {
@@ -88,18 +111,18 @@ export function Node(props: any) {
         }
 
         let parent = findParent(props.root, selectedPage)
-        
+
         if (parent.type == "blank") {
             dispatch(pageUpdated(selectedPage))
-            if(selectedPage.type=='carousel'){
+            if (selectedPage.type == 'carousel') {
                 dispatch(carouselPageSwitched(selectedPage.config.pages[0].id))
             }
         } else if (parent.type == "carousel") {
             dispatch(pageUpdated(parent))
-            if(selectedPage.type=='blank'){
+            if (selectedPage.type == 'blank') {
                 dispatch(carouselPageSwitched(selectedPage.id))
             }
-            
+
         }
 
 
@@ -137,7 +160,7 @@ export function Node(props: any) {
                                 <Item text="Rename" icon={RenameIcon} action={renamePage} />
                                 <Item text="Duplicate" icon={DuplicateIcon} action={duplicatePage} />
                                 <div className='border-b border-default-light' />
-                                <Item text="Delete" icon={DeleteBlockIcon} action={deletePage} />
+                                <Item text="Delete" icon={DeleteBlockIcon} action={remove} />
                             </Grid>
                         </PopoverContent>
                     </Popover>
@@ -149,11 +172,11 @@ export function Node(props: any) {
         </div>
 
         <div className="flex flex-col">
-            {(expandedPages.includes(props.id) && props.config.buildingBlocks) && props.config.buildingBlocks.map((block) => <>
+            {(expandedPages.includes(props.id) && props.config.buildingBlocks) && props.config.buildingBlocks.map((block) => <div key={block.id}>
                 {(block.type == 'page-tile' || block.type == 'carousel-tile') && <Node {...block.page} ident={ident} root={props.root} />}
 
-            </>)}
-            {(expandedPages.includes(props.id) && props.config.pages) && props.config.pages.map((page) => <Node {...page} ident={ident} root={props.root} />)}
+            </div>)}
+            {(expandedPages.includes(props.id) && props.config.pages) && props.config.pages.map((page) => <Node key={page.id} {...page} ident={ident} root={props.root} />)}
         </div>
 
     </div>

@@ -59,17 +59,13 @@ export async function updatePage(page: any) {
  * @param {any} page - The page object to be removed.
  * @returns {Promise<any>} A promise that resolves to the JSON response from the API.
  */
-export async function removePage(page: any) {
+export async function removePage(id: any) {
 
     const options = {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(page),
+        method: 'DELETE'
     }
 
-    const res = await fetch(`${API_HOST}/`, options)
+    const res = await fetch(`${API_HOST}/${id}`, options)
     return (await res.json())
 }
 
