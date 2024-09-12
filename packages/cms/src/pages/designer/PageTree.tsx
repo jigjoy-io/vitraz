@@ -1,7 +1,10 @@
-import React, { useEffect } from "react"
+import { fetchUserAttributes } from "aws-amplify/auth"
+import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { getPages, publishPage } from "../../api/page"
+import Alert from "../../components/alert/Alert"
 import Button from "../../components/button/Button"
+import Progress from "../../components/progress/Progress"
 import { AddBlockIcon } from "../../icons/AddBlockIcon"
 import { modeUpdated, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/pageReducer"
 import { useAccount, usePages, useRootPage } from "../../util/store"
@@ -13,12 +16,15 @@ export default function PageTree() {
     const account = useAccount()
     const pages = usePages()
     const page = useRootPage()
+    const [progress, setProgress] = useState(0)
 
 
     const dispatch = useDispatch()
 
     async function fetchData() {
-        let pages = await getPages(account)
+        const userAttributes = await fetchUserAttributes()
+        console.log(userAttributes.email)
+        let pages = await getPages(userAttributes.email as string)
         dispatch(pagesUpdated(pages))
         if (pages.length > 0) {
             dispatch(rootPageUpdated(pages[0]))
@@ -34,9 +40,28 @@ export default function PageTree() {
         dispatch(modeUpdated("visiting"))
     }
 
+    const displayProgress = () => {
+        var i = 0
+        var intr = setInterval(function () {
+            setProgress(i)
+            // clear the interval if `i` reached 100
+            if (++i == 201) {
+                clearInterval(intr)
+            }
+        }, 25)
+    }
+
     const publish = async () => {
-        await publishPage(page.id)
-        alert('page published')
+        displayProgress()
+        let pages = await publishPage(page)
+
+        let newPage = pages.find((p) => p.id = page.id)
+        dispatch(rootPageUpdated(newPage))
+        dispatch(pageUpdated(newPage))
+    }
+
+    const createNewPage = async () => {
+        window.location.href = '/onboarding'
     }
 
 
@@ -48,7 +73,7 @@ export default function PageTree() {
 
                 <div className="w-full grow mt-10 overflow-y-auto">
                     <div>
-                        <div className="m-1 px-3 py-2 flex flex-row items-center hover:bg-primary-light hover:bg-opacity-60 rounded-sm cursor-pointer">
+                        <div className="m-1 px-3 py-2 flex flex-row items-center hover:bg-primary-light hover:bg-opacity-60 rounded-sm cursor-pointer" onClick={createNewPage}>
                             <AddBlockIcon /><div className="font-bold">Start New Project</div>
                         </div>
                     </div>
@@ -65,14 +90,18 @@ export default function PageTree() {
 
                 <div className="pt-4">
                     <div className="w-full py-2">
+                        {(progress > 0 && progress < 100) && <div className="px-3"><Progress percentage={progress} /></div>}
+                        {(progress > 100 && progress < 200) && <div className="px-3"><Alert type="success" title="Project published" message="Click `Share` to get a link with applied changes"></Alert></div>}
                         <div className="w-[100%] px-3 py-1 flex gap-x-2">
                             <div className="w-[50%]"><Button text="Preview" color="default" action={enterPreview} /></div>
-                            
+
                             <a href={`/${page.id}`} target="_blank" className="bg-primary-light hover:opacity-80 flex justify-center items-center cursor-pointer rounded-md w-[50%] font-bold">Share</a>
                         </div>
+
                         <div className="w-[100%] px-3 py-1">
                             <Button text="Publish" action={publish} />
                         </div>
+
                     </div>
 
                 </div>

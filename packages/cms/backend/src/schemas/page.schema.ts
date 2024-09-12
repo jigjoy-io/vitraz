@@ -76,7 +76,7 @@
 						pages: {
 							type: 'array',
 							items: {
-								type: 'string'
+								type: 'object'
 							}
 						}
 					},

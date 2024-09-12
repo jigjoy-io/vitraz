@@ -76,7 +76,7 @@ export const schema = {
 						pages: {
 							type: 'array',
 							items: {
-								type: 'string'
+								type: 'object'
 							}
 						}
 					},

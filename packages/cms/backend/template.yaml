@@ -359,6 +359,37 @@ Resources:
         EntryPoints:
           - src/adapters/primary/retrieve-page/retrieve-page-adapter.ts
 
+  accessPageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/adapters/primary/access-page/access-page-adapter.accessPageHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Access a production page for given development page
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PageTable
+      Environment:
+        Variables:
+          PAGE_TABLE: !Ref PageTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /access/{id}
+            Method: GET
+    Metadata: #Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/adapters/primary/access-page/access-page-adapter.ts
+
   retrievePagesFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -472,8 +503,8 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /publish/{id}
-            Method: GET
+            Path: /publish
+            Method: PUT
     Metadata: #Manage esbuild properties
       BuildMethod: esbuild
       BuildProperties:
@@ -493,6 +524,8 @@ Resources:
           AttributeType: S
         - AttributeName: origin
           AttributeType: S
+        - AttributeName: environment
+          AttributeType: S
       KeySchema:
         - AttributeName: id
           KeyType: HASH
@@ -500,6 +533,12 @@ Resources:
         - IndexName: pageGSI
           KeySchema:
             - AttributeName: origin
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+        - IndexName: environmentGSI
+          KeySchema:
+            - AttributeName: environment
               KeyType: HASH
           Projection:
             ProjectionType: ALL

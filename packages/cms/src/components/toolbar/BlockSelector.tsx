@@ -7,6 +7,7 @@ import Item from "../item/Item"
 import ClickOutsideListener from "../popover/ClickOutsideListener"
 import { useActiveBlock } from "../../util/store"
 import { selectorOptions } from "../../util/selectorOptions"
+import { createPortal } from 'react-dom'
 
 export default function BlockSelector(props: any) {
 
@@ -18,6 +19,7 @@ export default function BlockSelector(props: any) {
     const [placeholder, setPlaceholder] = useState("Click or type to add element...")
     const activeBlock = useActiveBlock()
     const ref = useRef<HTMLInputElement>(null)
+    const [rect, setRect] = useState<null | any>(null)
 
     const dispatch = useDispatch()
 
@@ -38,6 +40,11 @@ export default function BlockSelector(props: any) {
                     .includes(value.slice(1).toLowerCase()))
         return option
     }
+
+    useEffect(() => {
+        if (ref.current)
+            setRect(ref.current.getBoundingClientRect())
+    }, [showMenu])
 
     const handleChange = (event: any) => {
 
@@ -84,7 +91,7 @@ export default function BlockSelector(props: any) {
     }
 
     const insert = (event, type: string) => {
-        
+
         dispatch(focusBlock(null))
         let block = TemplateFactory.get(type)
         block.id = props.id
@@ -99,34 +106,47 @@ export default function BlockSelector(props: any) {
         dispatch(focusBlock(null))
     }
 
-    return <ClickOutsideListener callback={closeMenu}>
+    return <div>
         <input
             ref={ref}
             type="text"
             value={option}
             onFocus={() => setPlaceholder("Click or type to add element...")}
-            className="w-[100%] h-[1.8rem] bg-primary-light rounded-md hover:bg-gray-300 flex items-center focus:outline-0 placeholder:text-[black] py-4 px-2"
+            className="w-[100%] h-[1.8rem] bg-primary-light rounded-md hover:bg-gray-300 flex items-center focus:outline-0 placeholder:text-[black] py-4 px-2 opacity-80"
             placeholder={placeholder}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onBlur={handleLoseFocus}
         />
+        <div ref={ref}>
+            {
+                createPortal(<ClickOutsideListener callback={closeMenu}>
 
-        {
-            showMenu && <div className="absolute w-[400px] min-w-[400px] max-h-[500px] h-auto overflow-y-auto z-10 bg-white shadow rounded-lg">
-                {
-                    options.map((option: any, index) => <div style={{ pointerEvents: 'auto', zIndex: 100 }}>
-                        <>
-                            {option.commands.map((command: any) => <div className="p-1">
-                                <Item icon={command.icon} text={command.label} action={(e) => insert(e, command.key)}><div className="mt-2 text-sm">{command.description}</div></Item>
-                            </div>)
+                    {
+                        showMenu &&
+
+
+                        <div className="fixed w-[400px] min-w-[400px] max-h-[500px] h-auto overflow-y-auto bg-white shadow rounded-lg p-1 -translate-x-[100%]"
+                            style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+                            {
+                                options.map((option: any, index) => <div>
+                                    <>
+                                        {option.commands.map((command: any) => <div className="p-1">
+                                            <Item icon={command.icon} text={command.label} action={(e: any) => insert(e, command.key)}><div className="mt-2 text-sm">{command.description}</div></Item>
+                                        </div>)
+                                        }
+                                        {options.length != index + 1 && <hr />}
+                                    </>
+                                </div>)
                             }
-                            {options.length != index + 1 && <hr />}
-                        </>
-                    </div>)
-                }
-            </div>
-        }
+                        </div>
+                    }
 
-    </ClickOutsideListener>
+
+                </ClickOutsideListener>, document.body)
+            }
+        </div>
+
+
+    </div>
 }

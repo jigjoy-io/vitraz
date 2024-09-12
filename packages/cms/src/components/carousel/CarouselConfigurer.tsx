@@ -35,6 +35,7 @@ export default function CarouselConfigurer(props: any) {
         // create carousel inner pages
         for (let i = 0; i < numberOfPages; i++) {
             let page = TemplateFactory.get("blank")
+            
             pages.push(page)
         }
 
@@ -60,11 +61,11 @@ export default function CarouselConfigurer(props: any) {
     return <div>
 
         {display && <ClickOutsideListener callback={() => setDisplay(false)}><div
-            className="absolute rounded-md bg-[white] rounded-lg rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] -translate-x-[50%] left-[50%]"
+            className="absolute rounded-md bg-[white] rounded-lg rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)]  left-[50%] z-50"
             style={{
-                zIndex: 300,
                 width: 460,
-                pointerEvents: 'auto'
+                pointerEvents: 'auto',
+                transform: 'translateX(-50%)'
             }}
         >
 

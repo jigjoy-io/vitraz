@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux"
 import Page from "../../components/Page"
 import { rootPageUpdated } from "../../reducers/pageReducer"
 import { AppDispatch, useBlocked, useModified, usePage, useRootPage } from "../../util/store"
-
 import { updatePage } from "../../api/page"
 import { replaceBlock } from "../../util/traversals/replaceBlock"
 import PageTree from "./PageTree"
@@ -36,7 +35,7 @@ export default function Designer() {
 
     }, [modified])
 
-    return <div style={{ pointerEvents: blocked ? 'none' : 'auto', zIndex: 100 }}>
+    return <div style={{ pointerEvents: blocked ? 'none' : 'auto' }}>
         <div className="flex flex-row">
             <PageTree />
             {page && <Page />}

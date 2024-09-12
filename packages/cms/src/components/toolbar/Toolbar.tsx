@@ -102,8 +102,8 @@ export default function Toolbar(props: any) {
 
                 </div>
             }
-            <div className='relative w-[100%]'>
-                <div className={(expandedToolbar == props.id || editingActive != null) ? `absolute opacity-40 bg-primary z-80 ${blockRadius} h-[100%] w-[100%]` : ''}></div>
+            <div className='w-[100%]'>
+                <div className={(expandedToolbar == props.id || editingActive != null) ? `absolute opacity-40 bg-primary ${blockRadius} h-[100%] w-[100%]` : ''}></div>
                 {props.children}
             </div>
 

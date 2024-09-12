@@ -47,9 +47,8 @@ export default function CarouselConfigurer(props: any) {
     return <div>
 
         {display && <ClickOutsideListener callback={() => setDisplay(false)}><div
-            className="absolute rounded-md bg-[white] rounded-lg rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] -translate-x-[50%] left-[50%]"
+            className="absolute rounded-md bg-[white] rounded-lg rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] -translate-x-[50%] left-[50%] z-50"
             style={{
-                zIndex: 300,
                 width: 460,
                 pointerEvents: 'auto'
             }}
@@ -112,7 +111,7 @@ export default function CarouselConfigurer(props: any) {
             className="w-[100%] h-[50px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-md flex items-center pl-5 hover:opacity-60"
         >
             <CarouselIcon />
-            <div className="pl-2">Click to add a carousel</div>
+            <div className="pl-2">Click to add a page</div>
         </div>
     </div>
 }

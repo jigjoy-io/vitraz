@@ -14,7 +14,7 @@ export default function PopoverContent(props: any) {
 		{
 			(props.on && (isOpen==null || isOpen)) && <>
 				{createPortal(<ClickOutsideListener callback={props.onClose}>
-					<div className={`fixed z-10 flex rounded-md p-1 shadow bg-[white] 
+					<div className={`fixed flex rounded-md p-1 shadow bg-[white] 
 						${props.position=='left' && '-translate-x-[100%]'} 
 						${props.position=='right' && ''}`} 
 						style={{ top: props.rect.top + props.rect.height, left: props.rect.x + props.rect.width - 5 }}>

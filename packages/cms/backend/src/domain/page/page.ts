@@ -21,7 +21,7 @@ export class Page extends Entity<CreatePageProps> {
             type: props.type,
             origin: props.origin,
             config: props.config,
-            environment: props.environment,
+            environment: EnvironmentType.Development,
             linkedPageId: props.linkedPageId,
             name: props.name
         }
@@ -39,8 +39,8 @@ export class Page extends Entity<CreatePageProps> {
             id: page.id,
             created: page.created,
             type: newPage.type,
-            environment: newPage.environment,
-            linkedPageId: newPage.linkedPageId,
+            environment: EnvironmentType.Development,
+            linkedPageId: page.props.linkedPageId,
             name: newPage.name,
             origin: newPage.origin,
             config: newPage.config
@@ -56,6 +56,7 @@ export class Page extends Entity<CreatePageProps> {
     public static publish(page: Page): Page [] {
 
         const pageProps: CreatePageProps = {
+            id: page.props.linkedPageId ? page.props.linkedPageId : undefined,
             type: page.props.type,
             environment: EnvironmentType.Production,
             linkedPageId: page.id,
@@ -67,7 +68,7 @@ export class Page extends Entity<CreatePageProps> {
 
         const instance: Page = new Page(pageProps)
         instance.validate(schema)
-        page.props.linkedPageId = instance.props.id ? instance.props.id : null 
+        page.props.linkedPageId = instance.props.id as string
         return [instance, page]
     }
 

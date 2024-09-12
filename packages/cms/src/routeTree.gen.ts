@@ -16,12 +16,18 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const OnboardingLazyImport = createFileRoute('/onboarding')()
 const DesignerLazyImport = createFileRoute('/designer')()
 const DashboardLazyImport = createFileRoute('/dashboard')()
 const PageIdLazyImport = createFileRoute('/$pageId')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const OnboardingLazyRoute = OnboardingLazyImport.update({
+  path: '/onboarding',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/onboarding.lazy').then((d) => d.Route))
 
 const DesignerLazyRoute = DesignerLazyImport.update({
   path: '/designer',
@@ -75,6 +81,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DesignerLazyImport
       parentRoute: typeof rootRoute
     }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -85,6 +98,7 @@ export const routeTree = rootRoute.addChildren({
   PageIdLazyRoute,
   DashboardLazyRoute,
   DesignerLazyRoute,
+  OnboardingLazyRoute,
 })
 
 /* prettier-ignore-end */
@@ -98,7 +112,8 @@ export const routeTree = rootRoute.addChildren({
         "/",
         "/$pageId",
         "/dashboard",
-        "/designer"
+        "/designer",
+        "/onboarding"
       ]
     },
     "/": {
@@ -112,6 +127,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/designer": {
       "filePath": "designer.lazy.tsx"
+    },
+    "/onboarding": {
+      "filePath": "onboarding.lazy.tsx"
     }
   }
 }

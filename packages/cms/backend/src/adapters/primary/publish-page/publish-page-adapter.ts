@@ -1,25 +1,32 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { ValidationError } from '@errors/validation-error'
 import { errorHandler } from '@packages/apigw-error-handler'
-import { ReturnPageDto } from '@dto/page/page'
+import { ReturnPageDto, UpdatePageDto } from '@dto/page/page'
 import Responses from '@utils/api-responses'
 import { publishPageUseCase } from '@use-cases/publish-page'
+import { schemaValidator } from '@packages/schema-validator'
+import { schema } from '@schemas/create-page.schema'
 
 
 export async function publishPageHandler({
-    pathParameters
+    body
 }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 
     try {
 
-        if (!pathParameters || !pathParameters?.id)
-            throw new ValidationError('no id in the path parameters of the event')
+        
+		if (!body) throw new ValidationError('No page body')
 
-        const { id } = pathParameters
+		const page: UpdatePageDto = JSON.parse(body)
 
-        console.log(`reqested publish page: ${id}`)
+		if (!page.id)
+            throw new ValidationError('page id is not provided')
 
-        const pages: ReturnPageDto [] = await publishPageUseCase(id)
+		schemaValidator(schema, page)
+
+		console.log(`request for page publishing: ${JSON.stringify(page)}`)
+
+        const pages: ReturnPageDto [] = await publishPageUseCase(page)
 
         console.log(`page published: ${JSON.stringify(pages)}`)
 

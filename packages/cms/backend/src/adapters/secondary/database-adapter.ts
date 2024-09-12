@@ -1,6 +1,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient, GetCommand, PutCommand, DeleteCommand, QueryCommand, BatchWriteCommand } from '@aws-sdk/lib-dynamodb'
 import { PageDto } from "@dto/page/page"
+import { EnvironmentType } from '@models/types'
 const client = new DynamoDBClient({})
 const ddbDocClient = DynamoDBDocumentClient.from(client)
 const tableName = process.env.PAGE_TABLE
@@ -107,7 +108,8 @@ export async function getPages(origin: string): Promise<PageDto[]> {
 	}
 
 	const data = await ddbDocClient.send(new QueryCommand(params))
-	let items = data.Items as []
+	let items: any = data.Items as []
+	items = items.filter((item: any) => item.environment===EnvironmentType.Development) 
 	let pages: PageDto[] = items.map(decompressPage)
 
 

@@ -1,7 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { getPage } from '../api/page'
+import { accessPage } from '../api/page'
 import Page from '../components/Page'
 import { modeUpdated, pageUpdated, rootPageUpdated } from '../reducers/pageReducer'
 
@@ -14,7 +14,7 @@ function PageOverview() {
 	const dispatch = useDispatch()
 
 	async function fetchData() {
-		let page = await getPage(pageId)
+		let page = await accessPage(pageId)
 		dispatch(rootPageUpdated(page))
 		dispatch(pageUpdated(page))
 	}

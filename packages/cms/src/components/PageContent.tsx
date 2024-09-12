@@ -54,7 +54,7 @@ export default function PageContent(props: any) {
     }
 
     return <>{
-        (blocks != null) && <div className="bg-[white] rounded-lg flex flex-col py-4">
+        (blocks != null) && <div className="bg-[white] rounded-lg flex flex-col py-4 mt-4 h-[100%]">
             <div>
                 <LazyMotion features={loadFeatures}>
                     <m.div variants={animation} initial="hidden" animate="show" >
@@ -68,8 +68,7 @@ export default function PageContent(props: any) {
                     </m.div>
                 </LazyMotion>
             </div>
-            <div className="flex-1 min-h-[150px]" onClick={ativateSelector}>
-            </div>
+            <div className="flex-1 min-h-[150px]" onClick={ativateSelector}></div>
         </div>
     }</>
 }

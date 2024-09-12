@@ -102,7 +102,12 @@ export const templates = {
     },    
     "carousel": {
         type: "carousel",
-        pages: []
+        name: "Carousel",
+        environment: 'development',
+        linkedPageId: null,
+        config: {
+            pages: []
+        }
     },
     "page-configurer": {
         type: "page-configurer",
@@ -117,8 +122,13 @@ export const templates = {
     },
     "blank": {
         type: "blank",
+        name: "Blank Page",
+        environment: 'development',
+        linkedPageId: null,
         config: {
-            buildingBlocks: []
+            buildingBlocks: [{
+                type: "block-selector"
+            }]
 
         }
     }
