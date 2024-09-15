@@ -1,7 +1,7 @@
 const textEditingVariants = {
     text: {
         lineHeight: 'h-min-[1.7rem] h-[1.7rem]',
-        class: ''
+        class: 'text-paragraph'
     },
     heading: {
         lineHeight: 'h-min-[2rem] h-[2rem]',
