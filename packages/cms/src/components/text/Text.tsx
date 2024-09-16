@@ -9,8 +9,8 @@ export default function Text(props: any) {
 		setPosition(props.position)
 	}, [props.position])
 
-	return <div className={`inline-block text-paragraph h-min-[1.5rem] h-[1.5rem] pb-[1px] ${alignmentVariations[position]} `} >
-		<div className='h-[1rem] '>{props.text}</div>
+	return <div className={`flex h-max w-full ${alignmentVariations[position]}`} style={{ justifyContent: position }}  >
+		<div className='text-paragraph'>{props.text}</div>
 	</div>
 
 }

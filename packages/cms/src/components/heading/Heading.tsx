@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import alignmentVariations from '../../util/alignmentVariations'
 
 export default function Heading(props: any) {
 
@@ -10,7 +11,7 @@ export default function Heading(props: any) {
 	}, [props.position])
 
 	return (
-		<div className="flex h-max w-full" style={{ justifyContent: position }} >
+		<div className={`flex h-max w-full ${alignmentVariations[position]}`}  style={{ justifyContent: position }} >
 			<p className='text-heading'>{props.text}</p>
 		</div>
 	)

@@ -62,13 +62,13 @@ export default function ContentEditingText(props: any) {
 		}
 	}
 
-	return <div className={`inline-block ${style.lineHeight} ${alignmentVariations[position]}`} >
+	return <div className={`inline-block w-[100%] ${style.lineHeight} ${alignmentVariations[position]}`} >
 		<div
 			contentEditable="plaintext-only"
 			spellCheck="false"
 			onKeyDown={handleKeyDown}
 			onBlur={(e) => updateText(e)}
-			className={`${style.class} h-[1rem] [&[contenteditable]]:focus:border-none [&[contenteditable]]:focus:outline-none`}
+			className={`${style.class} w-[100%] [&[contenteditable]]:focus:border-none [&[contenteditable]]:focus:outline-none`}
 			ref={ref}>{props.text}</div>
 	</div>
 

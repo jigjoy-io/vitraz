@@ -40,7 +40,7 @@ module.exports = {
           fontWeight: '700'
         }],
         'paragraph': ['1rem', {
-          lineHeight: '1rem'
+          lineHeight: '1.5rem'
         }]
       },
   
