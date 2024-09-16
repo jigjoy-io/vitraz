@@ -23,7 +23,6 @@ export default function PageTree() {
 
     async function fetchData() {
         const userAttributes = await fetchUserAttributes()
-        console.log(userAttributes.email)
         let pages = await getPages(userAttributes.email as string)
         dispatch(pagesUpdated(pages))
         if (pages.length > 0) {

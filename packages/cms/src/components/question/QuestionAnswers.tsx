@@ -32,7 +32,7 @@ function QuestionAnswers(props: any) {
 
         <div className='flex flex-col gap-3 mt-3'>
 
-            {props.answers.map((answer: any) => <Item borderOn={true} {...answer} answered={answered} selected={selected.id} action={selectAnswer} />)}
+            {props.answers.map((answer: any) => <Item tabFocus={false} borderOn={true} {...answer} answered={answered} selected={selected.id} action={selectAnswer} />)}
 
             {answered && <Alert  {...alert} />}
 

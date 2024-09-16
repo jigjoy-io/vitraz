@@ -193,10 +193,10 @@ export function Node(props: any) {
                         </PopoverTrigger>
                         <PopoverContent position="right">
                             <Grid numberOfCols={1}>
-                                <Item text="Rename" icon={RenameIcon} action={renamePage} />
-                                <Item text="Duplicate" icon={DuplicateIcon} action={duplicatePage} />
+                                <Item tabFocus={false} text="Rename" icon={RenameIcon} action={renamePage} />
+                                <Item tabFocus={false} text="Duplicate" icon={DuplicateIcon} action={duplicatePage} />
                                 <div className='border-b border-default-light' />
-                                <Item text="Delete" icon={DeleteBlockIcon} action={remove} />
+                                <Item tabFocus={false} text="Delete" icon={DeleteBlockIcon} action={remove} />
                             </Grid>
                         </PopoverContent>
                     </Popover>

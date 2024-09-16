@@ -54,13 +54,13 @@ export default function PageContent(props: any) {
     }
 
     return <>{
-        (blocks != null) && <div className="bg-[white] rounded-lg flex flex-col py-4 mt-4 h-[100%] break-words">
+        (blocks != null) && <div className="bg-[white] rounded-lg flex flex-col py-4 mt-8 h-[100%] break-words w-[400px]">
             <div>
                 <LazyMotion features={loadFeatures}>
                     <m.div variants={animation} initial="hidden" animate="show" >
                         {
                             blocks.map((block: any) => (
-                                <m.div key={block.id} variants={item} className="w-[400px]">
+                                <m.div key={block.id} variants={item}>
                                     <BuildingBlock {...block} mode={mode} />
                                 </m.div>
                             ))

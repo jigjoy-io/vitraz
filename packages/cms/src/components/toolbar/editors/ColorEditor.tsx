@@ -31,7 +31,7 @@ export default function ColorEditor(props: any) {
 
     return <div className="flex flex-col p-2">
         <div className="pb-3">
-            {colors.map((color: any) => <Item text={color.text} color={colorVariants[color.key]} id={color.key} selected={value} action={select} />)}
+            {colors.map((color: any) => <Item tabFocus={false} text={color.text} color={colorVariants[color.key]} id={color.key} selected={value} action={select} />)}
         </div>
         <Button text="Update" action={update} />
     </div>

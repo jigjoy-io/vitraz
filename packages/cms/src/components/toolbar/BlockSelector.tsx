@@ -132,7 +132,7 @@ export default function BlockSelector(props: any) {
                                 options.map((option: any, index) => <div>
                                     <>
                                         {option.commands.map((command: any) => <div className="p-1">
-                                            <Item icon={command.icon} text={command.label} action={(e: any) => insert(e, command.key)}><div className="mt-2 text-sm">{command.description}</div></Item>
+                                            <Item icon={command.icon} text={command.label} tabFocus={true} action={(e: any) => insert(e, command.key)}><div className="mt-2 text-sm">{command.description}</div></Item>
                                         </div>)
                                         }
                                         {options.length != index + 1 && <hr />}

@@ -76,17 +76,17 @@ export default function Toolbar(props: any) {
                                 </PopoverTrigger>
                                 <PopoverContent position='left'>
                                     <Grid numberOfCols={1}>
-                                        <Item text="Duplicate block" icon={DuplicateIcon} action={duplicate} />
-                                        <Item text="Delete block" textColor="red" icon={DeleteBlockIcon} action={deleteBlock} />
+                                        <Item text="Duplicate block" tabFocus={false} icon={DuplicateIcon} action={duplicate} />
+                                        <Item text="Delete block" tabFocus={false} textColor="red" icon={DeleteBlockIcon} action={deleteBlock} />
                                         {
                                             props.editingOptions.map((option: any, index) => <div key={index}>
                                                 {index == 0 && <div className='border-b border-default-light' />}
                                                 <Popover key={index} onClose={() => setEditingActive(null)}>
                                                     <PopoverTrigger>
-                                                        <Item text={option.name} icon={option.icon} action={() => setEditingActive(index)} />
+                                                        <Item text={option.name} tabFocus={false} icon={option.icon} action={() => setEditingActive(index)} />
                                                     </PopoverTrigger>
                                                     <PopoverContent isOpen={editingActive === index}>
-                                                        <option.editor id={props.id} block={props.block} attribute={option.key} value={props.block[option.key]} />
+                                                        <option.editor id={props.id} tabFocus={false} block={props.block} attribute={option.key} value={props.block[option.key]} />
                                                     </PopoverContent>
                                                 </Popover>
                                             </div>

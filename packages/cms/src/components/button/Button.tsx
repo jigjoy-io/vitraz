@@ -24,7 +24,7 @@ export default function Button(props: any) {
 	}, [props.color])
 
 	return (
-		<button className={`${color} p-3 w-[100%] rounded-lg ${!props.disabled && "cursor-pointer"} hover:opacity-80 font-bold`}
+		<button tabIndex={-1} className={`${color} p-3 w-[100%] rounded-lg ${!props.disabled && "cursor-pointer"} hover:opacity-80 font-bold`}
 			onClick={props.action} disabled={props.disabled} autoFocus={props.focus}>
 			{props.text}
 		</button>

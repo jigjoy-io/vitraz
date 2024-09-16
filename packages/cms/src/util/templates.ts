@@ -121,13 +121,15 @@ export const templates = {
         cta: "Start"
     },
     "blank": {
+        
         type: "blank",
         name: "Blank Page",
         environment: 'development',
         linkedPageId: null,
         config: {
             buildingBlocks: [{
-                type: "block-selector"
+                type: "block-selector",
+                id: uuid()
             }]
 
         }

@@ -29,7 +29,7 @@ export default function PositionEditor(props: any) {
 
     return <div className="flex flex-col p-2">
         <div className="pb-3">
-            {positions.map((position: any) => <Item text={position.text} icon={position.icon} id={position.key} selected={value} action={select} />)}
+            {positions.map((position: any) => <Item tabFocus={false} text={position.text} icon={position.icon} id={position.key} selected={value} action={select} />)}
         </div>
         <Button text="Update" action={update} />
     </div>
