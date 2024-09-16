@@ -11,7 +11,7 @@ export default function Heading(props: any) {
 	}, [props.position])
 
 	return (
-		<div className={`flex h-max w-full ${alignmentVariations[position]}`}  style={{ justifyContent: position }} >
+		<div className={`inline-block w-[100%] h-min-[2rem] h-max ${alignmentVariations[position]}`}  >
 			<p className='text-heading'>{props.text}</p>
 		</div>
 	)

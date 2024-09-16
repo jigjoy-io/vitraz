@@ -9,7 +9,7 @@ export default function Title(props: any){
 		setPosition(props.position)
 	}, [props.position])
 
-	return <div className={`flex h-max w-full ${alignmentVariations[position]}`} style={{ justifyContent: position }} >
+	return <div className={`inline-block w-[100%] h-min-[2.5rem] h-max ${alignmentVariations[position]}`} style={{ justifyContent: position }} >
 			<div className='text-title'>{props.text}</div>
 		</div>
 
