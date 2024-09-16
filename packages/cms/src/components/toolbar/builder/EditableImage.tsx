@@ -37,6 +37,7 @@ export default class EditableImage extends EditableBlock {
 
         return this.setBlock(props)
                 .addToolbar(props)
+                .addGap(props)
                 .block
     }
 

@@ -20,6 +20,7 @@ export default function CarouselPage(props: any) {
 
     const backToHome = async (page: any) => {
         dispatch(pageUpdated(rootPage))
+        dispatch(carouselPageSwitched(pages[0].id))
     }
 
     const calculatePercentage = (pageNumber: number) => {

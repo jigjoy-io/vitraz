@@ -1,9 +1,9 @@
 const gaps = {
     "audio": 'my-0',
     "text": 'my-0',
-    "heading": 'my-0',
-    "title": 'my-0',
-    "image": 'my-0',
+    "heading": 'my-1',
+    "title": 'my-3',
+    "image": 'my-5',
     "question": 'my-5',
     "message": 'my-3',
     "profile": 'my-5',

@@ -1,7 +1,7 @@
 {
-  "name": "edu-store",
+  "name": "gamification-engine",
   "version": "1.0.0",
-  "repository": "https://github.com/jigjoy-io/edu-store.git",
+  "repository": "https://github.com/jigjoy-io/gamification-engine.git",
   "author": "Mijura <miodragvilotijevic@gmail.com>",
   "private": true,
   "scripts": {

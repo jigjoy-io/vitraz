@@ -1,1 +1,1 @@
-# edu-store
+# gamification-engine
