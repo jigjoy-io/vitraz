@@ -52,15 +52,15 @@ export default function CarouselPage(props: any) {
 
     return <>
         {page && <div className="flex flex-col min-h-[100dvh] max-h-[100dvh] h-[100dvh] w-[100%]">
-            <div className="max-h-[100dvh] overflow-y-auto flex justify-center">
-                <div className="min-h-[100dvh] h-[100%] flex flex-col">
+            <div className="flex justify-center min-h-[100dvh] max-h-[100dvh] h-[100dvh]">
+                <div className="flex flex-col h-[100dvh]">
                     <div className="flex flex-row h-max pt-4">
                         <Progress percentage={percentage} />
                         <div className='w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => backToHome(origin)}>
                             <CloseIcon />
                         </div>
                     </div>
-                    <div className="grow flex-1">
+                    <div className="h-[100%] overflow-y-auto ">
                         <Content config={pages[current].config} key={pages[current].id} id={pages[current].id} />
                     </div>
                     {

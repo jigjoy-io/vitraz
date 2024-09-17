@@ -233,7 +233,7 @@ Resources:
           KMS_KEY_ID: !Ref EncryptionKey
           USER_POOL_ID: !Ref JigJoyUserPool
           SES_FROM_ADDRESS: team@jigjoy.io
-          BASE_URL: http://localhost:3000
+          BASE_URL: http://jigjoy-dev.s3-website-eu-west-1.amazonaws.com
       Policies:
         - Version: "2012-10-17"
           Statement:
