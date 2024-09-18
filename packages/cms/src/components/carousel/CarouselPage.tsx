@@ -51,33 +51,37 @@ export default function CarouselPage(props: any) {
     }
 
     return <>
-        {page && <div className="flex flex-col min-h-[100dvh] max-h-[100dvh] h-[100dvh] w-[100%]">
-            <div className="flex justify-center min-h-[100dvh] max-h-[100dvh] h-[100dvh]">
-                <div className="flex flex-col h-[100dvh]">
-                    <div className="flex flex-row h-max pt-4">
-                        <Progress percentage={percentage} />
-                        <div className='w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => backToHome(origin)}>
-                            <CloseIcon />
-                        </div>
+        {page && <div className="flex max-h-[100dvh] h-[100dvh] w-[100%] justify-center overflow-y-auto">
+
+            <div className="flex flex-col h-[100%] w-[100%] max-w-[400px] p-3">
+
+                <div className="flex flex-row">
+                    <Progress percentage={percentage} />
+                    <div className='w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => backToHome(origin)}>
+                        <CloseIcon />
                     </div>
-                    <div className="h-[100%]  "> {/** overflow-y-auto */}
-                        <Content config={pages[current].config} key={pages[current].id} id={pages[current].id} />
-                    </div>
-                    {
-                        (current != pages.length - 1) && <div className="flex flex-row mt-4 py-4 gap-3">
-                            <Button text="Previous" action={previousPage} /> <Button text="Next" action={nextPage} />
-                        </div>
-                    }
-                    {
-                        (current == pages.length - 1) && <div className="flex flex-row mt-4 py-4 gap-3">
-                            <Button text="Back to Home" action={() => backToHome(origin)} />
-                        </div>
-                    }
                 </div>
+
+
+                <div className="h-[100%]">
+                    <Content config={pages[current].config} key={pages[current].id} id={pages[current].id} />
+                </div>
+
 
             </div>
 
+            {
+                (current != pages.length - 1) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
+                    <Button text="Previous" action={previousPage} /> <Button text="Next" action={nextPage} />
+                </div>
+            }
+            {
+                (current == pages.length - 1) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
+                    <Button text="Back to Home" action={() => backToHome(origin)} />
+                </div>
+            }
 
-        </div>}
+        </div>
+        }
     </>
 }
