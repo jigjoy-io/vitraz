@@ -60,7 +60,7 @@ export default function CarouselPage(props: any) {
                             <CloseIcon />
                         </div>
                     </div>
-                    <div className="h-[100%] overflow-y-auto ">
+                    <div className="h-[100%]  "> {/** overflow-y-auto */}
                         <Content config={pages[current].config} key={pages[current].id} id={pages[current].id} />
                     </div>
                     {
