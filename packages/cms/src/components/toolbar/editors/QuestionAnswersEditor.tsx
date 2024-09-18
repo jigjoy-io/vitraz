@@ -29,7 +29,7 @@ export default function QuestionAnswersEditor(props: any) {
 
 
         let answers = JSON.parse(JSON.stringify(value))
-        answers.map((answer: any, i) => {i==index ? answer.text=e.target.value.trim() : answer})
+        answers.map((answer: any, i) => {i==index ? answer.text=e.target.value : answer})
         setValue(answers)
     }
 
