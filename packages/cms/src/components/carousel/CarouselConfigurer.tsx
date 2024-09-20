@@ -45,6 +45,8 @@ export default function CarouselConfigurer(props: any) {
      */
     const create = () => {
 
+        dispatch(blockingUpdated(false))
+
         let pages: any = []
         // create carousel inner pages
         for (let i = 0; i < numberOfPages; i++) {

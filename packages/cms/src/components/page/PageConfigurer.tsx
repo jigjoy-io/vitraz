@@ -44,6 +44,8 @@ export default function CarouselConfigurer(props: any) {
      */
     const create = () => {
 
+        dispatch(blockingUpdated(false))
+
         let page = TemplateFactory.get("blank")
         page.origin = activePage.id
 
@@ -122,7 +124,7 @@ export default function CarouselConfigurer(props: any) {
         }
         <div
             ref={ref}
-            onClick={() => setDisplay(true)}
+            onClick={openConfigurer}
             className="w-[100%] h-[50px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-md flex items-center pl-5 hover:opacity-60"
         >
             <CarouselIcon />
