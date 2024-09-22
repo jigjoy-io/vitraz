@@ -13,7 +13,6 @@ export default function PopoverContent(props: any) {
 
 	useEffect(() => {
 		setIsOpen(props.isOpen)
-
 	}, [props.isOpen])
 
 	useEffect(() => {

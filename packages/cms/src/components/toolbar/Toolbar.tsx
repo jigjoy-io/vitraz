@@ -30,7 +30,6 @@ export default function Toolbar(props: any) {
     }
 
     const turnOffToolbar = () => {
-        dispatch(blockingUpdated(false))
         setOn(false)
     }
 
@@ -61,6 +60,7 @@ export default function Toolbar(props: any) {
     }
 
     const onCloseMenu = () => {
+        
         dispatch(blockingUpdated(false))
         setEditingActive(null)
     }
@@ -81,7 +81,7 @@ export default function Toolbar(props: any) {
                                         </ToolbarButtonWrapper>
                                     </div>
                                 </PopoverTrigger>
-                                <PopoverContent position='left' onClose={onClose}>
+                                <PopoverContent position='left'>
                                     <Grid numberOfCols={1}>
                                         <Item text="Duplicate block" tabFocus={false} icon={DuplicateIcon} action={duplicate} />
                                         <Item text="Delete block" tabFocus={false} textColor="red" icon={DeleteBlockIcon} action={deleteBlock} />

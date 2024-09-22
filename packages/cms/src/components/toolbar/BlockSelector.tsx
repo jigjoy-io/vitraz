@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import TemplateFactory from "../../factories/TemplateFactory"
-import { expandedToolbarUpdated } from "../../reducers/toolbarReducer"
+import { blockingUpdated, expandedToolbarUpdated } from "../../reducers/toolbarReducer"
 import { focusBlock, insertBlock, updateBlock } from "../../reducers/pageReducer"
 import Item from "../item/Item"
 import ClickOutsideListener from "../popover/ClickOutsideListener"
@@ -44,8 +44,6 @@ export default function BlockSelector(props: any) {
     }
 
     function setMenuPosition() {
-
-        console.log(options.length)
 
         if (inputRef.current) {
             let rect: any = inputRef.current.getBoundingClientRect()
@@ -125,6 +123,7 @@ export default function BlockSelector(props: any) {
     }
 
     const closeMenu = () => {
+        dispatch(blockingUpdated(false))
         setShowMenu(false)
         dispatch(expandedToolbarUpdated(null))
     }
@@ -142,6 +141,7 @@ export default function BlockSelector(props: any) {
 
     const handleLoseFocus = () => {
         //setPlaceholder("")
+        dispatch(blockingUpdated(false))
         dispatch(focusBlock(null))
     }
 
