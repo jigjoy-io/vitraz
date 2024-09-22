@@ -150,7 +150,7 @@ export default function BlockSelector(props: any) {
         {createPortal(<ClickOutsideListener callback={closeMenu}>
             <div
                 style={{ top: top, left: left, transform: `translate(-100%, -${calculateY()}%)` }}
-                className={`${showMenu ? 'fixed' : 'hidden'} flex flex-col w-[400px] min-w-[400px] max-h-[${menuHeight}px] overflow-y-auto bg-white shadow rounded-lg p-1 -translate-x-[100%]`}
+                className={`${showMenu ? 'fixed' : 'hidden'} flex flex-col w-[400px] min-w-[400px] h-auto max-h-[500px] overflow-y-auto bg-white shadow rounded-lg p-1 -translate-x-[100%]`}
             >
                 {
                     options.map((option: any, index) => <div>
