@@ -174,7 +174,7 @@ export default function BlockSelector(props: any) {
             ref={inputRef}
             type="text"
             value={option}
-            onFocus={() => setPlaceholder("Click or type to add element...")}
+            onFocus={() => setPlaceholder("Write something, or press '/' to add element...")}
             className="w-[100%] h-[1.8rem] bg-primary-light rounded-md hover:bg-gray-300 flex items-center focus:outline-0 placeholder:text-[black] py-4 px-2 opacity-80 "
             placeholder={placeholder}
             onChange={handleChange}

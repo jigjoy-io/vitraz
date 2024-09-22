@@ -30,6 +30,7 @@ export default function Toolbar(props: any) {
     }
 
     const turnOffToolbar = () => {
+        dispatch(blockingUpdated(false))
         setOn(false)
     }
 
@@ -59,6 +60,11 @@ export default function Toolbar(props: any) {
         }))
     }
 
+    const onCloseMenu = () => {
+        dispatch(blockingUpdated(false))
+        setEditingActive(null)
+    }
+
     return (<>
         <div onMouseEnter={turnOnToolbar} onMouseLeave={turnOffToolbar} className="sticky flex flex-col">
             {(on || expandedToolbar == props.id || editingActive != null) &&
@@ -75,14 +81,14 @@ export default function Toolbar(props: any) {
                                         </ToolbarButtonWrapper>
                                     </div>
                                 </PopoverTrigger>
-                                <PopoverContent position='left'>
+                                <PopoverContent position='left' onClose={onClose}>
                                     <Grid numberOfCols={1}>
                                         <Item text="Duplicate block" tabFocus={false} icon={DuplicateIcon} action={duplicate} />
                                         <Item text="Delete block" tabFocus={false} textColor="red" icon={DeleteBlockIcon} action={deleteBlock} />
                                         {
                                             props.editingOptions.map((option: any, index) => <div key={index}>
                                                 {index == 0 && <div className='border-b border-default-light' />}
-                                                <Popover key={index} onClose={() => setEditingActive(null)}>
+                                                <Popover key={index} onClose={onCloseMenu}>
                                                     <PopoverTrigger>
                                                         <Item text={option.name} tabFocus={false} icon={option.icon} action={() => setEditingActive(index)} />
                                                     </PopoverTrigger>
