@@ -27,6 +27,8 @@
         "typescript": "^5.5.2"
     },
     "scripts": {
+        "build": "sam build --profile Development",
+        "deploy": "sam deploy --profile Development",
         "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
     },
     "jest": {

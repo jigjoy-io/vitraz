@@ -13,13 +13,13 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as PageIdImport } from './routes/$pageId'
 
 // Create Virtual Routes
 
 const OnboardingLazyImport = createFileRoute('/onboarding')()
 const DesignerLazyImport = createFileRoute('/designer')()
 const DashboardLazyImport = createFileRoute('/dashboard')()
-const PageIdLazyImport = createFileRoute('/$pageId')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
@@ -39,10 +39,10 @@ const DashboardLazyRoute = DashboardLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/dashboard.lazy').then((d) => d.Route))
 
-const PageIdLazyRoute = PageIdLazyImport.update({
+const PageIdRoute = PageIdImport.update({
   path: '/$pageId',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/$pageId.lazy').then((d) => d.Route))
+} as any)
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
@@ -64,7 +64,7 @@ declare module '@tanstack/react-router' {
       id: '/$pageId'
       path: '/$pageId'
       fullPath: '/$pageId'
-      preLoaderRoute: typeof PageIdLazyImport
+      preLoaderRoute: typeof PageIdImport
       parentRoute: typeof rootRoute
     }
     '/dashboard': {
@@ -93,13 +93,59 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({
-  IndexLazyRoute,
-  PageIdLazyRoute,
-  DashboardLazyRoute,
-  DesignerLazyRoute,
-  OnboardingLazyRoute,
-})
+export interface FileRoutesByFullPath {
+  '/': typeof IndexLazyRoute
+  '/$pageId': typeof PageIdRoute
+  '/dashboard': typeof DashboardLazyRoute
+  '/designer': typeof DesignerLazyRoute
+  '/onboarding': typeof OnboardingLazyRoute
+}
+
+export interface FileRoutesByTo {
+  '/': typeof IndexLazyRoute
+  '/$pageId': typeof PageIdRoute
+  '/dashboard': typeof DashboardLazyRoute
+  '/designer': typeof DesignerLazyRoute
+  '/onboarding': typeof OnboardingLazyRoute
+}
+
+export interface FileRoutesById {
+  __root__: typeof rootRoute
+  '/': typeof IndexLazyRoute
+  '/$pageId': typeof PageIdRoute
+  '/dashboard': typeof DashboardLazyRoute
+  '/designer': typeof DesignerLazyRoute
+  '/onboarding': typeof OnboardingLazyRoute
+}
+
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/$pageId' | '/dashboard' | '/designer' | '/onboarding'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/$pageId' | '/dashboard' | '/designer' | '/onboarding'
+  id: '__root__' | '/' | '/$pageId' | '/dashboard' | '/designer' | '/onboarding'
+  fileRoutesById: FileRoutesById
+}
+
+export interface RootRouteChildren {
+  IndexLazyRoute: typeof IndexLazyRoute
+  PageIdRoute: typeof PageIdRoute
+  DashboardLazyRoute: typeof DashboardLazyRoute
+  DesignerLazyRoute: typeof DesignerLazyRoute
+  OnboardingLazyRoute: typeof OnboardingLazyRoute
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexLazyRoute: IndexLazyRoute,
+  PageIdRoute: PageIdRoute,
+  DashboardLazyRoute: DashboardLazyRoute,
+  DesignerLazyRoute: DesignerLazyRoute,
+  OnboardingLazyRoute: OnboardingLazyRoute,
+}
+
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 
@@ -120,7 +166,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "index.lazy.tsx"
     },
     "/$pageId": {
-      "filePath": "$pageId.lazy.tsx"
+      "filePath": "$pageId.tsx"
     },
     "/dashboard": {
       "filePath": "dashboard.lazy.tsx"

@@ -13,6 +13,9 @@ module.exports = merge(webpackBaseConfig, {
 		static: {
 			directory: path.join(__dirname, "../dist"),
 		},
+		client: {
+			overlay: false
+		},
 		port: 3000,
 		compress: true,
 		historyApiFallback: true,

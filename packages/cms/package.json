@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "generate-routes": "tsr generate",
+    "watch-routes": "tsr watch",
     "start": "webpack-dev-server --open --config configs/webpack.dev.js",
     "build": "webpack --config configs/webpack.prod.js"
   },
@@ -23,7 +25,9 @@
     "@babel/preset-env": "^7.24.5",
     "@babel/preset-react": "^7.24.1",
     "@babel/preset-typescript": "^7.24.1",
-    "@tanstack/router-devtools": "^1.35.1",
+    "@tanstack/router-cli": "^1.58.1",
+    "@tanstack/router-devtools": "^1.58.3",
+    "@tanstack/router-plugin": "^1.58.4",
     "@types/node": "^20.12.12",
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",

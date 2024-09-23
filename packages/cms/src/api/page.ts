@@ -1,18 +1,23 @@
+import { NotFoundError } from "../routes/$pageId"
 
 export const API_HOST = process.env.REACT_APP_API
 
 export async function accessPage(id: string) {
-    const res : any = await fetch(`${API_HOST}/access/${id}`)
+    const res: any = await fetch(`${API_HOST}/access/${id}`)
+    if (res.status == 404)
+        throw new NotFoundError(`Page not found or is not published yet.`)
     return (await res.json())
+
+
 }
 
 export async function getPage(id: string) {
-    const res : any = await fetch(`${API_HOST}/${id}`)
+    const res: any = await fetch(`${API_HOST}/${id}`)
     return (await res.json())
 }
 
 export async function getPages(origin: string) {
-    const res : any = await fetch(`${API_HOST}/pages/${origin}`)
+    const res: any = await fetch(`${API_HOST}/pages/${origin}`)
     return (await res.json())
 }
 
@@ -26,7 +31,7 @@ export async function createPage(page: any) {
         body: JSON.stringify(page),
     }
 
-    const res : any = await fetch(`${API_HOST}/`, options)
+    const res: any = await fetch(`${API_HOST}/`, options)
     return (await res.json())
 }
 

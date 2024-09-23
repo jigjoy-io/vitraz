@@ -1,36 +1,29 @@
+import Responses from '@utils/api-responses'
 import { APIGatewayProxyResult } from 'aws-lambda'
 
 // we would typically use middy - but to keep this simple to read
 // without mutliple additional packages lets build outselves
-export function errorHandler(error: Error | unknown): APIGatewayProxyResult {
+export function errorHandler(error: Error | unknown) {
     console.error(error)
 
-    let errorMessage: string
-    let statusCode: number
+    let response: any
 
     if (error instanceof Error) {
         
         switch (error.name) {
             case 'ValidationError':
-                errorMessage = error.message
-                statusCode = 400
+                response = Responses._400({errorMessage: error.message})
                 break
             case 'PageNotFoundError':
-                errorMessage = error.message
-                statusCode = 404
+                response = Responses._404({errorMessage: error.message})
                 break
             default:
-                errorMessage = 'An error has occurred'
-                statusCode = 500
+                response = Responses._500({errorMessage: 'Something went wrong'})
                 break
         }
     } else {
-        errorMessage = 'An error has occurred'
-        statusCode = 500
+        response = Responses._500({errorMessage: 'Something went wrong'})
     }
 
-    return {
-        statusCode: statusCode,
-        body: errorMessage,
-    }
+    return response
 }
