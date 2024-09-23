@@ -27,7 +27,6 @@ export const useExpandedToolbar = () => useAppSelector((state: any) => state.too
 export const useExpandedPages = () => useAppSelector((state: any) => state.tree.expandedPages)
 
 export const useAuthorized = () => useAppSelector((state: any) => state.auth.authorized)
-export const useAccount = () => useAppSelector((state: any) => state.auth.account)
 
 export const usePage = () => useAppSelector((state: any) => state.page.activePage)
 export const useCurrentCarouselPage = () => useAppSelector((state: any) => state.page.currentCarouselPage)

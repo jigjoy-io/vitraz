@@ -67,7 +67,9 @@ export default function CarouselConfigurer(props: any) {
         // create carousel inner pages
         for (let i = 0; i < numberOfPages; i++) {
             let page = TemplateFactory.get("blank")
+            let selector = TemplateFactory.get("block-selector")
 
+            page.config.buildingBlocks.push(selector)
             pages.push(page)
         }
 

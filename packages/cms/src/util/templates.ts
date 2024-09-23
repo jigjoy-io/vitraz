@@ -127,11 +127,7 @@ export const templates = {
         environment: 'development',
         linkedPageId: null,
         config: {
-            buildingBlocks: [{
-                type: "block-selector",
-                id: uuid()
-            }]
-
+            buildingBlocks: []
         }
     }
 }
