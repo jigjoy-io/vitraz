@@ -20,7 +20,7 @@ export async function accessPageHandler({
 
         const { id } = pathParameters
 
-        console.log(`reqested page: ${id}`)
+        console.log(`requested page: ${id}`)
 
         const page: ReturnPageDto = await accessPageUseCase(id)
 

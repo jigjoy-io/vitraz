@@ -3,13 +3,10 @@ import { NotFoundError } from "../routes/$pageId"
 export const API_HOST = process.env.REACT_APP_API
 
 export async function accessPage(id: string) {
-    try {
-        const res: any = await fetch(`${API_HOST}/access/${id}`)
-        return (await res.json())
-
-    } catch (error) {
+    const res: any = await fetch(`${API_HOST}/access/${id}`)
+    if (res.status == 404)
         throw new NotFoundError(`Page not found or is not published yet.`)
-    }
+    return (await res.json())
 
 
 }
