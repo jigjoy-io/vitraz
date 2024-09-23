@@ -9,10 +9,11 @@ import { AddBlockIcon } from "../../icons/AddBlockIcon"
 import { modeUpdated, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/pageReducer"
 import { useAccount, usePages, useRootPage } from "../../util/store"
 import { Node } from './Node'
+import { useNavigate } from '@tanstack/react-router'
 
 export default function PageTree() {
-
-
+    
+    const navigate = useNavigate()
     const account = useAccount()
     const pages = usePages()
     const page = useRootPage()
@@ -24,6 +25,10 @@ export default function PageTree() {
     async function fetchData() {
         const userAttributes = await fetchUserAttributes()
         let pages = await getPages(userAttributes.email as string)
+            if (pages.length === 0) {
+              navigate({ to: "/onboarding" });
+              return;
+            }
         dispatch(pagesUpdated(pages))
         if (pages.length > 0) {
             dispatch(rootPageUpdated(pages[0]))
