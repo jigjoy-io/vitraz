@@ -8,12 +8,15 @@ import CloseIcon from '../icons/CloseIcon'
 import TemplateFactory from '../factories/TemplateFactory'
 import { createPage } from '../api/page'
 import { v4 as uuid } from 'uuid'
+import { useNavigate } from '@tanstack/react-router'
 
 export const Route = createLazyFileRoute('/onboarding')({
     component: Onboarding
 })
 
 function Onboarding() {
+
+    const navigate = useNavigate()
 
     const create = async (type) => {
         const userAttributes = await fetchUserAttributes()
@@ -42,11 +45,11 @@ function Onboarding() {
         }
 
         await createPage(page)
-        window.location.href = '/dashboard'
+        navigate({to: "/dashboard"})
     }
 
     return <div>
-        <div className='absolute top-10 right-10 w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => window.location.href = '/dashboard'}>
+        <div className='absolute top-10 right-10 w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => navigate({ to: '/dashboard'})}>
             <CloseIcon />
         </div>
         <div className='flex flex-col mt-20 items-center justify-center'>

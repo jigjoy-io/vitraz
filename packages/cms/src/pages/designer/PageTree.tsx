@@ -12,7 +12,7 @@ import { Node } from './Node'
 import { useNavigate } from '@tanstack/react-router'
 
 export default function PageTree() {
-    
+
     const navigate = useNavigate()
     const account = useAccount()
     const pages = usePages()
@@ -25,10 +25,6 @@ export default function PageTree() {
     async function fetchData() {
         const userAttributes = await fetchUserAttributes()
         let pages = await getPages(userAttributes.email as string)
-            if (pages.length === 0) {
-              navigate({ to: "/onboarding" });
-              return;
-            }
         dispatch(pagesUpdated(pages))
         if (pages.length > 0) {
             dispatch(rootPageUpdated(pages[0]))
@@ -65,16 +61,20 @@ export default function PageTree() {
     }
 
     const createNewPage = async () => {
-        window.location.href = '/onboarding'
+        navigate({to: "/onboarding"})
     }
 
 
     return <div className="h-[100dvh] w-[260px] bg-[#F2EEF0] bg-opacity-40 border-r border-light shadow-lg">
+
         {
-            pages.length > 0 && <div className="h-full flex flex-col">
+            pages.length === 0 ? (
+                <div className="m-1 px-3 py-2 flex flex-row items-center hover:bg-primary-light hover:bg-opacity-60 rounded-sm cursor-pointer" onClick={createNewPage}>
+                    <AddBlockIcon /><div className="font-bold">Start New Project</div>
+                </div>
+            ) :
 
-
-
+            <div className="h-full flex flex-col">
                 <div className="w-full grow mt-10 overflow-y-auto">
                     <div>
                         <div className="m-1 px-3 py-2 flex flex-row items-center hover:bg-primary-light hover:bg-opacity-60 rounded-sm cursor-pointer" onClick={createNewPage}>
