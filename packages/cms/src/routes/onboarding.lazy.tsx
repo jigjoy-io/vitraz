@@ -7,7 +7,6 @@ import Heading from '../components/heading/Heading'
 import CloseIcon from '../icons/CloseIcon'
 import TemplateFactory from '../factories/TemplateFactory'
 import { createPage } from '../api/page'
-import { v4 as uuid } from 'uuid'
 import { useNavigate } from '@tanstack/react-router'
 
 export const Route = createLazyFileRoute('/onboarding')({
@@ -27,7 +26,8 @@ function Onboarding() {
             // create carousel inner pages
             for (let i = 0; i < 3; i++) {
                 let page = TemplateFactory.get("blank")
-                page.id = uuid()
+                let selector = TemplateFactory.get("block-selector")
+                page.config.buildingBlocks.push(selector)
                 pages.push(page)
             }
 
@@ -41,6 +41,8 @@ function Onboarding() {
 
         } else {
             page = TemplateFactory.get("blank")
+            let selector = TemplateFactory.get("block-selector")
+            page.config.buildingBlocks.push(selector)
             page.origin = userAttributes.email
         }
 

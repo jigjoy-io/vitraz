@@ -7,14 +7,13 @@ import Button from "../../components/button/Button"
 import Progress from "../../components/progress/Progress"
 import { AddBlockIcon } from "../../icons/AddBlockIcon"
 import { modeUpdated, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/pageReducer"
-import { useAccount, usePages, useRootPage } from "../../util/store"
+import { usePages, useRootPage } from "../../util/store"
 import { Node } from './Node'
 import { useNavigate } from '@tanstack/react-router'
 
 export default function PageTree() {
 
     const navigate = useNavigate()
-    const account = useAccount()
     const pages = usePages()
     const page = useRootPage()
     const [progress, setProgress] = useState(0)

@@ -63,6 +63,9 @@ export default function CarouselConfigurer(props: any) {
         let page = TemplateFactory.get("blank")
         page.origin = activePage.id
 
+        let selector = TemplateFactory.get("block-selector")
+        page.config.buildingBlocks.push(selector)
+
         let block = TemplateFactory.get('page-tile')
 
         block.title = title
