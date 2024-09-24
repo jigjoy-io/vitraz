@@ -10,7 +10,7 @@ import { ExpandPage } from "../../icons/ExpandPage"
 import { MoreIcon } from "../../icons/MoreIcon"
 import { RenameIcon } from "../../icons/RenameIcon"
 import { carouselPageSwitched, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/pageReducer"
-import { blockingUpdated } from "../../reducers/toolbarReducer"
+import { blockingUpdated, expandedToolbarUpdated } from "../../reducers/toolbarReducer"
 import { pageCollapsed, pageExpanded } from "../../reducers/treeReducer"
 import { useCurrentCarouselPage, useExpandedPages, usePage, usePages } from "../../util/store"
 import { deletePage } from "../../util/traversals/deletePage"
@@ -20,6 +20,11 @@ import { replaceBlock } from "../../util/traversals/replaceBlock"
 import { createPortal } from "react-dom"
 import ClickOutsideListener from "../../components/popover/ClickOutsideListener"
 import Button from "../../components/button/Button"
+import Popover from "../../components/popover/Popover"
+import PopoverTrigger from "../../components/popover/PopoverTrigger"
+import PopoverContent from "../../components/popover/PopoverContent"
+import Heading from "../../components/heading/Heading"
+import Text from "../../components/text/Text"
 
 export function Node(props: any) {
 
@@ -41,8 +46,19 @@ export function Node(props: any) {
 
     const expandedPages = useExpandedPages()
 
+    const portalRef = useRef(null);
+
     const dispatch = useDispatch()
 
+    const onClose = () => {
+        dispatch(blockingUpdated(false))
+        dispatch(expandedToolbarUpdated(null))
+    }
+
+    const expandToolbar = () => {
+        dispatch(blockingUpdated(true))
+        dispatch(expandedToolbarUpdated(props.id))
+    }
     // Get the query string part of the URL
     const queryString = window.location.search;
 
@@ -61,6 +77,9 @@ export function Node(props: any) {
             if (result.length > 0) {
                 dispatch(rootPageUpdated(result[0]))
                 dispatch(pageUpdated(result[0]))
+            } else {
+                dispatch(rootPageUpdated(null))
+                dispatch(pageUpdated(null))
             }
             dispatch(pagesUpdated(result))
 
@@ -279,14 +298,28 @@ export function Node(props: any) {
                 {createPortal(<ClickOutsideListener callback={closeDropdown}>
 
                     <div className={`fixed flex rounded-md p-1 shadow bg-[white]`}
-                        style={{ top: rect.top + rect.height, left: rect.x + rect.width - 20 }}>
+                        style={{ top: rect.top + rect.height, left: rect.x + rect.width - 20 }} ref={portalRef}>
                         <Grid numberOfCols={1}>
 
                             <Item text="Rename" icon={RenameIcon} action={(e) => openRenamePopup(e, props)} />
 
                             <Item text="Duplicate" icon={DuplicateIcon} action={duplicatePage} />
                             <div className='border-b border-default-light' />
-                            <Item text="Delete" icon={DeleteBlockIcon} action={remove} />
+                            <Popover onClose={onClose}>
+                                <PopoverTrigger>
+                                    <Item action={expandToolbar} text="Delete" icon={DeleteBlockIcon} />
+                                </PopoverTrigger>
+                                <PopoverContent isOpen={true} portalTarget={portalRef.current}>
+                                    <div className="px-8 py-12 flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
+                                        <Heading text={"Delete Page Permanently?"} />
+                                        <Text text={"Are you sure? This will permanently erase all content."}/>
+                                        <div className="flex gap-2 mt-10">
+                                            <Button color={"white"} text={"Yes"} action={remove}></Button>
+                                            <Button color={"default"} text={"No"}></Button>
+                                        </div>
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
                         </Grid>
                     </div>
                 </ClickOutsideListener>, document.body)}

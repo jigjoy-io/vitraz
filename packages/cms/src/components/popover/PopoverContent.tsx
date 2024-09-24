@@ -11,6 +11,8 @@ export default function PopoverContent(props: any) {
 
 	const ref = useRef<HTMLInputElement>(null)
 
+	const portalTarget = props.portalTarget || document.body
+
 	useEffect(() => {
 		setIsOpen(props.isOpen)
 	}, [props.isOpen])
@@ -45,7 +47,7 @@ export default function PopoverContent(props: any) {
 						style={{ top: top, left: left }} ref={ref}>
 						{props.children}
 					</div>
-				</ClickOutsideListener>, document.body)}
+				</ClickOutsideListener>, portalTarget)}
 			</>
 		}
 	</div>
