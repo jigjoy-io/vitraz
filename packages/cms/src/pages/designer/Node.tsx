@@ -12,7 +12,7 @@ import { RenameIcon } from "../../icons/RenameIcon"
 import { carouselPageSwitched, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/pageReducer"
 import { blockingUpdated } from "../../reducers/toolbarReducer"
 import { pageCollapsed, pageExpanded } from "../../reducers/treeReducer"
-import { useCurrentCarouselPage, useExpandedPages, useExpandedToolbar, usePage, usePages } from "../../util/store"
+import { useCurrentCarouselPage, useExpandedPages, usePage, usePages } from "../../util/store"
 import { deletePage } from "../../util/traversals/deletePage"
 import { duplicateBlock } from "../../util/traversals/duplcateBlock"
 import { findParent } from "../../util/traversals/findParent"
@@ -30,7 +30,7 @@ export function Node(props: any) {
     const [dropdownActive, setDropdownActive] = useState(false)
     const [ident, setIdent] = useState(props.ident + 12)
     const pages = usePages()
-    const [selected, setSelected] = useState(null)
+    const [selected, setSelected] = useState<string | null>()
 
     const [pageToRename, setPageToRename] = useState({} as any)
     const [renameValue, setRenameValue] = useState('')
@@ -42,6 +42,14 @@ export function Node(props: any) {
     const expandedPages = useExpandedPages()
 
     const dispatch = useDispatch()
+
+    // Get the query string part of the URL
+    const queryString = window.location.search;
+
+    // Parse the query string using URLSearchParams
+    const urlParams = new URLSearchParams(queryString)
+
+    const selectPage = urlParams.get('select')
 
     const remove = async (event) => {
         closeDropdown()
@@ -125,15 +133,15 @@ export function Node(props: any) {
         closeRename()
 
         pageToRename.name = renameValue
-        
+
         let parent = findParent(pageToRename.root, pageToRename)
         parent = JSON.parse(JSON.stringify(parent))
 
         let newPage: any = null
-        if(parent != null){
+        if (parent != null) {
             let root = JSON.parse(JSON.stringify(pageToRename.root))
             newPage = replaceBlock(root, pageToRename)
-        }else{
+        } else {
             newPage = pageToRename
         }
 
@@ -147,7 +155,6 @@ export function Node(props: any) {
 
 
     }
-
 
     const expandDropdown = async (e: React.MouseEvent, id) => {
 
@@ -181,7 +188,18 @@ export function Node(props: any) {
     }
 
     useEffect(() => {
-        setSelected(activePage.id)
+
+        if(selectPage==props.id){
+            setSelected(selectPage)
+            dispatch(rootPageUpdated(props.root))
+            dispatch(pageUpdated(props.root))
+        }
+        
+    }, [])
+
+    useEffect(() => {
+        if(activePage)
+            setSelected(activePage.id)
     }, [activePage])
 
     useEffect(() => {
@@ -282,7 +300,7 @@ export function Node(props: any) {
                     <div className={`fixed flex rounded-md p-1 shadow bg-[white]`}
                         style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
                         <div className="flex flex-row gap-2">
-                        <input className="p-1 rounded-md border w-[100%]" value={renameValue} onChange={(event) => setRenameValue(event.target.value)} autoFocus/><Button text="Rename" size="sm" action={renamePage} />
+                            <input className="p-1 rounded-md border w-[100%]" value={renameValue} onChange={(event) => setRenameValue(event.target.value)} autoFocus /><Button text="Rename" size="sm" action={renamePage} />
                         </div>
 
                     </div>

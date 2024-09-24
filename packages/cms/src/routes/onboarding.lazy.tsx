@@ -8,6 +8,8 @@ import CloseIcon from '../icons/CloseIcon'
 import TemplateFactory from '../factories/TemplateFactory'
 import { createPage } from '../api/page'
 import { useNavigate } from '@tanstack/react-router'
+import { pageUpdated, rootPageUpdated } from '../reducers/pageReducer'
+import { useDispatch } from 'react-redux'
 
 export const Route = createLazyFileRoute('/onboarding')({
     component: Onboarding
@@ -16,6 +18,7 @@ export const Route = createLazyFileRoute('/onboarding')({
 function Onboarding() {
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const create = async (type) => {
         const userAttributes = await fetchUserAttributes()
@@ -46,12 +49,12 @@ function Onboarding() {
             page.origin = userAttributes.email
         }
 
-        await createPage(page)
-        navigate({to: "/dashboard"})
+        let created = await createPage(page)
+        navigate({ to: `/dashboard?select=${created.id}` })
     }
 
     return <div>
-        <div className='absolute top-10 right-10 w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => navigate({ to: '/dashboard'})}>
+        <div className='absolute top-10 right-10 w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => navigate({ to: '/dashboard' })}>
             <CloseIcon />
         </div>
         <div className='flex flex-col mt-20 items-center justify-center'>
