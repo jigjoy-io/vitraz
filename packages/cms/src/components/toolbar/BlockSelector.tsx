@@ -139,7 +139,6 @@ export default function BlockSelector(props: any) {
     }
 
     const handleLoseFocus = () => {
-        //setPlaceholder("")
         dispatch(blockingUpdated(false))
         dispatch(focusBlock(null))
     }
@@ -152,14 +151,12 @@ export default function BlockSelector(props: any) {
                 className={`${showMenu ? 'fixed' : 'hidden'} flex flex-col w-[400px] min-w-[400px] h-auto max-h-[500px] overflow-y-auto bg-white shadow rounded-lg p-1 -translate-x-[100%]`}
             >
                 {
-                    options.map((option: any, index) => <div>
-                        <div>
-                            {option.commands.map((command: any) => <div className="p-1" key={command.label}>
+                    options.map((option: any, index) => <div key={option.key}>
+                            {option.commands.map((command: any) => <div className="p-1" key={command.key}>
                                 <Item icon={command.icon} text={command.label} tabFocus={true} action={(e: any) => insert(e, command.key)}><div className="mt-2 text-sm">{command.description}</div></Item>
                             </div>)
                             }
                             {options.length != index + 1 && <hr />}
-                        </div>
                     </div>)
                 }
             </div>
