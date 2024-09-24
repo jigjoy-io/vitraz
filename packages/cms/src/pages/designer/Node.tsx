@@ -58,7 +58,7 @@ export function Node(props: any) {
         if (props.root.id == props.id) {
             removePage(props.id)
             let result = pages.filter((page) => page.id !== props.id)
-            if (result.length > 0) {
+            if (result.length == 0) {
                 dispatch(rootPageUpdated(result[0]))
                 dispatch(pageUpdated(result[0]))
             }

@@ -28,7 +28,7 @@ module.exports = {
                     MiniCssExtractPlugin.loader,
                     'css-loader',
                     'postcss-loader'  // Ensure postcss-loader is used for Tailwind
-                ],
+                ]
             }
 
         ],
