@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import TemplateFactory from '../../../factories/TemplateFactory'
@@ -27,13 +26,11 @@ export default function ContentEditingText(props: any) {
 	const activeBlock = useActiveBlock()
 
 	useEffect(() => {
-		if (activeBlock == props.id)
+		if (activeBlock === props.id)
 			ref.current?.focus()
 	}, [activeBlock])
 
-
 	const updateText = (event: any) => {
-
 		let newValue = event.target.innerText.trim()
 
 		let block = {
@@ -47,8 +44,12 @@ export default function ContentEditingText(props: any) {
 	}
 
 	const handleKeyDown = (event: any) => {
-
-		if (event.key === 'Enter') {
+		if (event.key === 'Enter' && event.shiftKey) {
+			return
+		}
+		
+		else if (event.key === 'Enter') {
+			event.preventDefault()
 
 			let selector = TemplateFactory.get("block-selector")
 
@@ -57,20 +58,21 @@ export default function ContentEditingText(props: any) {
 				block: selector
 			}))
 
-
 			ref.current?.blur()
 		}
 	}
 
-	return <div className={`inline-block w-[100%] ${style.lineHeight} ${alignmentVariations[position]}`} >
-		<div
-			contentEditable="plaintext-only"
-			spellCheck="false"
-			onKeyDown={handleKeyDown}
-			onBlur={(e) => updateText(e)}
-			className={`${style.class} w-[100%] [&[contenteditable]]:focus:border-none [&[contenteditable]]:focus:outline-none`}
-			ref={ref}>{props.text}</div>
-	</div>
-
+	return (
+		<div className={`inline-block w-[100%] ${style.lineHeight} ${alignmentVariations[position]}`}>
+			<div
+				contentEditable="plaintext-only"
+				spellCheck="false"
+				onKeyDown={handleKeyDown}
+				onBlur={(e) => updateText(e)}
+				className={`${style.class} w-[100%] [&[contenteditable]]:focus:border-none [&[contenteditable]]:focus:outline-none`}
+				ref={ref}>
+				{props.text}
+			</div>
+		</div>
+	)
 }
-
