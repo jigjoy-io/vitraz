@@ -37,7 +37,7 @@ const DesignerLazyRoute = DesignerLazyImport.update({
 const DashboardLazyRoute = DashboardLazyImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/dashboard.lazy').then((d) => d.Route))
+} as any).lazy(() => import('./routes/dashboard').then((d) => d.Route))
 
 const PageIdRoute = PageIdImport.update({
   path: '/$pageId',

@@ -9,7 +9,7 @@ import { AddBlockIcon } from "../../icons/AddBlockIcon"
 import { modeUpdated, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/pageReducer"
 import { usePages, useRootPage } from "../../util/store"
 import { Node } from './Node'
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate, useSearch } from '@tanstack/react-router'
 
 export default function PageTree() {
 
@@ -21,20 +21,17 @@ export default function PageTree() {
 
     const dispatch = useDispatch()
 
-    // Get the query string part of the URL
-    const queryString = window.location.search;
-
-    // Parse the query string using URLSearchParams
-    const urlParams = new URLSearchParams(queryString)
-
-    const selectPage = urlParams.get('select')
+    const pageId = useSearch({
+        from: '/dashboard',
+        select: (search: any) => search.pageId,
+    })
 
     async function fetchData() {
         const userAttributes = await fetchUserAttributes()
         let pages = await getPages(userAttributes.email as string)
         dispatch(pagesUpdated(pages))
 
-        if (selectPage == null && pages.length > 0) {
+        if (pageId == null && pages.length > 0) {
             dispatch(rootPageUpdated(pages[0]))
             dispatch(pageUpdated(pages[0]))
         }

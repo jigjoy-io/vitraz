@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { Provider } from 'react-redux'
-import { RouterProvider, createRouter } from "@tanstack/react-router"
+import { RouterProvider, createRouteMask, createRouter } from "@tanstack/react-router"
 import { routeTree } from "./routeTree.gen"
 import { Amplify } from 'aws-amplify'
 import { store } from './util/store'
@@ -21,7 +21,23 @@ const root = document.createElement("div")
 document.body.appendChild(root)
 const rootDiv = ReactDOM.createRoot(root)
 
-const router = createRouter({ routeTree })
+
+const dashboardRoute = createRouteMask({
+	routeTree,
+	from: '/dashboard',
+	to: '/dashboard',
+	params: (prev) => ({
+		pageId: undefined,
+		token: undefined,
+		email: undefined
+	}),
+})
+
+const router = createRouter({
+	routeTree,
+	routeMasks: [dashboardRoute],
+	unmaskOnReload: true
+})
 
 declare module "@tanstack/react-router" {
 	interface Register {
