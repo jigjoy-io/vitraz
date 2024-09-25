@@ -6,6 +6,7 @@ import { accountUpdated } from "../../reducers/authReducer"
 import { useDispatch } from "react-redux"
 import { modeUpdated } from "../../reducers/pageReducer"
 import { Preview } from "../designer/Preview"
+import { useSearch } from "@tanstack/react-router"
 
 export default function Dashboard() {
 
@@ -18,8 +19,16 @@ export default function Dashboard() {
     const authorized = useAuthorized()
     const dispatch = useDispatch()
     const mode = useMode()
-    const email = urlParams.get('email')
-    const token: any = urlParams.get('token')
+
+    const { email, token } = useSearch({
+        from: '/dashboard',
+        select: (search: any) => {
+            return {
+                email: search.email,
+                token: search.token
+            }
+        }
+    })
 
     useEffect(() => {
         dispatch(modeUpdated("editing"))
@@ -73,8 +82,8 @@ export default function Dashboard() {
     }, [])
 
     return <>{authorized && <>
-            {mode == 'editing' && <Designer />}
-            {mode == 'visiting' && <Preview />}
-        </>}
+        {mode == 'editing' && <Designer />}
+        {mode == 'visiting' && <Preview />}
+    </>}
     </>
 }

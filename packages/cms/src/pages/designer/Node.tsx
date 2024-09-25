@@ -23,8 +23,9 @@ import Button from "../../components/button/Button"
 import Popover from "../../components/popover/Popover"
 import PopoverTrigger from "../../components/popover/PopoverTrigger"
 import PopoverContent from "../../components/popover/PopoverContent"
-import Heading from "../../components/heading/Heading"
 import Text from "../../components/text/Text"
+import { useNavigate, useParams, useSearch } from '@tanstack/react-router'
+import { Route } from "../../routes/dashboard"
 
 export function Node(props: any) {
 
@@ -46,9 +47,10 @@ export function Node(props: any) {
 
     const expandedPages = useExpandedPages()
 
-    const portalRef = useRef(null);
+    const portalRef = useRef(null)
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const onClose = () => {
         dispatch(blockingUpdated(false))
@@ -59,13 +61,11 @@ export function Node(props: any) {
         dispatch(blockingUpdated(true))
         dispatch(expandedToolbarUpdated(props.id))
     }
-    // Get the query string part of the URL
-    const queryString = window.location.search;
 
-    // Parse the query string using URLSearchParams
-    const urlParams = new URLSearchParams(queryString)
-
-    const selectPage = urlParams.get('select')
+    const pageId = useSearch({
+        from: '/dashboard',
+        select: (search: any) => search.pageId,
+    })
 
     const remove = async (event) => {
         closeDropdown()
@@ -208,16 +208,16 @@ export function Node(props: any) {
 
     useEffect(() => {
 
-        if(selectPage==props.id){
-            setSelected(selectPage)
+        if (pageId == props.id) {
+            setSelected(pageId)
             dispatch(rootPageUpdated(props.root))
             dispatch(pageUpdated(props.root))
         }
-        
+
     }, [])
 
     useEffect(() => {
-        if(activePage)
+        if (activePage)
             setSelected(activePage.id)
     }, [activePage])
 
@@ -310,12 +310,12 @@ export function Node(props: any) {
                                     <Item action={expandToolbar} text="Delete" icon={DeleteBlockIcon} />
                                 </PopoverTrigger>
                                 <PopoverContent isOpen={true} portalTarget={portalRef.current}>
-                                    <div className="px-8 py-12 flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
-                                        <Heading text={"Delete Page Permanently?"} />
-                                        <Text text={"Are you sure? This will permanently erase all content."}/>
-                                        <div className="flex gap-2 mt-10">
-                                            <Button color={"white"} text={"Yes"} action={remove}></Button>
-                                            <Button color={"default"} text={"No"}></Button>
+                                    <div className="p-3 flex flex-col gap-2 w-[250px]" onClick={(e) => e.stopPropagation()}>
+                                        <p className="font-bold">Delete Page Permanently?</p>
+                                        <Text text={"Are you sure? This will permanently erase all content."} />
+                                        <div className="flex gap-2 mt-3">
+                                            <Button size="sm" color={"white"} text={"Yes"} action={remove}></Button>
+                                            <Button size="sm" color={"default"} text={"No"}></Button>
                                         </div>
                                     </div>
                                 </PopoverContent>
