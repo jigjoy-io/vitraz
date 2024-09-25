@@ -10,6 +10,7 @@ import { modeUpdated, pagesUpdated, pageUpdated, rootPageUpdated } from "../../r
 import { usePages, useRootPage } from "../../util/store"
 import { Node } from './Node'
 import { useNavigate, useSearch } from '@tanstack/react-router'
+import Loader from "../../components/loader/Loader"
 
 export default function PageTree() {
 
@@ -17,6 +18,8 @@ export default function PageTree() {
     const pages = usePages()
     const page = useRootPage()
     const [progress, setProgress] = useState(0)
+    const [isLoading, setIsLoading] = useState(false)
+    const [showSuccess, setShowSuccess] = useState(false)
 
 
     const dispatch = useDispatch()
@@ -59,14 +62,19 @@ export default function PageTree() {
     }
 
     const publish = async () => {
-        displayProgress()
-        let pages = await publishPage(page)
-
-        let newPage = pages.find((p) => p.id = page.id)
-        dispatch(rootPageUpdated(newPage))
-        dispatch(pageUpdated(newPage))
+        setIsLoading(true)
+        setShowSuccess(false)
+        try {
+            let pages = await publishPage(page)
+            let newPage = pages.find((p) => p.id === page.id)
+            dispatch(rootPageUpdated(newPage))
+            dispatch(pageUpdated(newPage))
+            setShowSuccess(true)
+        } finally {
+            setIsLoading(false)
+            setTimeout(() => setShowSuccess(false), 3000)
+        }
     }
-
     const createNewPage = async () => {
 
         navigate({ to: "/onboarding" })
@@ -99,8 +107,16 @@ export default function PageTree() {
                 {
                     (page && page.id) && <div className="pt-4 mt-auto">
                         <div className="w-full py-2">
-                            {(progress > 0 && progress < 100) && <div className="px-3"><Progress percentage={progress} /></div>}
-                            {(progress > 100 && progress < 200) && <div className="px-3"><Alert type="success" title="Project published" message="Click `Share` to get a link with applied changes"></Alert></div>}
+                        {isLoading && <div className="px-3 transform -translate-y-10"><Loader /></div>}
+                        {showSuccess && (
+                            <div className="px-3">
+                                <Alert 
+                                    type="success" 
+                                    title="Project published" 
+                                    message="Click `Share` to get a link with applied changes"
+                                />
+                            </div>
+                        )}
                             <div className="w-[100%] px-3 py-1 flex gap-x-2">
                                 <div className="w-[50%]"><Button text="Preview" color="default" action={enterPreview} /></div>
 
