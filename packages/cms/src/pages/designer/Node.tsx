@@ -10,7 +10,7 @@ import { ExpandPage } from "../../icons/ExpandPage"
 import { MoreIcon } from "../../icons/MoreIcon"
 import { RenameIcon } from "../../icons/RenameIcon"
 import { carouselPageSwitched, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/pageReducer"
-import { blockingUpdated, expandedToolbarUpdated } from "../../reducers/toolbarReducer"
+import { blockingUpdated } from "../../reducers/toolbarReducer"
 import { pageCollapsed, pageExpanded } from "../../reducers/treeReducer"
 import { useCurrentCarouselPage, useExpandedPages, usePage, usePages } from "../../util/store"
 import { deletePage } from "../../util/traversals/deletePage"
@@ -20,12 +20,8 @@ import { replaceBlock } from "../../util/traversals/replaceBlock"
 import { createPortal } from "react-dom"
 import ClickOutsideListener from "../../components/popover/ClickOutsideListener"
 import Button from "../../components/button/Button"
-import Popover from "../../components/popover/Popover"
-import PopoverTrigger from "../../components/popover/PopoverTrigger"
-import PopoverContent from "../../components/popover/PopoverContent"
 import Text from "../../components/text/Text"
-import { useNavigate, useParams, useSearch } from '@tanstack/react-router'
-import { Route } from "../../routes/dashboard"
+import { useSearch } from '@tanstack/react-router'
 
 export function Node(props: any) {
 
@@ -322,7 +318,7 @@ export function Node(props: any) {
         {
             (deleteActive) && <>
                 {createPortal(<ClickOutsideListener callback={closeDelete}>
-                    <div 
+                    <div
                         className="fixed flex rounded-md p-3 shadow bg-white"
                         style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
                         <div className="flex flex-col gap-2 w-[250px]" onClick={(e) => e.stopPropagation()}>
