@@ -24,7 +24,8 @@ module.exports = {
 
     extend: {
       colors: {
-        'text-default': '#E2E2E2'
+        'text-default': '#E2E2E2',
+        'dot-color': '#4b5563'
       },
       boxShadow: {
         'DEFAULT': '0px 2px 8px rgba(17,17,26,0.1), 0px 4px 12px rgba(17,17,26,0.1), 0px 8px 28px rgba(17,17,26,0.1)'

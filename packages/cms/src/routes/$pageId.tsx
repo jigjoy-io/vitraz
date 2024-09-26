@@ -11,6 +11,8 @@ import {
 import Title from '../components/title/Title'
 import { Logo } from '../icons/Logo'
 import Loader from '../components/loader/Loader'
+import Text from '../components/text/Text'
+import AnimatedDots from '../components/loader/AnimatedDots'
 
 export class NotFoundError extends Error { }
 
@@ -24,9 +26,21 @@ export const Route = createFileRoute('/$pageId')({
 		}
 	},
 	errorComponent: PostErrorComponent,
-	pendingComponent: Loader,
+	pendingComponent: LoaderComponent,
 	component: PageOverview
 })
+
+function LoaderComponent() {
+	return (
+		<div className='flex flex-col items-center justify-center'>
+			<Loader />
+			<div className="flex flex-row items-end gap-1">
+				<Text text="Page loding in progress" />
+				<AnimatedDots />
+			</div>
+		</div>
+	)
+}
 
 function PostErrorComponent({ error }: ErrorComponentProps) {
 	if (error instanceof NotFoundError) {

@@ -12,8 +12,6 @@ import { useDispatch } from 'react-redux'
 import { useMode } from '../util/store'
 import { modeUpdated } from '../reducers/pageReducer'
 import Loader from '../components/loader/Loader'
-import Text from '../components/text/Text'
-import AnimatedDots from '../components/loader/AnimatedDots'
 
 export const Route = createLazyFileRoute('/onboarding')({
     component: Onboarding
@@ -94,13 +92,7 @@ function Onboarding() {
 
     }
         {
-            mode == "loading" && <>
-                <Loader />
-                <div className="translate-y-7 flex flex-row items-end gap-1">
-                    <Text text="Page creation in progress" />
-                    <AnimatedDots />
-                </div>
-            </>
+            mode == "loading" && <Loader />
         }
 
     </div>
