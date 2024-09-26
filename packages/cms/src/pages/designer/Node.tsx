@@ -23,8 +23,9 @@ import Button from "../../components/button/Button"
 import Popover from "../../components/popover/Popover"
 import PopoverTrigger from "../../components/popover/PopoverTrigger"
 import PopoverContent from "../../components/popover/PopoverContent"
-import Heading from "../../components/heading/Heading"
 import Text from "../../components/text/Text"
+import { useNavigate, useParams, useSearch } from '@tanstack/react-router'
+import { Route } from "../../routes/dashboard"
 
 export function Node(props: any) {
 
@@ -40,32 +41,22 @@ export function Node(props: any) {
     const [pageToRename, setPageToRename] = useState({} as any)
     const [renameValue, setRenameValue] = useState('')
 
+    const [deleteActive, setDeleteActive] = useState(false)
+
     const ref = useRef<HTMLDivElement>(null)
 
     const [rect, setRect] = useState<null | any>(null)
 
     const expandedPages = useExpandedPages()
 
-    const portalRef = useRef(null);
+    const portalRef = useRef(null)
 
     const dispatch = useDispatch()
 
-    const onClose = () => {
-        dispatch(blockingUpdated(false))
-        dispatch(expandedToolbarUpdated(null))
-    }
-
-    const expandToolbar = () => {
-        dispatch(blockingUpdated(true))
-        dispatch(expandedToolbarUpdated(props.id))
-    }
-    // Get the query string part of the URL
-    const queryString = window.location.search;
-
-    // Parse the query string using URLSearchParams
-    const urlParams = new URLSearchParams(queryString)
-
-    const selectPage = urlParams.get('select')
+    const pageId = useSearch({
+        from: '/dashboard',
+        select: (search: any) => search.pageId,
+    })
 
     const remove = async (event) => {
         closeDropdown()
@@ -74,7 +65,7 @@ export function Node(props: any) {
         if (props.root.id == props.id) {
             removePage(props.id)
             let result = pages.filter((page) => page.id !== props.id)
-            if (result.length == 0) {
+            if (result.length != 0) {
                 dispatch(rootPageUpdated(result[0]))
                 dispatch(pageUpdated(result[0]))
             } else {
@@ -147,6 +138,14 @@ export function Node(props: any) {
         setRenameActive(true)
     }
 
+    const openDeletePopup = (event) => {
+        closeDropdown()
+
+        event.stopPropagation()
+        dispatch(blockingUpdated(true))
+        setDeleteActive(true)
+    }
+
     const renamePage = () => {
 
         closeRename()
@@ -172,6 +171,10 @@ export function Node(props: any) {
         result.splice(index, 1, newPage)
         dispatch(pagesUpdated(result))
 
+        if (newPage.id == activePage.id) {
+            dispatch(rootPageUpdated(newPage))
+            dispatch(pageUpdated(newPage))
+        }
 
     }
 
@@ -196,6 +199,11 @@ export function Node(props: any) {
         setRenameActive(false)
     }
 
+    const closeDelete = () => {
+        setDeleteActive(false)
+        dispatch(blockingUpdated(false))
+    }
+
     const expandPage = () => {
         const expanded = expandedPages.includes(props.id)
 
@@ -208,16 +216,16 @@ export function Node(props: any) {
 
     useEffect(() => {
 
-        if(selectPage==props.id){
-            setSelected(selectPage)
+        if (pageId == props.id) {
+            setSelected(pageId)
             dispatch(rootPageUpdated(props.root))
             dispatch(pageUpdated(props.root))
         }
-        
+
     }, [])
 
     useEffect(() => {
-        if(activePage)
+        if (activePage)
             setSelected(activePage.id)
     }, [activePage])
 
@@ -302,25 +310,29 @@ export function Node(props: any) {
                         <Grid numberOfCols={1}>
 
                             <Item text="Rename" icon={RenameIcon} action={(e) => openRenamePopup(e, props)} />
-
                             <Item text="Duplicate" icon={DuplicateIcon} action={duplicatePage} />
                             <div className='border-b border-default-light' />
-                            <Popover onClose={onClose}>
-                                <PopoverTrigger>
-                                    <Item action={expandToolbar} text="Delete" icon={DeleteBlockIcon} />
-                                </PopoverTrigger>
-                                <PopoverContent isOpen={true} portalTarget={portalRef.current}>
-                                    <div className="px-8 py-12 flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
-                                        <Heading text={"Delete Page Permanently?"} />
-                                        <Text text={"Are you sure? This will permanently erase all content."}/>
-                                        <div className="flex gap-2 mt-10">
-                                            <Button color={"white"} text={"Yes"} action={remove}></Button>
-                                            <Button color={"default"} text={"No"}></Button>
-                                        </div>
-                                    </div>
-                                </PopoverContent>
-                            </Popover>
+                            <Item text="Delete" icon={DeleteBlockIcon} action={(e) => openDeletePopup(e)} />
                         </Grid>
+                    </div>
+                </ClickOutsideListener>, document.body)}
+            </>
+        }
+
+        {
+            (deleteActive) && <>
+                {createPortal(<ClickOutsideListener callback={closeDelete}>
+                    <div 
+                        className="fixed flex rounded-md p-3 shadow bg-white"
+                        style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+                        <div className="flex flex-col gap-2 w-[250px]" onClick={(e) => e.stopPropagation()}>
+                            <p className="font-bold">Delete Page Permanently?</p>
+                            <Text text="Are you sure? This will permanently erase all content." />
+                            <div className="flex gap-2 mt-3">
+                                <Button size="sm" color="white" text="Yes" action={remove} />
+                                <Button size="sm" color="default" text="No" action={closeDelete} />
+                            </div>
+                        </div>
                     </div>
                 </ClickOutsideListener>, document.body)}
             </>

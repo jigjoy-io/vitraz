@@ -1,14 +1,12 @@
 import React from "react"
 import * as styles from "./Loader.module.css"
 
-class Loader extends React.Component<any, any> {
+function Loader() {
 
+    return (
+        <div className={`${styles.loader}`}></div>
+    )
 
-    render() {
-        return (
-            <div className={`${styles.loader}`}></div>
-        )
-    }
 
 }
 
