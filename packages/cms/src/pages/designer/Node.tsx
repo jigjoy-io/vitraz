@@ -41,6 +41,8 @@ export function Node(props: any) {
     const [pageToRename, setPageToRename] = useState({} as any)
     const [renameValue, setRenameValue] = useState('')
 
+    const [deleteActive, setDeleteActive] = useState(false)
+
     const ref = useRef<HTMLDivElement>(null)
 
     const [rect, setRect] = useState<null | any>(null)
@@ -147,6 +149,14 @@ export function Node(props: any) {
         setRenameActive(true)
     }
 
+    const openDeletePopup = (event) => {
+        closeDropdown()
+
+        event.stopPropagation()
+        dispatch(blockingUpdated(true))
+        setDeleteActive(true)
+    }
+
     const renamePage = () => {
 
         closeRename()
@@ -198,6 +208,11 @@ export function Node(props: any) {
     const closeRename = () => {
         dispatch(blockingUpdated(false))
         setRenameActive(false)
+    }
+
+    const closeDelete = () => {
+        setDeleteActive(false)
+        dispatch(blockingUpdated(false))
     }
 
     const expandPage = () => {
@@ -306,25 +321,29 @@ export function Node(props: any) {
                         <Grid numberOfCols={1}>
 
                             <Item text="Rename" icon={RenameIcon} action={(e) => openRenamePopup(e, props)} />
-
                             <Item text="Duplicate" icon={DuplicateIcon} action={duplicatePage} />
                             <div className='border-b border-default-light' />
-                            <Popover onClose={onClose}>
-                                <PopoverTrigger>
-                                    <Item action={expandToolbar} text="Delete" icon={DeleteBlockIcon} />
-                                </PopoverTrigger>
-                                <PopoverContent isOpen={true} portalTarget={portalRef.current}>
-                                    <div className="p-3 flex flex-col gap-2 w-[250px]" onClick={(e) => e.stopPropagation()}>
-                                        <p className="font-bold">Delete Page Permanently?</p>
-                                        <Text text={"Are you sure? This will permanently erase all content."} />
-                                        <div className="flex gap-2 mt-3">
-                                            <Button size="sm" color={"white"} text={"Yes"} action={remove}></Button>
-                                            <Button size="sm" color={"default"} text={"No"}></Button>
-                                        </div>
-                                    </div>
-                                </PopoverContent>
-                            </Popover>
+                            <Item text="Delete" icon={DeleteBlockIcon} action={(e) => openDeletePopup(e)} />
                         </Grid>
+                    </div>
+                </ClickOutsideListener>, document.body)}
+            </>
+        }
+
+        {
+            (deleteActive) && <>
+                {createPortal(<ClickOutsideListener callback={closeDelete}>
+                    <div 
+                        className="fixed flex rounded-md p-3 shadow bg-white"
+                        style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+                        <div className="flex flex-col gap-2 w-[250px]" onClick={(e) => e.stopPropagation()}>
+                            <p className="font-bold">Delete Page Permanently?</p>
+                            <Text text="Are you sure? This will permanently erase all content." />
+                            <div className="flex gap-2 mt-3">
+                                <Button size="sm" color="white" text="Yes" action={remove} />
+                                <Button size="sm" color="default" text="No" action={closeDelete} />
+                            </div>
+                        </div>
                     </div>
                 </ClickOutsideListener>, document.body)}
             </>
