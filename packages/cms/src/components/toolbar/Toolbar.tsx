@@ -39,7 +39,6 @@ export default function Toolbar(props: any) {
     }
 
     const onClose = () => {
-        setEditingActive(null)
         dispatch(blockingUpdated(false))
         dispatch(expandedToolbarUpdated(null))
     }
