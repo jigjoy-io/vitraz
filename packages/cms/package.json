@@ -6,6 +6,7 @@
     "generate-routes": "tsr generate",
     "watch-routes": "tsr watch",
     "start": "webpack-dev-server --open --config configs/webpack.dev.js",
+    "serve": "webpack --config configs/webpack.dev.js",
     "build": "webpack --config configs/webpack.prod.js"
   },
   "dependencies": {
