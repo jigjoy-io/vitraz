@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import TemplateFactory from '../../../factories/TemplateFactory'
-import { insertBlock, updateBlock } from '../../../reducers/pageReducer'
+import { focusBlock, insertBlock, updateBlock } from '../../../reducers/pageReducer'
 import alignmentVariations from '../../../util/alignmentVariations'
 import { useActiveBlock } from '../../../util/store'
 import textEditingVariants from '../../../util/textEditingVariations'
@@ -45,22 +45,45 @@ export default function ContentEditingText(props: any) {
 
 	const handleKeyDown = (event: any) => {
 		if (event.key === 'Enter' && event.shiftKey) {
-			return
+			return;
+		} else if (event.key === 'Enter') {
+			event.preventDefault();
+
+			const selection = window.getSelection();
+			const range = selection?.getRangeAt(0);
+			const caretPosition = range?.startOffset || 0;
+
+			const text = ref.current?.innerText || "";
+
+			const beforeCursor = text.slice(0, caretPosition).trim();
+			const afterCursor = text.slice(caretPosition).trim();
+
+			if (beforeCursor || afterCursor) {
+				ref.current!.innerText = beforeCursor;
+
+				let updatedBlock = {
+					id: props.id,
+					position: props.position,
+					type: props.type,
+					text: beforeCursor
+				};
+				dispatch(updateBlock(updatedBlock));
+
+				let newBlock = TemplateFactory.get(props.type);
+				newBlock.text = afterCursor;
+
+				dispatch(insertBlock({
+					referenceBlock: props.id,
+					block: newBlock,
+					position: 'below'
+				}));
+
+				dispatch(focusBlock(newBlock.id));
+
+				ref.current?.blur();
+			}
 		}
-		
-		else if (event.key === 'Enter') {
-			event.preventDefault()
-
-			let selector = TemplateFactory.get("block-selector")
-
-			dispatch(insertBlock({
-				referenceBlock: props.id,
-				block: selector
-			}))
-
-			ref.current?.blur()
-		}
-	}
+	};
 
 	return (
 		<div className={`inline-block w-[100%] ${style.lineHeight} ${alignmentVariations[position]}`}>
