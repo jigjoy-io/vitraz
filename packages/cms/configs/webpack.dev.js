@@ -4,7 +4,7 @@ const webpackBaseConfig = require('./webpack.base')
 
 module.exports = merge(webpackBaseConfig, {
 	mode: "development",
-	devtool: "eval",
+	devtool: "eval-source-map",
 	cache: false,
 	optimization: {
 		minimize: false,
