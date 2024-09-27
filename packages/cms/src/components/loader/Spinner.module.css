@@ -1,4 +1,4 @@
-.loader {
+.spinner {
     position: relative;
     width: 0;
     height: 0;
@@ -7,8 +7,8 @@
 
 }
 
-.loader:before,
-.loader:after {
+.spinner:before,
+.spinner:after {
     content: "";
     position: absolute;
     width: 20px;
@@ -21,14 +21,14 @@
     opacity: 0.9;
 }
 
-.loader:after {
+.spinner:after {
     background: #F672D1;
     transform: translate(0.75em, -0.75em) scale(1);
     box-shadow: -1.5em 1.5em 0 #E2E2E2;
     animation: anim-3-4 1.2s infinite ease;
 }
 
-.loader::before {
+.spinner::before {
     background: #74EDDF;
     transform: translate(-0.75em, -0.75em) scale(1);
     box-shadow: 1.5em 1.5em 0 black;
