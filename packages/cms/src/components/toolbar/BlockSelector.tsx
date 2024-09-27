@@ -16,7 +16,7 @@ export default function BlockSelector(props: any) {
     const [options, setOptions] = useState(selectorOptions)
     const [allOptions, setAllOptions] = useState(selectorOptions)
     const [showMenu, setShowMenu] = useState(false)
-    const [placeholder, setPlaceholder] = useState("Click or type to add element...")
+    const [placeholder, setPlaceholder] = useState("Write something, or type '/' to insert...")
     const activeBlock = useActiveBlock()
     const inputRef = useRef<HTMLInputElement>(null)
     const [top, setTop] = useState(-500)
@@ -170,7 +170,7 @@ export default function BlockSelector(props: any) {
             ref={inputRef}
             type="text"
             value={option}
-            onFocus={() => setPlaceholder("Write something, or press '/' to add element...")}
+            onFocus={() => setPlaceholder("Write something, or type '/' to insert...")}
             className="w-[100%] h-[1.8rem] bg-primary-light rounded-md hover:bg-gray-300 flex items-center focus:outline-0 placeholder:text-[black] py-4 px-2 opacity-80 "
             placeholder={placeholder}
             onChange={handleChange}

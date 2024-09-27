@@ -55,8 +55,12 @@ function Onboarding() {
             page.origin = userAttributes.email
         }
 
-        let created = await createPage(page)
-        navigate({ to: `/dashboard?select=${created.id}` })
+        let createdPage = await createPage(page)
+
+        navigate({
+            to: `/dashboard`,
+            search: { pageId: createdPage.id }
+        })
     }
 
     return <div>{
@@ -85,11 +89,11 @@ function Onboarding() {
             </div>
         </>
 
-        
+
     }
-    {
-        mode == "loading" && <Loader />
-    }
+        {
+            mode == "loading" && <Loader />
+        }
 
     </div>
 }

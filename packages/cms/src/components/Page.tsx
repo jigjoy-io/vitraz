@@ -4,9 +4,9 @@ import { PageFactory } from "../factories/PageFactory"
 
 function Page() {
 
-    const page = usePage()
+  const page = usePage()
 
-    return <div className="grow flex flex-col justify-center items-center">{page != null && PageFactory.get(page)}</div>
+  return <div className="grow flex flex-col justify-center items-center">{page != null && PageFactory.get(page)}</div>
 
 }
 
