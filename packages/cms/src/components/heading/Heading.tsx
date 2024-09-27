@@ -12,7 +12,7 @@ export default function Heading(props: any) {
 
 	return (
 		<div className={`inline-block w-[100%] h-min-[2rem] h-max ${alignmentVariations[position]}`}  >
-			<p className='text-heading'>{props.text}</p>
+			<div className='text-heading'>{props.text}</div>
 		</div>
 	)
 

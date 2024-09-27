@@ -317,11 +317,11 @@ export function Node(props: any) {
             (deleteActive) && <>
                 {createPortal(<ClickOutsideListener callback={closeDelete}>
                     <div
-                        className="fixed flex rounded-md p-3 shadow bg-white"
+                        className="fixed flex rounded-md p-3 shadow bg-white w-[250px]"
                         style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
-                        <div className="flex flex-col gap-2 w-[250px]" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
                             <p className="font-bold">Delete Page Permanently?</p>
-                            <Text text="Are you sure? This will permanently erase all content." />
+                            <div> Are you sure? This will permanently erase all content.</div>
                             <div className="flex gap-2 mt-3">
                                 <Button size="sm" color="white" text="Yes" action={remove} />
                                 <Button size="sm" color="default" text="No" action={closeDelete} />

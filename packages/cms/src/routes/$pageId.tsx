@@ -21,10 +21,10 @@ export const Route = createFileRoute('/$pageId' as never)({
 	},
 	errorComponent: PostError,
 	pendingComponent: () => <Loader message="The page is loading" />,
-	component: PageOverview
+	component: PageDisplay
 })
 
-function PageOverview() {
+function PageDisplay() {
 	const page = Route.useLoaderData()
 	const dispatch = useDispatch()
 
