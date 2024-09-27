@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
+import React, { useLayoutEffect, useRef, useState } from "react"
 import CarouselIcon from "../../icons/CarouselIcon"
 import Button from "../button/Button"
 import Checkbox from "../checkbox/Checkbox"
@@ -17,7 +17,7 @@ export default function CarouselConfigurer(props: any) {
 
     const dispatch = useDispatch()
 
-    const [display, setDisplay] = useState(true)
+    const [display, setDisplay] = useState(props.display)
     const [accessType, setAccessType] = useState(props.accessType)
     const [numberOfPages, setNumberOfPages] = useState(props.numberOfPages)
     const [description, setDescription] = useState(props.description)
@@ -28,8 +28,6 @@ export default function CarouselConfigurer(props: any) {
     const [y, setY] = useState(0)
 
     const ref = useRef<HTMLInputElement>(null)
-
-
 
     useLayoutEffect(() => {
 
@@ -92,11 +90,19 @@ export default function CarouselConfigurer(props: any) {
 
     }
 
+    const onClose = () => {
 
+        dispatch(blockingUpdated(false))
+        setDisplay(false)
+
+        let block = JSON.parse(JSON.stringify(props))
+        block.display = false
+        dispatch(updateBlock(block))
+    }
 
     return <div>
 
-        {display && createPortal(<ClickOutsideListener callback={() => { dispatch(blockingUpdated(false)); setDisplay(false) }}>
+        {display && createPortal(<ClickOutsideListener callback={onClose}>
             <div
                 style={{
                     width: 460,
