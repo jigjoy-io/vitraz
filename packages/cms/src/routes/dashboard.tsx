@@ -7,7 +7,7 @@ type DashboardRoute = {
     pageId?: string | null
 }
 
-export const Route: any = createFileRoute("/dashboard")({
+export const Route = createFileRoute('/dashboard' as never)({
     component: Dashboard,
     validateSearch: (search: Record<string, unknown>): DashboardRoute => {
         // validate and parse the search params into a typed state

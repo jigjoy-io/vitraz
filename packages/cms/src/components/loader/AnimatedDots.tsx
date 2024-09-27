@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 
 const AnimatedDots = () => {
-    const [activeDotIndex, setActiveDotIndex] = useState(0);
+    const [activeDotIndex, setActiveDotIndex] = useState(0)
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setActiveDotIndex((prevIndex) => (prevIndex + 1) % 4);
-        }, 500);
-        return () => clearInterval(interval);
-    }, []);
+            setActiveDotIndex((prevIndex) => (prevIndex + 1) % 4)
+        }, 500)
+        return () => clearInterval(interval)
+    }, [])
 
     return (
         <span className="inline-flex items-center pb-[5px]">
@@ -30,7 +30,7 @@ const AnimatedDots = () => {
                 />
             ))}
         </span>
-    );
-};
+    )
+}
 
 export default AnimatedDots;

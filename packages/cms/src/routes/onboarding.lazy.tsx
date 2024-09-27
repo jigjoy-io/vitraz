@@ -13,7 +13,7 @@ import { useMode } from '../util/store'
 import { modeUpdated } from '../reducers/pageReducer'
 import Loader from '../components/loader/Loader'
 
-export const Route = createLazyFileRoute('/onboarding')({
+export const Route = createLazyFileRoute('/onboarding' as never)({
     component: Onboarding
 })
 

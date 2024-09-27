@@ -1,4 +1,4 @@
-import { createFileRoute, ErrorComponent, ErrorComponentProps, useRouter, Outlet } from '@tanstack/react-router'
+import { createFileRoute, ErrorComponent, ErrorComponentProps } from '@tanstack/react-router'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { accessPage } from '../api/page'
@@ -14,11 +14,10 @@ import Loader from '../components/loader/Loader'
 
 export class NotFoundError extends Error { }
 
-export const Route = createFileRoute('/$pageId')({
+export const Route = createFileRoute('/$pageId' as never)({
 	loader: async ({ params: { pageId } }) => {
 		try {
-			const page = await accessPage(pageId)
-			return page
+			return await accessPage(pageId)
 		} catch (error) {
 			throw error
 		}
