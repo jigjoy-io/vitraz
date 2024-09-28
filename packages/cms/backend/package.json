@@ -1,5 +1,5 @@
 {
-    "name": "store-backend",
+    "name": "cms",
     "description": "Backend for the jigjoy page builder",
     "version": "0.0.1",
     "private": true,
@@ -29,6 +29,7 @@
     "scripts": {
         "build": "sam build --profile Development",
         "deploy": "sam deploy --profile Development",
+        "serve": "sudo sam local start-api --port 8000",
         "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
     },
     "jest": {
