@@ -45,18 +45,18 @@ export default function ContentEditingText(props: any) {
 
 	const handleKeyDown = (event: any) => {
 		if (event.key === 'Enter' && event.shiftKey) {
-			return;
+			return
 		} else if (event.key === 'Enter') {
-			event.preventDefault();
+			event.preventDefault()
 
-			const selection = window.getSelection();
-			const range = selection?.getRangeAt(0);
-			const caretPosition = range?.startOffset || 0;
+			const selection = window.getSelection()
+			const range = selection?.getRangeAt(0)
+			const caretPosition = range?.startOffset || 0
 
-			const text = ref.current?.innerText || "";
+			const text = ref.current?.innerText || ""
 
-			const beforeCursor = text.slice(0, caretPosition).trim();
-			const afterCursor = text.slice(caretPosition).trim();
+			const beforeCursor = text.slice(0, caretPosition).trim()
+			const afterCursor = text.slice(caretPosition).trim()
 
 			if (beforeCursor || afterCursor) {
 				ref.current!.innerText = beforeCursor;
@@ -67,20 +67,20 @@ export default function ContentEditingText(props: any) {
 					type: props.type,
 					text: beforeCursor
 				};
-				dispatch(updateBlock(updatedBlock));
+				dispatch(updateBlock(updatedBlock))
 
-				let newBlock = TemplateFactory.get(props.type);
-				newBlock.text = afterCursor;
+				let newBlock = TemplateFactory.get(props.type)
+				newBlock.text = afterCursor
 
 				dispatch(insertBlock({
 					referenceBlock: props.id,
 					block: newBlock,
 					position: 'below'
-				}));
+				}))
 
-				dispatch(focusBlock(newBlock.id));
+				dispatch(focusBlock(newBlock.id))
 
-				ref.current?.blur();
+				ref.current?.blur()
 			}
 		}
 	};

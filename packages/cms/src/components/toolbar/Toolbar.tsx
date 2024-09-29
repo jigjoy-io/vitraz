@@ -29,7 +29,7 @@ const animation = {
 
 const transition = {
     ease: "easeIn",
-    duration: 0.3,
+    duration: 0.2,
 }
 
 const loadFeatures = () => import("../../util/animations").then(res => res.default)
@@ -76,7 +76,7 @@ export default function Toolbar(props: any) {
 
     const onToolbarClose = () => {
 
-        if (editor == null) {        
+        if (editor == null) {
             setToolbarVisibility(false)
             dispatch(blockingUpdated(false))
         }
@@ -135,9 +135,10 @@ export default function Toolbar(props: any) {
                 </AnimatePresence>
             </LazyMotion>
             <div>
-                <div className={`opacity-25 bg-default-light h-[100%] w-[100%] ${(on && !toolbarVisible && editor == null) ? 'absolute' : 'hidden'} ${blockRadius}`}></div>
                 <div className={`opacity-50 bg-default-light h-[100%] w-[100%] ${(editor != null || toolbarVisible) ? 'absolute' : 'hidden'} ${blockRadius}`}></div>
-                {props.children}
+                <div className={`${(on && !toolbarVisible && editor == null) && 'opacity-80'} ${blockRadius}`}>
+                    {props.children}
+                </div>
             </div>
 
 

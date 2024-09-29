@@ -121,6 +121,7 @@ export default function BlockSelector(props: any) {
     }
 
     const closeMenu = () => {
+        console.log('close menu')
         dispatch(blockingUpdated(false))
         setShowMenu(false)
     }
@@ -142,27 +143,28 @@ export default function BlockSelector(props: any) {
 
     return <div >
 
-        {createPortal(<ClickOutsideListener callback={closeMenu}>
+        {showMenu && createPortal(<ClickOutsideListener callback={closeMenu}>
             <div
                 style={{ top: top, left: left, transform: `translate(-100%, -${calculateY()}%)` }}
-                className={`${showMenu ? 'fixed' : 'hidden'} flex flex-col w-[400px] min-w-[400px] h-auto max-h-[500px] overflow-y-auto bg-white shadow rounded-lg p-1 -translate-x-[100%]`}
+                className={`fixed flex flex-col w-[400px] min-w-[400px] h-auto max-h-[500px] overflow-y-auto bg-white shadow rounded-lg p-1 -translate-x-[100%]`}
             >
                 {
                     options.map((option: any, index) => <div key={option.key}>
-                            {option.commands.map((command: any) => <div className="p-1" key={command.key}>
-                                <Item icon={command.icon} text={command.label} tabFocus={true} action={(e: any) => insert(e, command.key)}><div className="mt-2 text-sm">{command.description}</div></Item>
-                            </div>)
-                            }
-                            {options.length != index + 1 && <hr />}
+                        {option.commands.map((command: any) => <div className="p-1" key={command.key}>
+                            <Item icon={command.icon} text={command.label} tabFocus={true} action={(e: any) => insert(e, command.key)}><div className="mt-2 text-sm">{command.description}</div></Item>
+                        </div>)
+                        }
+                        {options.length != index + 1 && <hr />}
                     </div>)
                 }
             </div>
 
 
 
-        </ClickOutsideListener>, document.body)
+        </ClickOutsideListener>, document.body)}
 
-        }
+
+
         <input
             ref={inputRef}
             type="text"
