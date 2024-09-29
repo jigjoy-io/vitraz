@@ -159,7 +159,7 @@ export default function CarouselConfigurer(props: any) {
 
                             <Tab key="Access Type">
                                 <div className="w-[100%]">
-                                    <div className="opacity-40">Coming soon!</div>
+                                    <div className="opacity-30">Coming soon!</div>
                                     <div className="flex flex-row w-full mt-3 gap-3">
                                         <Checkbox disabled={true} selected={accessType == 'freebie'} onChange={() => setAccessType('freebie')}>Freebie</Checkbox>
                                         <Checkbox disabled={true} selected={accessType == 'lead magnet'} onChange={() => setAccessType('lead magnet')}>Lead magnet</Checkbox>

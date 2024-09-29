@@ -11,8 +11,6 @@ export default function PopoverContent(props: any) {
 
 	const ref = useRef<HTMLInputElement>(null)
 
-	const portalTarget = props.portalTarget || document.body
-
 	useEffect(() => {
 		setIsOpen(props.isOpen)
 	}, [props.isOpen])
@@ -21,16 +19,16 @@ export default function PopoverContent(props: any) {
 
 		if (props.rect != null) {
 
-			let top = props.rect.top 
+			let top = props.rect.top
 
 			setTop(top)
 			setLeft(props.rect.x + props.rect.width - 25)
 		}
 
 		// If the popover content exceeds the viewport, position it higher to ensure full visibility.
-		if(ref.current){
+		if (ref.current) {
 			let contentRect = ref.current.getBoundingClientRect()
-			if(contentRect.top + contentRect.height > window.innerHeight)
+			if (contentRect.top + contentRect.height > window.innerHeight)
 				setTop(window.innerHeight - contentRect.height - 16)
 		}
 
@@ -47,9 +45,10 @@ export default function PopoverContent(props: any) {
 						style={{ top: top, left: left }} ref={ref}>
 						{props.children}
 					</div>
-				</ClickOutsideListener>, portalTarget)}
+				</ClickOutsideListener>, document.body)}
 			</>
 		}
 	</div>
+
 
 }

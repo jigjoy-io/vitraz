@@ -17,7 +17,7 @@ export default function Checkbox(props: any) {
         props.onChange(props.id, newValue)
     }
 
-    return <div className={`${disabled && 'opacity-40'} flex cursor-pointer`} onClick={handleChange} style={{ pointerEvents: disabled ? 'none' : 'auto' }}>
+    return <div className={`${disabled && 'opacity-30'} flex cursor-pointer`} onClick={handleChange} style={{ pointerEvents: disabled ? 'none' : 'auto' }}>
         <div className={`w-[20px] h-[20px] border shadow rounded-md mr-3 hover:opacity-60 flex text-center items-center`}>
             {selected && <CheckedIcon />}
         </div>

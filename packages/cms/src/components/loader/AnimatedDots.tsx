@@ -19,8 +19,8 @@ const AnimatedDots = () => {
             inline-block 
             bg-dot-color 
             rounded-full 
-            w-1 
-            h-1 
+            w-[3px]
+            h-[3px]
             ml-0.5 
             transition-opacity 
             duration-300 

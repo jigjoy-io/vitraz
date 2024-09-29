@@ -74,7 +74,7 @@ export default function LeftSideMenu() {
     }
 
     return (
-        <div className="h-[100dvh] max-h-[100dvh] w-[260px] bg-[#F2EEF0] bg-opacity-40 border-r border-light shadow-lg flex flex-col">
+        <div className="h-[100dvh] max-h-[100dvh] w-[260px] bg-[#F2EEF0] bg-opacity-30 border-r border-light shadow-lg flex flex-col">
             <div className="m-1 mt-20 px-3 py-2 flex flex-row items-center hover:bg-primary-light hover:bg-opacity-60 rounded-sm cursor-pointer" onClick={createNewPage}>
                 <AddBlockIcon /><div className="font-bold">Start New Project</div>
             </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import TemplateFactory from "../../factories/TemplateFactory"
-import { blockingUpdated, expandedToolbarUpdated } from "../../reducers/toolbarReducer"
+import { blockingUpdated } from "../../reducers/toolbarReducer"
 import { focusBlock, insertBlock, updateBlock } from "../../reducers/pageReducer"
 import Item from "../item/Item"
 import ClickOutsideListener from "../popover/ClickOutsideListener"
@@ -117,14 +117,12 @@ export default function BlockSelector(props: any) {
             }))
 
             setOption("")
-            dispatch(expandedToolbarUpdated(null))
         }
     }
 
     const closeMenu = () => {
         dispatch(blockingUpdated(false))
         setShowMenu(false)
-        dispatch(expandedToolbarUpdated(null))
     }
 
     const insert = (event, type: string) => {
@@ -132,7 +130,6 @@ export default function BlockSelector(props: any) {
         dispatch(focusBlock(null))
         let block = TemplateFactory.get(type)
         block.id = props.id
-        dispatch(expandedToolbarUpdated(null))
         dispatch(updateBlock(block))
         dispatch(focusBlock(block.id))
         closeMenu()

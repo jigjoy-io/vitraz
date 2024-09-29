@@ -25,7 +25,6 @@ export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
 export const useAppSelector = useSelector.withTypes<RootState>()
 
 export const useBlocked = () => useAppSelector((state: any) => state.toolbar.blocked)
-export const useExpandedToolbar = () => useAppSelector((state: any) => state.toolbar.expandedToolbar)
 
 export const useSidebarVisible = () => useAppSelector((state: any) => state.sidebar.expanded)
 export const useExpandedPages = () => useAppSelector((state: any) => state.tree.expandedPages)
