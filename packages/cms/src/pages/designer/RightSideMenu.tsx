@@ -4,7 +4,6 @@ import React from "react"
 import ToolbarButtonWrapper from "../../components/toolbar/ToolbarButtonWrapper"
 import { useDispatch } from "react-redux"
 import { sidebarExpanded } from "../../reducers/sidebarReducer"
-import Title from "../../components/title/Title"
 import Text from "../../components/text/Text"
 import Heading from "../../components/heading/Heading"
 
