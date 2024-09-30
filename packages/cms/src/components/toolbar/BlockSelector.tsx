@@ -5,16 +5,16 @@ import { blockingUpdated } from "../../reducers/toolbarReducer"
 import { focusBlock, insertBlock, updateBlock } from "../../reducers/pageReducer"
 import Item from "../item/Item"
 import ClickOutsideListener from "../popover/ClickOutsideListener"
-import { useActiveBlock } from "../../util/store"
+import { useActiveBlock, usePage } from "../../util/store"
 import { selectorOptions } from "../../util/selectorOptions"
 import { createPortal } from 'react-dom'
 
 export default function BlockSelector(props: any) {
 
-
+    const page = usePage()
     const [option, setOption] = useState("")
-    const [options, setOptions] = useState(selectorOptions)
-    const [allOptions, setAllOptions] = useState(selectorOptions)
+    const [options, setOptions] = useState(page.type!='blank' ? selectorOptions.filter((opt: any) => opt.key!='important') : selectorOptions)
+    const [allOptions, setAllOptions] = useState(page.type!='blank' ? selectorOptions.filter((opt: any) => opt.key!='important') : selectorOptions)
     const [showMenu, setShowMenu] = useState(false)
     const [placeholder, setPlaceholder] = useState("Write something, or type '/' to insert...")
     const activeBlock = useActiveBlock()
@@ -121,7 +121,6 @@ export default function BlockSelector(props: any) {
     }
 
     const closeMenu = () => {
-        console.log('close menu')
         dispatch(blockingUpdated(false))
         setShowMenu(false)
     }
