@@ -113,9 +113,10 @@ export default function ContentEditingText(props: any) {
 
 				ref.current?.blur()
 			} else if (isCaretAtEnd) {
+				let selector = TemplateFactory.get("block-selector")
 				dispatch(insertBlock({
 					referenceBlock: props.id,
-					block: newBlock,
+					block: selector,
 					position: 'below'
 				}))
 				dispatch(focusBlock(newBlock.id))
