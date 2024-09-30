@@ -14,6 +14,10 @@ function deleteFromCarouselPage(page: any, blockId: any) {
 }
 export function deleteBlock(page: any, blockId: any) {
 
+    //TODO: REMOVE AFTER REFACTORE
+    delete page.root
+    delete page.ident
+    delete page.mode
     if (page.type == 'blank') {
         page = deleteFromBlankPage(page, blockId)
     } else if (page.type == 'carousel') {

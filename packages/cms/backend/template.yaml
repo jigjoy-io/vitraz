@@ -300,7 +300,7 @@ Resources:
   migrationOldFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/adapters/primary/migration/migration-old.migrateOldPagesHandler
+      Handler: src/adapters/primary/migration/migration-root-fix.migrateRootFixHandler
       Runtime: nodejs20.x
       Architectures:
         - x86_64
@@ -326,7 +326,7 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/adapters/primary/migration/migration-old.ts
+          - src/adapters/primary/migration/migration-root-fix.ts
 
   retrievePageFunction:
     Type: AWS::Serverless::Function

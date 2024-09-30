@@ -30,6 +30,10 @@ function addToCarouselPage(page: any, payload: any) {
 }
 export function addBlock(page: any, payload: any) {
 
+    //TODO: REMOVE AFTER REFACTORE
+    delete page.root
+    delete page.ident
+    delete page.mode
     if (page.type == 'blank') {
         page = addToBlankPage(page, payload)
     } else if (page.type == 'carousel') {

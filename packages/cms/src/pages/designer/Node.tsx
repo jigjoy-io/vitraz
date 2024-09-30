@@ -20,7 +20,6 @@ import { replaceBlock } from "../../util/traversals/replaceBlock"
 import { createPortal } from "react-dom"
 import ClickOutsideListener from "../../components/popover/ClickOutsideListener"
 import Button from "../../components/button/Button"
-import Text from "../../components/text/Text"
 import { useSearch } from '@tanstack/react-router'
 
 export function Node(props: any) {
@@ -71,7 +70,9 @@ export function Node(props: any) {
             return
         }
 
-        let page = deletePage(JSON.parse(JSON.stringify(props.root)), props.id)
+        let root: Page = JSON.parse(JSON.stringify(props.root))
+        let page = deletePage(root, props.id)
+
         updatePage(page)
         dispatch(rootPageUpdated(page))
         dispatch(pageUpdated(page))
@@ -93,7 +94,7 @@ export function Node(props: any) {
             return
         }
 
-        let parent = findParent(props.root, props)
+        let parent: Page = findParent(props.root, props)
         parent = JSON.parse(JSON.stringify(parent))
 
         if (parent.type == "blank") {
@@ -107,8 +108,10 @@ export function Node(props: any) {
         }
 
 
-        let root = JSON.parse(JSON.stringify(props.root))
-        let newPage = replaceBlock(root, parent)
+        let root: Page = JSON.parse(JSON.stringify(props.root))
+        let newPage: Page = replaceBlock(root, parent)
+
+
         updatePage(newPage)
 
         if (newPage.id == activePage.id) {
@@ -144,12 +147,13 @@ export function Node(props: any) {
         closeRename()
 
         let pageToRename = JSON.parse(JSON.stringify(props))
+
         pageToRename.name = renameValue
 
-        let parent = findParent(pageToRename.root, pageToRename)
+        let parent: Page = findParent(pageToRename.root, pageToRename)
         parent = JSON.parse(JSON.stringify(parent))
 
-        let newPage: any = null
+        let newPage: Page | null = null
         if (parent != null) {
             let root = JSON.parse(JSON.stringify(pageToRename.root))
             newPage = replaceBlock(root, pageToRename)
@@ -157,15 +161,14 @@ export function Node(props: any) {
             newPage = pageToRename
         }
 
-
         updatePage(newPage)
 
         let result = JSON.parse(JSON.stringify(pages))
-        let index = result.findIndex((page) => page.id == newPage.id)
+        let index = result.findIndex((page) => page.id == newPage?.id)
         result.splice(index, 1, newPage)
         dispatch(pagesUpdated(result))
 
-        if (newPage.id == activePage.id) {
+        if (newPage?.id == activePage.id) {
             dispatch(rootPageUpdated(newPage))
             dispatch(pageUpdated(newPage))
         }
