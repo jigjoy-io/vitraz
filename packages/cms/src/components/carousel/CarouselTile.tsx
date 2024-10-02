@@ -27,9 +27,13 @@ export default function CarouselTile(props: any) {
         <Tile color={color} >
 
 
-            {props.image && <img className="float-right" height={128} width={128} src={props.image} />}
+            {props.image && <div className='mb-4 px-1 block'>
+                <img className="float-right rounded-lg" height={128} width={128} src={props.image} />
+            </div>}
 
-            <div className='font-bold text-2xl'>{props.title}</div>
+
+            <div className='font-bold text-xl'>{props.title}</div>
+
 
             {props.description && <div className='pt-4 text-xl'>{props.description}</div>}
 
@@ -39,6 +43,8 @@ export default function CarouselTile(props: any) {
                     <Button text={cta} color="primary" action={load} />
                 </Grid>
             </div>
+
+
 
 
         </Tile>
