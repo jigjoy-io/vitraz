@@ -7,6 +7,11 @@ import { routeTree } from "./routeTree.gen"
 import { Amplify } from 'aws-amplify'
 import { store } from './util/store'
 
+import { PostHogProvider} from 'posthog-js/react'
+
+const options = {
+  api_host: process.env.REACT_APP_PUBLIC_POSTHOG_HOST,
+}
 
 Amplify.configure({
 	Auth: {
@@ -47,8 +52,12 @@ declare module "@tanstack/react-router" {
 
 rootDiv.render(
 	<React.StrictMode>
-		<Provider store={store}>
-			<RouterProvider router={router} />
-		</Provider>
+		<PostHogProvider 
+      		apiKey={process.env.REACT_APP_PUBLIC_POSTHOG_KEY}
+      		options={options}>
+			<Provider store={store}>
+				<RouterProvider router={router} />
+			</Provider>
+		</PostHogProvider>
 	</React.StrictMode>
 )
