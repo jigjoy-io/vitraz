@@ -7,6 +7,8 @@ import ColorEditor from "../editors/ColorEditor"
 import TextEditor from "../editors/TextEditor"
 import Toolbar from "../Toolbar"
 import EditableBlock from "./EditableBlock"
+import ImageEditingIcon from "../../../icons/ImageEditingIcon"
+import ImageEditor from "../editors/ImageEditor"
 
 export default class EditableCarouselTile extends EditableBlock {
 
@@ -15,6 +17,11 @@ export default class EditableCarouselTile extends EditableBlock {
         icon: RenameIcon,
         key: 'title',
         editor: TextEditor
+    },{
+        name: 'Edit image',
+        icon: ImageEditingIcon,
+        key: 'image',
+        editor: ImageEditor
     },{
         name: 'Edit description',
         icon: DescriptionEditingIcon,

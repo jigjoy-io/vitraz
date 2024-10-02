@@ -8,6 +8,7 @@ import ClickOutsideListener from "../popover/ClickOutsideListener"
 import { useActiveBlock, usePage } from "../../util/store"
 import { selectorOptions } from "../../util/selectorOptions"
 import { createPortal } from 'react-dom'
+import { moveCursorToEnd } from "../../util/traversals/moveCursorToEnd"
 
 export default function BlockSelector(props: any) {
 
@@ -107,7 +108,6 @@ export default function BlockSelector(props: any) {
 
     const handleKeyDown = (event: any) => {
         if (event.key === 'Enter') {
-
             let block = TemplateFactory.get('text')
             block.text = event.target.value.trim()
             dispatch(insertBlock({
@@ -115,6 +115,35 @@ export default function BlockSelector(props: any) {
                 block: block,
                 position: 'above'
             }))
+
+            if (event.shiftKey) {
+                event.preventDefault();
+                dispatch(focusBlock(block.id))
+
+                const caretPosition = (event.target as HTMLInputElement).selectionStart || 0;
+                const isCaretAtEnd = caretPosition === event.target.value.length;
+
+
+                setTimeout(() => {
+                    const newTextBlock = document.querySelector(`[data-block-id="${block.id}"]`) as HTMLElement;
+
+                    if (newTextBlock) {
+                        moveCursorToEnd(newTextBlock);
+                        const text = newTextBlock.innerText || ""
+
+                        if (!isCaretAtEnd) {
+                            const beforeCursor = text.slice(0, caretPosition).trim()
+                            const afterCursor = text.slice(caretPosition).trim()
+
+                            newTextBlock.innerText = beforeCursor + '\n' + afterCursor;
+                        } else {
+                            newTextBlock.innerText = newTextBlock.innerText + '\n\n'
+                        }
+
+                        moveCursorToEnd(newTextBlock);
+                    }
+                }, 50);
+            }
 
             setOption("")
         }

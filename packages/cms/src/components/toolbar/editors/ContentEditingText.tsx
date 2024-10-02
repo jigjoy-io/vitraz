@@ -5,6 +5,7 @@ import { focusBlock, insertBlock, updateBlock } from '../../../reducers/pageRedu
 import alignmentVariations from '../../../util/alignmentVariations'
 import { useActiveBlock } from '../../../util/store'
 import textEditingVariants from '../../../util/textEditingVariations'
+import { moveCursorToEnd } from '../../../util/traversals/moveCursorToEnd'
 
 export default function ContentEditingText(props: any) {
 
@@ -43,22 +44,53 @@ export default function ContentEditingText(props: any) {
 		dispatch(updateBlock(block))
 	}
 
+	const getCaretPosition = (element: HTMLElement): number => {
+		const selection = window.getSelection();
+		if (selection && selection.rangeCount > 0) {
+			const range = selection.getRangeAt(0);
+			const preCaretRange = document.createRange();
+			preCaretRange.selectNodeContents(element);
+			preCaretRange.setEnd(range.endContainer, range.endOffset);
+
+			const contents = Array.from(element.childNodes);
+			let position = 0;
+
+			for (let i = 0; i < contents.length; i++) {
+				const node = contents[i];
+				if (node === range.endContainer) {
+					position += range.endOffset;
+					break;
+				} else if (node.nodeType === Node.TEXT_NODE) {
+					position += node.textContent?.length || 0;
+				} else if (node.nodeName === 'BR') {
+					position += 1;
+				}
+			}
+
+			return position;
+		}
+		return 0;
+	}
+
+
 	const handleKeyDown = (event: any) => {
 		if (event.key === 'Enter' && event.shiftKey) {
 			return
 		} else if (event.key === 'Enter') {
 			event.preventDefault()
 
-			const selection = window.getSelection()
-			const range = selection?.getRangeAt(0)
-			const caretPosition = range?.startOffset || 0
+			if (!ref.current) return;
 
+			const caretPosition = getCaretPosition(ref.current);
 			const text = ref.current?.innerText || ""
+			const isCaretAtEnd = caretPosition === ref.current?.innerText.length;
 
 			const beforeCursor = text.slice(0, caretPosition).trim()
 			const afterCursor = text.slice(caretPosition).trim()
 
-			if (beforeCursor || afterCursor) {
+			let newBlock = TemplateFactory.get(props.type)
+
+			if ((beforeCursor || afterCursor) && !isCaretAtEnd) {
 				ref.current!.innerText = beforeCursor;
 
 				let updatedBlock = {
@@ -69,7 +101,6 @@ export default function ContentEditingText(props: any) {
 				};
 				dispatch(updateBlock(updatedBlock))
 
-				let newBlock = TemplateFactory.get(props.type)
 				newBlock.text = afterCursor
 
 				dispatch(insertBlock({
@@ -81,6 +112,14 @@ export default function ContentEditingText(props: any) {
 				dispatch(focusBlock(newBlock.id))
 
 				ref.current?.blur()
+			} else if (isCaretAtEnd) {
+				let selector = TemplateFactory.get("block-selector")
+				dispatch(insertBlock({
+					referenceBlock: props.id,
+					block: selector,
+					position: 'below'
+				}))
+				dispatch(focusBlock(newBlock.id))
 			}
 		}
 	};
@@ -92,6 +131,7 @@ export default function ContentEditingText(props: any) {
 				spellCheck="false"
 				onKeyDown={handleKeyDown}
 				onBlur={(e) => updateText(e)}
+				data-block-id={props.id}
 				className={`${style.class} w-[100%] [&[contenteditable]]:focus:border-none [&[contenteditable]]:focus:outline-none`}
 				ref={ref}>
 				{props.text}
