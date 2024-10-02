@@ -9,6 +9,7 @@ import { useActiveBlock, usePage } from "../../util/store"
 import { selectorOptions } from "../../util/selectorOptions"
 import { createPortal } from 'react-dom'
 import { moveCursorToEnd } from "../../util/traversals/moveCursorToEnd"
+import { splitTextAtCursor } from "../../util/splitTextAtCursor"
 
 export default function BlockSelector(props: any) {
 
@@ -107,47 +108,90 @@ export default function BlockSelector(props: any) {
     }
 
     const handleKeyDown = (event: any) => {
-        if (event.key === 'Enter') {
-            let block = TemplateFactory.get('text')
-            block.text = event.target.value.trim()
+        if (event.key === 'Enter' && event.shiftKey) {
+            event.preventDefault();
+
+            let block = TemplateFactory.get('text');
+            block.text = event.target.value;
+
             dispatch(insertBlock({
                 referenceBlock: props.id,
                 block: block,
                 position: 'above'
-            }))
+            }));
 
-            if (event.shiftKey) {
-                event.preventDefault();
-                dispatch(focusBlock(block.id))
+            dispatch(focusBlock(block.id))
 
-                const caretPosition = (event.target as HTMLInputElement).selectionStart || 0;
-                const isCaretAtEnd = caretPosition === event.target.value.length;
+            const caretPosition = (event.target as HTMLInputElement).selectionStart || 0;
+            const isCaretAtEnd = caretPosition === event.target.value.length;
 
 
-                setTimeout(() => {
-                    const newTextBlock = document.querySelector(`[data-block-id="${block.id}"]`) as HTMLElement;
+            setTimeout(() => {
+                const newTextBlock = document.querySelector(`[data-block-id="${block.id}"]`) as HTMLElement;
 
-                    if (newTextBlock) {
-                        moveCursorToEnd(newTextBlock);
-                        const text = newTextBlock.innerText || ""
+                if (newTextBlock) {
+                    moveCursorToEnd(newTextBlock);
+                    const text = newTextBlock.innerText || "";
 
-                        if (!isCaretAtEnd) {
-                            const beforeCursor = text.slice(0, caretPosition).trim()
-                            const afterCursor = text.slice(caretPosition).trim()
+                    if (!isCaretAtEnd) {
+                        const beforeCursor = text.slice(0, caretPosition).trim();
+                        const afterCursor = text.slice(caretPosition).trim();
 
-                            newTextBlock.innerText = beforeCursor + '\n' + afterCursor;
-                        } else {
-                            newTextBlock.innerText = newTextBlock.innerText + '\n\n'
-                        }
-
-                        moveCursorToEnd(newTextBlock);
+                        newTextBlock.innerText = beforeCursor + '\n' + afterCursor;
+                    } else {
+                        newTextBlock.innerText = newTextBlock.innerText + '\n\n';
                     }
-                }, 50);
+
+                    moveCursorToEnd(newTextBlock);
+                }
+            }, 50);
+
+            setOption("");
+        }
+
+        if (event.key === 'Enter' && !event.shiftKey) {
+            const caretPosition = (event.target as HTMLInputElement).selectionStart || 0;
+            const isCaretAtEnd = caretPosition === event.target.value.length;
+
+            const text = event.target.value;
+
+            const { beforeCursor, afterCursor } = splitTextAtCursor(text, caretPosition);
+
+            if ((beforeCursor || afterCursor) && !isCaretAtEnd) {
+                let blockBefore = TemplateFactory.get('text');
+                blockBefore.text = beforeCursor;
+                dispatch(insertBlock({
+                    referenceBlock: props.id,
+                    block: blockBefore,
+                    position: 'above'
+                }));
+
+                let blockAfter = TemplateFactory.get('text');
+                blockAfter.text = afterCursor;
+                dispatch(insertBlock({
+                    referenceBlock: props.id,
+                    block: blockAfter,
+                    position: 'above'
+                }));
+
+            } else if (isCaretAtEnd) {
+                let newBlock = TemplateFactory.get('text');
+                newBlock.text = event.target.value;
+                dispatch(insertBlock({
+                    referenceBlock: props.id,
+                    block: newBlock,
+                    position: 'above'
+                }));
             }
 
-            setOption("")
+            let block = TemplateFactory.get('text');
+            block.text = event.target.value.trim();
+
+            setOption("");
+            closeMenu()
         }
-    }
+    };
+
 
     const closeMenu = () => {
         dispatch(blockingUpdated(false))

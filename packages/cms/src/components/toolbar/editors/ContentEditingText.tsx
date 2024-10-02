@@ -6,6 +6,7 @@ import alignmentVariations from '../../../util/alignmentVariations'
 import { useActiveBlock } from '../../../util/store'
 import textEditingVariants from '../../../util/textEditingVariations'
 import { moveCursorToEnd } from '../../../util/traversals/moveCursorToEnd'
+import { splitTextAtCursor } from '../../../util/splitTextAtCursor'
 
 export default function ContentEditingText(props: any) {
 
@@ -85,8 +86,7 @@ export default function ContentEditingText(props: any) {
 			const text = ref.current?.innerText || ""
 			const isCaretAtEnd = caretPosition === ref.current?.innerText.length;
 
-			const beforeCursor = text.slice(0, caretPosition).trim()
-			const afterCursor = text.slice(caretPosition).trim()
+			const { beforeCursor, afterCursor } = splitTextAtCursor(text, caretPosition);
 
 			let newBlock = TemplateFactory.get(props.type)
 
@@ -112,14 +112,14 @@ export default function ContentEditingText(props: any) {
 				dispatch(focusBlock(newBlock.id))
 
 				ref.current?.blur()
-			} else if (isCaretAtEnd) {
+			} else if (isCaretAtEnd && !event.shiftKey) {
 				let selector = TemplateFactory.get("block-selector")
 				dispatch(insertBlock({
 					referenceBlock: props.id,
 					block: selector,
 					position: 'below'
 				}))
-				dispatch(focusBlock(newBlock.id))
+				dispatch(focusBlock(selector.id))
 			}
 		}
 	};
