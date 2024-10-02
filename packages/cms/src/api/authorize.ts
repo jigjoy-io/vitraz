@@ -19,13 +19,19 @@ export async function createSingInChallenge(auth: any) {
 
 export const handleConfirmSignIn = async (email, challengeResponse) => {
 
-	await signIn({
+	const { nextStep } = await signIn({
 		username: email,
 		options: {
 			authFlowType: 'CUSTOM_WITHOUT_SRP',
 		},
 	})
 
-	const output = await confirmSignIn({ challengeResponse })
-	return output.isSignedIn
+	if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE') {
+		// to send the answer of the custom challenge
+		const output = await confirmSignIn({ challengeResponse })
+		return output.isSignedIn
+	}else{
+		return false
+	}
+	
 }

@@ -142,12 +142,6 @@ Resources:
           Action:
           - cognito-idp:AdminUpdateUserAttributes
           Resource: '*'
-      Events:
-        CognitoEvent:
-          Type: Cognito
-          Properties:
-            UserPool: !Ref JigJoyUserPool
-            Trigger: PostAuthentication
     Metadata: #Manage esbuild properties
       BuildMethod: esbuild
       BuildProperties:
@@ -157,6 +151,13 @@ Resources:
         EntryPoints:
           - src/auth/post-authentication/post-authentication.ts
 
+  UserPoolPostAuthenticationLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      Principal: cognito-idp.amazonaws.com
+      FunctionName: !GetAtt PostAuthentication.Arn
+      SourceArn: !GetAtt JigJoyUserPool.Arn
 
   EncryptionKey:
     Type: AWS::KMS::Key
@@ -198,6 +199,7 @@ Resources:
         CreateAuthChallenge: !GetAtt CreateAuthChallenge.Arn
         DefineAuthChallenge: !GetAtt DefineAuthChallenge.Arn
         PreSignUp: !GetAtt PreSignUp.Arn
+        PostAuthentication: !GetAtt PostAuthentication.Arn
         VerifyAuthChallengeResponse: !GetAtt VerifyAuthChallengeResponse.Arn
 
   # Domain For Sending Confirmation Email

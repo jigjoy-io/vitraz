@@ -47,7 +47,8 @@ export async function sendMagicLinkHandler({
                 case 'UserNotFoundException':
                     const createUserCommand = new AdminCreateUserCommand({
                         Username: email,
-                        UserPoolId: USER_POOL_ID as string
+                        UserPoolId: USER_POOL_ID as string,
+                        MessageAction: 'SUPPRESS'
                     })
                     await cognito.send(createUserCommand)
                     break
@@ -96,7 +97,7 @@ async function sendEmail(emailAddress: string, magicLink: string) {
             ToAddresses: [emailAddress],
         },
         Message: {
-            Subject: { Data: "Test Email" },
+            Subject: { Data: "JigJoy Login Link" },
 
             Body: {
                 Html: {Data: `<html><body><p>This is your one-time sign in link (it will expire in ${TIMEOUT_MINS} mins):</p>

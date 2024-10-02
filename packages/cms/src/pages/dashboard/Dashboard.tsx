@@ -43,6 +43,7 @@ export default function Dashboard() {
 
                 }
             } catch (error) {
+
                 switch (error.name) {
                     case 'UserAlreadyAuthenticatedException':
                         dispatch(accountUpdated({
@@ -76,7 +77,7 @@ export default function Dashboard() {
     }, [])
 
     return <>{authorized && <>
-        {mode == 'editing' && <Designer />}
+        {(mode == 'editing' && authorized) && <Designer />}
         {mode == 'visiting' && <Preview />}
     </>}
     </>

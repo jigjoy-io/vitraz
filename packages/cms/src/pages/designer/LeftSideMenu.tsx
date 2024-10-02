@@ -1,4 +1,4 @@
-import { fetchUserAttributes } from "aws-amplify/auth"
+import { fetchUserAttributes, getCurrentUser } from "aws-amplify/auth"
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { getPages, publishPage } from "../../api/page"
@@ -30,8 +30,9 @@ export default function LeftSideMenu() {
     })
 
     async function fetchData() {
-        const userAttributes = await fetchUserAttributes()
-        let pages = await getPages(userAttributes.email as string)
+        const currentUser = await getCurrentUser()
+        
+        let pages = await getPages(currentUser.signInDetails?.loginId as string)
         dispatch(pagesUpdated(pages))
 
         if (pageId == null && pages.length > 0) {
