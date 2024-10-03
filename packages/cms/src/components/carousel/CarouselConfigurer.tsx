@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react"
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import CarouselIcon from "../../icons/CarouselIcon"
 import Button from "../button/Button"
 import Checkbox from "../checkbox/Checkbox"
@@ -90,15 +90,32 @@ export default function CarouselConfigurer(props: any) {
 
     }
 
-    const onClose = () => {
-
-        dispatch(blockingUpdated(false))
-        setDisplay(false)
-
+    const turnOffPopup = () => {
         let block = JSON.parse(JSON.stringify(props))
         block.display = false
         dispatch(updateBlock(block))
     }
+
+    const onClose = () => {
+
+        dispatch(blockingUpdated(false))
+        setDisplay(false)
+        turnOffPopup()
+
+    }
+
+    useEffect(() => {
+
+        window.onbeforeunload = function () {
+            turnOffPopup()
+            return null
+        }
+
+        return () => {
+            window.onbeforeunload = null
+        }
+
+    }, [])
 
     return <div>
 
