@@ -9,6 +9,7 @@ import { DuplicateIcon } from "../../icons/DuplicateIcon"
 import { ExpandPage } from "../../icons/ExpandPage"
 import { MoreIcon } from "../../icons/MoreIcon"
 import { RenameIcon } from "../../icons/RenameIcon"
+import { AddBlockIcon } from "../../icons/AddBlockIcon"
 import { carouselPageSwitched, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/pageReducer"
 import { blockingUpdated } from "../../reducers/toolbarReducer"
 import { pageCollapsed, pageExpanded } from "../../reducers/treeReducer"
@@ -70,7 +71,7 @@ export function Node(props: any) {
             return
         }
 
-        let root: Page = JSON.parse(JSON.stringify(props.root))
+        let root  = JSON.parse(JSON.stringify(props.root))
         let page = deletePage(root, props.id)
 
         updatePage(page)
@@ -94,7 +95,7 @@ export function Node(props: any) {
             return
         }
 
-        let parent: Page = findParent(props.root, props)
+        let parent = findParent(props.root, props)
         parent = JSON.parse(JSON.stringify(parent))
 
         if (parent.type == "blank") {
@@ -108,8 +109,8 @@ export function Node(props: any) {
         }
 
 
-        let root: Page = JSON.parse(JSON.stringify(props.root))
-        let newPage: Page = replaceBlock(root, parent)
+        let root = JSON.parse(JSON.stringify(props.root))
+        let newPage = replaceBlock(root, parent)
 
 
         updatePage(newPage)
@@ -150,10 +151,10 @@ export function Node(props: any) {
 
         pageToRename.name = renameValue
 
-        let parent: Page = findParent(pageToRename.root, pageToRename)
+        let parent = findParent(pageToRename.root, pageToRename)
         parent = JSON.parse(JSON.stringify(parent))
 
-        let newPage: Page | null = null
+        let newPage: any = null
         if (parent != null) {
             let root = JSON.parse(JSON.stringify(pageToRename.root))
             newPage = replaceBlock(root, pageToRename)
@@ -164,7 +165,7 @@ export function Node(props: any) {
         updatePage(newPage)
 
         let result = JSON.parse(JSON.stringify(pages))
-        let index = result.findIndex((page) => page.id == newPage?.id)
+        let index = result.findIndex((page) => page.id == newPage.id)
         result.splice(index, 1, newPage)
         dispatch(pagesUpdated(result))
 
@@ -175,7 +176,7 @@ export function Node(props: any) {
 
     }
 
-    const expandDropdown = async (e: React.MouseEvent, id) => {
+    const expandDropdown = async (e: React.MouseEvent) => {
 
         if (ref.current)
             setRect(ref.current.getBoundingClientRect())
@@ -259,6 +260,52 @@ export function Node(props: any) {
 
     }
 
+    const addTooltip = () => {
+
+
+        let parent = findParent(props.root, props)
+
+        if(parent && parent.type=='carousel'){
+            return <div className="text-center text-[14px]">
+                <div>
+                    <span className="font-extrabold">Click</span> to add below
+                </div>
+                <span className="font-extrabold">Ctrl-click</span> to add page above
+            </div>
+        } 
+
+        return <div className="text-center text-[14px]">Add page inside</div>
+
+    }
+
+    const addPage = (e: React.MouseEvent) => {
+        e.stopPropagation()
+
+        let parent = findParent(props.root, props)
+
+        if(parent && parent.type=='carousel'){
+            
+            if (e.ctrlKey) {
+                alert('blank page above')
+            }else{
+                alert('blank page below')
+            }
+            return
+        } 
+
+        if(props.type=="carousel"){
+            alert('blank page at the end of carousel')
+
+            return
+        }
+
+
+        alert('ask for creating blank or carousel page')
+
+
+    }
+
+
     return <div>
         <div key={props.id}
             onClick={(e: React.MouseEvent) => loadPage(e, props)}
@@ -277,15 +324,18 @@ export function Node(props: any) {
                 (hover == props.id) && <>
 
 
-                    <div onClick={(e) => expandDropdown(e, props.id)} ref={ref}>
-                        <ToolbarButtonWrapper tooltip="Delete, duplicate, and more...">
+                    <div onClick={expandDropdown} ref={ref}>
+                        <ToolbarButtonWrapper tooltip={<div className="text-center text-[14px]">Delete, duplicate, and more...</div>}>
                             <MoreIcon />
                         </ToolbarButtonWrapper>
                     </div>
 
-                    {/* <ToolbarButtonWrapper tooltip="Add a page inside" tansformed={false}>
-                        <AddBlockIcon />
-                    </ToolbarButtonWrapper> */}
+                    <div onClick={addPage}>
+                        <ToolbarButtonWrapper tooltip={addTooltip()} >
+                            <AddBlockIcon />
+                        </ToolbarButtonWrapper> 
+                    </div>
+
                 </>
             }
         </div>
