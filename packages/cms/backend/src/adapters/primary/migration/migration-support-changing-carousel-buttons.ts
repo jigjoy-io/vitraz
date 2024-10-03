@@ -1,61 +1,67 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, ScanCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { errorHandler } from '@packages/apigw-error-handler';
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
+import { errorHandler } from '@packages/apigw-error-handler'
 
-const client = new DynamoDBClient({});
-const ddbDocClient = DynamoDBDocumentClient.from(client);
-const tableName = process.env.PAGE_TABLE;
+import { createPageUseCase } from '@use-cases/create-page'
+import { retrievePageUseCase } from '@use-cases/retrieve-page'
+import { updatePageUseCase } from '@use-cases/update-page'
 
-export async function addButtonsFieldMigrationHandler(
-  event: APIGatewayProxyEvent
-): Promise<APIGatewayProxyResult> {
-  try {
-    const scanParams = {
-      TableName: tableName,
-    };
+export async function migrateNavigationButtonsHandler({
+    body,
+}: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 
-    const scanResult = await ddbDocClient.send(new ScanCommand(scanParams));
-    const items = scanResult.Items || [];
+    try {
+        let pages = ["17d2246b-3684-485b-b710-ce613cc406a0"]
 
-    for (const item of items) {
-      const config = item.config?.L || [];
-      let needsUpdate = true;
+        const createNewBlock = (block: any) => {
+            let b = JSON.parse(JSON.stringify(block))
+            if (b.type == "carousel-tile") {
+                b.page = createNewPage(b.page)               
+            }
 
-      config.forEach((configItem: any) => {
-        if (configItem.L?.some((field: any) => field.S === "buttons")) {
-          needsUpdate = false;
+            return b
         }
-      });
 
-      if (needsUpdate) {
-        config.push({
-          L: [
-            { S: "buttons" }
-          ],
-        });
+        const createNewPage = (page: any) => {
+            let p: any =  JSON.parse(JSON.stringify(page))
 
-        const updateParams = {
-          TableName: tableName,
-          Key: { id: item.id },
-          UpdateExpression: 'SET #config = :config',
-          ExpressionAttributeNames: {
-            '#config': 'config',
-          },
-          ExpressionAttributeValues: {
-            ':config': config,
-          },
-        };
+            if (p.type == "blank") {
+                p.config = {
+                    buildingBlocks: page.config.buildingBlocks.map(createNewBlock)
+                }
+            }else if (p.type =="carousel"){
+                p.config.buttons = {
+                    previous: 'Previous',
+                    next: "Next",
+                    home: "Back to home"
+                }
+            }
 
-        await ddbDocClient.send(new UpdateCommand(updateParams));
-      }
+
+            return p
+
+        }
+
+        for (let i = 0; i < pages.length; i++) {
+            let pageId = pages[i]
+
+            let page: any = await retrievePageUseCase(pageId)
+
+            console.log(page)
+
+            page = createNewPage(page)
+
+            console.log(page)
+
+            await updatePageUseCase(page)
+        }
+
+
+        return {
+            statusCode: 201,
+            body: JSON.stringify({}),
+        }
+
+    } catch (error) {
+        return errorHandler(error)
     }
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: 'Migration completed successfully' }),
-    };
-  } catch (error) {
-    return errorHandler(error);
-  }
 }
