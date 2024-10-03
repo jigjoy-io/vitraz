@@ -17,7 +17,7 @@ export default function CarouselConfigurer(props: any) {
 
     const dispatch = useDispatch()
 
-    const [display, setDisplay] = useState(true)
+    const [display, setDisplay] = useState(props.display)
     const [accessType, setAccessType] = useState(props.accessType)
     const [description, setDescription] = useState(props.description)
     const [title, setHeadline] = useState(props.title)
@@ -27,6 +27,19 @@ export default function CarouselConfigurer(props: any) {
     const [y, setY] = useState<number>()
 
     const ref = useRef<HTMLInputElement>(null)
+
+    useEffect(() => {
+
+        window.onbeforeunload = function () {
+            turnOffPopup()
+            return true
+        }
+
+        return () => {
+            window.onbeforeunload = null
+        }
+
+    }, [])
 
     useLayoutEffect(() => {
 
@@ -77,10 +90,24 @@ export default function CarouselConfigurer(props: any) {
 
     }
 
+    const turnOffPopup = () => {
+        let block = JSON.parse(JSON.stringify(props))
+        block.display = false
+        dispatch(updateBlock(block))
+    }
+
+    const onClose = () => {
+
+        dispatch(blockingUpdated(false))
+        setDisplay(false)
+        turnOffPopup()
+
+    }
+
 
     return <div>
 
-        {display && createPortal(<ClickOutsideListener callback={() => { dispatch(blockingUpdated(false)); setDisplay(false) }}>
+        {display && createPortal(<ClickOutsideListener callback={onClose}>
             <div className="fixed rounded-md bg-[white] rounded-lg rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] -translate-x-[25%] left-[50%] z-50"
                 style={{
                     width: 460,
