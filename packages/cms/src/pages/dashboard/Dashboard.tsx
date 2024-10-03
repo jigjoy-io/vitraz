@@ -7,8 +7,6 @@ import { useDispatch } from "react-redux"
 import { modeUpdated } from "../../reducers/pageReducer"
 import { Preview } from "../designer/Preview"
 import { useNavigate, useSearch } from "@tanstack/react-router"
-import { getCurrentUser } from 'aws-amplify/auth';
-
 
 export default function Dashboard() {
 

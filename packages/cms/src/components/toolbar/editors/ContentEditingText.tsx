@@ -5,7 +5,6 @@ import { focusBlock, insertBlock, updateBlock } from '../../../reducers/pageRedu
 import alignmentVariations from '../../../util/alignmentVariations'
 import { useActiveBlock } from '../../../util/store'
 import textEditingVariants from '../../../util/textEditingVariations'
-import { moveCursorToEnd } from '../../../util/traversals/moveCursorToEnd'
 import { splitTextAtCursor } from '../../../util/splitTextAtCursor'
 
 export default function ContentEditingText(props: any) {
@@ -46,31 +45,31 @@ export default function ContentEditingText(props: any) {
 	}
 
 	const getCaretPosition = (element: HTMLElement): number => {
-		const selection = window.getSelection();
+		const selection = window.getSelection()
 		if (selection && selection.rangeCount > 0) {
-			const range = selection.getRangeAt(0);
-			const preCaretRange = document.createRange();
-			preCaretRange.selectNodeContents(element);
-			preCaretRange.setEnd(range.endContainer, range.endOffset);
+			const range = selection.getRangeAt(0)
+			const preCaretRange = document.createRange()
+			preCaretRange.selectNodeContents(element)
+			preCaretRange.setEnd(range.endContainer, range.endOffset)
 
-			const contents = Array.from(element.childNodes);
-			let position = 0;
+			const contents = Array.from(element.childNodes)
+			let position = 0
 
 			for (let i = 0; i < contents.length; i++) {
-				const node = contents[i];
+				const node = contents[i]
 				if (node === range.endContainer) {
-					position += range.endOffset;
-					break;
+					position += range.endOffset
+					break
 				} else if (node.nodeType === Node.TEXT_NODE) {
-					position += node.textContent?.length || 0;
+					position += node.textContent?.length || 0
 				} else if (node.nodeName === 'BR') {
-					position += 1;
+					position += 1
 				}
 			}
 
-			return position;
+			return position
 		}
-		return 0;
+		return 0
 	}
 
 
@@ -80,25 +79,25 @@ export default function ContentEditingText(props: any) {
 		} else if (event.key === 'Enter') {
 			event.preventDefault()
 
-			if (!ref.current) return;
+			if (!ref.current) return
 
-			const caretPosition = getCaretPosition(ref.current);
+			const caretPosition = getCaretPosition(ref.current)
 			const text = ref.current?.innerText || ""
-			const isCaretAtEnd = caretPosition === ref.current?.innerText.length;
+			const isCaretAtEnd = caretPosition === ref.current?.innerText.length
 
-			const { beforeCursor, afterCursor } = splitTextAtCursor(text, caretPosition);
+			const { beforeCursor, afterCursor } = splitTextAtCursor(text, caretPosition)
 
-			let newBlock = TemplateFactory.get(props.type)
+			let newBlock = TemplateFactory.create(props.type)
 
 			if ((beforeCursor || afterCursor) && !isCaretAtEnd) {
-				ref.current!.innerText = beforeCursor;
+				ref.current!.innerText = beforeCursor
 
 				let updatedBlock = {
 					id: props.id,
 					position: props.position,
 					type: props.type,
 					text: beforeCursor
-				};
+				}
 				dispatch(updateBlock(updatedBlock))
 
 				newBlock.text = afterCursor
@@ -113,7 +112,7 @@ export default function ContentEditingText(props: any) {
 
 				ref.current?.blur()
 			} else if (isCaretAtEnd && !event.shiftKey) {
-				let selector = TemplateFactory.get("block-selector")
+				let selector = TemplateFactory.createBlockSelector()
 				dispatch(insertBlock({
 					referenceBlock: props.id,
 					block: selector,
@@ -122,7 +121,7 @@ export default function ContentEditingText(props: any) {
 				dispatch(focusBlock(selector.id))
 			}
 		}
-	};
+	}
 
 	return (
 		<div className={`inline-block w-[100%] ${style.lineHeight} ${alignmentVariations[position]}`}>

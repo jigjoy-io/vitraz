@@ -45,31 +45,7 @@ function Onboarding() {
 
         const userAttributes = await fetchUserAttributes()
 
-        let page: any = null
-        if (type == 'carousel') {
-            let pages: any = []
-            // create carousel inner pages
-            for (let i = 0; i < 3; i++) {
-                let page = TemplateFactory.get("blank")
-                let selector = TemplateFactory.get("block-selector")
-                page.config.buildingBlocks.push(selector)
-                pages.push(page)
-            }
-
-            // create carousel page
-            page = TemplateFactory.get("carousel")
-            page.origin = userAttributes.email
-            page.config = {
-                pages: pages
-            }
-
-
-        } else {
-            page = TemplateFactory.get("blank")
-            let selector = TemplateFactory.get("block-selector")
-            page.config.buildingBlocks.push(selector)
-            page.origin = userAttributes.email
-        }
+        let page = TemplateFactory.createPage(type, userAttributes.email)
 
         let createdPage = await createPage(page)
 

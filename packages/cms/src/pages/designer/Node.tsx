@@ -22,6 +22,8 @@ import { createPortal } from "react-dom"
 import ClickOutsideListener from "../../components/popover/ClickOutsideListener"
 import Button from "../../components/button/Button"
 import { useSearch } from '@tanstack/react-router'
+import TemplateFactory from "../../factories/TemplateFactory"
+import { pushBlock } from "../../util/traversals/pushBlock"
 
 export function Node(props: any) {
 
@@ -39,7 +41,7 @@ export function Node(props: any) {
     const [selected, setSelected] = useState<string | null>()
 
     const [renameValue, setRenameValue] = useState('')
-    const [pageToCreate, setPageToCreate] = useState('blank')
+    const [tileToAdd, setTileToAdd] = useState('page-tile')
 
     const ref = useRef<HTMLDivElement>(null)
 
@@ -311,6 +313,7 @@ export function Node(props: any) {
         if (ref.current)
             setRect(ref.current.getBoundingClientRect())
 
+        dispatch(blockingUpdated(true))
         setAddingActive(true)
 
 
@@ -318,10 +321,38 @@ export function Node(props: any) {
 
     const createNewPage = () => {
 
+        closeAdding()
+
+        let block = TemplateFactory.createTile(tileToAdd, props.id)
+
+        let page = JSON.parse(JSON.stringify(props))
+        let root = JSON.parse(JSON.stringify(props.root))
+        let allPages = JSON.parse(JSON.stringify(pages))
+
+        let newPage = pushBlock(page, { block: block })
+        newPage = JSON.parse(JSON.stringify(newPage))
+
+
+
+        let newRoot = replaceBlock(root, newPage)
+        dispatch(rootPageUpdated(newRoot))
+        updatePage(newRoot)
+
+
+        if (newPage.id == activePage.id) {
+            dispatch(rootPageUpdated(newPage))
+            dispatch(pageUpdated(newPage))
+        }
+
+        let index = allPages.findIndex((page) => page.id == newRoot.id)
+        allPages.splice(index, 1, newRoot)
+
+        dispatch(pagesUpdated(allPages))
+
     }
 
     const handlePageToCreate = (e) => {
-        setPageToCreate(e.target.value)
+        setTileToAdd(e.target.value)
     }
 
 
@@ -412,9 +443,9 @@ export function Node(props: any) {
                         style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
                         <div className="flex flex-col gap-2 w-full" onClick={(e) => e.stopPropagation()}>
                             <p className="font-bold">Choose Page Type</p>
-                            <select name="pageType" id="pageType" className="p-2 rounded-md w-full focus:outline-0"  onChange={handlePageToCreate} value={pageToCreate}>
-                                <option value="blank">Blank Page</option>
-                                <option value="carousel">Carousel</option>
+                            <select name="pageType" id="pageType" className="p-2 rounded-md w-full focus:outline-0" onChange={handlePageToCreate} value={tileToAdd}>
+                                <option value="page-tile">Blank Page</option>
+                                <option value="carousel-tile">Carousel</option>
                             </select>
                             <div className="flex mt-3">
                                 <Button size="sm" color="white" text="Create" action={createNewPage} />

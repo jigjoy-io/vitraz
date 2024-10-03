@@ -73,17 +73,11 @@ export default function CarouselConfigurer(props: any) {
 
         dispatch(blockingUpdated(false))
 
-        let page = TemplateFactory.get("blank")
-        page.origin = activePage.id
-
-        let selector = TemplateFactory.get("block-selector")
-        page.config.buildingBlocks.push(selector)
-
-        let block = TemplateFactory.get('page-tile')
-
+        let block = TemplateFactory.createPageTileBlock(activePage.id)
         block.title = title
         block.description = description
-        block.page = page
+
+        // replace configurer with carousel block tile
         block.id = props.id
 
         dispatch(updateBlock(block))

@@ -24,7 +24,7 @@ export function AddNewBlock(props) {
             position = 'above'
         }
 
-        let selector = TemplateFactory.get("block-selector")
+        let selector = TemplateFactory.createBlockSelector()
 
         dispatch(insertBlock({
             referenceBlock: props.id,
