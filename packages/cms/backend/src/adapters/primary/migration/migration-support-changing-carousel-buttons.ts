@@ -1,7 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { errorHandler } from '@packages/apigw-error-handler'
 
-import { createPageUseCase } from '@use-cases/create-page'
 import { retrievePageUseCase } from '@use-cases/retrieve-page'
 import { updatePageUseCase } from '@use-cases/update-page'
 
@@ -10,7 +9,7 @@ export async function migrateNavigationButtonsHandler({
 }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 
     try {
-        let pages = ["17d2246b-3684-485b-b710-ce613cc406a0"]
+        let pages = ["d5c84d1f-a53f-47bf-a927-66ca1fdab467"]
 
         const createNewBlock = (block: any) => {
             let b = JSON.parse(JSON.stringify(block))
