@@ -6,13 +6,16 @@ import { accountUpdated } from "../../reducers/authReducer"
 import { useDispatch } from "react-redux"
 import { modeUpdated } from "../../reducers/pageReducer"
 import { Preview } from "../designer/Preview"
-import { useSearch } from "@tanstack/react-router"
+import { useNavigate, useSearch } from "@tanstack/react-router"
+import { getCurrentUser } from 'aws-amplify/auth';
+
 
 export default function Dashboard() {
 
     const authorized = useAuthorized()
     const dispatch = useDispatch()
     const mode = useMode()
+    const navigate = useNavigate()
 
     const { email, token } = useSearch({
         from: '/dashboard',
@@ -53,6 +56,7 @@ export default function Dashboard() {
 
                         break
                     default:
+                        navigate({ to: '/' })
                         dispatch(accountUpdated({
                             authorized: false,
                             account: null

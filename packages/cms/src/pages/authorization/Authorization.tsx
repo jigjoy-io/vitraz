@@ -6,6 +6,9 @@ import { Logo } from '../../icons/Logo'
 import Title from '../../components/title/Title'
 import { LazyMotion, m } from 'framer-motion'
 import { createSingInChallenge } from '../../api/authorize'
+import { useNavigate } from '@tanstack/react-router'
+import { getCurrentUser } from 'aws-amplify/auth';
+
 
 const animation = {
 	hidden: { opacity: 0 },
@@ -30,6 +33,24 @@ export default function Authorization(props: any) {
 	const [message, setMessage] = useState('')
 
 	const [email, setEmail] = useState('')
+
+	const navigate = useNavigate()
+
+	useEffect(() => {
+		const checkUser = async () => {
+			try {
+				const user = await getCurrentUser();
+				if (user) {
+					navigate({ to: '/dashboard' })
+				}
+			} catch (error) {
+				console.error("Error checking user authentication:", error)
+			}
+		}
+
+		checkUser()
+	}, [])
+
 
 
 	async function authorize() {
@@ -70,13 +91,13 @@ export default function Authorization(props: any) {
 				<m.div variants={item} className="flex flex-col">
 					<Input action={handleEmailChange} key='email' type="email" placeholder="Enter Your Email" />
 				</m.div>
-				{message!='' &&
+				{message != '' &&
 					<m.div variants={item} className="flex flex-col text-[green]">
 						{message}
 					</m.div>
 				}
 				<m.div key='submit' variants={item}>
-					<Button text="Log in or Sign up" action={authorize} focus={true}/>
+					<Button text="Log in or Sign up" action={authorize} focus={true} />
 				</m.div>
 			</m.div>
 		</LazyMotion>

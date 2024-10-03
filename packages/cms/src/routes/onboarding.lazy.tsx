@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { fetchUserAttributes } from '@aws-amplify/auth'
-import React from 'react'
+import { fetchUserAttributes, getCurrentUser } from '@aws-amplify/auth'
+import React, { useEffect } from 'react'
 import Title from '../components/title/Title'
 import Tile from '../components/tile/Tile'
 import Heading from '../components/heading/Heading'
@@ -22,6 +22,22 @@ function Onboarding() {
     const navigate = useNavigate()
     const mode = useMode()
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        const checkUser = async () => {
+            try {
+                const user = await getCurrentUser();
+                if (!user) {
+                    navigate({ to: '/' })
+                }
+            } catch (error) {
+                navigate({ to: '/' })
+                console.error("Error checking user authentication:", error)
+            }
+        }
+
+        checkUser()
+    }, [])
 
     const create = async (type) => {
 

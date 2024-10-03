@@ -7,6 +7,7 @@ import { updatePage } from "../../api/page"
 import { replaceBlock } from "../../util/traversals/replaceBlock"
 import LeftSideMenu from "./LeftSideMenu"
 import { RightSideMenu } from "./RightSideMenu"
+import UserMenu from "../../components/userMenu/UserMenu"
 
 export default function Designer() {
 
@@ -37,6 +38,7 @@ export default function Designer() {
     }, [modified])
 
     return <div style={{ pointerEvents: blocked ? 'none' : 'auto' }}>
+        <UserMenu />
         <div className="flex flex-row">
             <LeftSideMenu />
             {page && <Page />}
