@@ -10,6 +10,7 @@ import EditableBlock from "./EditableBlock"
 import ImageEditingIcon from "../../../icons/ImageEditingIcon"
 import ImageEditor from "../editors/ImageEditor"
 import ButtonEditor from "../editors/ButtonsEditor"
+import NavigationArrowIcon from "../../../icons/NavigationArrow"
 
 export default class EditableCarouselTile extends EditableBlock {
 
@@ -29,8 +30,8 @@ export default class EditableCarouselTile extends EditableBlock {
         key: 'description',
         editor: TextEditor
     }, {
-        name: 'Edit buttons',
-        icon: DescriptionEditingIcon,
+        name: 'Edit navigation buttons',
+        icon: NavigationArrowIcon,
         key: 'buttons',
         editor: ButtonEditor
     }, {

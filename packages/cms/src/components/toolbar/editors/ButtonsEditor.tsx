@@ -15,8 +15,8 @@ interface MenuEditorProps {
     value?: ButtonTexts;
 }
 
-export default function ButtonEditor({ block, attribute, value }: MenuEditorProps) {
-    const [buttonTexts, setButtonTexts] = useState<ButtonTexts>(value || {
+export default function ButtonEditor({ block, attribute }: MenuEditorProps) {
+    const [buttonTexts, setButtonTexts] = useState<ButtonTexts>(block.page.config.buttons || {
         previous: 'Previous',
         next: 'Next',
         home: 'Back to Home'
