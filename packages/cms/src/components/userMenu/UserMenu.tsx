@@ -1,65 +1,101 @@
-import React, { useState, useEffect } from 'react';
-import { signOut, getCurrentUser } from 'aws-amplify/auth';
-import { useNavigate } from '@tanstack/react-router';
-import { UserIcon } from '../../icons/UserIcon';
-import { ExpandDownIcon } from '../../icons/ExpandDownIcon';
-import { DiminishUpIcon } from '../../icons/DiminishUpIcon';
+import React, { useState, useEffect, useRef } from 'react'
+import { signOut, getCurrentUser } from 'aws-amplify/auth'
+import { useNavigate } from '@tanstack/react-router'
+import { ExpandDownIcon } from '../../icons/ExpandDownIcon'
+import { LogoIcon } from '../../icons/LogoIcon'
+import { createPortal } from 'react-dom'
+import ClickOutsideListener from '../popover/ClickOutsideListener'
+import { blockingUpdated } from '../../reducers/toolbarReducer'
+import { useDispatch } from 'react-redux'
 
 const UserMenu = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [userEmail, setUserEmail] = useState('');
-    const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false)
+    const [userEmail, setUserEmail] = useState('')
+    const ref = useRef<HTMLDivElement>(null)
+
+    const [rect, setRect] = useState<null | any>(null)
+
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        fetchUserEmail();
-    }, []);
+        fetchUserEmail()
+    }, [])
 
     const fetchUserEmail = async () => {
         try {
-            const user = await getCurrentUser();
-            const { username, signInDetails } = user;
-            setUserEmail(signInDetails?.loginId || username);
+            const user = await getCurrentUser()
+            const { username, signInDetails } = user
+            setUserEmail(signInDetails?.loginId || username)
         } catch (error) {
-            console.error('Error fetching user:', error);
+            console.error('Error fetching user:', error)
         }
-    };
+    }
 
     const handleLogout = async () => {
         try {
-            await signOut();
-            setUserEmail('');
-            navigate({ to: '/' });
+            await signOut()
+            setUserEmail('')
+            navigate({ to: '/' })
         } catch (error) {
-            console.error('Error signing out: ', error);
+            console.error('Error signing out: ', error)
         }
-    };
+    }
+
+    const handleOpen = () => {
+
+        setIsOpen(true)
+
+
+        if (ref.current)
+            setRect(ref.current.getBoundingClientRect())
+
+        dispatch(blockingUpdated(true))
+    }
+
+    const handleClose = () => {
+
+        setIsOpen(false)
+        dispatch(blockingUpdated(false))
+
+    }
 
     return (
-        <div className="fixed top-0 left-0 z-50 w-[260px]">
-            <div className="bg-white shadow-md overflow-hidden w-">
+        <div>
+            <div>
                 <button
-                    onClick={() => setIsOpen(!isOpen)}
-                    className="w-full px-4 py-3 flex items-center justify-between text-gray-800 hover:bg-gray-50 transition-colors duration-200"
+                    onClick={handleOpen}
+                    className="p-2 flex items-center justify-between text-gray-800 hover:bg-black-50 transition-colors duration-200"
                 >
-                    <div className="flex items-center space-x-3">
-                        <UserIcon />
-                        <span className="font-medium text-sm truncate">{userEmail || 'Loading...'}</span>
+                    <div className="flex flex-row items-center space-x-2 hover:bg-primary-light hover:bg-opacity-40 p-2 rounded-md" ref={ref}>
+                        <LogoIcon />
+                        <ExpandDownIcon />
                     </div>
-                    {isOpen ? <DiminishUpIcon /> : <ExpandDownIcon />}
                 </button>
-                {isOpen && (
-                    <div className="border-t border-gray-200">
-                        <button
-                            onClick={handleLogout}
-                            className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                        >
-                            Logout
-                        </button>
-                    </div>
-                )}
+
+
+                {
+                    isOpen && createPortal(<ClickOutsideListener callback={handleClose}>
+
+                        <div className={`fixed flex rounded-md p-1 p-2 shadow bg-[white] w-[250px]`}
+                            style={{ top: rect.top + rect.height, left: rect.x }}>
+                            <div className="flex flex-col gap-2 w-full">
+                                <span className="font-medium text-sm truncate">{userEmail}</span>
+                                <div className='border-b border-primary' />
+                                <button
+                                    onClick={handleLogout}
+                                    className="p-2 text-left text-sm text-gray-700 transition-colors duration-200 hover:bg-primary-light rounded-md"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+
+                        </div>
+                    </ClickOutsideListener>, document.body)
+                }
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default UserMenu;
+export default UserMenu

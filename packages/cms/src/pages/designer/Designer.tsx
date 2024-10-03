@@ -38,7 +38,7 @@ export default function Designer() {
     }, [modified])
 
     return <div style={{ pointerEvents: blocked ? 'none' : 'auto' }}>
-        <UserMenu />
+
         <div className="flex flex-row">
             <LeftSideMenu />
             {page && <Page />}

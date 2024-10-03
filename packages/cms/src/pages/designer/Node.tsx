@@ -399,76 +399,69 @@ export function Node(props: any) {
         </div>
 
         {
-            (dropdownActive) && <>
-                {createPortal(<ClickOutsideListener callback={closeDropdown}>
+            dropdownActive && createPortal(<ClickOutsideListener callback={closeDropdown}>
 
-                    <div className={`fixed flex rounded-md p-1 shadow bg-[white]`}
-                        style={{ top: rect.top + rect.height, left: rect.x + rect.width - 20 }} ref={portalRef}>
-                        <Grid numberOfCols={1}>
+                <div className={`fixed flex rounded-md p-1 shadow bg-[white]`}
+                    style={{ top: rect.top + rect.height, left: rect.x + rect.width - 20 }} ref={portalRef}>
+                    <Grid numberOfCols={1}>
 
-                            <Item text="Rename" icon={RenameIcon} action={(e) => openRenamePopup(e)} />
-                            <Item text="Duplicate" icon={DuplicateIcon} action={duplicatePage} />
-                            <div className='border-b border-default-light' />
-                            <Item text="Delete" icon={DeleteBlockIcon} action={(e) => openDeletePopup(e)} />
-                        </Grid>
-                    </div>
-                </ClickOutsideListener>, document.body)}
-            </>
+                        <Item text="Rename" icon={RenameIcon} action={(e) => openRenamePopup(e)} />
+                        <Item text="Duplicate" icon={DuplicateIcon} action={duplicatePage} />
+                        <div className='border-b border-default-light' />
+                        <Item text="Delete" icon={DeleteBlockIcon} action={(e) => openDeletePopup(e)} />
+                    </Grid>
+                </div>
+            </ClickOutsideListener>, document.body)
         }
 
         {
-            (deleteActive) && <>
-                {createPortal(<ClickOutsideListener callback={closeDelete}>
-                    <div
-                        className="fixed flex rounded-md p-3 shadow bg-white w-[250px]"
-                        style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
-                        <div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
-                            <p className="font-bold">Delete Page Permanently?</p>
-                            <div> Are you sure? This will permanently erase all content.</div>
-                            <div className="flex gap-2 mt-3">
-                                <Button size="sm" color="white" text="Yes" action={remove} />
-                                <Button size="sm" color="default" text="No" action={closeDelete} />
-                            </div>
+            deleteActive && createPortal(<ClickOutsideListener callback={closeDelete}>
+                <div
+                    className="fixed flex rounded-md p-3 shadow bg-white w-[250px]"
+                    style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+                    <div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
+                        <p className="font-bold">Delete Page Permanently?</p>
+                        <div> Are you sure? This will permanently erase all content.</div>
+                        <div className="flex gap-2 mt-3">
+                            <Button size="sm" color="white" text="Yes" action={remove} />
+                            <Button size="sm" color="default" text="No" action={closeDelete} />
                         </div>
                     </div>
-                </ClickOutsideListener>, document.body)}
-            </>
+                </div>
+            </ClickOutsideListener>, document.body)
         }
 
         {
-            (addingActive) && <>
-                {createPortal(<ClickOutsideListener callback={closeAdding}>
-                    <div
-                        className="fixed flex rounded-md p-3 shadow bg-white w-[250px]"
-                        style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
-                        <div className="flex flex-col gap-2 w-full" onClick={(e) => e.stopPropagation()}>
-                            <p className="font-bold">Choose Page Type</p>
-                            <select name="pageType" id="pageType" className="p-2 rounded-md w-full focus:outline-0" onChange={handlePageToCreate} value={tileToAdd}>
-                                <option value="page-tile">Blank Page</option>
-                                <option value="carousel-tile">Carousel</option>
-                            </select>
-                            <div className="flex mt-3">
-                                <Button size="sm" color="white" text="Create" action={createNewPage} />
-                            </div>
+            addingActive && createPortal(<ClickOutsideListener callback={closeAdding}>
+                <div
+                    className="fixed flex rounded-md p-3 shadow bg-white w-[250px]"
+                    style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+                    <div className="flex flex-col gap-2 w-full" onClick={(e) => e.stopPropagation()}>
+                        <p className="font-bold">Choose Page Type</p>
+                        <select name="pageType" id="pageType" className="p-2 rounded-md w-full focus:outline-0" onChange={handlePageToCreate} value={tileToAdd}>
+                            <option value="page-tile">Blank Page</option>
+                            <option value="carousel-tile">Carousel</option>
+                        </select>
+                        <div className="flex mt-3">
+                            <Button size="sm" color="white" text="Create" action={createNewPage} />
                         </div>
                     </div>
-                </ClickOutsideListener>, document.body)}
-            </>
+                </div>
+            </ClickOutsideListener>, document.body)
         }
 
         {
-            (renameActive) && <>
-                {createPortal(<ClickOutsideListener callback={closeRename}>
+            renameActive && createPortal(<ClickOutsideListener callback={closeRename}>
 
-                    <div className={`fixed flex rounded-md p-1 shadow bg-[white]`}
-                        style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
-                        <div className="flex flex-row gap-2">
-                            <input className="p-1 rounded-md border w-[100%]" value={renameValue} onChange={(event) => setRenameValue(event.target.value)} autoFocus /><Button text="Rename" size="sm" action={renamePage} />
-                        </div>
-
+                <div className={`fixed flex rounded-md p-1 shadow bg-[white]`}
+                    style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+                    <div className="flex flex-row gap-2">
+                        <input className="p-1 rounded-md border w-[100%]" value={renameValue} onChange={(event) => setRenameValue(event.target.value)} autoFocus /><Button text="Rename" size="sm" action={renamePage} />
                     </div>
-                </ClickOutsideListener>, document.body)}
-            </>
+
+                </div>
+            </ClickOutsideListener>, document.body)
+
         }
 
     </div>
