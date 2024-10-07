@@ -49,15 +49,10 @@ export async function updatePage(page: any) {
     return (await res.json())
 }
 
-export async function removePage(id: any, linkedPageId?: any) {
+export async function removePage(id: any) {
 
     const options = {
         method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ linkedPageId }),
-
     }
 
     const res = await fetch(`${API_HOST}/${id}`, options)

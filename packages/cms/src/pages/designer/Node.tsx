@@ -64,7 +64,7 @@ export function Node(props: any) {
         event.stopPropagation()
 
         if (props.root.id == props.id) {
-            removePage(props.id, props.linkedPageId)
+            removePage(props.id)
             let result = pages.filter((page) => page.id !== props.id)
             if (result.length != 0) {
                 dispatch(rootPageUpdated(result[0]))

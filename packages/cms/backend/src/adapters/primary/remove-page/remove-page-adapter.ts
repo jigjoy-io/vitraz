@@ -6,9 +6,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
 export async function removePageHandler({
     pathParameters,
-    body
 }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
-    let linkedPageId: string | undefined;
 
     try {
         if (!pathParameters || !pathParameters?.id)
@@ -16,17 +14,9 @@ export async function removePageHandler({
 
         const { id } = pathParameters
 
-        if (body) linkedPageId = JSON.parse(body)
-
         console.log(`Page to delete: ${id}`)
 
-        if(linkedPageId) {
-            console.log(`Linked page to delete: ${linkedPageId}`);
-            await removePageUseCase(id, linkedPageId);
-        } else {
-            removePageUseCase(id)
-        }
-        
+        removePageUseCase(id)
 
         console.log(`Page deleted: ${JSON.stringify(id)}`)
 
