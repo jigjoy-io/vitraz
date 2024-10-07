@@ -1,7 +1,7 @@
 {
-  "name": "gamification-engine",
+  "name": "interactive-content-designer",
   "version": "1.0.0",
-  "repository": "https://github.com/jigjoy-io/gamification-engine.git",
+  "repository": "https://github.com/jigjoy-io/interactive-content-designer.git",
   "author": "Mijura <miodragvilotijevic@gmail.com>",
   "private": true,
   "scripts": {

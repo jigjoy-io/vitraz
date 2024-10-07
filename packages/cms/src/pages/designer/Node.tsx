@@ -9,6 +9,7 @@ import { DuplicateIcon } from "../../icons/DuplicateIcon"
 import { ExpandPage } from "../../icons/ExpandPage"
 import { MoreIcon } from "../../icons/MoreIcon"
 import { RenameIcon } from "../../icons/RenameIcon"
+import { AddBlockIcon } from "../../icons/AddBlockIcon"
 import { carouselPageSwitched, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/pageReducer"
 import { blockingUpdated } from "../../reducers/toolbarReducer"
 import { pageCollapsed, pageExpanded } from "../../reducers/treeReducer"
@@ -21,20 +22,27 @@ import { createPortal } from "react-dom"
 import ClickOutsideListener from "../../components/popover/ClickOutsideListener"
 import Button from "../../components/button/Button"
 import { useSearch } from '@tanstack/react-router'
+import TemplateFactory from "../../factories/TemplateFactory"
+import { pushBlock } from "../../util/traversals/pushBlock"
+import { addBlock } from "../../util/traversals/addBlock"
 
 export function Node(props: any) {
 
     const activePage = usePage()
     const activeCarousel = useCurrentCarouselPage()
     const [hover, setHover] = useState(null)
+
     const [renameActive, setRenameActive] = useState(false)
     const [dropdownActive, setDropdownActive] = useState(false)
+    const [deleteActive, setDeleteActive] = useState(false)
+    const [addingActive, setAddingActive] = useState(false)
+
     const [ident, setIdent] = useState(props.ident + 12)
     const pages = usePages()
     const [selected, setSelected] = useState<string | null>()
 
     const [renameValue, setRenameValue] = useState('')
-    const [deleteActive, setDeleteActive] = useState(false)
+    const [tileToAdd, setTileToAdd] = useState('page-tile')
 
     const ref = useRef<HTMLDivElement>(null)
 
@@ -70,7 +78,7 @@ export function Node(props: any) {
             return
         }
 
-        let root: Page = JSON.parse(JSON.stringify(props.root))
+        let root = JSON.parse(JSON.stringify(props.root))
         let page = deletePage(root, props.id)
 
         updatePage(page)
@@ -94,7 +102,7 @@ export function Node(props: any) {
             return
         }
 
-        let parent: Page = findParent(props.root, props)
+        let parent = findParent(props.root, props)
         parent = JSON.parse(JSON.stringify(parent))
 
         if (parent.type == "blank") {
@@ -108,8 +116,8 @@ export function Node(props: any) {
         }
 
 
-        let root: Page = JSON.parse(JSON.stringify(props.root))
-        let newPage: Page = replaceBlock(root, parent)
+        let root = JSON.parse(JSON.stringify(props.root))
+        let newPage = replaceBlock(root, parent)
 
 
         updatePage(newPage)
@@ -150,10 +158,10 @@ export function Node(props: any) {
 
         pageToRename.name = renameValue
 
-        let parent: Page = findParent(pageToRename.root, pageToRename)
+        let parent = findParent(pageToRename.root, pageToRename)
         parent = JSON.parse(JSON.stringify(parent))
 
-        let newPage: Page | null = null
+        let newPage: any = null
         if (parent != null) {
             let root = JSON.parse(JSON.stringify(pageToRename.root))
             newPage = replaceBlock(root, pageToRename)
@@ -164,7 +172,7 @@ export function Node(props: any) {
         updatePage(newPage)
 
         let result = JSON.parse(JSON.stringify(pages))
-        let index = result.findIndex((page) => page.id == newPage?.id)
+        let index = result.findIndex((page) => page.id == newPage.id)
         result.splice(index, 1, newPage)
         dispatch(pagesUpdated(result))
 
@@ -175,7 +183,7 @@ export function Node(props: any) {
 
     }
 
-    const expandDropdown = async (e: React.MouseEvent, id) => {
+    const expandDropdown = async (e: React.MouseEvent) => {
 
         if (ref.current)
             setRect(ref.current.getBoundingClientRect())
@@ -198,6 +206,11 @@ export function Node(props: any) {
 
     const closeDelete = () => {
         setDeleteActive(false)
+        dispatch(blockingUpdated(false))
+    }
+
+    const closeAdding = () => {
+        setAddingActive(false)
         dispatch(blockingUpdated(false))
     }
 
@@ -259,6 +272,109 @@ export function Node(props: any) {
 
     }
 
+    const addTooltip = () => {
+
+
+        let parent = findParent(props.root, props)
+
+        if (parent && parent.type == 'carousel') {
+            return <div className="text-center text-[14px]">
+                <div>
+                    <span className="font-extrabold">Click</span> to add below
+                </div>
+                <span className="font-extrabold">Ctrl-click</span> to add page above
+            </div>
+        }
+
+        return <div className="text-center text-[14px]">Add page inside</div>
+
+    }
+
+    const addBlankPageToCarousel = (carousel, position) => {
+        let blankPage = TemplateFactory.createBlankPage(props.id)
+
+        carousel.config.pages.splice(position, 0, blankPage)
+
+        let root = JSON.parse(JSON.stringify(props.root))
+        let newRoot = replaceBlock(root, carousel)
+
+        dispatch(rootPageUpdated(newRoot))
+        updatePage(newRoot)
+
+        let allPages = JSON.parse(JSON.stringify(pages))
+        let index = allPages.findIndex((page) => page.id == newRoot.id)
+        allPages.splice(index, 1, newRoot)
+    }
+
+    const addPage = (e: React.MouseEvent) => {
+        e.stopPropagation()
+
+        let parent = findParent(props.root, props)
+        parent = JSON.parse(JSON.stringify(parent))
+
+
+        if (parent && parent.type == 'carousel') {
+            let pageIndex = parent.config.pages.findIndex((p: any) => p.id == props.id)
+            let position = e.ctrlKey ? pageIndex : pageIndex + 1
+            addBlankPageToCarousel(parent, position)
+            return
+        }
+
+        if (props.type == "carousel") {
+            let carousel = JSON.parse(JSON.stringify(props))
+            let position = carousel.config.pages.length
+
+            addBlankPageToCarousel(carousel, position)
+
+            return
+        }
+
+        if (ref.current)
+            setRect(ref.current.getBoundingClientRect())
+
+        dispatch(blockingUpdated(true))
+        setAddingActive(true)
+
+
+    }
+
+    const createNewPage = () => {
+
+        closeAdding()
+
+        let block = TemplateFactory.createTile(tileToAdd, props.id)
+
+        let page = JSON.parse(JSON.stringify(props))
+        let root = JSON.parse(JSON.stringify(props.root))
+        let allPages = JSON.parse(JSON.stringify(pages))
+
+        let newPage = pushBlock(page, { block: block })
+        newPage = JSON.parse(JSON.stringify(newPage))
+
+
+
+        let newRoot = replaceBlock(root, newPage)
+        dispatch(rootPageUpdated(newRoot))
+        updatePage(newRoot)
+
+
+        if (newPage.id == activePage.id) {
+            dispatch(rootPageUpdated(newPage))
+            dispatch(pageUpdated(newPage))
+        }
+
+        let index = allPages.findIndex((page) => page.id == newRoot.id)
+        allPages.splice(index, 1, newRoot)
+
+        dispatch(pagesUpdated(allPages))
+
+    }
+
+    const handlePageToCreate = (e) => {
+        setTileToAdd(e.target.value)
+    }
+
+
     return <div>
         <div key={props.id}
             onClick={(e: React.MouseEvent) => loadPage(e, props)}
@@ -277,15 +393,18 @@ export function Node(props: any) {
                 (hover == props.id) && <>
 
 
-                    <div onClick={(e) => expandDropdown(e, props.id)} ref={ref}>
-                        <ToolbarButtonWrapper tooltip="Delete, duplicate, and more...">
+                    <div onClick={expandDropdown} ref={ref}>
+                        <ToolbarButtonWrapper tooltip={<div className="text-center text-[14px]">Delete, duplicate, and more...</div>}>
                             <MoreIcon />
                         </ToolbarButtonWrapper>
                     </div>
 
-                    {/* <ToolbarButtonWrapper tooltip="Add a page inside" tansformed={false}>
-                        <AddBlockIcon />
-                    </ToolbarButtonWrapper> */}
+                    <div onClick={addPage}>
+                        <ToolbarButtonWrapper tooltip={addTooltip()} >
+                            <AddBlockIcon />
+                        </ToolbarButtonWrapper>
+                    </div>
+
                 </>
             }
         </div>
@@ -299,55 +418,69 @@ export function Node(props: any) {
         </div>
 
         {
-            (dropdownActive) && <>
-                {createPortal(<ClickOutsideListener callback={closeDropdown}>
+            dropdownActive && createPortal(<ClickOutsideListener callback={closeDropdown}>
 
-                    <div className={`fixed flex rounded-md p-1 shadow bg-[white]`}
-                        style={{ top: rect.top + rect.height, left: rect.x + rect.width - 20 }} ref={portalRef}>
-                        <Grid numberOfCols={1}>
+                <div className={`fixed flex rounded-md p-1 shadow bg-[white]`}
+                    style={{ top: rect.top + rect.height, left: rect.x + rect.width - 20 }} ref={portalRef}>
+                    <Grid numberOfCols={1}>
 
-                            <Item text="Rename" icon={RenameIcon} action={(e) => openRenamePopup(e)} />
-                            <Item text="Duplicate" icon={DuplicateIcon} action={duplicatePage} />
-                            <div className='border-b border-default-light' />
-                            <Item text="Delete" icon={DeleteBlockIcon} action={(e) => openDeletePopup(e)} />
-                        </Grid>
-                    </div>
-                </ClickOutsideListener>, document.body)}
-            </>
+                        <Item text="Rename" icon={RenameIcon} action={(e) => openRenamePopup(e)} />
+                        <Item text="Duplicate" icon={DuplicateIcon} action={duplicatePage} />
+                        <div className='border-b border-default-light' />
+                        <Item text="Delete" icon={DeleteBlockIcon} action={(e) => openDeletePopup(e)} />
+                    </Grid>
+                </div>
+            </ClickOutsideListener>, document.body)
         }
 
         {
-            (deleteActive) && <>
-                {createPortal(<ClickOutsideListener callback={closeDelete}>
-                    <div
-                        className="fixed flex rounded-md p-3 shadow bg-white w-[250px]"
-                        style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
-                        <div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
-                            <p className="font-bold">Delete Page Permanently?</p>
-                            <div> Are you sure? This will permanently erase all content.</div>
-                            <div className="flex gap-2 mt-3">
-                                <Button size="sm" color="white" text="Yes" action={remove} />
-                                <Button size="sm" color="default" text="No" action={closeDelete} />
-                            </div>
+            deleteActive && createPortal(<ClickOutsideListener callback={closeDelete}>
+                <div
+                    className="fixed flex rounded-md p-3 shadow bg-white w-[250px]"
+                    style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+                    <div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
+                        <p className="font-bold">Delete Page Permanently?</p>
+                        <div> Are you sure? This will permanently erase all content.</div>
+                        <div className="flex gap-2 mt-3">
+                            <Button size="sm" color="white" text="Yes" action={remove} />
+                            <Button size="sm" color="default" text="No" action={closeDelete} />
                         </div>
                     </div>
-                </ClickOutsideListener>, document.body)}
-            </>
+                </div>
+            </ClickOutsideListener>, document.body)
         }
 
         {
-            (renameActive) && <>
-                {createPortal(<ClickOutsideListener callback={closeRename}>
-
-                    <div className={`fixed flex rounded-md p-1 shadow bg-[white]`}
-                        style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
-                        <div className="flex flex-row gap-2">
-                            <input className="p-1 rounded-md border w-[100%]" value={renameValue} onChange={(event) => setRenameValue(event.target.value)} autoFocus /><Button text="Rename" size="sm" action={renamePage} />
+            addingActive && createPortal(<ClickOutsideListener callback={closeAdding}>
+                <div
+                    className="fixed flex rounded-md p-3 shadow bg-white w-[250px]"
+                    style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+                    <div className="flex flex-col gap-2 w-full" onClick={(e) => e.stopPropagation()}>
+                        <p className="font-bold">Choose Page Type</p>
+                        <select name="pageType" id="pageType" className="p-2 rounded-md w-full focus:outline-0" onChange={handlePageToCreate} value={tileToAdd}>
+                            <option value="page-tile">Blank Page</option>
+                            <option value="carousel-tile">Carousel</option>
+                        </select>
+                        <div className="flex mt-3">
+                            <Button size="sm" color="white" text="Create" action={createNewPage} />
                         </div>
-
                     </div>
-                </ClickOutsideListener>, document.body)}
-            </>
+                </div>
+            </ClickOutsideListener>, document.body)
+        }
+
+        {
+            renameActive && createPortal(<ClickOutsideListener callback={closeRename}>
+
+                <div className={`fixed flex rounded-md p-1 shadow bg-[white]`}
+                    style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+                    <div className="flex flex-row gap-2">
+                        <input className="p-1 rounded-md border w-[100%]" value={renameValue} onChange={(event) => setRenameValue(event.target.value)} autoFocus /><Button text="Rename" size="sm" action={renamePage} />
+                    </div>
+
+                </div>
+            </ClickOutsideListener>, document.body)
+
         }
 
     </div>

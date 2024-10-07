@@ -1,4 +1,4 @@
-import { fetchUserAttributes, getCurrentUser } from "aws-amplify/auth"
+import { getCurrentUser } from "aws-amplify/auth"
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { getPages, publishPage } from "../../api/page"
@@ -12,6 +12,7 @@ import { useNavigate, useSearch } from '@tanstack/react-router'
 import AnalyticsIcon from "../../icons/AnalyticsIcon"
 import { sidebarExpanded } from "../../reducers/sidebarReducer"
 import Loader from "../../components/loader/Loader"
+import UserMenu from "../../components/userMenu/UserMenu"
 
 export default function LeftSideMenu() {
     const navigate = useNavigate()
@@ -31,7 +32,7 @@ export default function LeftSideMenu() {
 
     async function fetchData() {
         const currentUser = await getCurrentUser()
-        
+
         let pages = await getPages(currentUser.signInDetails?.loginId as string)
         dispatch(pagesUpdated(pages))
 
@@ -76,12 +77,13 @@ export default function LeftSideMenu() {
 
     return (
         <div className="h-[100dvh] max-h-[100dvh] w-[260px] bg-[#F2EEF0] bg-opacity-30 border-r border-light shadow-lg flex flex-col">
-            <div className="m-1 mt-20 px-3 py-2 flex flex-row items-center hover:bg-primary-light hover:bg-opacity-60 rounded-sm cursor-pointer" onClick={createNewPage}>
+
+            <UserMenu />
+            <div className="mx-2 mt-5 px-3 py-2 flex flex-row items-center hover:bg-primary-light hover:bg-opacity-60 rounded-lg cursor-pointer border" onClick={createNewPage}>
                 <AddBlockIcon /><div className="font-bold">Start New Project</div>
             </div>
 
-            <div className='border-b border-primary mx-3' />
-            <div className="grow overflow-y-auto">
+            <div className="grow overflow-y-auto mt-4">
                 {pages.length > 0 && (
                     <div className="flex flex-col">
                         <div className="w-full">

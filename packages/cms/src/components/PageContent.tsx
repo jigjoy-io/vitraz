@@ -43,7 +43,7 @@ export default function PageContent(props: any) {
         if (blocks.length != 0 && blocks[blocks.length - 1].type == "block-selector") {
             dispatch(focusBlock(blocks[blocks.length - 1].id))
         } else {
-            let selector = TemplateFactory.get("block-selector")
+            let selector = TemplateFactory.createBlockSelector()
 
             dispatch(appendBlock({
                 pageId: id,

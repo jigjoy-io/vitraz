@@ -61,30 +61,12 @@ export default function CarouselConfigurer(props: any) {
 
         dispatch(blockingUpdated(false))
 
-        let pages: any = []
-        // create carousel inner pages
-        for (let i = 0; i < numberOfPages; i++) {
-            let page = TemplateFactory.get("blank")
-            let selector = TemplateFactory.get("block-selector")
 
-            page.config.buildingBlocks.push(selector)
-            pages.push(page)
-        }
-
-        // create carousel page
-        let page = TemplateFactory.get("carousel")
-        page.origin = activePage.id
-        page.config = {
-            pages: pages,
-            buttons: {}
-        }
-
-        // replace configurer with carousel block tile
-        let block = TemplateFactory.get('carousel-tile')
-
+        let block = TemplateFactory.createCarouselTileBlock(activePage.id, numberOfPages)
         block.title = title
         block.description = description
-        block.page = page
+
+        // replace configurer with carousel block tile
         block.id = props.id
 
         dispatch(updateBlock(block))
@@ -109,7 +91,7 @@ export default function CarouselConfigurer(props: any) {
 
         window.onbeforeunload = function () {
             turnOffPopup()
-            return null
+            return true
         }
 
         return () => {

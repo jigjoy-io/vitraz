@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { fetchUserAttributes } from '@aws-amplify/auth'
-import React from 'react'
+import { fetchUserAttributes, getCurrentUser } from '@aws-amplify/auth'
+import React, { useEffect } from 'react'
 import Title from '../components/title/Title'
 import Tile from '../components/tile/Tile'
 import Heading from '../components/heading/Heading'
@@ -23,37 +23,29 @@ function Onboarding() {
     const mode = useMode()
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        const checkUser = async () => {
+            try {
+                const user = await getCurrentUser();
+                if (!user) {
+                    navigate({ to: '/' })
+                }
+            } catch (error) {
+                navigate({ to: '/' })
+                console.error("Error checking user authentication:", error)
+            }
+        }
+
+        checkUser()
+    }, [])
+
     const create = async (type) => {
 
         dispatch(modeUpdated("loading"))
 
         const userAttributes = await fetchUserAttributes()
 
-        let page: any = null
-        if (type == 'carousel') {
-            let pages: any = []
-            // create carousel inner pages
-            for (let i = 0; i < 3; i++) {
-                let page = TemplateFactory.get("blank")
-                let selector = TemplateFactory.get("block-selector")
-                page.config.buildingBlocks.push(selector)
-                pages.push(page)
-            }
-
-            // create carousel page
-            page = TemplateFactory.get("carousel")
-            page.origin = userAttributes.email
-            page.config = {
-                pages: pages
-            }
-
-
-        } else {
-            page = TemplateFactory.get("blank")
-            let selector = TemplateFactory.get("block-selector")
-            page.config.buildingBlocks.push(selector)
-            page.origin = userAttributes.email
-        }
+        let page = TemplateFactory.createPage(type, userAttributes.email)
 
         let createdPage = await createPage(page)
 
