@@ -122,6 +122,7 @@ export async function getPages(origin: string): Promise<PageDto[]> {
 	const data = await ddbDocClient.send(new QueryCommand(params))
 	let items: any = data.Items as []
 	items = items.filter((item: any) => item.environment===EnvironmentType.Development) 
+	items.sort((a: any, b: any) => new Date(a.created).getTime() - new Date(b.created).getTime())
 	let pages: PageDto[] = items.map(decompressPage)
 
 
