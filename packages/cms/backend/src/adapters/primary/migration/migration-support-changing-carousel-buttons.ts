@@ -9,12 +9,12 @@ export async function migrateNavigationButtonsHandler({
 }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 
     try {
-        let pages = ["d5c84d1f-a53f-47bf-a927-66ca1fdab467"]
+        let pages = ["c94a4e7b-eeba-4a8c-8a73-02cd08d1dc6a"]
 
         const createNewBlock = (block: any) => {
             let b = JSON.parse(JSON.stringify(block))
-            if (b.type == "carousel-tile") {
-                b.page = createNewPage(b.page)               
+            if (b.type == "carousel-tile" || b.type == 'page-tile') {
+                b.page = createNewPage(b.page)
             }
 
             return b
@@ -29,9 +29,9 @@ export async function migrateNavigationButtonsHandler({
                 }
             }else if (p.type =="carousel"){
                 p.config.buttons = {
-                    previous: 'Previous',
-                    next: "Next",
-                    home: "Back to home"
+                    previous: 'Test 2',
+                    next: "Test",
+                    home: "Test 3"
                 }
             }
 
