@@ -17,7 +17,7 @@ export default function CarouselPage(props: any) {
     const page = usePage()
     const rootPage = useRootPage()
     const dispatch = useDispatch()
-    const { previous, next, home } = props.config.buttons;
+    const { previous = "Previous", next = "Next", home = "Home" } = props.config.buttons || {};
 
     const backToHome = async (page: any) => {
         dispatch(pageUpdated(rootPage))
