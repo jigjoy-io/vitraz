@@ -8,6 +8,7 @@ import { LazyMotion, m } from 'framer-motion'
 import { createSingInChallenge } from '../../api/authorize'
 import { useNavigate } from '@tanstack/react-router'
 import { getCurrentUser } from 'aws-amplify/auth'
+import LocalizedStrings from 'react-localization'
 
 
 const animation = {
@@ -27,6 +28,24 @@ const item = {
 }
 
 const loadFeatures = () => import("../../util/animations").then(res => res.default)
+
+
+let localization = new LocalizedStrings({
+    en: {
+		welcomeMessage: "Welcome to JigJoy 👏",
+        emailPlaceholder: 'Enter Your Email',
+		authButton: 'Log in or Sign up',
+		postLoginMessage: 'Log in link has been sent to provided email'
+    },
+    sr: {
+		welcomeMessage: "Dobrodošli na JigJoy platformu 👏",
+        emailPlaceholder: 'Unesite mejl',
+		authButton: 'Prijavi se ili Registruj',
+		postLoginMessage: 'Link za logovanje je poslat na mejl.'
+    }
+})
+
+localization.setLanguage('sr')
 
 export default function Authorization(props: any) {
 
@@ -56,7 +75,7 @@ export default function Authorization(props: any) {
 	async function authorize() {
 
 		try {
-			setMessage("Log in link has been sent to provided email")
+			setMessage(localization.postLoginMessage)
 			await createSingInChallenge({ email: email })
 		} catch (error) {
 			setMessage(error.message)
@@ -85,11 +104,11 @@ export default function Authorization(props: any) {
 				<m.div key='logo' variants={item}><Logo /></m.div>
 				<m.div key='title' variants={item}>
 					<div className="my-5">
-						<Title text="Welcome to JigJoy 👏" />
+						<Title text={localization.welcomeMessage} />
 					</div>
 				</m.div>
 				<m.div variants={item} className="flex flex-col">
-					<Input action={handleEmailChange} key='email' type="email" placeholder="Enter Your Email" />
+					<Input action={handleEmailChange} key='email' type="email" placeholder={localization.emailPlaceholder} />
 				</m.div>
 				{message != '' &&
 					<m.div variants={item} className="flex flex-col text-[green]">
@@ -97,7 +116,7 @@ export default function Authorization(props: any) {
 					</m.div>
 				}
 				<m.div key='submit' variants={item}>
-					<Button text="Log in or Sign up" action={authorize} focus={true} />
+					<Button text={localization.authButton} action={authorize} focus={true} />
 				</m.div>
 			</m.div>
 		</LazyMotion>

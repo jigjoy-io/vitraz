@@ -2,6 +2,18 @@ import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import { updateBlock } from "../../../reducers/page-reducer"
 import Button from "../../button/button"
+import LocalizedStrings from "react-localization"
+
+let localization = new LocalizedStrings({
+    en: {
+        update: "Update"
+    },
+    sr: {
+        update: "Promeni"
+    }
+})
+
+localization.setLanguage('sr')
 
 export default function TextAreaEditor(props: any) {
 
@@ -15,7 +27,7 @@ export default function TextAreaEditor(props: any) {
     }
 
     return <div className="flex flex-col p-2">
-        <textarea className="p-2 rounded-lg border w-[100%] mb-2" defaultValue={value} value={value} onChange={(event) => setValue(event.target.value)} />
-        <Button text="Update" action={update} />
+        <textarea className="p-2 rounded-lg border w-[400px] mb-2" defaultValue={value} value={value} onChange={(event) => setValue(event.target.value)} />
+        <Button text={localization.update} action={update} />
     </div>
 }

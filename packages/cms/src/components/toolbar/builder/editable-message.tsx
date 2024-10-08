@@ -9,26 +9,44 @@ import PositionEditor from "../editors/position-editor"
 import TextAreaEditor from "../editors/text-area-editor"
 import Toolbar from "../toolbar"
 import EditableBlock from "./editable-block"
+import LocalizedStrings from "react-localization"
 
+
+let localization = new LocalizedStrings({
+    en: {
+        editMessage: "Edit image",
+        editAudio: "Edit size",
+        editColor: "Edit color",
+        editPosition: "Edit position"
+    },
+    sr: {
+        editMessage: "Izmeni poruku",
+        editAudio: "Izmeni zvuk",
+        editColor: "Izmeni boju",
+        editPosition: "Izmeni poziciju"
+    }
+})
+
+localization.setLanguage('sr')
 export default class EditableMessage extends EditableBlock {
 
     editingOptions = [{
-        name: 'Edit message',
+        name: localization.editMessage,
         key: 'message',
         icon: ImageEditingIcon,
         editor: TextAreaEditor
     }, {
-        name: 'Edit audio',
+        name: localization.editAudio,
         key: 'audio',
         icon: AudioEditingIcon,
         editor: AudioEditor
     }, {
-        name: 'Edit color',
+        name: localization.editColor,
         key: 'color',
         icon: ColorEditingIcon,
         editor: ColorEditor
     }, {
-        name: 'Edit position',
+        name: localization.editPosition,
         key: 'position',
         icon: PositionEditingIcon,
         editor: PositionEditor

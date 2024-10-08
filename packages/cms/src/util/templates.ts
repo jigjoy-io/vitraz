@@ -1,4 +1,49 @@
+import LocalizedStrings from 'react-localization'
 import { v4 as uuid } from 'uuid'
+
+let localization = new LocalizedStrings({
+    en: {
+        questionText: "Question text...",
+        answerText1: "Answer 1 text",
+        answerText2: "Answer 2 text",
+        answerText3: "Answer 3 text",
+        confirmationButtonText: 'Check the answer',
+        correctMessage: 'The answer is correct.',
+        correctTitle: 'Great!',
+        incorrectMessage: 'The answer is not correct."',
+        incorrectTitle: 'Better luck next time',
+        messageText: "Message text goes here...",
+        headline: 'Headline',
+        description: 'Decription...',
+        username: '@username',
+        cta: 'Start',
+        title: 'Title',
+        carousel: 'Carousel',
+        blankPage: 'Blank Page'
+    },
+    sr: {
+        questionText: "Tekst pitanja...",
+        answerText1: "Tekst 1. odgovora",
+        answerText2: "Tekst 2. odgovora",
+        answerText3: "Tekst 3. odgovora",
+        confirmationButtonText: 'Proveri odgovor',
+        correctMessage: 'Odogovr je tačan.',
+        correctTitle: 'Bravo!',
+        incorrectMessage: 'Odgovor je netačan.',
+        incorrectTitle: 'Više sreće drugi put',
+        messageText: "Tekst poruke ide ovde...",
+        headline: 'Ime i prezime',
+        description: 'Opis...',
+        username: '@korisničko_ime',
+        cta: 'Počni',
+        title: 'Naslov',
+        carousel: "Karusel",
+        blankPage: 'Prazna stranica'
+    }
+})
+
+localization.setLanguage('sr')
+
 
 export const templates = {
     "audio": {
@@ -31,7 +76,7 @@ export const templates = {
         type: 'question',
         content: {
             displayQuestion: true,
-            text: "Question text...",
+            text: localization.questionText,
             displayImage: true,
             image: "https://jigjoy.io/assets/placeholderimage.jpg"
         },
@@ -39,36 +84,36 @@ export const templates = {
             {
                 id: uuid(),
                 correct: false,
-                text: "Answer 1 text"
+                text: localization.answerText1
             },
             {
                 id: uuid(),
                 correct: true,
-                text: "Answer 2 text"
+                text: localization.answerText2
             },
             {
                 id: uuid(),
                 correct: false,
-                text: "Answer 3 text"
+                text: localization.answerText3
             }
         ],
         outcomes: {
-            confirmationButtonText: "Check the answer",
+            confirmationButtonText: localization.confirmationButtonText,
             correct: {
-             message: "The answer is correct.",
-             title: "Great!",
-             type: "success"
+                message: localization.correctMessage,
+                title: localization.correctTitle,
+                type: "success"
             },
             incorrect: {
-             message: "The answer is not correct.",
-             title: "Better luck next time",
-             type: "danger"
+                message: localization.incorrectMessage,
+                title: localization.incorrectTitle,
+                type: "danger"
             }
-           },
+        },
     },
     "message": {
         type: "message",
-        message: "Message text goes here...",
+        message: localization.messageText,
         audio: "https://www.w3schools.com/html/mov_bbb.mp4",
         position: "left",
         color: "rose"
@@ -80,14 +125,14 @@ export const templates = {
     },
     "profile": {
         type: "profile",
-        headline: "Headline",
-        description: "Decription goes here...",
+        headline: localization.headline,
+        description: localization.description,
         image: "https://jigjoy.io/assets/placeholderimage.jpg",
-        username: "@username"
+        username: localization.username
     },
     "carousel-tile": {
         type: "carousel-tile",
-        cta: "Start"
+        cta: localization.cta
     },
     "block-selector": {
         type: "block-selector"
@@ -95,14 +140,14 @@ export const templates = {
     "carousel-configurer": {
         type: "carousel-configurer",
         accessType: "freebie",
-        title: "Title",
-        description: "Description...",
+        title: localization.title,
+        description: localization.description,
         numberOfPages: 3,
         display: true
-    },    
+    },
     "carousel": {
         type: "carousel",
-        name: "Carousel",
+        name: localization.carousel,
         environment: 'development',
         linkedPageId: null,
         config: {
@@ -112,18 +157,18 @@ export const templates = {
     "page-configurer": {
         type: "page-configurer",
         accessType: "freebie",
-        title: "Title",
-        description: "Description...",
+        title: localization.title,
+        description: localization.description,
         display: true
     },
     "page-tile": {
         type: "page-tile",
-        cta: "Start"
+        cta: localization.cta
     },
     "blank": {
-        
+
         type: "blank",
-        name: "Blank Page",
+        name: localization.blankPage,
         environment: 'development',
         linkedPageId: null,
         config: {

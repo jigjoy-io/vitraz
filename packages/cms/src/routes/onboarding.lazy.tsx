@@ -12,6 +12,29 @@ import { useDispatch } from 'react-redux'
 import { useMode } from '../util/store'
 import { modeUpdated } from '../reducers/page-reducer'
 import Loader from '../components/loader/loader'
+import LocalizedStrings from 'react-localization'
+
+let localization = new LocalizedStrings({
+    en: {
+        chooseProject: "Choose project to start.",
+        blankPageHeading: 'Blank Page',
+        blankPageDescription: 'Create an app from scratch.',
+        carouselHeading: 'Carousel',
+        carouselDescription: 'Create a quiz or micro-lesson.',
+        loadingMessage: 'Project initialization in progress'
+    },
+    sr: {
+        chooseProject: "Odaberi tip projekta.",
+        blankPageHeading: 'Prazna stranica',
+        blankPageDescription: 'Kreiraj aplikaciju od početka.',
+        carouselHeading: 'Karusel',
+        carouselDescription: 'Kreiraj mikro-lekciju ili kviz.',
+        loadingMessage: 'Priprema projekta u toku'
+    }
+})
+
+localization.setLanguage('sr')
+
 
 export const Route = createLazyFileRoute('/onboarding' as never)({
     component: Onboarding
@@ -61,19 +84,19 @@ function Onboarding() {
                 <CloseIcon />
             </div>
             <div className='flex flex-col mt-20 items-center justify-center'>
-                <Title position="center" text="Choose a project to start:"></Title>
+                <Title position="center" text={localization.chooseProject}></Title>
 
                 <div className='flex flex-row gap-8'>
                     <div className='w-[400px] cursor-pointer hover:bg-primary-light hover:rounded-[20px] mt-10' onClick={() => create('blank')}>
                         <Tile>
-                            <Heading text="Blank Page"></Heading>
-                            <p className='mt-4'>Create an learning app from scratch.</p>
+                            <Heading text={localization.blankPageHeading} />
+                            <p className='mt-4'>{localization.blankPageDescription}</p>
                         </Tile>
                     </div>
                     <div className='w-[400px] cursor-pointer hover:bg-primary-light hover:rounded-[20px] mt-10' onClick={() => create('carousel')}>
                         <Tile>
-                            <Heading text="Carousel"></Heading>
-                            <p className='mt-4'>Create a quiz or micro-lesson.</p>
+                            <Heading text={localization.carouselHeading} />
+                            <p className='mt-4'>{localization.carouselDescription}</p>
                         </Tile>
                     </div>
                 </div>
@@ -84,7 +107,7 @@ function Onboarding() {
 
     }
         {
-            mode == "loading" && <Loader message="Page creation in progress" />
+            mode == "loading" && <Loader message={localization.loadingMessage} />
         }
 
     </div>

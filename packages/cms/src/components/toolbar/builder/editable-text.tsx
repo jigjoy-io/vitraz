@@ -4,12 +4,23 @@ import ContentEditingText from "../editors/content-editing-text"
 import PositionEditor from "../editors/position-editor"
 import Toolbar from "../toolbar"
 import EditableBlock from "./editable-block"
+import LocalizedStrings from "react-localization"
 
+let localization = new LocalizedStrings({
+    en: {
+        editPosition: "Edit position"
+    },
+    sr: {
+        editPosition: "Izmeni poziciju"
+    }
+})
+
+localization.setLanguage('sr')
 export default class EditableText extends EditableBlock {
 
 
     editingOptions = [{
-        name: 'Edit position',
+        name: localization.editPosition,
         icon: PositionEditingIcon,
         editor: PositionEditor,
         key: 'position'

@@ -24,6 +24,50 @@ import Button from "../../components/button/button"
 import { useSearch } from '@tanstack/react-router'
 import TemplateFactory from "../../factories/template-factory"
 import { pushBlock } from "../../util/traversals/push-block"
+import LocalizedStrings from "react-localization"
+
+let localization = new LocalizedStrings({
+    en: {
+        click: "Click",
+        ctrlClick: "Ctrl-click",
+        addBelow: "to add below",
+        addAbove: "to add page above",
+        addPageInside: "Add page inside",
+        moreOptions: 'Delete, duplicate, and more...',
+        rename: "Rename",
+        duplicate: "Duplicate",
+        delete: "Delete",
+        choosePageType: 'Choose Page Type',
+        blankPage: 'Blank Page',
+        carousel: 'Carousel',
+        create: 'Create',
+        deletePage: 'Delete Page Permanently?',
+        areYouSure: 'Are you sure? This will permanently erase all content.',
+        yes: 'Yes',
+        no: 'No'
+    },
+    sr: {
+        click: "Klikni",
+        ctrlClick: "Ctrl-klik",
+        addBelow: "da dodaš stranicu dole",
+        addAbove: "da dodaš stranicu gore",
+        addPageInside: "Dodaj stranicu unutra",
+        moreOptions: "Obriši, kloniraj, i drugo...",
+        rename: "Preimenuj",
+        duplicate: "Kloniraj",
+        delete: "Obriši",
+        choosePageType: 'Odaberite tip stranice',
+        blankPage: 'Prazna stranica',
+        carousel: 'Karusel',
+        create: "Kreiraj",
+        deletePage: 'Brisanje stranice',
+        areYouSure: 'Da li si siguran? Čitav sadržaj unutar stranice biće obrisan.',
+        yes: 'Da',
+        no: 'Ne'
+    }
+})
+
+localization.setLanguage('sr')
 
 export function Node(props: any) {
 
@@ -279,13 +323,13 @@ export function Node(props: any) {
         if (parent && parent.type == 'carousel') {
             return <div className="text-center text-[14px]">
                 <div>
-                    <span className="font-extrabold">Click</span> to add below
+                    <span className="font-extrabold">{localization.click}</span> {localization.addBelow}
                 </div>
-                <span className="font-extrabold">Ctrl-click</span> to add page above
+                <span className="font-extrabold">{localization.ctrlClick}</span> {localization.addAbove}
             </div>
         }
 
-        return <div className="text-center text-[14px]">Add page inside</div>
+        return <div className="text-center text-[14px]">{localization.addPageInside}</div>
 
     }
 
@@ -393,7 +437,7 @@ export function Node(props: any) {
 
 
                     <div onClick={expandDropdown} ref={ref}>
-                        <ToolbarButtonWrapper tooltip={<div className="text-center text-[14px]">Delete, duplicate, and more...</div>}>
+                        <ToolbarButtonWrapper tooltip={<div className="text-center text-[14px]">{localization.moreOptions}</div>}>
                             <MoreIcon />
                         </ToolbarButtonWrapper>
                     </div>
@@ -423,10 +467,10 @@ export function Node(props: any) {
                     style={{ top: rect.top + rect.height, left: rect.x + rect.width - 20 }} ref={portalRef}>
                     <Grid numberOfCols={1}>
 
-                        <Item text="Rename" icon={RenameIcon} action={(e) => openRenamePopup(e)} />
-                        <Item text="Duplicate" icon={DuplicateIcon} action={duplicatePage} />
+                        <Item text={localization.rename} icon={RenameIcon} action={(e) => openRenamePopup(e)} />
+                        <Item text={localization.duplicate} icon={DuplicateIcon} action={duplicatePage} />
                         <div className='border-b border-default-light' />
-                        <Item text="Delete" icon={DeleteBlockIcon} action={(e) => openDeletePopup(e)} />
+                        <Item text={localization.delete} icon={DeleteBlockIcon} action={(e) => openDeletePopup(e)} />
                     </Grid>
                 </div>
             </ClickOutsideListener>, document.body)
@@ -438,11 +482,11 @@ export function Node(props: any) {
                     className="fixed flex rounded-md p-3 shadow bg-white w-[250px]"
                     style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
                     <div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
-                        <p className="font-bold">Delete Page Permanently?</p>
-                        <div> Are you sure? This will permanently erase all content.</div>
+                        <p className="font-bold">{localization.deletePage}</p>
+                        <div>{localization.areYouSure}</div>
                         <div className="flex gap-2 mt-3">
-                            <Button size="sm" color="white" text="Yes" action={remove} />
-                            <Button size="sm" color="default" text="No" action={closeDelete} />
+                            <Button size="sm" color="white" text={localization.yes} action={remove} />
+                            <Button size="sm" color="default" text={localization.no} action={closeDelete} />
                         </div>
                     </div>
                 </div>
@@ -455,13 +499,13 @@ export function Node(props: any) {
                     className="fixed flex rounded-md p-3 shadow bg-white w-[250px]"
                     style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
                     <div className="flex flex-col gap-2 w-full" onClick={(e) => e.stopPropagation()}>
-                        <p className="font-bold">Choose Page Type</p>
+                        <p className="font-bold">{localization.choosePageType}</p>
                         <select name="pageType" id="pageType" className="p-2 rounded-md w-full focus:outline-0" onChange={handlePageToCreate} value={tileToAdd}>
-                            <option value="page-tile">Blank Page</option>
-                            <option value="carousel-tile">Carousel</option>
+                            <option value="page-tile">{localization.blankPage}</option>
+                            <option value="carousel-tile">{localization.carousel}</option>
                         </select>
                         <div className="flex mt-3">
-                            <Button size="sm" color="white" text="Create" action={createNewPage} />
+                            <Button size="sm" color="white" text={localization.create} action={createNewPage} />
                         </div>
                     </div>
                 </div>
@@ -474,7 +518,7 @@ export function Node(props: any) {
                 <div className={`fixed flex rounded-md p-1 shadow bg-[white]`}
                     style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
                     <div className="flex flex-row gap-2">
-                        <input className="p-1 rounded-md border w-[100%]" value={renameValue} onChange={(event) => setRenameValue(event.target.value)} autoFocus /><Button text="Rename" size="sm" action={renamePage} />
+                        <input className="p-1 rounded-md border w-[100%]" value={renameValue} onChange={(event) => setRenameValue(event.target.value)} autoFocus /><Button text={localization.rename} size="sm" action={renamePage} />
                     </div>
 
                 </div>

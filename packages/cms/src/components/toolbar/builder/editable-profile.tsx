@@ -10,31 +10,51 @@ import TextEditor from "../editors/text-editor"
 import Toolbar from "../toolbar"
 import EditableBlock from "./editable-block"
 import ProfileIcon from "../../../icons/profile-icon"
+import LocalizedStrings from "react-localization"
 
+let localization = new LocalizedStrings({
+    en: {
+        editHeadline: "Edit headline",
+        editUsername: "Edit username",
+        editImage: "Edit image",
+        editDescription: "Edit description",
+        editColor: "Edit position"
+    },
+    sr: {
+        editHeadline: "Izmeni naslov",
+        editUsername: "Izmeni korisničko ime",
+        editImage: "Izmeni sliku",
+        editDescription: "Izmeni opis",
+        editCta: "Izmeni tekst dugmeta",
+        editColor: "Izmeni boju"
+    }
+})
+
+localization.setLanguage('sr')
 export default class EditableProfile extends EditableBlock {
 
     editingOptions = [{
-        name: 'Rename',
+        name: localization.editHeadline,
         icon: RenameIcon,
         key: 'headline',
         editor: TextEditor
     },{
-        name: 'Edit username',
+        name: localization.editUsername,
         icon: ProfileIcon,
         key: 'username',
         editor: TextEditor
     },{
-        name: 'Edit image',
+        name: localization.editImage,
         icon: ImageEditingIcon,
         key: 'image',
         editor: ImageEditor
     },{
-        name: 'Edit description',
+        name: localization.editDescription,
         key: 'description',
         icon: DescriptionEditingIcon,
         editor: TextAreaEditor
     },{
-        name: 'Edit color',
+        name: localization.editColor,
         icon: ColorEditingIcon,
         editor: ColorEditor,
         key: 'color'

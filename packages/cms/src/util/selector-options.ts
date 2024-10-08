@@ -1,3 +1,4 @@
+import LocalizedStrings from "react-localization"
 import AudioEditingIcon from "../icons/audio-editing-icon"
 import CarouselIcon from "../icons/carousel-icon"
 import ImageEditingIcon from "../icons/image-editing-icon"
@@ -5,53 +6,108 @@ import ProfileIcon from "../icons/profile-icon"
 import { RenameIcon } from "../icons/rename-icon"
 import VideoEditingIcon from "../icons/video-editing-icon"
 
+let localization = new LocalizedStrings({
+    en: {
+        profile: 'Profile',
+        profileDescription: 'Showcase personal information and expertise.',
+        blankPage: 'Blank Page',
+        blankPageDescription: 'Create a sub-page inside this page',
+        carousel: 'Carousel',
+        carouselDescription: 'Separate content into multiple connected pages.',
+        text: 'Text',
+        textDescription: 'Begin writing with plain text',
+        heading: 'Heading',
+        headingDescription: 'Create a medium section heading',
+        title: 'Title',
+        titleDescription: 'Create a bold section heading',
+        image: "Image",
+        imageDescription: "Embed image link",
+        video: 'Reel',
+        videoDescription: 'Embed video link"',
+        audio: 'Audio',
+        audioDescription: 'Embed audio link"',
+        question: 'Question',
+        questionDescription: "Test user's knowledge by asking question.",
+        message: 'Message',
+        messageDescription: 'Display message bubble.'
+    },
+    sr: {
+        profile: 'Profil',
+        profileDescription: 'Prikaži sebe u najboljem svetlu.',
+        blankPage: 'Prazna stranica',
+        blankPageDescription: 'Kreiraj novu pod-stranicu unutar ove.',
+        carousel: 'Karusel',
+        carouselDescription: 'Kreriaj niz poveznaih stranica.',
+        text: 'Tekst',
+        textDescription: 'Počni sa pisanjem teksta...',
+        heading: 'Naslov',
+        headingDescription: 'Ubaci naslov.',
+        title: 'Veliki naslov',
+        titleDescription: 'Ubaci veliki naslov.',
+        image: "Image",
+        imageDescription: "Dodaj sliku pomoću linka.",
+        video: 'Reel',
+        videoDescription: 'Dodaj video pomoću linka.',
+        audio: 'Zvuk',
+        audioDescription: 'Dodaj audio snimak pomoću linka.',
+        question: 'Pitanje',
+        questionDescription: "Testiraj znanje tvoje publike definisanjem pitanja i odgovora.",
+        message: 'Poruka',
+        messageDescription: 'Prikaži konverzaciju.'
+    }
+})
+
+localization.setLanguage('sr')
 
 export const selectorOptions = [
-
     {
-        title: "Important",
-        key: "important",
+        key: "profile",
         commands: [
             {
                 key: "profile",
-                label: "Profile",
-                description: "Showcase personal information and expertise.",
+                label: localization.profile,
+                description: localization.profileDescription,
                 icon: ProfileIcon
-            },
+            }
+        ]
+    },
+
+    {
+        key: "pages",
+        commands: [
             {
                 key: "page-configurer",
-                label: "Page",
-                description: "Create a sub-page inside this page",
+                label: localization.blankPage,
+                description: localization.blankPageDescription,
                 icon: CarouselIcon
             },
             {
                 key: "carousel-configurer",
-                label: "Page Carousel",
-                description: "Separate content into multiple connected pages.",
+                label: localization.carousel,
+                description: localization.carouselDescription,
                 icon: CarouselIcon
             }
         ]
     },
     {
-        title: "Text",
         key: "text",
         commands: [
             {
-                key: "text",
-                label: "Text",
-                description: "Begin writing with plain text",
-                icon: RenameIcon
-            },
-            {
                 key: "title",
-                label: "Title",
-                description: "Create a bold section heading",
+                label: localization.title,
+                description: localization.titleDescription,
                 icon: RenameIcon
             },
             {
                 key: "heading",
-                label: "Heading",
-                description: "Create a medium section heading",
+                label: localization.heading,
+                description: localization.headingDescription,
+                icon: RenameIcon
+            },
+            {
+                key: "text",
+                label: localization.text,
+                description: localization.textDescription,
                 icon: RenameIcon
             }
         ]
@@ -62,41 +118,40 @@ export const selectorOptions = [
         commands: [
             {
                 key: "image",
-                label: "Image",
+                label: localization.image,
                 // description: "Upload an image or embed image link",
-                description: "Embed image link",
+                description: localization.imageDescription,
                 icon: ImageEditingIcon
             },
             {
                 key: "reel",
-                label: "Reel",
+                label: localization.video,
                 // description: "Upload video file or embed video link",
-                description: "Embed video link",
+                description: localization.videoDescription,
                 icon: VideoEditingIcon
             },
             {
                 key: "audio",
-                label: "Audio",
+                label: localization.audio,
                 // description: "Upload an audio file or embed audio link",
-                description: "Embed audio link",
+                description: localization.audioDescription,
                 icon: AudioEditingIcon
             }
         ]
     },
     {
-        title: "Advanced",
         key: "advanced",
         commands: [
             {
                 key: "question",
-                label: "Question",
-                description: "Test user's knowledge by asking question.",
+                label: localization.question,
+                description: localization.questionDescription,
                 icon: ImageEditingIcon
             },
             {
                 key: "message",
-                label: "Message",
-                description: "Display message bubble.",
+                label: localization.message,
+                description: localization.messageDescription,
                 icon: VideoEditingIcon
             }
         ]

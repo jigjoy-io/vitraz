@@ -10,6 +10,19 @@ import {
 } from '../reducers/page-reducer'
 import Loader from '../components/loader/loader'
 import { PostError } from '../util/errors/post-error'
+import LocalizedStrings from 'react-localization'
+
+
+let localization = new LocalizedStrings({
+    en: {
+        loadingMessage: "The page is loading",
+    },
+    sr: {
+        loadingMessage: "Stranice se učitava"
+    }
+})
+
+localization.setLanguage('sr')
 
 export const Route = createFileRoute('/$pageId' as never)({
 	loader: async ({ params: { pageId } }) => {
@@ -20,7 +33,7 @@ export const Route = createFileRoute('/$pageId' as never)({
 		}
 	},
 	errorComponent: PostError,
-	pendingComponent: () => <Loader message="The page is loading" />,
+	pendingComponent: () => <Loader message={localization.loadingMessage} />,
 	component: PageDisplay
 })
 

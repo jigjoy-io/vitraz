@@ -52,7 +52,7 @@ export default function QuestionOutcomesEditor(props: any) {
         setValue(outcomes)
     }
 
-    return <div className="flex flex-col p-2 w-[300px] mt-4">
+    return <div className="flex flex-col p-2 w-[350px] mt-4">
 
         <div>{localization.confirmationButtonText}</div>
         <input className="p-1 mt-2 rounded-lg border w-[100%] mb-3" value={value.confirmationButtonText} onChange={(e: any) => handleButtonChange('confirmationButtonText', e.target.value)} />

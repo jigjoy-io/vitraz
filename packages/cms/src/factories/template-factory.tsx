@@ -1,6 +1,20 @@
 import React from "react"
 import { v4 as uuidv4 } from 'uuid'
 import { templates } from "../util/templates"
+import LocalizedStrings from "react-localization"
+
+let localization = new LocalizedStrings({
+    en: {
+        titile: "Title",
+        description: "Description..."
+    },
+    sr: {
+        titile: "Naslov",
+        description: "Opis..."
+    }
+})
+
+localization.setLanguage('sr')
 
 export default class TemplateFactory extends React.Component {
 
@@ -95,8 +109,8 @@ export default class TemplateFactory extends React.Component {
             block = this.createPageTileBlock(origin)
 
 
-        block.title = 'Title'
-        block.description = 'Description...'
+        block.title = localization.titile
+        block.description = localization.description
 
         return block
     }

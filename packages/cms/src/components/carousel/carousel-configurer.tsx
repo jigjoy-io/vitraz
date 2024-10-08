@@ -23,7 +23,9 @@ let localization = new LocalizedStrings({
         comingSoon: "Coming soon!",
         freebie: "Freebie",
         leadMagnet: "Lead magnet",
-        paid: "Paid"
+        paid: "Paid",
+        carouselSettings: "Carousel Settings",
+        accessType: 'Access Type'
     },
     sr: {
         create: "Kreiraj",
@@ -34,7 +36,9 @@ let localization = new LocalizedStrings({
         comingSoon: "Uskoro",
         freebie: "Besplatno",
         leadMagnet: "Lead magnet",
-        paid: "Plaćeno"
+        paid: "Plaćeno",
+        carouselSettings: "Podešavanje karusela",
+        accessType: 'Podešavanje pristup'
     }
 })
 
@@ -146,7 +150,7 @@ export default function CarouselConfigurer(props: any) {
                 <div className="p-[5%]">
                     <div>
                         <Tabs>
-                            <Tab key="Carousel Settings">
+                            <Tab key={localization.carouselSettings}>
                                 <div className="w-[100%] mt-[1rem]">
                                     <div className="flex flex-row w-full">
                                         <label
@@ -185,7 +189,7 @@ export default function CarouselConfigurer(props: any) {
                                 </div>
                             </Tab>
 
-                            <Tab key="Access Type">
+                            <Tab key={localization.accessType}>
                                 <div className="w-[100%]">
                                     <div className="opacity-30">{localization.comingSoon}</div>
                                     <div className="flex flex-row w-full mt-3 gap-3">

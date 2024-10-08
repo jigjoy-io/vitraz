@@ -1,11 +1,23 @@
+import LocalizedStrings from "react-localization"
 import { NotFoundError } from "../util/errors/not-found-error"
 
 export const API_HOST = process.env.REACT_APP_API
 
+let localization = new LocalizedStrings({
+    en: {
+        pageNotFoundMessage: "Page not found or is not published yet.",
+    },
+    sr: {
+        pageNotFoundMessage: "Stranica nije pronađena ili nije postavljena na produkciju."
+    }
+})
+
+localization.setLanguage('sr')
+
 export async function accessPage(id: string) {
     const res: any = await fetch(`${API_HOST}/access/${id}`)
     if (res.status == 404)
-        throw new NotFoundError(`Page not found or is not published yet.`)
+        throw new NotFoundError(localization.pageNotFoundMessage)
     return (await res.json())
 
 
