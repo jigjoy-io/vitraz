@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { uploadDocument } from "../api/upload"; 
-import { fileToBase64 } from "../util/fileToBase64"; 
+import { fileToBase64 } from "../util/file-to-base64"; 
 import { useRootPage } from "../util/store"; 
 
 const useFileUpload = (setValue: (value: string) => void, acceptedFileType: string) => {
