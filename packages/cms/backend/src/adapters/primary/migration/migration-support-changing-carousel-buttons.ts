@@ -31,7 +31,8 @@ export async function migrateNavigationButtonsHandler({
                 p.config.buttons = {
                     previous: 'Previous',
                     next: "Next",
-                    home: "Back to home"
+                    home: "Back to home",
+                    start: "Start"
                 }
             }
 

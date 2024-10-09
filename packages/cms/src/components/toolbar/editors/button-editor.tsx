@@ -9,6 +9,7 @@ interface ButtonTexts {
     previous: string
     next: string
     home: string
+    start: string
 }
 
 interface MenuEditorProps {
@@ -22,13 +23,15 @@ let localization = new LocalizedStrings({
         update: "Update",
         previous: "Previous",
         next: "Next",
-        home: "Back to Home"
+        home: "Back to Home",
+        start: "Start"
     },
     sr: {
         update: "Promeni",
         previous: "Nazad",
         next: "Napred",
-        home: "Povratak na početnu"
+        home: "Povratak na početnu",
+        start: "Počni"
     }
 })
 
@@ -39,7 +42,7 @@ export default function ButtonEditor({ block, attribute }: MenuEditorProps) {
     useEffect(() => {
         localization.setLanguage(lang)
     }, [])
-    
+
     const [buttonTexts, setButtonTexts] = useState<ButtonTexts>(block.page.config.buttons)
     const dispatch = useDispatch()
 

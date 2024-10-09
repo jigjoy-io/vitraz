@@ -121,7 +121,8 @@ export class TemplatesStorage {
                     buttons: {
                         previous: localization.previous,
                         next: localization.next,
-                        home: localization.backToHome
+                        home: localization.backToHome,
+                        start: localization.start
                     }
                 }
             },
