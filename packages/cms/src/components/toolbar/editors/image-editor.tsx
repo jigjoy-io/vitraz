@@ -6,16 +6,18 @@ import Tab from "../../tabs/tab"
 import Tabs from "../../tabs/tabs"
 import LocalizedStrings from "react-localization"
 import { useLanguage } from "../../../util/store"
-import useFileUpload from "../../../hooks/useFileUpload"
+import useFileUpload from "../../../hooks/use-file-upload"
 
 let localization = new LocalizedStrings({
     en: {
         update: "Update",
-        embedLink: "Embed link"
+        embedLink: "Embed link",
+        uploadImage: "Upload image"
     },
     sr: {
         update: "Promeni",
-        embedLink: "Unesi link"
+        embedLink: "Unesi link",
+        uploadImage: "Promeni sliku"
     }
 })
 
@@ -54,7 +56,7 @@ export default function ImageEditor(props: any) {
         <div className="flex flex-col p-2 w-[300px] mt-4">
             <img src={value} className="w-[100px] my-2 rounded-lg" alt="Uploaded" />
             <Tabs>
-                <Tab key="Upload image">
+                <Tab key={localization.uploadImage}>
                     <input
                         type="file"
                         ref={fileInputRef}
@@ -65,11 +67,11 @@ export default function ImageEditor(props: any) {
                     <Button text="Click to upload image" color="default" action={triggerFileInput} />
                     {fileName && <p className="mt-2 text-sm">{fileName}</p>}
                 </Tab>
-                <Tab key="Embed link">
+                <Tab key={localization.embedLink}>
                     <input className="p-1 rounded-lg border w-[100%] mb-3" value={value} onChange={(e: any) => setValue(e.target.value)} />
                 </Tab>
             </Tabs>
-            <Button text="Update" action={update} />
+            <Button text={localization.update} action={update} />
         </div>
     );
 }
