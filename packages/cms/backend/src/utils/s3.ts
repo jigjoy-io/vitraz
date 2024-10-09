@@ -1,10 +1,11 @@
 import { S3, ListObjectsV2Command, DeleteObjectsCommand } from '@aws-sdk/client-s3';
+const bucketName = process.env.BUCKET_NAME
 
-const s3 = new S3({ region: 'eu-west-1' });
+const s3 = new S3();
 
 export async function deleteAssets(folderPath: string): Promise<void> {
   const listParams = {
-    Bucket: 'jigjoy-dev',
+    Bucket: bucketName,
     Prefix: folderPath,
   };
 
@@ -12,7 +13,7 @@ export async function deleteAssets(folderPath: string): Promise<void> {
 
   if (listedObjects.Contents && listedObjects.Contents.length > 0) {
     const deleteParams = {
-      Bucket: 'jigjoy-dev',
+      Bucket: bucketName,
       Delete: {
         Objects: listedObjects.Contents.map(object => ({ Key: object.Key })),
       },

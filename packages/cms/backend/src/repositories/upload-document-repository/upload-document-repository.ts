@@ -1,8 +1,7 @@
 import { S3, PutObjectCommand } from '@aws-sdk/client-s3';
 
-const s3 = new S3({
-  region: 'eu-west-1',
-});
+const s3 = new S3();
+const bucketName = process.env.BUCKET_NAME
 
 /**
  * Uploads a file to S3 and returns the file URL.
@@ -17,7 +16,7 @@ export async function uploadDocument(file: { filename: string; content: Buffer; 
   const folderPath = `assets/${file.rootPageId}/`;
 
   const params = {
-    Bucket: 'jigjoy-dev',
+    Bucket: bucketName,
     Key: `${folderPath}${file.filename}`,
     Body: file.content,
     ContentType: file.mimetype,

@@ -402,6 +402,9 @@ Resources:
       MemorySize: 128
       Timeout: 100
       Description: Upload user document to S3
+      Environment:
+        Variables:
+          BUCKET_NAME: '{{resolve:secretsmanager:vars:SecretString:BucketName}}'
       Events:
         Api:
           Type: Api
