@@ -89,17 +89,17 @@ export default function Toolbar(props: any) {
                 e.clientX >= rect.left - 200 && e.clientX <= rect.right &&
                 e.clientY >= rect.top && e.clientY <= rect.bottom;
 
-            setOn(isWithinRange);
+            setOn(isWithinRange)
         }
-    };
+    }
 
     useEffect(() => {
         window.addEventListener('mousemove', handleMouseMove);
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
-        };
-    }, []);
+        }
+    }, [])
 
     const turnOffToolbar = () => {
         setOn(false)
