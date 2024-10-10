@@ -66,11 +66,7 @@ export default class TemplateFactory {
         throw ('Page not supported')
     }
 
-    static createCarouselTileBlock(origin, numberOfPages = 3, onboarding?) {
-
-        if (onboarding) {
-            numberOfPages = 4
-        }
+    static createCarouselTileBlock(origin, numberOfPages = 3) {
 
         let block = this.create('carousel-tile')
         let page = this.createCarouselPage(origin, numberOfPages)
@@ -90,14 +86,14 @@ export default class TemplateFactory {
         return block
     }
 
-    static createTile(type, origin, onboarding?) {
+    static createTile(type, origin) {
 
         if (type != 'carousel-tile' && type != 'page-tile')
             throw ('Page not supported')
 
         let block: any = null
         if (type == 'carousel-tile')
-            block = this.createCarouselTileBlock(origin, onboarding)
+            block = this.createCarouselTileBlock(origin)
 
         if (type == 'page-tile')
             block = this.createPageTileBlock(origin)
