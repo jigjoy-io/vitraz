@@ -5,8 +5,18 @@ import CloseIcon from "../../icons/close-icon"
 import Button from "../button/button"
 import Progress from "../progress/progress"
 import Content from "../page-content"
-import { useCurrentCarouselPage, usePage, useRootPage } from "../../util/store"
+import { useCurrentCarouselPage, useLanguage, usePage, useRootPage } from "../../util/store"
 import isValidEmail from "../../util/is-valid-email"
+import LocalizedStrings from "react-localization"
+
+let localization = new LocalizedStrings({
+    en: {
+        start: "Start"
+    },
+    sr: {
+        start: "Počni"
+    }
+})
 
 export default function CarouselPage(props: any) {
 
@@ -19,9 +29,12 @@ export default function CarouselPage(props: any) {
     const page = usePage()
     const rootPage = useRootPage()
     const dispatch = useDispatch()
-    const { previous, next, home, start } = props.config.buttons
+    const { previous, next, home } = props.config.buttons
+    const lang = useLanguage()
 
     useEffect(() => {
+        localization.setLanguage(lang)
+
         if (isValidEmail(origin)) {
             setIsOriginRoot(true)
         }
@@ -83,7 +96,7 @@ export default function CarouselPage(props: any) {
             {
                 (isOriginRoot && current == 0) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
 
-                    <Button text={start} action={nextPage} />
+                    <Button text={localization.start} action={nextPage} />
                 </div >
             }
             {
