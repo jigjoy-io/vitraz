@@ -15,6 +15,7 @@ import Loader from '../components/loader/loader'
 import { PostError } from '../util/errors/post-error'
 import LocalizedStrings from 'react-localization'
 import { languageUpdated } from '../reducers/localization-reducer'
+import { useLanguage } from '../util/store'
 
 let localization = new LocalizedStrings({
   US: {
@@ -22,7 +23,7 @@ let localization = new LocalizedStrings({
     pageNotFoundMessage: 'Page not found or is not published yet.',
   },
   RS: {
-    loadingMessage: 'Stranice se učitava',
+    loadingMessage: 'Stranica se učitava',
     pageNotFoundMessage:
       'Stranica nije pronađena ili nije postavljena na produkciju.',
   },
@@ -42,14 +43,17 @@ export const Route = createFileRoute('/$pageId' as never)({
 })
 
 function PendingComponent() {
-  const { lang } = useSearch({
+  const { langParam } = useSearch({
     from: `/$pageId`,
     select: (search: any) => {
       return {
-        lang: search.lang,
+        langParam: search.lang,
       }
     },
   })
+
+  const lang = langParam || useLanguage()
+  localization.setLanguage(lang)
 
   const dispatch = useDispatch()
 

@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 
-export default function Item(props: any) {
+export default function Input(props: any) {
 
-	const [value, setValue] = useState('')
+    const [value, setValue] = useState('')
 
 
 
@@ -11,21 +11,12 @@ export default function Item(props: any) {
         props.action(event.target.value)
     }
 
-	return (
-
-		<>
-
-            <input 
-                onChange={handleChange} 
-                className="h-[40px] bg-[white] border border-light shadow-lg p-[3px] px-[8px] rounded-lg outline-none" 
-                value={value}
-                name={props.key} 
-                placeholder={props.placeholder}
-                type={props.type}/>
-
-		</>
-
-
-	)
+    return <input
+        onChange={handleChange}
+        className="h-[40px] bg-[white] border border-light shadow-lg p-[3px] px-[8px] rounded-lg outline-none"
+        value={value}
+        name={props.key}
+        placeholder={props.placeholder}
+        type={props.type} />
 
 }

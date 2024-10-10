@@ -5,7 +5,7 @@ import Button from "../../button/button"
 import Tab from "../../tabs/tab"
 import Tabs from "../../tabs/tabs"
 import LocalizedStrings from "react-localization"
-import useFileUpload from "../../../hooks/use-file-upload"
+import useFileUpload from "../../../util/file-upload"
 
 let localization = new LocalizedStrings({
     US: {

@@ -13,6 +13,7 @@ import ReactFlagsSelect from "react-flags-select"
 import { languageUpdated } from '../../reducers/localization-reducer'
 import { useDispatch } from 'react-redux'
 import localization from './authorization.localization'
+import LanguageSwitcher from '../../shared/language-switcher/language-switcher'
 
 
 const animation = {
@@ -39,10 +40,8 @@ export default function Authorization(props: any) {
 	const [message, setMessage] = useState('')
 	const [email, setEmail] = useState('')
 	const navigate = useNavigate()
-
-	const dispatch = useDispatch()
-	const [selected, setSelected] = useState('')
 	const lang = useLanguage()
+	localization.setLanguage(lang)
 
 	const checkUser = async () => {
 		try {
@@ -80,11 +79,6 @@ export default function Authorization(props: any) {
 
 	useEffect(() => {
 		localization.setLanguage(lang)
-	}, [])
-
-	useEffect(() => {
-		localization.setLanguage(lang)
-		setSelected(lang)
 	}, [lang])
 
 
@@ -92,10 +86,7 @@ export default function Authorization(props: any) {
 		setEmail(email)
 	}
 
-	const switchLanguage = (code) => {
-		localization.setLanguage(code)
-		dispatch(languageUpdated(code))
-	}
+
 
 	return localization && <div className="mt-[10vh] flex justify-center">
 		<LazyMotion features={loadFeatures}>
@@ -107,13 +98,7 @@ export default function Authorization(props: any) {
 					</div>
 				</m.div>
 				<m.div>
-
-					<ReactFlagsSelect
-						selected={selected}
-						countries={["US", "RS"]}
-						onSelect={(code) => switchLanguage(code)}
-						className='h-[45px] bg-[white] border border-light shadow-lg rounded-lg outline-none'
-					/>
+					<LanguageSwitcher initial={lang} />
 				</m.div>
 
 				<m.div variants={item} className="flex flex-col">
