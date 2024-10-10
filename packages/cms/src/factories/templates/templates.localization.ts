@@ -21,8 +21,7 @@ let localization = new LocalizedStrings({
         blankPage: 'Blank Page',
         previous: "Previous",
         next: "Next",
-        backToHome: "Back to Home",
-        start: "Start"
+        backToHome: "Back to Home"
     },
     RS: {
         questionText: "Tekst pitanja...",
@@ -44,8 +43,7 @@ let localization = new LocalizedStrings({
         blankPage: 'Prazna stranica',
         previous: "Nazad",
         next: "Napred",
-        backToHome: "Povratak na početnu",
-        start: "Počni"
+        backToHome: "Povratak na početnu"
     }
 })
 

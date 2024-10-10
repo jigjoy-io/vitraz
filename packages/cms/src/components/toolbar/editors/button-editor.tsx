@@ -24,14 +24,12 @@ let localization = new LocalizedStrings({
         previous: "Previous",
         next: "Next",
         home: "Back to Home",
-        start: "Start"
     },
     RS: {
         update: "Promeni",
         previous: "Nazad",
         next: "Napred",
         home: "Povratak na početnu",
-        start: "Počni"
     }
 })
 
