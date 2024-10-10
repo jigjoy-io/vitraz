@@ -5,7 +5,7 @@ interface LocalizationState {
   }
 
 let initialState: LocalizationState = {
-    language: 'en'
+    language: 'US'
 }
 
 

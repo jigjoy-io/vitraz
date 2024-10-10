@@ -14,10 +14,10 @@ import { SelectorOptions } from "./selector-options"
 
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         selectorText: "Write something, or type '/' to insert..."
     },
-    sr: {
+    RS: {
         selectorText: "Napiši nešto ili unesi '/' da dodaš blok..."
     }
 })

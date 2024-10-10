@@ -14,7 +14,7 @@ import { createPortal } from "react-dom"
 import LocalizedStrings from "react-localization"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         create: "Create",
         title: "Title: ",
         description: "Description: ",
@@ -26,7 +26,7 @@ let localization = new LocalizedStrings({
         carouselSettings: "Carousel Settings",
         accessType: 'Access Type'
     },
-    sr: {
+    RS: {
         create: "Kreiraj",
         title: "Naslov: ",
         description: "Opis: ",

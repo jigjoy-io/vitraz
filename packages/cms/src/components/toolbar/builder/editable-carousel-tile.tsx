@@ -16,7 +16,7 @@ import RenameIcon from "../../../icons/rename-icon"
 import { store } from "../../../util/store"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         rename: "Rename",
         editImage: "Image",
         editDescription: "Description",
@@ -24,7 +24,7 @@ let localization = new LocalizedStrings({
         editColor: "Position",
         editButtons: "Navigation Buttons"
     },
-    sr: {
+    RS: {
         rename: "Preimenuj",
         editImage: "Slika",
         editDescription: "Opis",

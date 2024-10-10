@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import { updateBlock } from "../../../reducers/page-reducer"
 import Button from "../../button/button"
 import Checkbox from "../../checkbox/checkbox"
 import LocalizedStrings from "react-localization"
-import { useLanguage } from "../../../util/store"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         update: "Update",
         displayQuestion: "Display question text",
         displayImage: "Display question image",
         embedLink: "Unesi link"
     },
-    sr: {
+    RS: {
         update: "Promeni",
         displayQuestion: "Prikaži tekst pitanja",
         displayImage: "Prikaži sliku",
@@ -27,11 +26,7 @@ export default function QuestionContentEditor(props: any) {
     const [displayUrlInput, setDisplayUrlInput] = useState(false)
 
     const dispatch = useDispatch()
-    const lang = useLanguage()
-
-    useEffect(() => {
-        localization.setLanguage(lang)
-    }, [])
+    localization.setLanguage(props.lang)
 
 
     const update = () => {

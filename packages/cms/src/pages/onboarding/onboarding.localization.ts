@@ -2,7 +2,7 @@ import LocalizedStrings from "react-localization"
 import { store } from "../../util/store"
 
 const localization = new LocalizedStrings({
-    en: {
+    US: {
         chooseProject: "Choose project to start.",
         blankPageHeading: 'Blank Page',
         blankPageDescription: 'Create an app from scratch.',
@@ -10,7 +10,7 @@ const localization = new LocalizedStrings({
         carouselDescription: 'Create a quiz or micro-lesson.',
         loadingMessage: 'Project initialization in progress'
     },
-    sr: {
+    RS: {
         chooseProject: "Odaberi tip projekta.",
         blankPageHeading: 'Prazna stranica',
         blankPageDescription: 'Kreiraj aplikaciju od početka.',

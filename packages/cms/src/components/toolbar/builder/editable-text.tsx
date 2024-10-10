@@ -8,10 +8,10 @@ import PositionEditingIcon from "../../../icons/position-editing-icon"
 import { store } from "../../../util/store"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         editPosition: "Position"
     },
-    sr: {
+    RS: {
         editPosition: "Pozicija"
     }
 })
