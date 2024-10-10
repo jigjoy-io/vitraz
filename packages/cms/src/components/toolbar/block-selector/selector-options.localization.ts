@@ -1,7 +1,7 @@
 import LocalizedStrings from "react-localization"
 
 const localization = new LocalizedStrings({
-    en: {
+    US: {
         profile: 'Profile',
         profileDescription: 'Showcase personal information and expertise.',
         blankPage: 'Blank Page',
@@ -25,7 +25,7 @@ const localization = new LocalizedStrings({
         message: 'Message',
         messageDescription: 'Display message bubble.'
     },
-    sr: {
+    RS: {
         profile: 'Profil',
         profileDescription: 'Prikaži sebe u najboljem svetlu.',
         blankPage: 'Prazna stranica',

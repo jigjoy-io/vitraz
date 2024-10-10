@@ -7,10 +7,10 @@ import LocalizedStrings from "react-localization"
 import { store } from "../../../util/store"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         editVideo: "Video"
     },
-    sr: {
+    RS: {
         editVideo: "Snimak"
     }
 })

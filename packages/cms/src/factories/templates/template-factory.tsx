@@ -8,8 +8,6 @@ export default class TemplateFactory {
         
         let block: any = templates[type]
         
-        console.log(type)
-        console.log(block)
         let template = JSON.parse(JSON.stringify(block))
         template.id = uuidv4()
         return template

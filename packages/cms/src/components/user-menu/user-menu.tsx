@@ -52,7 +52,7 @@ export default function UserMenu() {
 
     const switchLanguage = () => {
         handleClose()
-        dispatch(languageUpdated('sr'))
+        dispatch(languageUpdated('RS'))
     }
 
     return (

@@ -2,10 +2,10 @@ import LocalizedStrings from "react-localization"
 import { store } from "../../../util/store"
 
 const localization = new LocalizedStrings({
-    en: {
+    US: {
         logout: "Logoout"
     },
-    sr: {
+    RS: {
         logout: "Odjavi se"
     }
 })

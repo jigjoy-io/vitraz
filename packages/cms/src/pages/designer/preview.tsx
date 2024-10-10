@@ -7,12 +7,12 @@ import { store, useLanguage } from "../../util/store"
 import { useNavigate } from "@tanstack/react-router"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         previewMessagePart1: "You're in the preview mode. Click",
         previewMessagePart2: "here",
         previewMessagePart3: "to switch back to editing.",
     },
-    sr: {
+    RS: {
         previewMessagePart1: "Nalazite se u režimu za testiranje. Kliknite",
         previewMessagePart2: "ovde",
         previewMessagePart3: "za povratak u editor.",

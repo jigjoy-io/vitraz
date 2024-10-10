@@ -17,11 +17,11 @@ import LocalizedStrings from 'react-localization'
 import { languageUpdated } from '../reducers/localization-reducer'
 
 let localization = new LocalizedStrings({
-  en: {
+  US: {
     loadingMessage: 'The page is loading',
     pageNotFoundMessage: 'Page not found or is not published yet.',
   },
-  sr: {
+  RS: {
     loadingMessage: 'Stranice se učitava',
     pageNotFoundMessage:
       'Stranica nije pronađena ili nije postavljena na produkciju.',

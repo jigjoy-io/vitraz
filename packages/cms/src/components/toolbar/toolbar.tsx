@@ -36,12 +36,12 @@ const transition = {
 
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         openMenu: "Open menu",
         duplicate: "Duplicate block",
         delete: "Delete block"
     },
-    sr: {
+    RS: {
         openMenu: "Otvori meni",
         duplicate: "Kloniraj blok",
         delete: "Obriši blok"
@@ -89,17 +89,17 @@ export default function Toolbar(props: any) {
                 e.clientX >= rect.left - 200 && e.clientX <= rect.right &&
                 e.clientY >= rect.top && e.clientY <= rect.bottom;
 
-            setOn(isWithinRange);
+            setOn(isWithinRange)
         }
-    };
+    }
 
     useEffect(() => {
         window.addEventListener('mousemove', handleMouseMove);
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
-        };
-    }, []);
+        }
+    }, [])
 
     const turnOffToolbar = () => {
         setOn(false)
@@ -236,7 +236,7 @@ export default function Toolbar(props: any) {
 
                 createPortal(<ClickOutsideListener callback={handleEditorClose} >
                     <div className={`fixed flex rounded-md p-1 shadow bg-[white] z-50`} style={{ top: editorTop, left: editorLeft }} ref={editorRef}>
-                        <editor.editor id={props.id} tabFocus={false} block={props.block} attribute={editor.key} value={props.block[editor.key]} />
+                        <editor.editor id={props.id} lang={lang} tabFocus={false} block={props.block} attribute={editor.key} value={props.block[editor.key]} />
                     </div>
                 </ClickOutsideListener>, document.body)
             }
