@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import Page from "../../components/page"
 import { modeUpdated } from "../../reducers/page-reducer"
 import LocalizedStrings from "react-localization"
-import { store, useLanguage } from "../../util/store"
+import { useLanguage } from "../../util/store"
 import { useNavigate } from "@tanstack/react-router"
 
 let localization = new LocalizedStrings({
@@ -19,13 +19,12 @@ let localization = new LocalizedStrings({
     }
 })
 
-const state = store.getState()
-localization.setLanguage(state.localization.language)
-
 export default function Preview() {
 
     const dispatch = useDispatch()
     const lang = useLanguage()
+    localization.setLanguage(lang)
+
     const navigate = useNavigate()
 
     useEffect(() => {

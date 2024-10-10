@@ -48,10 +48,7 @@ export function RightSideMenu() {
     
     const dispatch = useDispatch<AppDispatch>()
     const lang = useLanguage()
-
-    useEffect(() => {
-        localization.setLanguage(lang)
-    }, [])
+    localization.setLanguage(lang)
     
     return <LazyMotion features={loadFeatures}>
         <AnimatePresence>{

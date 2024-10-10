@@ -22,6 +22,7 @@ export default function Onboarding() {
     const mode = useMode()
 
     const lang = useLanguage()
+    localization.setLanguage(lang)
 
 
     const checkUser = async () => {

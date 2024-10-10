@@ -20,7 +20,4 @@ const localization = new LocalizedStrings({
     }
 })
 
-const state = store.getState()
-localization.setLanguage(state.localization.language)
-
 export default localization
