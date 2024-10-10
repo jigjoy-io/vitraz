@@ -14,14 +14,14 @@ import RenameIcon from "../../../icons/rename-icon"
 import { store } from "../../../util/store"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         rename: "Rename",
         editImage: "Image",
         editDescription: "Description",
         editCta: "Call-to-acition",
         editColor: "Edit position"
     },
-    sr: {
+    RS: {
         rename: "Preimenuj",
         editImage: "Slika",
         editDescription: "Opis",

@@ -29,12 +29,12 @@ const transition = {
 const loadFeatures = () => import("../../util/animations").then(res => res.default)
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
 		comingSoon: "Analytics Coming Soon!",
         collectLeads: 'Collect leads and view key insights soon.',
         closePanel: 'Close panel'
     },
-    sr: {
+    RS: {
 		comingSoon: "Uskoro dostupna analitika na stranicama!",
         collectLeads: 'Prikupljanje mejlova i pregled analitike.',
         closePanel: 'Zatvori'

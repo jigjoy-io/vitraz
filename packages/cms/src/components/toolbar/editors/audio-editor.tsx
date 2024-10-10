@@ -1,56 +1,52 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { updateBlock } from "../../../reducers/page-reducer";
-import AudioButton from "../../audio/audio-button";
-import Button from "../../button/button";
-import Tab from "../../tabs/tab";
-import Tabs from "../../tabs/tabs";
-import useFileUpload from "../../../hooks/use-file-upload";
+import React, { useRef, useState } from "react"
+import { useDispatch } from "react-redux"
+import { updateBlock } from "../../../reducers/page-reducer"
+import AudioButton from "../../audio/audio-button"
+import Button from "../../button/button"
+import Tab from "../../tabs/tab"
+import Tabs from "../../tabs/tabs"
+import useFileUpload from "../../../hooks/use-file-upload"
 import LocalizedStrings from "react-localization"
-import { useLanguage } from "../../../util/store"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         update: "Update",
         embedLink: "Embed link",
-        uploadAudio: "Upload audio"
+        uploadAudio: "Upload audio",
+        clickToUpload: "Click to upload audio"
     },
-    sr: {
+    RS: {
         update: "Promeni",
         embedLink: "Unesi link",
-        uploadAudio: "Promeni audio"
+        uploadAudio: "Promeni zvuk",
+        clickToUpload: "Klikni da ubaciš zvuk" 
     }
 })
 
 export default function AudioEditor(props: any) {
-    const [value, setValue] = useState(props.value);
-    const fileInputRef = useRef<HTMLInputElement>(null);
-    const dispatch = useDispatch();
+    const [value, setValue] = useState(props.value)
+    const fileInputRef = useRef<HTMLInputElement>(null)
+    const dispatch = useDispatch()
+    const { fileName, uploading, handleFileUpload, setFileName } = useFileUpload(setValue, 'audio')
 
-    const { fileName, uploading, handleFileUpload, setFileName } = useFileUpload(setValue, 'audio');
-
-    const lang = useLanguage()
-
-    useEffect(() => {
-        localization.setLanguage(lang)
-    }, [])
+    localization.setLanguage(props.lang)
 
     const update = () => {
-        let block = JSON.parse(JSON.stringify(props.block));
-        block[props.attribute] = value;
-        dispatch(updateBlock(block));
-    };
+        let block = JSON.parse(JSON.stringify(props.block))
+        block[props.attribute] = value
+        dispatch(updateBlock(block))
+    }
 
     const triggerFileInput = () => {
-        fileInputRef.current?.click();
-    };
+        fileInputRef.current?.click()
+    }
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
+        const file = event.target.files?.[0]
         if (file) {
-            handleFileUpload(file);
+            handleFileUpload(file)
         }
-    };
+    }
 
     return (
         <div className="flex flex-col p-2 w-[300px] mt-4">
@@ -64,7 +60,7 @@ export default function AudioEditor(props: any) {
                         accept="audio/*"
                         style={{ display: 'none' }}
                     />
-                    <Button text="Click to upload audio" color="default" action={triggerFileInput} />
+                    <Button text={localization.clickToUpload} color="default" action={triggerFileInput} />
                     {fileName && <p className="mt-2 text-sm">{fileName}</p>}
                 </Tab>
                 <Tab key={localization.embedLink}>

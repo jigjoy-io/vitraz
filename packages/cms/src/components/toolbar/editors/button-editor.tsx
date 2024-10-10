@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import { updateBlock } from "../../../reducers/page-reducer"
 import Button from "../../button/button"
 import LocalizedStrings from "react-localization"
-import { useLanguage } from "../../../util/store"
 
 interface ButtonTexts {
     previous: string
@@ -15,18 +14,19 @@ interface ButtonTexts {
 interface MenuEditorProps {
     block: any
     attribute: string
-    value?: ButtonTexts
+    value?: ButtonTexts,
+    lang: string
 }
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         update: "Update",
         previous: "Previous",
         next: "Next",
         home: "Back to Home",
         start: "Start"
     },
-    sr: {
+    RS: {
         update: "Promeni",
         previous: "Nazad",
         next: "Napred",
@@ -35,13 +35,9 @@ let localization = new LocalizedStrings({
     }
 })
 
-export default function ButtonEditor({ block, attribute }: MenuEditorProps) {
+export default function ButtonEditor({ block, attribute, lang }: MenuEditorProps) {
 
-    const lang = useLanguage()
-
-    useEffect(() => {
-        localization.setLanguage(lang)
-    }, [])
+    localization.setLanguage(lang)
 
     const [buttonTexts, setButtonTexts] = useState<ButtonTexts>(block.page.config.buttons)
     const dispatch = useDispatch()

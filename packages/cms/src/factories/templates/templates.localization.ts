@@ -1,7 +1,7 @@
 import LocalizedStrings from "react-localization"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         questionText: "Question text...",
         answerText1: "Answer 1 text",
         answerText2: "Answer 2 text",
@@ -24,7 +24,7 @@ let localization = new LocalizedStrings({
         backToHome: "Back to Home",
         start: "Start"
     },
-    sr: {
+    RS: {
         questionText: "Tekst pitanja...",
         answerText1: "Tekst 1. odgovora",
         answerText2: "Tekst 2. odgovora",

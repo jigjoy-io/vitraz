@@ -51,8 +51,6 @@ export default function Onboarding() {
 
         const userAttributes = await fetchUserAttributes()
 
-
-        console.log(lang)
         let page = TemplateFactory.createPage(type, userAttributes.email)
 
         let createdPage = await createPage(page)

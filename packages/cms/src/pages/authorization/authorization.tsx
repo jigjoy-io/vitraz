@@ -9,6 +9,9 @@ import { useNavigate } from '@tanstack/react-router'
 import { getCurrentUser } from 'aws-amplify/auth'
 import { Logo } from '../../icons/logo'
 import { useLanguage } from '../../util/store'
+import ReactFlagsSelect from "react-flags-select"
+import { languageUpdated } from '../../reducers/localization-reducer'
+import { useDispatch } from 'react-redux'
 import localization from './authorization.localization'
 
 
@@ -36,6 +39,9 @@ export default function Authorization(props: any) {
 	const [message, setMessage] = useState('')
 	const [email, setEmail] = useState('')
 	const navigate = useNavigate()
+
+	const dispatch = useDispatch()
+	const [selected, setSelected] = useState('')
 	const lang = useLanguage()
 
 	const checkUser = async () => {
@@ -73,15 +79,25 @@ export default function Authorization(props: any) {
 	}, [])
 
 	useEffect(() => {
-        localization.setLanguage(lang)
-    }, [lang])
+		localization.setLanguage(lang)
+	}, [])
+
+	useEffect(() => {
+		localization.setLanguage(lang)
+		setSelected(lang)
+	}, [lang])
 
 
 	const handleEmailChange = (email) => {
 		setEmail(email)
 	}
 
-	return <div className="mt-[10vh] flex justify-center">
+	const switchLanguage = (code) => {
+		localization.setLanguage(code)
+		dispatch(languageUpdated(code))
+	}
+
+	return localization && <div className="mt-[10vh] flex justify-center">
 		<LazyMotion features={loadFeatures}>
 			<m.div variants={animation} initial="hidden" animate="show" className='gap-5 flex flex-col w-[400px]'>
 				<m.div key='logo' variants={item}><Logo /></m.div>
@@ -90,6 +106,16 @@ export default function Authorization(props: any) {
 						<Title text={localization.welcomeMessage} />
 					</div>
 				</m.div>
+				<m.div>
+
+					<ReactFlagsSelect
+						selected={selected}
+						countries={["US", "RS"]}
+						onSelect={(code) => switchLanguage(code)}
+						className='h-[45px] bg-[white] border border-light shadow-lg rounded-lg outline-none'
+					/>
+				</m.div>
+
 				<m.div variants={item} className="flex flex-col">
 					<Input action={handleEmailChange} key='email' type="email" placeholder={localization.emailPlaceholder} />
 				</m.div>

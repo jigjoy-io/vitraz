@@ -1,5 +1,5 @@
 
-import { configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import pageReducer from '../reducers/page-reducer'
 import { useDispatch, useSelector } from "react-redux"
 import toolbarReducer from '../reducers/toolbar-reducer'
@@ -7,9 +7,10 @@ import authReducer from '../reducers/auth-reducer'
 import localizationReducer from '../reducers/localization-reducer'
 import treeReducer from '../reducers/tree-reducer'
 import sidebarReducer from '../reducers/sidebar-reducer'
+import storage from 'redux-persist/lib/storage'
+import { persistStore, persistReducer } from 'redux-persist'
 
-export const store = configureStore({
-    reducer: {
+const rootReducer = combineReducers({
         toolbar: toolbarReducer,
         tree: treeReducer,
         page: pageReducer,
@@ -17,7 +18,25 @@ export const store = configureStore({
         sidebar: sidebarReducer,
         localization: localizationReducer
     }
+)
+
+const persistConfig = {
+    key: 'root',
+    storage: storage,
+    whitelist: ['localization'] // only localization will be persisted
+}
+
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+export const store = configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        })
 })
+export const persistor = persistStore(store)
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>

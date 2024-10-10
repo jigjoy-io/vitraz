@@ -8,13 +8,13 @@ import TemplateFactory from "../../../factories/templates/template-factory"
 import { useLanguage } from "../../../util/store"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         click: "Click",
         ctrlClick: "Ctrl-click",
         addBelow: "to add below",
         addAbove: "to add block above"
     },
-    sr: {
+    RS: {
         click: "Klikni",
         ctrlClick: "Ctrl-klik",
         addBelow: "da dodaš blok dole",

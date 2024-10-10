@@ -28,7 +28,7 @@ import RenameIcon from "../../icons/rename-icon"
 import { languageUpdated } from "../../reducers/localization-reducer"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         click: "Click",
         ctrlClick: "Ctrl-click",
         addBelow: "to add below",
@@ -47,7 +47,7 @@ let localization = new LocalizedStrings({
         yes: 'Yes',
         no: 'No'
     },
-    sr: {
+    RS: {
         click: "Klikni",
         ctrlClick: "Ctrl-klik",
         addBelow: "da dodaš stranicu dole",

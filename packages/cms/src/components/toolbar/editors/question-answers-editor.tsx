@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import CloseIcon from "../../../icons/close-icon"
 import { updateBlock } from "../../../reducers/page-reducer"
@@ -6,15 +6,14 @@ import Button from "../../button/button"
 import { v4 as uuid } from 'uuid'
 import Checkbox from "../../checkbox/checkbox"
 import LocalizedStrings from "react-localization"
-import { useLanguage } from "../../../util/store"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         update: "Update",
         addAnswer: "Add answer",
         answer: "Answer"
     },
-    sr: {
+    RS: {
         update: "Promeni",
         addAnswer: "Dodaj odgovor",
         answer: "Odgovor"
@@ -27,11 +26,7 @@ export default function QuestionAnswersEditor(props: any) {
     const [value, setValue] = useState(props.value)
 
     const dispatch = useDispatch()
-    const lang = useLanguage()
-
-    useEffect(() => {
-        localization.setLanguage(lang)
-    }, [])
+    localization.setLanguage(props.lang)
 
 
     const update = () => {
