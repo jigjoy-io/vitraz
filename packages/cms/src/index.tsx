@@ -1,16 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import { Provider } from 'react-redux'
+import { Provider, useDispatch } from 'react-redux'
 import { RouterProvider, createRouteMask, createRouter } from "@tanstack/react-router"
 import { routeTree } from "./routeTree.gen"
 import { Amplify } from 'aws-amplify'
-import { store } from './util/store'
+import { persistor, store } from './util/store'
 
-import { PostHogProvider} from 'posthog-js/react'
+import { PostHogProvider } from 'posthog-js/react'
+import { PersistGate } from 'redux-persist/integration/react'
+import Loader from './components/loader/loader'
+import { modeUpdated } from './reducers/page-reducer'
 
 const options = {
-  api_host: process.env.REACT_APP_PUBLIC_POSTHOG_HOST,
+	api_host: process.env.REACT_APP_PUBLIC_POSTHOG_HOST,
 }
 
 Amplify.configure({
@@ -52,11 +55,14 @@ declare module "@tanstack/react-router" {
 
 rootDiv.render(
 	<React.StrictMode>
-		<PostHogProvider 
-      		apiKey={process.env.REACT_APP_PUBLIC_POSTHOG_KEY}
-      		options={options}>
+		<PostHogProvider
+			apiKey={process.env.REACT_APP_PUBLIC_POSTHOG_KEY}
+			options={options}>
+
 			<Provider store={store}>
-				<RouterProvider router={router} />
+				<PersistGate loading={null} persistor={persistor}>
+					<RouterProvider router={router} />
+				</PersistGate>
 			</Provider>
 		</PostHogProvider>
 	</React.StrictMode>
