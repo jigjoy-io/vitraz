@@ -9,7 +9,7 @@ let localization = new LocalizedStrings({
         confirmationButtonText: 'Check the answer',
         correctMessage: 'The answer is correct.',
         correctTitle: 'Great!',
-        incorrectMessage: 'The answer is not correct."',
+        incorrectMessage: 'The answer is not correct.',
         incorrectTitle: 'Better luck next time',
         messageText: "Message text goes here...",
         headline: 'Headline',
