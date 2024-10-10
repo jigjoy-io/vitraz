@@ -1,15 +1,19 @@
 import { v4 as uuidv4 } from 'uuid'
 import { TemplatesStorage } from "./templates"
+import isValidEmail from '../../util/is-valid-email'
 
 export default class TemplateFactory {
 
+    // static isValidEmail(email: string): boolean {
+    //     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    //     return emailRegex.test(email);
+    // }
+
     static create(type: string) {
         let templates = TemplatesStorage.getTemplates()
-        
+
         let block: any = templates[type]
-        
-        console.log(type)
-        console.log(block)
+
         let template = JSON.parse(JSON.stringify(block))
         template.id = uuidv4()
         return template
@@ -35,6 +39,10 @@ export default class TemplateFactory {
     }
 
     static createCarouselPage(origin, numberOfPages = 3) {
+
+        if (isValidEmail(origin)) {
+            numberOfPages = 4
+        }
 
         let page = this.create("carousel")
         page.origin = origin
@@ -63,7 +71,12 @@ export default class TemplateFactory {
         throw ('Page not supported')
     }
 
-    static createCarouselTileBlock(origin, numberOfPages = 3) {
+    static createCarouselTileBlock(origin, numberOfPages = 3, onboarding?) {
+
+        if (onboarding) {
+            numberOfPages = 4
+        }
+
         let block = this.create('carousel-tile')
         let page = this.createCarouselPage(origin, numberOfPages)
 
@@ -82,15 +95,14 @@ export default class TemplateFactory {
         return block
     }
 
-    static createTile(type, origin) {
-
+    static createTile(type, origin, onboarding?) {
 
         if (type != 'carousel-tile' && type != 'page-tile')
             throw ('Page not supported')
 
         let block: any = null
         if (type == 'carousel-tile')
-            block = this.createCarouselTileBlock(origin)
+            block = this.createCarouselTileBlock(origin, onboarding)
 
         if (type == 'page-tile')
             block = this.createPageTileBlock(origin)

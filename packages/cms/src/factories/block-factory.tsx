@@ -18,7 +18,7 @@ const BlockSelector = lazy(() => import('../components/toolbar/block-selector/bl
 
 export default class BlockFactory extends React.Component {
 
-    static buildingBlocks : any = {
+    static buildingBlocks: any = {
         "audio": {
             component: AudioButton
         },
@@ -65,10 +65,9 @@ export default class BlockFactory extends React.Component {
             component: BlockSelector
         }
     }
-    
-    static get(props: any ) {
-        console.log(props)
-        let block : any = this.buildingBlocks[props.type]
-        return <Suspense><block.component {...props}/></Suspense>
+
+    static get(props: any) {
+        let block: any = this.buildingBlocks[props.type]
+        return <Suspense><block.component {...props} /></Suspense>
     }
 }

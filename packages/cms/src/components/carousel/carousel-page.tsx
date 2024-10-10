@@ -6,6 +6,7 @@ import Button from "../button/button"
 import Progress from "../progress/progress"
 import Content from "../page-content"
 import { useCurrentCarouselPage, usePage, useRootPage } from "../../util/store"
+import isValidEmail from "../../util/is-valid-email"
 
 export default function CarouselPage(props: any) {
 
@@ -14,10 +15,17 @@ export default function CarouselPage(props: any) {
     const [percentage, setPercentage] = useState(0)
     const [pages, setPages] = useState(props.config.pages)
     const [origin, setOrigin] = useState(props.origin)
+    const [isOriginRoot, setIsOriginRoot] = useState(false)
     const page = usePage()
     const rootPage = useRootPage()
     const dispatch = useDispatch()
     const { previous, next, home, start } = props.config.buttons
+
+    useEffect(() => {
+        if (isValidEmail(origin)) {
+            setIsOriginRoot(true)
+        }
+    }, [])
 
     const backToHome = async (page: any) => {
         dispatch(pageUpdated(rootPage))
@@ -56,12 +64,14 @@ export default function CarouselPage(props: any) {
 
             <div className="flex flex-col h-[100%] w-[100%] max-w-[400px] p-3">
 
-                <div className="flex flex-row">
-                    <Progress percentage={percentage} />
-                    <div className='w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => backToHome(origin)}>
-                        <CloseIcon />
+                {
+                    (!isOriginRoot) && <div className="flex flex-row">
+                        <Progress percentage={percentage} />
+                        <div className='w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => backToHome(origin)}>
+                            <CloseIcon />
+                        </div>
                     </div>
-                </div>
+                }
 
 
                 <div className="h-[100%]">
@@ -71,13 +81,13 @@ export default function CarouselPage(props: any) {
 
             </div>
             {
-                (current === 0) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
+                (isOriginRoot && current == 0) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
 
                     <Button text={start} action={nextPage} />
                 </div >
             }
             {
-                (current != pages.length - 1 && current != 0) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
+                (current != pages.length - 1 && (current != 0 || !isOriginRoot)) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
                     <Button text={previous} action={previousPage} /> <Button text={next} action={nextPage} />
                 </div>
             }
