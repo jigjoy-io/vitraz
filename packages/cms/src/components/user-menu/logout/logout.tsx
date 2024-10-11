@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { signOut } from 'aws-amplify/auth'
 import { useNavigate } from '@tanstack/react-router'
 import { useDispatch } from 'react-redux'
@@ -11,7 +11,7 @@ export default function LogoutButton(){
     const navigate = useNavigate()
     const dispatch = useDispatch()
 	const lang = useLanguage()
-    const [logoutText, setLogoutText] = useState('')
+    localization.setLanguage(lang)
 
     const handleLogout = async () => {
         try {
@@ -25,15 +25,9 @@ export default function LogoutButton(){
             console.error('LOG Error signing out: ', error)
         }
     }
-
-    useEffect(() => {
-        localization.setLanguage(lang)
-        setLogoutText(localization.logout)
-        
-    }, [])
     
     return lang && <button
         className="p-1 px-2 text-left text-sm text-gray-700 transition-colors duration-200 hover:bg-primary-light rounded-md" onClick={handleLogout}>
-        {logoutText}
+        {localization.logout}
     </button>
 }

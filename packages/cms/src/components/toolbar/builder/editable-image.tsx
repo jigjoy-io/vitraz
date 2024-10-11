@@ -11,12 +11,12 @@ import SizeIcon from "../../../icons/size-icon"
 import { store } from "../../../util/store"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         editImage: "Image",
         editSize: "Size",
         editPosition: "Position"
     },
-    sr: {
+    RS: {
         editImage: "Slika",
         editSize: "Veličina",
         editPosition: "Pozicija"

@@ -1,11 +1,12 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
-import { DynamoDBDocumentClient, GetCommand, PutCommand, DeleteCommand, QueryCommand, BatchWriteCommand } from '@aws-sdk/lib-dynamodb'
+import { DynamoDBDocumentClient, GetCommand, PutCommand, DeleteCommand, QueryCommand, BatchWriteCommand, DeleteCommandInput } from '@aws-sdk/lib-dynamodb'
 import { PageDto } from "@dto/page/page"
 import { EnvironmentType } from '@models/types'
 const client = new DynamoDBClient({})
 const ddbDocClient = DynamoDBDocumentClient.from(client)
 const tableName = process.env.PAGE_TABLE
 import { compress, decompress } from 'compress-json'
+import { deleteAssets } from '@utils/s3'
 
 const compressPage = (page: PageDto) => {
 	let p = JSON.parse(JSON.stringify(page))
@@ -83,29 +84,28 @@ export async function putPages(pages: PageDto[]): Promise<PageDto[]> {
 	return pages
 }
 
-
-
 export async function deletePage(pageId: any): Promise<void> {
+  const params: DeleteCommandInput = {
+    TableName: tableName,
+    Key: { id: pageId },
+    ReturnValues: "ALL_OLD",
+  };
 
-	var params = {
-		TableName: tableName,
-		Key: { id: pageId },
-		ReturnValues: "ALL_OLD"
-	}
+  const result = await ddbDocClient.send(new DeleteCommand(params));
 
-	const result = await ddbDocClient.send(new DeleteCommand(params))
+  if (result.Attributes && result.Attributes.linkedPageId) {
+    const linkedPageId = result.Attributes.linkedPageId;
 
-	if(result.Attributes && result.Attributes.linkedPageId) {
-		const linkedPageId = result.Attributes.linkedPageId;
-		const prodParams = {
-			TableName: tableName,
-			Key: { id: linkedPageId },
-		};
-		
-		await ddbDocClient.send(new DeleteCommand(prodParams));
-	}
-	
+    const prodParams: DeleteCommandInput = {
+      TableName: tableName,
+      Key: { id: linkedPageId },
+    };
 
+    await ddbDocClient.send(new DeleteCommand(prodParams));
+  }
+
+  const folderPath = `assets/${pageId}/`;
+  await deleteAssets(folderPath);
 }
 
 export async function getPages(origin: string): Promise<PageDto[]> {
@@ -122,6 +122,7 @@ export async function getPages(origin: string): Promise<PageDto[]> {
 	const data = await ddbDocClient.send(new QueryCommand(params))
 	let items: any = data.Items as []
 	items = items.filter((item: any) => item.environment===EnvironmentType.Development) 
+	items.sort((a: any, b: any) => new Date(a.created).getTime() - new Date(b.created).getTime())
 	let pages: PageDto[] = items.map(decompressPage)
 
 

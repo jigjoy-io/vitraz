@@ -11,12 +11,12 @@ import OutcomeMessageEditingIcon from "../../../icons/outcome-message-editing-ic
 import { store } from "../../../util/store"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         editQuestion: "Question",
         editAnswers: "Answers",
         editOutcomes: "Outcomes"
     },
-    sr: {
+    RS: {
         editQuestion: "Pitanje",
         editAnswers: "Odgovori",
         editOutcomes: "Poruke"

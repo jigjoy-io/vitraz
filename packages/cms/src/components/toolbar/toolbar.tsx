@@ -36,12 +36,12 @@ const transition = {
 
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         openMenu: "Open menu",
         duplicate: "Duplicate block",
         delete: "Delete block"
     },
-    sr: {
+    RS: {
         openMenu: "Otvori meni",
         duplicate: "Kloniraj blok",
         delete: "Obriši blok"
@@ -57,6 +57,7 @@ export default function Toolbar(props: any) {
     const [toolbarVisible, setToolbarVisibility] = useState(false)
     const [blockRadius, setBlockRadius] = useState(props.blockRadius ? props.blockRadius : "rounded-lg")
 
+    const containerRef = useRef<HTMLDivElement>(null)
 
     const openMenuRef = useRef<HTMLDivElement>(null)
     const toolbarRef = useRef<HTMLDivElement>(null)
@@ -75,11 +76,30 @@ export default function Toolbar(props: any) {
     useEffect(() => {
         localization.setLanguage(lang)
     }, [])
-    
+
 
     const turnOnToolbar = (e: any) => {
         setOn(true)
     }
+
+    const handleMouseMove = (e: MouseEvent) => {
+        if (containerRef.current) {
+            const rect = containerRef.current.getBoundingClientRect();
+            const isWithinRange =
+                e.clientX >= rect.left - 200 && e.clientX <= rect.right &&
+                e.clientY >= rect.top && e.clientY <= rect.bottom;
+
+            setOn(isWithinRange)
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener('mousemove', handleMouseMove);
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+        }
+    }, [])
 
     const turnOffToolbar = () => {
         setOn(false)
@@ -165,7 +185,7 @@ export default function Toolbar(props: any) {
     }, [toolbarVisible])
 
     return (<>
-        <div onMouseEnter={turnOnToolbar} onMouseLeave={turnOffToolbar} className="sticky flex flex-col">
+        <div ref={containerRef} onMouseEnter={turnOnToolbar} onMouseLeave={turnOffToolbar} className="sticky flex flex-col">
             <LazyMotion features={loadFeatures}>
                 <AnimatePresence>
                     {(on || toolbarVisible || editor) &&
@@ -216,7 +236,7 @@ export default function Toolbar(props: any) {
 
                 createPortal(<ClickOutsideListener callback={handleEditorClose} >
                     <div className={`fixed flex rounded-md p-1 shadow bg-[white] z-50`} style={{ top: editorTop, left: editorLeft }} ref={editorRef}>
-                        <editor.editor id={props.id} tabFocus={false} block={props.block} attribute={editor.key} value={props.block[editor.key]} />
+                        <editor.editor id={props.id} lang={lang} tabFocus={false} block={props.block} attribute={editor.key} value={props.block[editor.key]} />
                     </div>
                 </ClickOutsideListener>, document.body)
             }

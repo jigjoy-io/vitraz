@@ -29,12 +29,12 @@ const transition = {
 const loadFeatures = () => import("../../util/animations").then(res => res.default)
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
 		comingSoon: "Analytics Coming Soon!",
         collectLeads: 'Collect leads and view key insights soon.',
         closePanel: 'Close panel'
     },
-    sr: {
+    RS: {
 		comingSoon: "Uskoro dostupna analitika na stranicama!",
         collectLeads: 'Prikupljanje mejlova i pregled analitike.',
         closePanel: 'Zatvori'
@@ -48,10 +48,7 @@ export function RightSideMenu() {
     
     const dispatch = useDispatch<AppDispatch>()
     const lang = useLanguage()
-
-    useEffect(() => {
-        localization.setLanguage(lang)
-    }, [])
+    localization.setLanguage(lang)
     
     return <LazyMotion features={loadFeatures}>
         <AnimatePresence>{

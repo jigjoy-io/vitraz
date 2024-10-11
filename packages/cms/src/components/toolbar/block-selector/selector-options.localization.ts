@@ -1,7 +1,7 @@
 import LocalizedStrings from "react-localization"
 
 const localization = new LocalizedStrings({
-    en: {
+    US: {
         profile: 'Profile',
         profileDescription: 'Showcase personal information and expertise.',
         blankPage: 'Blank Page',
@@ -25,7 +25,7 @@ const localization = new LocalizedStrings({
         message: 'Message',
         messageDescription: 'Display message bubble.'
     },
-    sr: {
+    RS: {
         profile: 'Profil',
         profileDescription: 'Prikaži sebe u najboljem svetlu.',
         blankPage: 'Prazna stranica',
@@ -34,9 +34,9 @@ const localization = new LocalizedStrings({
         carouselDescription: 'Kreriaj niz poveznaih stranica.',
         text: 'Tekst',
         textDescription: 'Počni sa pisanjem teksta...',
-        heading: 'Naslov',
+        heading: 'Podnaslov',
         headingDescription: 'Ubaci naslov.',
-        title: 'Veliki naslov',
+        title: 'Naslov',
         titleDescription: 'Ubaci veliki naslov.',
         image: "Image",
         imageDescription: "Dodaj sliku pomoću linka.",

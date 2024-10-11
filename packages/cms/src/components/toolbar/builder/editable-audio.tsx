@@ -9,11 +9,11 @@ import LocalizedStrings from "react-localization"
 import { store } from "../../../util/store"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         editAudio: "Audio",
         editPosition: "Position"
     },
-    sr: {
+    RS: {
         editAudio: "Zvuk",
         editPosition: "Pozicija"
     }

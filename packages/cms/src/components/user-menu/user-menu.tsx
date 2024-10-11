@@ -6,15 +6,33 @@ import ClickOutsideListener from '../popover/click-outside-listener'
 import { blockingUpdated } from '../../reducers/toolbar-reducer'
 import { useDispatch } from 'react-redux'
 import { InitialIcon } from '../../icons/initial-icon'
-import LogoutButton from '../../pages/authorization/logout/logout'
-import { languageUpdated } from '../../reducers/localization-reducer'
+import LogoutButton from './logout/logout'
+import LanguageSwitcher from '../../shared/language-switcher/language-switcher'
+import { useLanguage } from '../../util/store'
+import LocalizedStrings from 'react-localization'
+
+const localization = new LocalizedStrings({
+    US: {
+        languageSettings: "Language Settings",
+        chooseLanguage: "Choose Language"
+    },
+    RS: {
+        languageSettings: "Podešavanje jezika",
+        chooseLanguage: "Odaberi jezik"
+    }
+})
 
 export default function UserMenu() {
     const [isOpen, setIsOpen] = useState(false)
+    const [isOpenSettings, setSettingsOpen] = useState(false)
     const [userEmail, setUserEmail] = useState('')
     const ref = useRef<HTMLDivElement>(null)
+    const refLanguageSettings = useRef<HTMLButtonElement>(null)
 
     const [rect, setRect] = useState<null | any>(null)
+
+    const lang = useLanguage()
+    localization.setLanguage(lang)
 
     const dispatch = useDispatch()
 
@@ -50,9 +68,20 @@ export default function UserMenu() {
 
     }
 
-    const switchLanguage = () => {
-        handleClose()
-        dispatch(languageUpdated('sr'))
+    const openLanguageSettings = (event) => {
+
+        setIsOpen(false)
+        if (refLanguageSettings.current)
+            setRect(refLanguageSettings.current.getBoundingClientRect())
+
+        event.stopPropagation()
+        dispatch(blockingUpdated(true))
+        setSettingsOpen(true)
+    }
+
+    const handleSettingsClose = () => {
+        setSettingsOpen(false)
+        dispatch(blockingUpdated(false))
     }
 
     return (
@@ -63,7 +92,7 @@ export default function UserMenu() {
                     className="p-2 flex items-center justify-between text-gray-800 hover:bg-black-50 transition-colors duration-200"
                 >
                     {userEmail && <div className="flex flex-row items-center space-x-2 hover:bg-primary-light hover:bg-opacity-60 p-1 rounded-md" ref={ref}>
-                        <InitialIcon initials={userEmail[0].toUpperCase()}/>
+                        <InitialIcon initials={userEmail[0].toUpperCase()} />
                         <ExpandDownIcon />
                     </div>}
                 </button>
@@ -77,12 +106,27 @@ export default function UserMenu() {
                             <div className="flex flex-col gap-1 w-full">
                                 <span className="p-1 px-2 font-medium text-sm truncate">{userEmail}</span>
                                 <div className='border-b border-primary' />
-                                <button onClick={switchLanguage}>Serbian language</button>
+                                <button ref={refLanguageSettings}
+                                    className="p-1 px-2 text-left text-sm text-gray-700 transition-colors duration-200 hover:bg-primary-light rounded-md" onClick={openLanguageSettings}>
+                                    {localization.languageSettings}
+                                </button>
                                 <LogoutButton />
                             </div>
 
                         </div>
                     </ClickOutsideListener>, document.body)
+                }
+
+                {
+                    isOpenSettings && createPortal(<ClickOutsideListener callback={handleSettingsClose}>
+
+                        <div className={`fixed flex flex-col rounded-md p-3 gap-2 shadow bg-white w-[250px]`}
+                            style={{ top: rect.top, left: rect.x + rect.width }}>
+                            <p className="font-bold">{localization.chooseLanguage}</p>
+                            <LanguageSwitcher initial={lang} />
+                        </div>
+                    </ClickOutsideListener>, document.body)
+
                 }
             </div>
         </div>

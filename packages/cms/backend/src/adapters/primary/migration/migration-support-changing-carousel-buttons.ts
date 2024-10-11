@@ -3,13 +3,16 @@ import { errorHandler } from '@packages/apigw-error-handler'
 
 import { retrievePageUseCase } from '@use-cases/retrieve-page'
 import { updatePageUseCase } from '@use-cases/update-page'
+import { retrievePagesUseCase } from '@use-cases/retrieve-pages'
 
 export async function migrateNavigationButtonsHandler({
     body,
 }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 
     try {
-        let pages = ["c94a4e7b-eeba-4a8c-8a73-02cd08d1dc6a"]
+        let pages: any [] = await retrievePagesUseCase('miodrag.todorovic@jigjoy.io')
+        pages = pages.map(x => x.id)
+        
 
         const createNewBlock = (block: any) => {
             let b = JSON.parse(JSON.stringify(block))

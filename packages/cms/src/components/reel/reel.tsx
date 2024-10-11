@@ -3,10 +3,10 @@ import LocalizedStrings from "react-localization"
 import { useLanguage } from "../../util/store"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         videoNotSupported: "Sorry, your browser doesn't support embedded videos."
     },
-    sr: {
+    RS: {
         videoNotSupported: 'Oprostite, vaš pretraživač ne podržava linkovane snimke.'
     }
 })

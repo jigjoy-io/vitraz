@@ -67,7 +67,6 @@ export default class BlockFactory extends React.Component {
     }
     
     static get(props: any ) {
-        console.log(props)
         let block : any = this.buildingBlocks[props.type]
         return <Suspense><block.component {...props}/></Suspense>
     }

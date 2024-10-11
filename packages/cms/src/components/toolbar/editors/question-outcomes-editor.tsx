@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import { updateBlock } from "../../../reducers/page-reducer"
 import Button from "../../button/button"
 import LocalizedStrings from "react-localization"
 import Tabs from "../../tabs/tabs"
 import Tab from "../../tabs/tab"
-import { useLanguage } from "../../../util/store"
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         update: "Update",
         confirmationButtonText: "Confirmation button text: ",
         titile: "Title: ",
@@ -16,7 +15,7 @@ let localization = new LocalizedStrings({
         correct: "Correct answer",
         incorrect: "Incorrect answer"
     },
-    sr: {
+    RS: {
         update: "Promeni",
         confirmationButtonText: "Dugme za potvrdu:",
         titile: "Naslov: ",
@@ -31,11 +30,7 @@ export default function QuestionOutcomesEditor(props: any) {
     const [value, setValue] = useState(props.value)
 
     const dispatch = useDispatch()
-    const lang = useLanguage()
-
-    useEffect(() => {
-        localization.setLanguage(lang)
-    }, [])
+    localization.setLanguage(props.lang)
 
 
     const update = () => {

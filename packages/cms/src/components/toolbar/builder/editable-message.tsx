@@ -14,13 +14,13 @@ import { store } from "../../../util/store"
 
 
 let localization = new LocalizedStrings({
-    en: {
+    US: {
         editMessage: "Image",
-        editAudio: "Size",
+        editAudio: "Audio",
         editColor: "Color",
         editPosition: "Position"
     },
-    sr: {
+    RS: {
         editMessage: "Poruka",
         editAudio: "Zvuk",
         editColor: "Boja",

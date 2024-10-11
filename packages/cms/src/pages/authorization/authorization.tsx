@@ -5,11 +5,12 @@ import Button from '../../components/button/button'
 import Title from '../../components/title/title'
 import { LazyMotion, m } from 'framer-motion'
 import { createSingInChallenge } from '../../api/authorize'
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate, useSearch } from '@tanstack/react-router'
 import { getCurrentUser } from 'aws-amplify/auth'
 import { Logo } from '../../icons/logo'
 import { useLanguage } from '../../util/store'
 import localization from './authorization.localization'
+import LanguageSwitcher from '../../shared/language-switcher/language-switcher'
 
 
 const animation = {
@@ -36,7 +37,18 @@ export default function Authorization(props: any) {
 	const [message, setMessage] = useState('')
 	const [email, setEmail] = useState('')
 	const navigate = useNavigate()
-	const lang = useLanguage()
+
+	const { langParam } = useSearch({
+		from: `/`,
+		select: (search: any) => {
+			return {
+				langParam: search.lang ? search.lang.toUpperCase() : null,
+			}
+		},
+	})
+
+	const lang = langParam || useLanguage()
+	localization.setLanguage(lang)
 
 	const checkUser = async () => {
 		try {
@@ -73,15 +85,17 @@ export default function Authorization(props: any) {
 	}, [])
 
 	useEffect(() => {
-        localization.setLanguage(lang)
-    }, [lang])
+		localization.setLanguage(lang)
+	}, [lang])
 
 
 	const handleEmailChange = (email) => {
 		setEmail(email)
 	}
 
-	return <div className="mt-[10vh] flex justify-center">
+
+
+	return localization && <div className="mt-[10vh] flex justify-center">
 		<LazyMotion features={loadFeatures}>
 			<m.div variants={animation} initial="hidden" animate="show" className='gap-5 flex flex-col w-[400px]'>
 				<m.div key='logo' variants={item}><Logo /></m.div>
@@ -90,6 +104,10 @@ export default function Authorization(props: any) {
 						<Title text={localization.welcomeMessage} />
 					</div>
 				</m.div>
+				<m.div>
+					<LanguageSwitcher initial={lang} />
+				</m.div>
+
 				<m.div variants={item} className="flex flex-col">
 					<Input action={handleEmailChange} key='email' type="email" placeholder={localization.emailPlaceholder} />
 				</m.div>
