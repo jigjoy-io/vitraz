@@ -87,12 +87,6 @@ export default function ImageEditor(props: any) {
         }
     }
 
-    useEffect(() => {
-        if (!loading && fileUrl) {
-            setFileAlert({ type: "success", message: localization.fileUploadedSuccessfully })
-        }
-    }, [loading, fileUrl])
-
     return (
         <div className="flex flex-col p-2 w-[300px] mt-4">
             <img src={value} className="w-[100px] my-2 rounded-lg" alt="Uploaded" />

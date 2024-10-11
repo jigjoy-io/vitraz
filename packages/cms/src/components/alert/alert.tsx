@@ -45,7 +45,7 @@ export default function Alert(props: any) {
                 </div>
                 <div className='pl-3'>
                     <div className='font-bold'>{props.title}</div>
-                    <div className={props.small ? 'text-sm' : ''}>{props.message}</div>
+                    <div className={props.small ? 'text-xs' : ''}>{props.message}</div>
                 </div>
             </div>
 

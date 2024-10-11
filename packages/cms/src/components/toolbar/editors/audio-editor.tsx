@@ -88,12 +88,6 @@ export default function AudioEditor(props: any) {
         }
     }
 
-    useEffect(() => {
-        if (!loading && fileUrl) {
-            setFileAlert({ type: "success", message: localization.fileUploadedSuccessfully })
-        }
-    }, [loading, fileUrl])
-
     return (
         <div className="flex flex-col p-2 w-[300px] mt-4">
             <AudioButton source={value} />
