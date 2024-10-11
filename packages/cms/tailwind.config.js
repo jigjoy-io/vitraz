@@ -12,6 +12,7 @@ module.exports = {
       'light': '#AAAAAA',
       'alert-success': '#d1f4e0',
       'alert-danger': '#fdd0df',
+      'alert-info': '#E6F3FF',
       'brown': '#F2EEF0',
       'green': '#EFFDFB',
       'rose': '#fbbeea33',

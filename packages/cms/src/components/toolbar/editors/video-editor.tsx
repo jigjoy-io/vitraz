@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import { updateBlock } from "../../../reducers/page-reducer"
 import Button from "../../button/button"
@@ -6,6 +6,7 @@ import Tab from "../../tabs/tab"
 import Tabs from "../../tabs/tabs"
 import LocalizedStrings from "react-localization"
 import useFileUpload from "../../../util/file-upload"
+import Alert from "../../alert/alert"
 
 let localization = new LocalizedStrings({
     US: {
@@ -13,16 +14,18 @@ let localization = new LocalizedStrings({
         embedLink: "Embed link",
         uploadVideo: "Upload reel",
         clickToUpload: "Click to upload reel",
-        maxFileUpload: "Maximum file size is 5mb",
-        fileTooLarge: "File is too large. Please upload a file smaller than 5MB."
+        maxFileUpload: "Maximum video size is 5mb",
+        fileTooLarge: "Video is too large. Please upload a video smaller than 5MB. Or use embeded link option.",
+        fileUploadSuccess: "Your video is ready for upload!",
     },
     RS: {
         update: "Promeni",
         embedLink: "Unesi link",
         uploadVideo: "Promeni reel",
         clickToUpload: "Klikni da ubaciš reel",
-        maxFileUpload: "Maksimalna velicina fajla je 5mb",
-        fileTooLarge: "Fajl je prevelik. Molimo vas da otpremite fajl manji od 5MB."
+        maxFileUpload: "Maksimalna veličina videa je 5mb",
+        fileTooLarge: "Video je prevelik. Molimo vas da otpremite video manji od 5MB. Ili koristite opciju unesi link.",
+        fileUploadSuccess: "Vaš video je spreman za otpremljivanje!"
     }
 })
 
@@ -30,7 +33,7 @@ export default function VideoEditor(props: any) {
 
     const [value, setValue] = useState(props.value)
     const fileInputRef = useRef<HTMLInputElement>(null)
-    const [fileSizeError, setFileSizeError] = useState("")
+    const [fileAlert, setFileAlert] = useState({ type: "info", message: localization.maxFileUpload })
 
     const dispatch = useDispatch()
     localization.setLanguage(props.lang)
@@ -52,19 +55,28 @@ export default function VideoEditor(props: any) {
         const file = event.target.files?.[0]
         if (file) {
             if (file.size > 5 * 1024 * 1024) {
-                setFileSizeError(localization.fileTooLarge)
+                setFileAlert({ type: "danger", message: localization.fileTooLarge })
             } else {
-                setFileSizeError("")
+                setFileAlert({ type: "success", message: localization.fileUploadSuccess })
                 handleFileUpload(file)
             }
         }
     }
+
+    useEffect(() => {
+        if (!uploading && fileName) {
+            setFileAlert({ type: "success", message: localization.fileUploadSuccess })
+        }
+    }, [uploading, fileName])
 
     return (
         <div className="flex flex-col p-2 w-[300px] mt-4">
             <video src={value} className="w-[100px] my-2 rounded-lg" />
             <Tabs>
                 <Tab key={localization.uploadVideo}>
+                    <div className="mb-2">
+                        <Alert type={fileAlert.type} message={fileAlert.message} small={true} />
+                    </div>
                     <input
                         type="file"
                         ref={fileInputRef}
@@ -74,11 +86,6 @@ export default function VideoEditor(props: any) {
                     />
                     <Button text={localization.clickToUpload} color="default" action={triggerFileInput} />
                     {fileName && <p className="mt-2 text-sm">{fileName}</p>}
-                    {fileSizeError ? (
-                        <p className="mt-2 text-sm text-text-danger">{fileSizeError}</p>
-                    ) : (
-                        <p className="mt-2 text-sm text-text-danger">{localization.maxFileUpload}</p>
-                    )}
                 </Tab>
                 <Tab key={localization.embedLink}>
                     <input className="p-1 rounded-lg border w-[100%] mb-3" value={value} onChange={(e: any) => setValue(e.target.value)} />
