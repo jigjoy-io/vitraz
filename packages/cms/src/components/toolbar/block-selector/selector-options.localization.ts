@@ -38,7 +38,7 @@ const localization = new LocalizedStrings({
         headingDescription: 'Ubaci naslov.',
         title: 'Naslov',
         titleDescription: 'Ubaci veliki naslov.',
-        image: "Image",
+        image: "Slika",
         imageDescription: "Dodaj sliku pomoću linka.",
         video: 'Reel',
         videoDescription: 'Dodaj video pomoću linka.',

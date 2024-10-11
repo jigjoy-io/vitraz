@@ -12,13 +12,15 @@ module.exports = {
       'light': '#AAAAAA',
       'alert-success': '#d1f4e0',
       'alert-danger': '#fdd0df',
+      'alert-info': '#E6F3FF',
       'brown': '#F2EEF0',
       'green': '#EFFDFB',
       'rose': '#fbbeea33',
       'white': '#FFFFFF',
       'yellow': '#FEF7EA',
       'blue': '#E5EFFA',
-      'red': '#fdd0df'
+      'red': '#fdd0df',
+      'text-danger': '#ed5249'
     },
 
 
