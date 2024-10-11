@@ -13,14 +13,16 @@ let localization = new LocalizedStrings({
         embedLink: "Embed link",
         uploadVideo: "Upload reel",
         clickToUpload: "Click to upload reel",
-        maxFileUpload: "Maximum file size is 5mb"
+        maxFileUpload: "Maximum file size is 5mb",
+        fileTooLarge: "File is too large. Please upload a file smaller than 5MB."
     },
     RS: {
         update: "Promeni",
         embedLink: "Unesi link",
         uploadVideo: "Promeni reel",
         clickToUpload: "Klikni da ubaciš reel",
-        maxFileUpload: "Maksimalna velicina fajla je 5mb"
+        maxFileUpload: "Maksimalna velicina fajla je 5mb",
+        fileTooLarge: "Fajl je prevelik. Molimo vas da otpremite fajl manji od 5MB."
     }
 })
 
@@ -28,6 +30,7 @@ export default function VideoEditor(props: any) {
 
     const [value, setValue] = useState(props.value)
     const fileInputRef = useRef<HTMLInputElement>(null)
+    const [fileSizeError, setFileSizeError] = useState("")
 
     const dispatch = useDispatch()
     localization.setLanguage(props.lang)
@@ -48,7 +51,12 @@ export default function VideoEditor(props: any) {
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
         if (file) {
-            handleFileUpload(file)
+            if (file.size > 5 * 1024 * 1024) {
+                setFileSizeError(localization.fileTooLarge)
+            } else {
+                setFileSizeError("")
+                handleFileUpload(file)
+            }
         }
     }
 
@@ -66,7 +74,11 @@ export default function VideoEditor(props: any) {
                     />
                     <Button text={localization.clickToUpload} color="default" action={triggerFileInput} />
                     {fileName && <p className="mt-2 text-sm">{fileName}</p>}
-                    <p className="mt-2 text-sm text-text-danger">{localization.maxFileUpload}</p>
+                    {fileSizeError ? (
+                        <p className="mt-2 text-sm text-text-danger">{fileSizeError}</p>
+                    ) : (
+                        <p className="mt-2 text-sm text-text-danger">{localization.maxFileUpload}</p>
+                    )}
                 </Tab>
                 <Tab key={localization.embedLink}>
                     <input className="p-1 rounded-lg border w-[100%] mb-3" value={value} onChange={(e: any) => setValue(e.target.value)} />

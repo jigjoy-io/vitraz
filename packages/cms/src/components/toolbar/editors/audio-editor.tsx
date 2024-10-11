@@ -14,24 +14,29 @@ let localization = new LocalizedStrings({
         embedLink: "Embed link",
         uploadAudio: "Upload audio",
         clickToUpload: "Click to upload audio",
-        maxFileUpload: "Maximum file size is 5mb"
+        maxFileUpload: "Maximum file size is 5mb",
+        fileTooLarge: "File is too large. Please upload a file smaller than 5MB."
     },
     RS: {
         update: "Promeni",
         embedLink: "Unesi link",
         uploadAudio: "Promeni zvuk",
         clickToUpload: "Klikni da ubaciš zvuk",
-        maxFileUpload: "Maksimalna velicina fajla je 5mb"
+        maxFileUpload: "Maksimalna velicina fajla je 5mb",
+        fileTooLarge: "Fajl je prevelik. Molimo vas da otpremite fajl manji od 5MB."
     }
 })
 
 export default function AudioEditor(props: any) {
     const [value, setValue] = useState(props.value)
     const fileInputRef = useRef<HTMLInputElement>(null)
+    const [fileSizeError, setFileSizeError] = useState("")
+
     const dispatch = useDispatch()
+    localization.setLanguage(props.lang)
+
     const { fileName, uploading, handleFileUpload, setFileName } = useFileUpload(setValue, 'audio')
 
-    localization.setLanguage(props.lang)
 
     const update = () => {
         let block = JSON.parse(JSON.stringify(props.block))
@@ -64,7 +69,11 @@ export default function AudioEditor(props: any) {
                     />
                     <Button text={localization.clickToUpload} color="default" action={triggerFileInput} />
                     {fileName && <p className="mt-2 text-sm">{fileName}</p>}
-                    <p className="mt-2 text-sm text-text-danger">{localization.maxFileUpload}</p>
+                    {fileSizeError ? (
+                        <p className="mt-2 text-sm text-text-danger">{fileSizeError}</p>
+                    ) : (
+                        <p className="mt-2 text-sm text-text-danger">{localization.maxFileUpload}</p>
+                    )}
                 </Tab>
                 <Tab key={localization.embedLink}>
                     <input className="p-1 rounded-lg border w-[100%] mb-3" value={value} onChange={(e: any) => setValue(e.target.value)} />
