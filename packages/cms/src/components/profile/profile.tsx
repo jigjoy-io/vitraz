@@ -4,20 +4,20 @@ import Heading from "../heading/heading"
 import Text from "../text/text"
 
 export default function Profile(props: any) {
-    
+
     return <Tile color={props.color}>
-            <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-4 break-all">
 
-                <img className="float-left rounded-[100%]" height={128} width={128} src={props.image} />
+            <img className="w-32 h-32 flex-shrink-0 rounded-[100%]" src={props.image} />
 
-                <div className="flex flex-col items-center justify-center w-[100%]">
-                    <Heading position="center" text={props.headline}></Heading>
-                    <div className="p-1">{props.username}</div>
-                </div>
-
+            <div className="flex flex-col items-center justify-center w-[100%]">
+                <Heading position="center" text={props.headline}></Heading>
+                <div className="p-1">{props.username}</div>
             </div>
-            <div className="pt-4">
-                <Text text={props.description}></Text>
-            </div>
-        </Tile>
+
+        </div>
+        <div className="pt-4 break-all">
+            <Text text={props.description}></Text>
+        </div>
+    </Tile>
 }
