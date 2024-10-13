@@ -6,7 +6,6 @@ const client = new DynamoDBClient({})
 const ddbDocClient = DynamoDBDocumentClient.from(client)
 const tableName = process.env.PAGE_TABLE
 import { compress, decompress } from 'compress-json'
-import { deleteAssets } from '@utils/s3'
 
 const compressPage = (page: PageDto) => {
 	let p = JSON.parse(JSON.stringify(page))
@@ -104,8 +103,6 @@ export async function deletePage(pageId: any): Promise<void> {
     await ddbDocClient.send(new DeleteCommand(prodParams))
   }
 
-  const folderPath = `assets/${pageId}/`
-  await deleteAssets(folderPath)
 }
 
 export async function getPages(origin: string): Promise<PageDto[]> {
