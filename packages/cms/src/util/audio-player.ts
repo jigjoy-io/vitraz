@@ -1,65 +1,41 @@
 class AudioPlayer {
-    private static instance: AudioPlayer | null = null;
-    private currentPlayer: HTMLAudioElement | null = null;
-    private currentSource: string | null = null;
-    private currentButtonId: string | null = null;
-    private isPlaying: boolean = false;
+    private static instance: AudioPlayer | null = null
+    private player: HTMLAudioElement = new Audio()
 
+    private subscribers: any [] = []
     private constructor() {}
 
     public static getInstance(): AudioPlayer {
         if (!this.instance) {
-            this.instance = new AudioPlayer();
+            this.instance = new AudioPlayer()
         }
-        return this.instance;
+        return this.instance
     }
 
-    public playAudio(source: string, buttonId: string): void {
-        if (this.currentSource === source && this.currentButtonId === buttonId) {
-            if (this.isPlaying) {
-                this.pauseAudio();
-            } else {
-                this.resumeAudio();
-            }
-        } else {
-            if (this.currentPlayer) {
-                this.currentPlayer.pause();
-            }
-            this.currentPlayer = new Audio(source);
-            this.currentSource = source;
-            this.currentButtonId = buttonId;
-            this.currentPlayer.play();
-            this.isPlaying = true;
+    public play(elementId: string, source: string): void {
+
+        this.subscribers.map(callback => callback())
+        this.player.src = source
+        this.player.play()
+        
+    }
+
+    public onStart(callback): void {
+        this.player.onplay = function() {
+            callback()
         }
     }
 
-    public pauseAudio(): void {
-        if (this.currentPlayer && this.isPlaying) {
-            this.currentPlayer.currentTime = 0;
-            this.currentPlayer.pause();
-            this.isPlaying = false;
-        }
+    public onEnd(callback): void {
+        this.subscribers.push(callback)
+
     }
 
-    private resumeAudio(): void {
-        if (this.currentPlayer && !this.isPlaying) {
-            this.currentPlayer.currentTime = 0;
-            this.currentPlayer.play();
-            this.isPlaying = true;
-        }
+    public isPlaying(source){
+        return this.player == source
     }
 
-    public getIsPlaying(): boolean {
-        return this.isPlaying;
-    }
 
-    public getCurrentSource(): string | null {
-        return this.currentSource;
-    }
-
-    public getCurrentButtonId(): string | null {
-        return this.currentButtonId;
-    }
 }
 
-export default AudioPlayer;
+export default AudioPlayer

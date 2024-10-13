@@ -1,38 +1,38 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import SpeakerOnIcon from "../../icons/speaker-on-icon"
-import SpeakerOffIcon from "../../icons/speaker-off-icon";
-import AudioPlayer from "../../util/audio-player";
-import { v4 as uuid } from 'uuid'
+import SpeakerOffIcon from "../../icons/speaker-off-icon"
+import MediaLibrary from "./media-library"
+import AudioPlayer from "./audio-player"
 
 interface AudioButtonProps {
-    position: string;
-    source: string;
+    id: string,
+    position?: string
+    source: string
 }
 
-function AudioButton({ position, source }: AudioButtonProps) {
+function AudioButton({ id, position, source }: AudioButtonProps){
     const [isPlaying, setIsPlaying] = useState(false)
-    const buttonId = useRef(uuid())
 
-    const togglePlay = () => {
-        AudioPlayer.getInstance().playAudio(source, buttonId.current)
-        setIsPlaying(AudioPlayer.getInstance().getIsPlaying() &&
-            AudioPlayer.getInstance().getCurrentSource() === source &&
-            AudioPlayer.getInstance().getCurrentButtonId() === buttonId.current
-        )
+    let params = {
+        id: id,
+        source: source,
+        onStart: () => setIsPlaying(true),
+        onEnd: () => setIsPlaying(false)
     }
 
+    const audioPlayer : AudioPlayer = new AudioPlayer(params)
+    const mediaLibrary = MediaLibrary.getInstance()
+
+    mediaLibrary.addPlayer(audioPlayer)
+
     useEffect(() => {
-        const checkPlayingStatus = () => {
-            setIsPlaying(AudioPlayer.getInstance().getIsPlaying() &&
-                AudioPlayer.getInstance().getCurrentSource() === source &&
-                AudioPlayer.getInstance().getCurrentButtonId() === buttonId.current
-            )
-        }
+        return () => mediaLibrary.removePlayer(audioPlayer)
+    }, [])
 
-        const intervalId = setInterval(checkPlayingStatus, 100)
+    const togglePlay = () => {
 
-        return () => clearInterval(intervalId)
-    }, [source])
+        mediaLibrary.play(audioPlayer)
+    }
 
     return (
         <div className="flex w-full" style={{ justifyContent: position }}>

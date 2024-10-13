@@ -30,7 +30,7 @@ export default function Message(props: any) {
     return (<div className={`flex h-max w-full`} style={{ justifyContent: position }}>
         <div className={`block w-[75%] p-4 rounded-lg ${position=='left'?'rounded-bl-none': 'rounded-br-none'} ${colorVariants[color]}`} style={{ justifyContent: position }}>
                 <div>{message}</div>
-                <div className={`mt-3 flex ${position}`} style={{ justifyContent: position }}><AudioButton source={audio} /></div>
+                <div className={`mt-3 flex ${position}`} style={{ justifyContent: position }}><AudioButton id={props.id} source={audio} /></div>
             </div>
     </div>
     )

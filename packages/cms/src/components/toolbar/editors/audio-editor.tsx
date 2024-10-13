@@ -90,7 +90,7 @@ export default function AudioEditor(props: any) {
 
     return (
         <div className="flex flex-col p-2 w-[300px] mt-4">
-            <AudioButton source={value} />
+            <AudioButton id={props.id} source={value} />
             <Tabs>
                 <Tab key={localization.uploadAudio}>
                     <div className="mb-2">

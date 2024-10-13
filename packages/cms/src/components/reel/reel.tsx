@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react"
 import LocalizedStrings from "react-localization"
 import { useLanguage } from "../../util/store"
+import MediaLibrary from "../audio/media-library"
+import VideoPlayer from "./video-player"
 
 let localization = new LocalizedStrings({
     US: {
@@ -13,11 +15,24 @@ let localization = new LocalizedStrings({
 export default function Reel(props: any) {
 
     const [source, setSource] = useState(props.source)
-    const videoRef = useRef(null as any)
+    const videoRef = useRef<HTMLVideoElement | null>(null)
     const lang = useLanguage()
+    const mediaLibrary = MediaLibrary.getInstance()
+
+    let params = {
+        id: props.id,
+        video: videoRef.current,
+        onStart: () => {},
+        onEnd: () => {}
+    }
+
+    const videoPlayer: Player = new VideoPlayer(params)
+    mediaLibrary.addPlayer(videoPlayer)
 
     useEffect(() => {
         localization.setLanguage(lang)
+
+        return () => mediaLibrary.removePlayer(videoPlayer)
     }, [])
 
     useEffect(() => {
@@ -25,8 +40,12 @@ export default function Reel(props: any) {
         videoRef.current?.load()
     }, [props.source])
 
+    const handlePlay = () => {
+        mediaLibrary.play(videoPlayer)
+    }
+
     return <div className="rounded-lg h-fit flex justify-center">
-        <video ref={videoRef} controls playsInline autoPlay className="rounded-lg">
+        <video ref={videoRef} controls playsInline className="rounded-lg" onPlay={() => handlePlay()}>
             <source src={source} type="video/mp4" />
             {localization.videoNotSupported}
         </video>
