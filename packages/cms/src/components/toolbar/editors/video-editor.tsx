@@ -39,12 +39,12 @@ export default function VideoEditor(props: any) {
     const [value, setValue] = useState(props.value)
     const fileInputRef = useRef<HTMLInputElement>(null)
     const [file, setFile] = useState<File | null>(null)
-    const [fileAlert, setFileAlert] = useState({ type: "info", message: localization.maxFileUpload })
     const [loading, setLoading] = useState(false)
     const [fileUrl, setFileUrl] = useState<string | null>(null)
 
     const dispatch = useDispatch()
     localization.setLanguage(props.lang)
+    const [fileAlert, setFileAlert] = useState({ type: "info", message: localization.maxFileUpload })
 
     const { handleFileUpload } = useFileUpload(setValue, 'video')
 
