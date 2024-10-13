@@ -22,7 +22,7 @@ export class Page extends Entity<CreatePageProps> {
             origin: props.origin,
             config: props.config,
             environment: EnvironmentType.Development,
-            linkedPageId: props.linkedPageId,
+            linkedPageId: null,
             name: props.name
         }
 
