@@ -18,6 +18,7 @@ export class Page extends Entity<CreatePageProps> {
 
 
         const pageProps: CreatePageProps = {
+            id: props.id ? props.id : undefined,
             type: props.type,
             origin: props.origin,
             config: props.config,
@@ -25,7 +26,6 @@ export class Page extends Entity<CreatePageProps> {
             linkedPageId: null,
             name: props.name
         }
-
 
         const instance: Page = new Page(pageProps)
         instance.validate(schema)
