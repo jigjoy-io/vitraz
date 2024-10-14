@@ -12,6 +12,7 @@ import DescriptionEditingIcon from "../../../icons/description-editing-icon"
 import ColorEditingIcon from "../../../icons/color-editing-icon"
 import RenameIcon from "../../../icons/rename-icon"
 import { store } from "../../../util/store"
+import LimitedTextEditor from "../editors/limited-text-editor"
 
 let localization = new LocalizedStrings({
     US: {
@@ -36,12 +37,14 @@ export default class EditableProfile extends EditableBlock {
             name: localization.editHeadline,
             icon: RenameIcon,
             key: 'headline',
-            editor: TextEditor
+            editor: LimitedTextEditor,
+            props: { limit: 30 }
         }, {
             name: localization.editUsername,
             icon: ProfileIcon,
             key: 'username',
-            editor: TextEditor
+            editor: LimitedTextEditor,
+            props: { limit: 20 }
         }, {
             name: localization.editImage,
             icon: ImageEditingIcon,

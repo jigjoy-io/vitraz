@@ -37,7 +37,7 @@ export default class EditableText extends EditableBlock {
         return this
     }
 
-    setBlock (props: any){
+    setBlock(props: any) {
         this.block = <ContentEditingText {...props} />
         return this
     }
