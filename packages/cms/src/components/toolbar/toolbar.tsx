@@ -236,7 +236,7 @@ export default function Toolbar(props: any) {
 
                 createPortal(<ClickOutsideListener callback={handleEditorClose} >
                     <div className={`fixed flex rounded-md p-1 shadow bg-[white] z-50`} style={{ top: editorTop, left: editorLeft }} ref={editorRef}>
-                        <editor.editor id={props.id} lang={lang} tabFocus={false} block={props.block} attribute={editor.key} value={props.block[editor.key]} />
+                        <editor.editor id={props.id} lang={lang} tabFocus={false} block={props.block} attribute={editor.key} value={props.block[editor.key]} extraProps={editor.extraProps} />
                     </div>
                 </ClickOutsideListener>, document.body)
             }

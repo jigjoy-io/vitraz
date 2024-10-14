@@ -38,11 +38,17 @@ export default class EditableProfile extends EditableBlock {
             icon: RenameIcon,
             key: 'headline',
             editor: LimitedTextEditor,
+            extraProps: {
+                limit: 30
+            }
         }, {
             name: localization.editUsername,
             icon: ProfileIcon,
             key: 'username',
             editor: LimitedTextEditor,
+            extraProps: {
+                limit: 20
+            }
         }, {
             name: localization.editImage,
             icon: ImageEditingIcon,

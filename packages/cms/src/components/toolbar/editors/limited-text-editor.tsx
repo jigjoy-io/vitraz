@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateBlock } from "../../../reducers/page-reducer";
 import Button from "../../button/button";
@@ -15,26 +15,16 @@ let localization = new LocalizedStrings({
 
 export default function LimitedTextEditor(props: any) {
     const [value, setValue] = useState(props.value);
-    const [limit, setLimit] = useState(0)
+    const [limit, setLimit] = useState(props.extraProps.limit)
 
     const dispatch = useDispatch();
     localization.setLanguage(props.lang);
-
-    const getLimit = () => {
-        if (props.attribute === 'headline') return 30
-        if (props.attribute === 'username') return 20
-        return 30
-    }
 
     const update = () => {
         let block = JSON.parse(JSON.stringify(props.block));
         block[props.attribute] = value;
         dispatch(updateBlock(block));
     };
-
-    useEffect(() => {
-        setLimit(getLimit())
-    }, [])
 
     return (
         <div className="flex flex-col p-2">
