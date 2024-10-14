@@ -54,9 +54,9 @@ export default function CarouselPage(props: any) {
     return <>
         {page && <div className="flex max-h-[100dvh] h-[100dvh] w-[100%] justify-center overflow-y-auto">
 
-            <div className="flex flex-col h-[100%] w-[100%] max-w-[400px] p-3">
+            <div className="flex flex-col w-[100%] max-w-[400px]">
 
-                <div className="flex flex-row">
+                <div className="flex flex-row p-3">
                     <Progress percentage={percentage} />
                     <div className='w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => backToHome(origin)}>
                         <CloseIcon />
@@ -64,20 +64,20 @@ export default function CarouselPage(props: any) {
                 </div>
 
 
-                <div className="h-[100%]">
+                <div className="h-[100%] p-3">
                     <Content config={pages[current].config} key={pages[current].id} id={pages[current].id} />
                 </div>
 
 
                 {
                     (current != pages.length - 1) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
-                        <Button text={previous} action={previousPage} /> <Button text={next} action={nextPage} />
+                        <Button  width="w-full" text={previous} action={previousPage} /> <Button  width="w-full" text={next} action={nextPage} />
                     </div>
                 }
                 {
                     (current == pages.length - 1) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
 
-                        <Button text={home} action={() => backToHome(origin)} />
+                        <Button  width="w-full" text={home} action={() => backToHome(origin)} />
                     </div >
                 }
             </div>

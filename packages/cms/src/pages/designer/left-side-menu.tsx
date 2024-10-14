@@ -5,7 +5,7 @@ import { getPages, publishPage } from "../../api/page"
 import Alert from "../../components/alert/alert"
 import Button from "../../components/button/button"
 import { pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/page-reducer"
-import { useLanguage, usePages, useRootPage, useSidebarVisible } from "../../util/store"
+import { useLanguage, usePages, useRootPage } from "../../util/store"
 import { Node } from './node'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import AnalyticsIcon from "../../icons/analytics-icon"
@@ -16,6 +16,8 @@ import localization from './left-side-menu.localization'
 import { HelpIcon } from "../../icons/help-icon"
 import { LogoIcon } from "../../icons/logo-icon"
 import AddBlockIcon from "../../icons/add-block-icon"
+import ViewAnalytics from "./right-side-menu/components/view-analytics"
+import Help from "./right-side-menu/components/help"
 
 export default function LeftSideMenu() {
     const navigate = useNavigate()
@@ -25,7 +27,6 @@ export default function LeftSideMenu() {
     const [showSuccess, setShowSuccess] = useState(false)
     const [showError, setShowError] = useState(false)
 
-    const sidebarVisible = useSidebarVisible()
     const dispatch = useDispatch()
     const lang = useLanguage()
     localization.setLanguage(lang)
@@ -117,7 +118,7 @@ export default function LeftSideMenu() {
                     {localization.options}
                 </div>
 
-                <div className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center" onClick={() => dispatch(sidebarExpanded(!sidebarVisible))}>
+                <div className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center" onClick={() => dispatch(sidebarExpanded({ expanded: true, component: null }))}>
 
                     <div className="flex flex-row w-[100%] h-[100%]">
                         <div className="pr-2 flex items-center"><LogoIcon /></div>
@@ -126,7 +127,7 @@ export default function LeftSideMenu() {
 
                 </div>
 
-                <div className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center" onClick={() => dispatch(sidebarExpanded(!sidebarVisible))}>
+                <div className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center" onClick={() => dispatch(sidebarExpanded({ expanded: true, component: ViewAnalytics }))}>
                     <div className="flex flex-row w-[100%] h-[100%]">
                         <div className="pr-2 flex items-center"><AnalyticsIcon /></div>
                         <div className="flex items-center">{localization.viewAnalytics}</div>
@@ -136,7 +137,7 @@ export default function LeftSideMenu() {
 
 
 
-                <div className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center" onClick={() => dispatch(sidebarExpanded(!sidebarVisible))}>
+                <div className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center" onClick={() => dispatch(sidebarExpanded({ expanded: true, component: Help }))}>
 
                     <div className="flex flex-row w-[100%] h-[100%]">
                         <div className="pr-2 flex items-center"><HelpIcon /></div>
@@ -178,11 +179,11 @@ export default function LeftSideMenu() {
                             </div>
                         )}
                         <div className="w-[100%] px-3 py-1 flex gap-x-2">
-                            <div className="w-[50%]"><Button text={localization.preveiw} color="default" action={enterPreview} /></div>
+                            <div className="w-[50%]"><Button text={localization.preveiw} color="default" width="w-full" action={enterPreview} /></div>
                             <Link to={`/${page.id}?lang=${lang}`} target="_blank" className="bg-primary-light hover:opacity-80 flex justify-center items-center cursor-pointer rounded-md w-[50%] font-bold">{localization.share}</Link>
                         </div>
                         <div className="w-[100%] px-3 py-1">
-                            <Button text={localization.publish} action={publish} />
+                            <Button width="w-full" text={localization.publish} action={publish} />
                         </div>
                     </div>
                 )}

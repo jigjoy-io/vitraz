@@ -80,7 +80,7 @@ export default function QuestionAnswersEditor(props: any) {
         </div>)}
 
         <div className="my-2">
-            <Button text={localization.addAnswer} color="default" action={addAnswer} />
+            <Button  width="w-full" text={localization.addAnswer} color="default" action={addAnswer} />
         </div>
         <Button text={localization.update} action={update} />
     </div>

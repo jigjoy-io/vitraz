@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react"
 import LocalizedStrings from "react-localization"
 import { useLanguage } from "../../util/store"
-import MediaLibrary from "../audio/media-library"
 import VideoPlayer from "./video-player"
+import Player from "../../util/player"
+import MediaLibrary from "../../util/media-library"
 
 let localization = new LocalizedStrings({
     US: {

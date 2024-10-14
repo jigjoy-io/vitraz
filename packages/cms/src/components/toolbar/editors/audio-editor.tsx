@@ -103,7 +103,7 @@ export default function AudioEditor(props: any) {
                         accept="audio/*"
                         style={{ display: 'none' }}
                     />
-                    <Button text={localization.clickToUpload} color="default" action={triggerFileInput} />
+                    <Button text={localization.clickToUpload}  width="w-full" color="default" action={triggerFileInput} />
                     {file && !loading && <p className="mt-2 text-sm text-ellipsis overflow-hidden">{file.name}</p>}
                 </Tab>
                 <Tab key={localization.embedLink}>

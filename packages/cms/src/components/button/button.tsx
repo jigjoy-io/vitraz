@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 export default function Button(props: any) {
 
 	const [color, setColor] = useState("bg-default text-[white]")
-	const [width, setWidth] = useState("w-max")
+	const [width, setWidth] = useState(props.width)
 	const [size, setSize] = useState("lg")
 
 	const setTheme = () => {
@@ -29,7 +29,7 @@ export default function Button(props: any) {
 	}, [props.size])
 
 	return (
-		<button tabIndex={-1} className={`${color} ${props.size == 'sm' ? 'p-1 px-3 rounded-md' : 'p-3 font-bold rounded-lg w-[100%] text-ellipsis text-nowrap overflow-hidden'} ${!props.disabled && "cursor-pointer"} active:opacity-80 md:hover:opacity-80`}
+		<button tabIndex={-1} className={`${color} ${width} ${props.size == 'sm' ? 'p-1 px-3 rounded-md font-bold' : 'p-3 font-bold rounded-lg text-ellipsis text-nowrap overflow-hidden'} ${!props.disabled && "cursor-pointer"} active:opacity-80 md:hover:opacity-80`}
 			onClick={props.action} disabled={props.disabled} autoFocus={props.focus}>
 			{props.text}
 		</button>

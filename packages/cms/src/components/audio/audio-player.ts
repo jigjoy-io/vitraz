@@ -1,3 +1,5 @@
+import Player from "../../util/player"
+
 export default class AudioPlayer implements Player {
     
     id: string

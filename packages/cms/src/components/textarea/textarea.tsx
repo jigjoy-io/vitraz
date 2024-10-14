@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-export default function Input(props: any) {
+export default function TextArea(props: any) {
 
     const [value, setValue] = useState('')
 
@@ -11,12 +11,12 @@ export default function Input(props: any) {
         props.onChange && props.onChange(event.target.value)
     }
 
-    return <input
+    return <textarea
         onChange={handleChange}
-        className="w-[100%] h-[40px] bg-[white] border border-light shadow-lg p-[3px] px-[8px] rounded-lg outline-none"
+        rows={3}
+        className="w-[100%] bg-[white] border border-light shadow-lg p-[3px] px-[8px] rounded-lg outline-none"
         value={value}
         name={props.key}
-        placeholder={props.placeholder}
-        type={props.type} />
+        placeholder={props.placeholder} />
 
 }

@@ -36,7 +36,7 @@ function QuestionAnswers(props: any) {
 
             {answered && <Alert  {...alert} />}
 
-            {!answered && <Button text={props.outcomes.confirmationButtonText} key={selected.id} width="full" color={selected != null ? "secondary" : "default"} action={checkAnswer} disabled={selected.id == null} />}
+            {!answered && <Button text={props.outcomes.confirmationButtonText} key={selected.id} width="w-full" color={selected != null ? "secondary" : "default"} action={checkAnswer} disabled={selected.id == null} />}
 
         </div>
     )

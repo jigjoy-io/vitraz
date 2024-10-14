@@ -117,7 +117,7 @@ export default function Authorization(props: any) {
 					</m.div>
 				}
 				<m.div key='submit' variants={item}>
-					<Button text={localization.authButton} action={authorize} focus={true} />
+					<Button width="w-full" text={localization.authButton} action={authorize} focus={true} />
 				</m.div>
 			</m.div>
 		</LazyMotion>

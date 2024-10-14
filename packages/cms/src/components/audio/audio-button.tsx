@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import SpeakerOnIcon from "../../icons/speaker-on-icon"
 import SpeakerOffIcon from "../../icons/speaker-off-icon"
-import MediaLibrary from "./media-library"
+import MediaLibrary from "../../util/media-library"
 import AudioPlayer from "./audio-player"
 
 interface AudioButtonProps {

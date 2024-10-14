@@ -206,7 +206,7 @@ export default function CarouselConfigurer(props: any) {
                         </Tabs>
 
                         <div className="mt-[1rem]">
-                            <Button text={localization.create} action={create} />
+                            <Button width="w-full" text={localization.create} action={create} />
                         </div>
                     </div>
 

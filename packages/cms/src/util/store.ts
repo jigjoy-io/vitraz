@@ -48,6 +48,7 @@ export const useAppSelector = useSelector.withTypes<RootState>()
 export const useBlocked = () => useAppSelector((state: any) => state.toolbar.blocked)
 
 export const useSidebarVisible = () => useAppSelector((state: any) => state.sidebar.expanded)
+export const useSidebarComponent = () => useAppSelector((state: any) => state.sidebar.component)
 export const useExpandedPages = () => useAppSelector((state: any) => state.tree.expandedPages)
 
 export const useAuthorized = () => useAppSelector((state: any) => state.auth.authorized)

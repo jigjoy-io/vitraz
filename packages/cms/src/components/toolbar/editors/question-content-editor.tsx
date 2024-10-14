@@ -52,7 +52,7 @@ export default function QuestionContentEditor(props: any) {
         <img src={value.image} className="w-[100px] my-2 rounded-lg" />
         <div className="flex gap-3 my-3">
             {/* <Button text="Upload image" color="default" /> */}
-            <Button text={localization.embedLink} color="default" action={() => setDisplayUrlInput(true)} />
+            <Button  width="w-full" text={localization.embedLink} color="default" action={() => setDisplayUrlInput(true)} />
         </div>
         {displayUrlInput && <input className="p-1 rounded-lg border w-[100%] mb-3" value={value.image} onChange={(e: any) => handleChange('image', e.target.value)} />}
         <Button text={localization.update} action={update} />

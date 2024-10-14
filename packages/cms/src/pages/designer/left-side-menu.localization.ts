@@ -24,7 +24,7 @@ let localization = new LocalizedStrings({
         viewAnalytics: "Pogledaj analitiku",
         jigJoyTutorial: "JigJoy vodič",
         help: "Pomoć",
-        share: "Preuzmi link",
+        share: "Podeli",
         preveiw: "Tesitraj",
         publish: "Lansiraj 🚀",
         publishingInProgress: "Kreiranje produkcionog linka u toku",

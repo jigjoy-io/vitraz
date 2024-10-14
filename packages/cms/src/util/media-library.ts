@@ -1,3 +1,5 @@
+import Player from './player'
+
 export default class MediaLibrary {
 
     private static instance: MediaLibrary | null = null

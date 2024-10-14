@@ -1,12 +1,10 @@
 import { AnimatePresence, LazyMotion, m } from "framer-motion"
-import { AppDispatch, useLanguage, useSidebarVisible } from "../../util/store"
-import React, { useEffect } from "react"
-import ToolbarButtonWrapper from "../../components/toolbar/toolbar-button-wrapper"
+import { AppDispatch, useLanguage, useSidebarComponent, useSidebarVisible } from "../../../util/store"
+import React from "react"
+import ToolbarButtonWrapper from "../../../components/toolbar/toolbar-button-wrapper"
 import { useDispatch } from "react-redux"
-import Text from "../../components/text/text"
-import Heading from "../../components/heading/heading"
 import LocalizedStrings from "react-localization"
-import { sidebarExpanded } from "../../reducers/sidebar-reducer"
+import { sidebarExpanded } from "../../../reducers/sidebar-reducer"
 
 
 const animation = {
@@ -26,37 +24,37 @@ const transition = {
     duration: 0.15,
 }
 
-const loadFeatures = () => import("../../util/animations").then(res => res.default)
+const loadFeatures = () => import("../../../util/animations").then(res => res.default)
 
 let localization = new LocalizedStrings({
     US: {
-		comingSoon: "Analytics Coming Soon!",
-        collectLeads: 'Collect leads and view key insights soon.',
         closePanel: 'Close panel'
     },
     RS: {
-		comingSoon: "Uskoro dostupna analitika na stranicama!",
-        collectLeads: 'Prikupljanje mejlova i pregled analitike.',
         closePanel: 'Zatvori'
     }
 })
 
 export function RightSideMenu() {
 
-
-    const sidebarVisible = useSidebarVisible()
-    
-    const dispatch = useDispatch<AppDispatch>()
     const lang = useLanguage()
     localization.setLanguage(lang)
-    
+
+    const sidebar = {
+        visible: useSidebarVisible(),
+        component: useSidebarComponent()
+    }
+
+    const dispatch = useDispatch<AppDispatch>()
+
+
     return <LazyMotion features={loadFeatures}>
         <AnimatePresence>{
-            sidebarVisible && <m.div variants={animation} initial="hidden" animate="show" exit="exit" transition={transition}>
+            sidebar.visible && <m.div variants={animation} initial="hidden" animate="show" exit="exit" transition={transition}>
 
                 <div className="border-l border-light shadow-lg fixed right-0 bottom-0 h-[100dvh] w-[30%] bg-[white]">
 
-                    <div className="h-[24px] w-[24px] m-2" onClick={() => dispatch(sidebarExpanded(false))}>
+                    <div className="h-[24px] w-[24px] m-2" onClick={() => dispatch(sidebarExpanded({ expanded: false, component: null }))}>
                         <ToolbarButtonWrapper tooltip={<div className="text-[14px]">{localization.closePanel}</div>}>
                             <div aria-label="Close panel" className="cursor-pointer items-center justify-center rounded-[6px] h-[24px] w-[24px] p-1 bg-[transparent] hover:bg-primary-light">
                                 <svg viewBox="0 0 16 16" className="w-[16px] h-[16px] block" fill="#2E2E2E">
@@ -67,11 +65,8 @@ export function RightSideMenu() {
                         </ToolbarButtonWrapper>
                     </div>
 
-                    <div className="mt-20 flex flex-col justify-center items-center gap-3">
-                        <Heading position="center" text={localization.comingSoon}/>
-                        <Text text={localization.collectLeads} />
-                    </div>
-                    
+                    {sidebar.component && <sidebar.component />}
+
                 </div>
 
 
