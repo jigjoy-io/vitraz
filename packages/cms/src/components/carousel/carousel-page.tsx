@@ -70,12 +70,12 @@ export default function CarouselPage(props: any) {
 
 
                 {
-                    (current != pages.length - 1) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[200px] break-words">
+                    (current != pages.length - 1) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
                         <Button text={previous} action={previousPage} /> <Button text={next} action={nextPage} />
                     </div>
                 }
                 {
-                    (current == pages.length - 1) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px] break-words">
+                    (current == pages.length - 1) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
 
                         <Button text={home} action={() => backToHome(origin)} />
                     </div >

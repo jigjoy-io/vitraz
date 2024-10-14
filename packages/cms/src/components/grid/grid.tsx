@@ -15,7 +15,7 @@ export default function Grid(props: any) {
 	})
 
 	return (
-		<div className={`grid ${layout} w-max rounded-md gap-1`}>
+		<div className={`grid ${layout} rounded-md gap-1 w-[100%]`}>
 			{React.Children.map(props.children, child =>
 				React.cloneElement(child, { borderOn: false }))}
 		</div>
