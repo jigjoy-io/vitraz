@@ -7,10 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env: 
-      REACT_APP_USER_POOL_ID: ${{ env.REACT_APP_USER_POOL_ID }}
-      REACT_APP_USER_POOL_WEB_CLIENT_ID: ${{ env.REACT_APP_USER_POOL_WEB_CLIENT_ID }}
-      REACT_APP_API: ${{ env.REACT_APP_API }}
+    environment: env
 
     steps:
       - name: Checkout
