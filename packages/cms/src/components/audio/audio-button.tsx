@@ -3,6 +3,8 @@ import SpeakerOnIcon from "../../icons/speaker-on-icon"
 import SpeakerOffIcon from "../../icons/speaker-off-icon"
 import MediaLibrary from "./media-library"
 import AudioPlayer from "./audio-player"
+import SpeakerOnIcon1 from "../../icons/speaker-on-1-icon"
+import SpeakerOnIcon2 from "../../icons/speaker-on-2-icon"
 
 interface AudioButtonProps {
     id: string,
@@ -12,7 +14,8 @@ interface AudioButtonProps {
 
 function AudioButton({ id, position, source }: AudioButtonProps) {
     const [isPlaying, setIsPlaying] = useState(false)
-    const [animationState, setAnimationState] = useState(0)
+    const [animationState, setAnimationState] = useState(-1)
+    const [tests, setTest] = useState(false)
 
     let params = {
         id: id,
@@ -36,7 +39,7 @@ function AudioButton({ id, position, source }: AudioButtonProps) {
                 setAnimationState((prevState) => (prevState + 1) % 3)
             }, 500)
         } else {
-            setAnimationState(0)
+            // setAnimationState(0)
         }
 
         return () => {
@@ -53,15 +56,18 @@ function AudioButton({ id, position, source }: AudioButtonProps) {
     }
 
     const renderIcon = () => {
+        console.log(animationState)
+        if (animationState == -1) return <SpeakerOnIcon1 />
         if (!isPlaying) return <SpeakerOffIcon />
         switch (animationState) {
             case 0:
+                return <SpeakerOnIcon1 />
+            case 1:
+                return <SpeakerOnIcon2 />
             case 2:
                 return <SpeakerOnIcon />
-            case 1:
-                return <SpeakerOffIcon />
             default:
-                return <SpeakerOffIcon />
+                return <SpeakerOnIcon1 />
         }
     }
 
