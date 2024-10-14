@@ -11,13 +11,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
         
       - name: Switch to Frontend Directory
         run: cd packages/cms
 
       - name: NodeJs Setup
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
       
       - name: Dependency Installation
         run: npm install
