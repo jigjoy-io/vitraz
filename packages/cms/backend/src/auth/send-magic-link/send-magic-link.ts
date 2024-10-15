@@ -7,6 +7,8 @@ import Responses from '@utils/api-responses'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { CognitoIdentityProviderClient, AdminGetUserCommand, AdminCreateUserCommand, AdminUpdateUserAttributesCommand } from "@aws-sdk/client-cognito-identity-provider"
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses"
+import { EmailFactory, EmailType, IEmail } from "@utils/email-factory-pattern"
+
 const ses = new SESClient()
 
 const cognito = new CognitoIdentityProviderClient()
@@ -17,6 +19,7 @@ const TIMEOUT_MINS = 5
 
 import { encrypt } from "@utils/encription"
 import { escape } from "querystring"
+import { time } from 'console'
 
 
 
@@ -93,24 +96,17 @@ export async function sendMagicLinkHandler({
 
 async function sendEmail(emailAddress: string, magicLink: string, lang: string) {
 
-    let subject = "JigJoy Login Link";
-    let body = `<html><body><p>This is your one-time sign in link (it will expire in ${TIMEOUT_MINS} mins):</p>
-                <a href="${magicLink}" target="_blank">link</a></body></html>`;
-
-    if (lang === "RS") {
-        subject = "JigJoy Link za Prijavu";
-        body = `<html><body><p>Ovo je vaš jednokratni link za prijavu (isteći će za ${TIMEOUT_MINS} minuta):</p>
-                <a href="${magicLink}" target="_blank">link</a></body></html>`;
-    }
+    const emailType = lang === 'RS' ? EmailType.RS : EmailType.US;
+    const email: IEmail = EmailFactory.getEmail(emailType);
 
     const command = new SendEmailCommand({
         Destination: {
             ToAddresses: [emailAddress],
         },
         Message: {
-            Subject: { Data: subject },
+            Subject: { Data: email.getSubject() },
             Body: {
-                Html: { Data: body },
+                Html: { Data: email.getBody(magicLink, TIMEOUT_MINS) },
             },
         },
         Source: SES_FROM_ADDRESS,
