@@ -11,12 +11,14 @@ let localization = new LocalizedStrings({
     US: {
         premium: "Premium Service",
         description: "Need help with content creation? Our team will create an app for you to efficiently collect leads and engage your audience.",
-        placeholder: "Leave a message, and we’ll contact you soon."
+        placeholder: "Leave a message, and we’ll contact you soon.",
+        cta: "Submit"
     },
     RS: {
         premium: "Premium usluga",
         description: "Treba vam pomoć sa kreiranjem sadržaja? Naš tim će vam kreirati aplikaciju za efikasno prikupljanje lead-ova i angažovanje publike.",
-        placeholder: "Ostavite poruku, i uskoro ćemo vas kontaktirati."
+        placeholder: "Ostavite poruku, i uskoro ćemo vas kontaktirati.",
+        cta: 'Posalji'
     }
 })
 export default function Premium() {
@@ -32,9 +34,9 @@ export default function Premium() {
     return <div className="mt-20 flex flex-col justify-center items-center gap-6 px-20">
         <Heading position="center" text={localization.premium} />
         <Text position="center" text={localization.description} />
-        <div className="w-[500px]">
+        <div className="w-[500px] max-w-[100%]">
             <TextArea placeholder={localization.placeholder} onChange={handleChange}/>
         </div>
-        <Button text="Posalji" />
+        <Button text={localization.cta} />
     </div>
 }
