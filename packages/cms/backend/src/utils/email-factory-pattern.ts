@@ -3,11 +3,6 @@ export interface IEmail {
     getBody(magicLink: string, timeoutMins: number): string;
 }
 
-export enum EmailType {
-    US,
-    RS
-}
-
 class USEmail implements IEmail {
     getSubject(): string {
         return "JigJoy Login Link";
@@ -31,11 +26,11 @@ class SerbianEmail implements IEmail {
 }
 
 export class EmailFactory {
-    public static getEmail(type: EmailType): any {
-        switch(type) {
-            case EmailType.US:
+    public static getEmail(language: string): any {
+        switch(language) {
+            case "US":
                 return new USEmail()
-            case EmailType.RS:
+            case "RS":
                 return new SerbianEmail()
             default: 
                 throw new Error("Language not supported, choose either US or RS!")

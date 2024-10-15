@@ -8,6 +8,9 @@ export const schema = {
         email: {
             type: "string",
             format: "email",
+            language: {
+                enum: ['US', 'RS'] 
+            }
         }
     }
 }

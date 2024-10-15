@@ -66,7 +66,7 @@ export default function Authorization(props: any) {
 
 		try {
 			setMessage(localization.postLoginMessage)
-			await createSingInChallenge({ email: email, lang: lang })
+			await createSingInChallenge({ email: email, language: lang })
 		} catch (error) {
 			setMessage(error.message)
 		}

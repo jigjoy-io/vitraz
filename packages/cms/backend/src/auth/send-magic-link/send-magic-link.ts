@@ -7,7 +7,7 @@ import Responses from '@utils/api-responses'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { CognitoIdentityProviderClient, AdminGetUserCommand, AdminCreateUserCommand, AdminUpdateUserAttributesCommand } from "@aws-sdk/client-cognito-identity-provider"
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses"
-import { EmailFactory, EmailType, IEmail } from "@utils/email-factory-pattern"
+import { EmailFactory, IEmail } from "@utils/email-factory-pattern"
 
 const ses = new SESClient()
 
@@ -19,9 +19,6 @@ const TIMEOUT_MINS = 5
 
 import { encrypt } from "@utils/encription"
 import { escape } from "querystring"
-import { time } from 'console'
-
-
 
 export async function sendMagicLinkHandler({
     body,
@@ -33,7 +30,7 @@ export async function sendMagicLinkHandler({
 
         const user: SignInDto = JSON.parse(body)
         const email = user.email
-        const lang = user.lang
+        const language = user.language
 
         schemaValidator(schema, user)
 
@@ -86,7 +83,7 @@ export async function sendMagicLinkHandler({
             statusCode: 202
         }
 
-        await sendEmail(email, magicLink, lang)
+        await sendEmail(email, magicLink, language)
         return Responses._202(response)
 
     } catch (error) {
@@ -94,10 +91,9 @@ export async function sendMagicLinkHandler({
     }
 }
 
-async function sendEmail(emailAddress: string, magicLink: string, lang: string) {
+async function sendEmail(emailAddress: string, magicLink: string, language: string) {
 
-    const emailType = lang === 'RS' ? EmailType.RS : EmailType.US;
-    const email: IEmail = EmailFactory.getEmail(emailType);
+    const email: IEmail = EmailFactory.getEmail(language);
 
     const command = new SendEmailCommand({
         Destination: {
