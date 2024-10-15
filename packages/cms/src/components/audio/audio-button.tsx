@@ -10,7 +10,7 @@ interface AudioButtonProps {
     source: string
 }
 
-function AudioButton({ id, position, source }: AudioButtonProps){
+function AudioButton({ id, position, source }: AudioButtonProps) {
     const [isPlaying, setIsPlaying] = useState(false)
 
     let params = {
@@ -20,7 +20,7 @@ function AudioButton({ id, position, source }: AudioButtonProps){
         onEnd: () => setIsPlaying(false)
     }
 
-    const audioPlayer : AudioPlayer = new AudioPlayer(params)
+    const audioPlayer: AudioPlayer = new AudioPlayer(params)
     const mediaLibrary = MediaLibrary.getInstance()
 
     mediaLibrary.addPlayer(audioPlayer)

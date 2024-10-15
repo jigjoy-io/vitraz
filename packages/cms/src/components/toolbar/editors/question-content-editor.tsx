@@ -1,22 +1,42 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import { updateBlock } from "../../../reducers/page-reducer"
 import Button from "../../button/button"
 import Checkbox from "../../checkbox/checkbox"
 import LocalizedStrings from "react-localization"
+import useFileUpload from "../../../util/file-upload"
+import Tabs from "../../tabs/tabs"
+import Tab from "../../tabs/tab"
+import Alert from "../../alert/alert"
 
 let localization = new LocalizedStrings({
     US: {
         update: "Update",
         displayQuestion: "Display question text",
         displayImage: "Display question image",
-        embedLink: "Embed link"
+        embedLink: "Embed link",
+        uploadImage: "Upload image",
+        clickToUpload: "Click to upload image",
+        maxFileUpload: "Maximum image size is 5mb.",
+        fileTooLarge: "Image is too large. Please upload a image smaller than 5MB.",
+        fileLoadSuccess: "You can start uploading your image.",
+        fileUploadedSuccessfully: "Your image upload has finished!",
+        uploadInProgress: "Upload in progress...",
+        uploadError: "Error has occured during the upload!"
     },
     RS: {
         update: "Promeni",
         displayQuestion: "Prikaži tekst pitanja",
         displayImage: "Prikaži sliku",
-        embedLink: "Unesi link"
+        embedLink: "Unesi link",
+        uploadImage: "Promeni sliku",
+        clickToUpload: "Klikni da ubaciš sliku",
+        maxFileUpload: "Maksimalna velicina slike je 5mb.",
+        fileTooLarge: "Slika je prevelika. Molimo vas da otpremite sliku manju od 5MB.",
+        fileLoadSuccess: "Možete započeti otpremanje slike.",
+        fileUploadedSuccessfully: "Vaša slika je uspešno otpremljena!",
+        uploadInProgress: "Otpremljivanje je u toku...",
+        uploadError: "Greška prilikom otpremljivanja!"
     }
 })
 
@@ -24,15 +44,55 @@ export default function QuestionContentEditor(props: any) {
 
     const [value, setValue] = useState(props.value)
     const [displayUrlInput, setDisplayUrlInput] = useState(false)
+    const fileInputRef = useRef<HTMLInputElement>(null)
+    const [file, setFile] = useState<File | null>(null)
+    const [loading, setLoading] = useState(false)
+    const [fileUrl, setFileUrl] = useState<string | null>(null)
 
     const dispatch = useDispatch()
     localization.setLanguage(props.lang)
+    const [fileAlert, setFileAlert] = useState({ type: "info", message: localization.maxFileUpload })
 
+    const { handleFileUpload } = useFileUpload(setValue, 'image')
 
-    const update = () => {
-        let block = JSON.parse(JSON.stringify(props.block))
-        block[props.attribute] = value
-        dispatch(updateBlock(block))
+    const triggerFileInput = () => {
+        fileInputRef.current?.click()
+    }
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = event.target.files?.[0]
+        if (selectedFile) {
+            if (selectedFile.size > 5 * 1024 * 1024) {
+                setFileAlert({ type: "danger", message: localization.fileTooLarge })
+            } else {
+                setFile(selectedFile)
+                setFileAlert({ type: "info", message: localization.fileLoadSuccess })
+            }
+        }
+    }
+
+    const update = async () => {
+        setLoading(true)
+        try {
+            let uploadedFileUrl = fileUrl
+
+            if (file && !fileUrl) {
+                setFileAlert({ type: "info", message: localization.uploadInProgress })
+                uploadedFileUrl = await handleFileUpload(file)
+                setFileUrl(uploadedFileUrl)
+                setFileAlert({ type: "success", message: localization.fileUploadedSuccessfully })
+            }
+
+            handleChange('image', uploadedFileUrl);
+            const block = { ...props.block }
+            block[props.attribute] = value
+            dispatch(updateBlock(block))
+
+        } catch (error) {
+            setFileAlert({ type: "danger", message: localization.uploadError })
+        } finally {
+            setLoading(false)
+        }
     }
 
     const handleChange = (key, newValue) => {
@@ -51,10 +111,26 @@ export default function QuestionContentEditor(props: any) {
         <Checkbox id="displayImage" selected={value.displayImage} onChange={handleChange}>{localization.displayImage}</Checkbox>
         <img src={value.image} className="w-[100px] my-2 rounded-lg" />
         <div className="flex gap-3 my-3">
-            {/* <Button text="Upload image" color="default" /> */}
-            <Button  width="w-full" text={localization.embedLink} color="default" action={() => setDisplayUrlInput(true)} />
+            <Tabs>
+                <Tab key={localization.uploadImage}>
+                    <div className="mb-2">
+                        <Alert type={fileAlert.type} message={fileAlert.message} />
+                    </div>
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                    />
+                    <Button text={localization.clickToUpload} color="default" action={triggerFileInput} />
+                    {file && !loading && <p className="mt-2 text-sm text-ellipsis overflow-hidden">{file.name}</p>}
+                </Tab>
+                <Tab key={localization.embedLink}>
+                    <input className="p-1 rounded-lg border w-[100%] mb-3" value={value.image} onChange={(e: any) => handleChange('image', e.target.value)} />
+                </Tab>
+            </Tabs>
         </div>
-        {displayUrlInput && <input className="p-1 rounded-lg border w-[100%] mb-3" value={value.image} onChange={(e: any) => handleChange('image', e.target.value)} />}
         <Button text={localization.update} action={update} />
     </div>
 }
