@@ -119,8 +119,10 @@ export default function BlockSelector(props: any) {
 
             setOptions(result)
             setShowMenu(true)
+            dispatch(blockingUpdated(true))
         } else {
             setShowMenu(false)
+            dispatch(blockingUpdated(false))
         }
 
 

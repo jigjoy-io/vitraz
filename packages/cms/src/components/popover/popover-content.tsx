@@ -9,7 +9,7 @@ export default function PopoverContent(props: any) {
 	const [top, setTop] = useState(0)
 	const [left, setLeft] = useState(0)
 
-	const ref = useRef<HTMLInputElement>(null)
+	const ref = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
 		setIsOpen(props.isOpen)

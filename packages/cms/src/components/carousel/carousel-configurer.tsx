@@ -55,14 +55,14 @@ export default function CarouselConfigurer(props: any) {
     const [description, setDescription] = useState(props.description)
     const [title, setHeadline] = useState(props.title)
     const activePage = usePage()
+    
     const lang = useLanguage()
-
-    const templateFactory = new TemplateFactory()
+    localization.setLanguage(lang)
 
     const [top, setTop] = useState(window.innerHeight / 2)
     const [y, setY] = useState(0)
 
-    const ref = useRef<HTMLInputElement>(null)
+    const ref = useRef<HTMLDivElement>(null)
 
     useLayoutEffect(() => {
 
@@ -123,7 +123,6 @@ export default function CarouselConfigurer(props: any) {
     }
 
     useEffect(() => {
-        localization.setLanguage(lang)
 
         window.onbeforeunload = function () {
             turnOffPopup()

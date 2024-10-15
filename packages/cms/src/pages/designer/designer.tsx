@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import { useDispatch } from "react-redux"
 import Page from "../../components/page"
 import { modeUpdated, rootPageUpdated } from "../../reducers/page-reducer"
@@ -33,6 +33,8 @@ export default function Designer() {
     const modified = useModified()
     const dispatch = useDispatch<AppDispatch>()
 
+    const ref = useRef<HTMLDivElement>(null)
+
 
     const update = (rootPage, page) => {
 
@@ -58,7 +60,7 @@ export default function Designer() {
     }, [modified])
 
     return <AuthLayer>
-        <div style={{ pointerEvents: blocked ? 'none' : 'auto' }}>
+        <div style={{ pointerEvents: blocked ? 'none' : 'auto'}}>
 
             <div className="flex flex-row">
                 <LeftSideMenu />
