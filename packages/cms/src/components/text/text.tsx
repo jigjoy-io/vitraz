@@ -9,7 +9,7 @@ export default function Text(props: any) {
 		setPosition(props.position)
 	}, [props.position])
 
-	return <div className={`inline-block h-min-[1.7rem] h-max ${alignmentVariations[position]}`}  >
+	return <div className={`inline-block h-min-[1.7rem] h-max w-[100%] ${alignmentVariations[position]}`}  >
 		<div className='text-paragraph whitespace-pre-line'>{props.text}</div>
 	</div>
 
