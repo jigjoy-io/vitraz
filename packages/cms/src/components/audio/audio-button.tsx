@@ -14,8 +14,7 @@ interface AudioButtonProps {
 
 function AudioButton({ id, position, source }: AudioButtonProps) {
     const [isPlaying, setIsPlaying] = useState(false)
-    const [animationState, setAnimationState] = useState(-1)
-    const [tests, setTest] = useState(false)
+    const [animationState, setAnimationState] = useState(0)
 
     let params = {
         id: id,
@@ -39,7 +38,7 @@ function AudioButton({ id, position, source }: AudioButtonProps) {
                 setAnimationState((prevState) => (prevState + 1) % 3)
             }, 500)
         } else {
-            // setAnimationState(0)
+            setAnimationState(0)
         }
 
         return () => {
@@ -52,12 +51,14 @@ function AudioButton({ id, position, source }: AudioButtonProps) {
     }, [])
 
     const togglePlay = () => {
+        if (isPlaying) {
+            setIsPlaying(false)
+        }
+        console.log(isPlaying)
         mediaLibrary.play(audioPlayer)
     }
 
     const renderIcon = () => {
-        console.log(animationState)
-        if (animationState == -1) return <SpeakerOnIcon1 />
         if (!isPlaying) return <SpeakerOffIcon />
         switch (animationState) {
             case 0:
