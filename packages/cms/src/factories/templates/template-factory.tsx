@@ -6,10 +6,8 @@ export default class TemplateFactory {
     static create(type: string) {
         let templates = TemplatesStorage.getTemplates()
 
-        console.log("TYPE", type)
         let block: any = templates[type]
 
-        console.log("BLOCK", block)
         let template = JSON.parse(JSON.stringify(block))
         template.id = uuidv4()
         return template
