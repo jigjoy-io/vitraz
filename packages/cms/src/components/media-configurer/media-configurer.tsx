@@ -37,7 +37,7 @@ interface MediaConfigurerProps {
 }
 
 export default function MediaConfigurer({ mediaType, icon, localization, props, lang }: MediaConfigurerProps) {
-  const [display, setDisplay] = useState(false);
+  const [display, setDisplay] = useState(props.display);
   const [value, setValue] = useState(props.value);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
