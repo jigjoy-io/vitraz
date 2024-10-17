@@ -19,6 +19,7 @@ export default class AudioPlayer implements Player {
     pause() {
         this.audio.pause()
     }
+
     isPaused() {
         return this.audio.paused
     }
