@@ -1,10 +1,10 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { blockingUpdated } from "../../reducers/toolbar-reducer";
-import TemplateFactory from "../../factories/templates/template-factory";
+import TemplateFactory from "../../util/factories/templates/template-factory";
 import { updateBlock } from "../../reducers/page-reducer";
 import { createPortal } from "react-dom";
-import ClickOutsideListener from "../popover/click-outside-listener";
+import ClickOutsideListener from "../../util/click-outside-listener";
 import Tabs from "../tabs/tabs";
 import Tab from "../tabs/tab";
 import Alert from "../alert/alert";
