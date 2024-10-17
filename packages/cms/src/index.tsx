@@ -32,11 +32,12 @@ const dashboardRoute = createRouteMask({
 	routeTree,
 	from: '/interactive-content-designer',
 	to: '/interactive-content-designer',
-	params: (prev) => ({
+	params: () => ({
 		pageId: undefined,
 		token: undefined,
 		email: undefined
 	}),
+	search: true
 })
 
 const router = createRouter({
