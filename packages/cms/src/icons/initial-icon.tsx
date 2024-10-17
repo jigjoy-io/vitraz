@@ -1,6 +1,6 @@
 import React from "react"
 
-export const InitialIcon = ({ initials }) => {
+export default function InitialIcon({ initials }) {
     return (
         <div
             className='rounded-md h-[32px] w-[32px] flex items-center bg-primary justify-center'>

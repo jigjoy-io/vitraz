@@ -1,3 +1,5 @@
+import Player from '../../util/player'
+
 export default class VideoPlayer implements Player {
     
     id: string

@@ -5,15 +5,13 @@ import { useDispatch } from 'react-redux'
 import { useLanguage, useMode } from '../../util/store'
 import localization from './onboarding.localization'
 import { modeUpdated } from '../../reducers/page-reducer'
-import TemplateFactory from '../../factories/templates/template-factory'
 import { createPage } from '../../api/page'
 import Loader from '../../components/loader/loader'
 import CloseIcon from '../../icons/close-icon'
 import Title from '../../components/title/title'
 import Tile from '../../components/tile/tile'
 import Heading from '../../components/heading/heading'
-
-
+import TemplateFactory from '../../util/factories/templates/template-factory'
 
 export default function Onboarding() {
 

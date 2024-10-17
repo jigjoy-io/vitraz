@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
-import BuildingBlock from "../factories/building-block"
 import { LazyMotion, m } from "framer-motion"
 import { useLanguage, useMode } from "../util/store"
-import TemplateFactory from "../factories/templates/template-factory"
 import { appendBlock, focusBlock } from "../reducers/page-reducer"
 import { useDispatch } from "react-redux"
+import TemplateFactory from "../util/factories/templates/template-factory"
+import BuildingBlock from "../util/factories/building-block"
 
 
 const animation = {

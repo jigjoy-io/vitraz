@@ -3,15 +3,15 @@ import CarouselIcon from "../../icons/carousel-icon"
 import Button from "../button/button"
 import Checkbox from "../checkbox/checkbox"
 import Tabs from "../tabs/tabs"
-import ClickOutsideListener from "../popover/click-outside-listener"
+import ClickOutsideListener from "../../util/click-outside-listener"
 import Tab from "../tabs/tab"
-import TemplateFactory from "../../factories/templates/template-factory"
 import { updateBlock } from "../../reducers/page-reducer"
 import { useDispatch } from "react-redux"
 import { useLanguage, usePage } from "../../util/store"
 import { createPortal } from "react-dom"
 import { blockingUpdated } from "../../reducers/toolbar-reducer"
 import LocalizedStrings from "react-localization"
+import TemplateFactory from "../../util/factories/templates/template-factory"
 
 let localization = new LocalizedStrings({
     US: {

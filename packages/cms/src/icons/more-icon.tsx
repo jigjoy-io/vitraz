@@ -1,6 +1,6 @@
 import React from "react"
 
-export function MoreIcon() {
+export default function MoreIcon() {
     return <div role="button" className="flex items-center justify-center w-[24px] h-[24px] rounded-[4px]">
         <svg role="graphics-symbol" viewBox="0 0 13 3" className="w-[14px] h-[14px] block">
             <g>

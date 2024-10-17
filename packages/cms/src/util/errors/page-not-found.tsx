@@ -1,5 +1,5 @@
 import React from "react"
-import { Logo } from "../../icons/logo"
+import Logo from "../../icons/logo"
 import Title from "../../components/title/title"
 
 export function PageNotFound(props) {

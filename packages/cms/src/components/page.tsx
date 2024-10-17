@@ -1,6 +1,6 @@
 import React from "react"
 import { usePage } from "../util/store"
-import { PageFactory } from "../factories/page-factory"
+import { PageFactory } from "../util/factories/page-factory"
 
 function Page() {
 

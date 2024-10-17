@@ -1,5 +1,4 @@
 import LocalizedStrings from "react-localization"
-import { store } from "../../util/store"
 
 const localization = new LocalizedStrings({
     US: {

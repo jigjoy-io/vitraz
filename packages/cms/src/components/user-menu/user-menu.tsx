@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { getCurrentUser } from 'aws-amplify/auth'
-import { ExpandDownIcon } from '../../icons/expand-down-icon'
+import ExpandDownIcon from '../../icons/expand-down-icon'
 import { createPortal } from 'react-dom'
-import ClickOutsideListener from '../popover/click-outside-listener'
 import { blockingUpdated } from '../../reducers/toolbar-reducer'
 import { useDispatch } from 'react-redux'
-import { InitialIcon } from '../../icons/initial-icon'
+import InitialIcon from '../../icons/initial-icon'
 import LogoutButton from './logout/logout'
 import LanguageSwitcher from '../../shared/language-switcher/language-switcher'
 import { useLanguage } from '../../util/store'
 import LocalizedStrings from 'react-localization'
+import ClickOutsideListener from '../../util/click-outside-listener'
 
 const localization = new LocalizedStrings({
     US: {

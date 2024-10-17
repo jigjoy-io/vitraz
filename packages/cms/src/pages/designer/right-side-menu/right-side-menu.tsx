@@ -1,10 +1,10 @@
 import { AnimatePresence, LazyMotion, m } from "framer-motion"
 import { AppDispatch, useLanguage, useSidebarComponent, useSidebarVisible } from "../../../util/store"
 import React from "react"
-import ToolbarButtonWrapper from "../../../components/toolbar/toolbar-button-wrapper"
 import { useDispatch } from "react-redux"
 import LocalizedStrings from "react-localization"
 import { sidebarExpanded } from "../../../reducers/sidebar-reducer"
+import ToolbarButtonWrapper from "../toolbar/toolbar-button-wrapper"
 
 
 const animation = {
@@ -50,7 +50,7 @@ export function RightSideMenu() {
 
     return <LazyMotion features={loadFeatures}>
         <AnimatePresence>{
-            sidebar.visible && <m.div variants={animation} initial="hidden" animate="show" exit="exit" transition={transition}>
+            <m.div variants={animation} initial="hidden" animate="show" exit="exit" transition={transition}>
 
                 <div className="border-l border-light shadow-lg fixed right-0 bottom-0 h-[100dvh] w-[50%] bg-[white] flex flex-col">
 

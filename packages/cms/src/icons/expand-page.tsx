@@ -1,10 +1,10 @@
 import React from "react"
 import { useExpandedPages } from "../util/store"
 import CarouselIcon from "./carousel-icon"
-import { ExpandDownIcon } from "./expand-down-icon"
-import { PageIcon } from "./page-icon"
+import ExpandDownIcon from "./expand-down-icon"
+import PageIcon from "./page-icon"
 
-export function ExpandPage(props: any) {
+export default function ExpandPage(props: any) {
 
     const expandedPages = useExpandedPages()
 

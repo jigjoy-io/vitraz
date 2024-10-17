@@ -1,6 +1,6 @@
 import React from "react"
-import Grid from "../grid"
-import Item from "../item"
+import Grid from "../grid/grid"
+import Item from "../item/item"
 
 export default function Sidebar(props: any) {
 

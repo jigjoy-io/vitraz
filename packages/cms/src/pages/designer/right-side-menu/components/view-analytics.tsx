@@ -22,6 +22,6 @@ export default function ViewAnalytics() {
 
     return <div className="mt-20 flex flex-col justify-center items-center gap-3">
         <Heading position="center" text={localization.comingSoon} />
-        <Text text={localization.collectLeads} />
+        <Text position="center" text={localization.collectLeads} />
     </div>
 }
