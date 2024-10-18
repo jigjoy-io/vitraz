@@ -304,6 +304,9 @@ export function Node(props: any) {
         if (props.root.id == selectedPage.id) {
             dispatch(rootPageUpdated(props.root))
             dispatch(pageUpdated(props.root))
+            if (selectedPage.type == 'carousel') {
+                dispatch(carouselPageSwitched(selectedPage.config.pages[0].id))
+            }
             return
         }
 
