@@ -277,8 +277,13 @@ export function Node(props: any) {
     }, [])
 
     useEffect(() => {
-        if (activePage)
+        if (activePage.type=='blank')
             setSelected(activePage.id)
+
+        if (activePage.type=='carousel' && activeCarousel==null){
+            dispatch(carouselPageSwitched(activePage.config.pages[0].id))
+
+        }
     }, [activePage])
 
     useEffect(() => {
@@ -352,6 +357,11 @@ export function Node(props: any) {
         let allPages = JSON.parse(JSON.stringify(pages))
         let index = allPages.findIndex((page) => page.id == newRoot.id)
         allPages.splice(index, 1, newRoot)
+        dispatch(pagesUpdated(allPages))
+
+
+        dispatch(pageUpdated(carousel))
+        dispatch(carouselPageSwitched(blankPage.id))
     }
 
     const addPage = (e: React.MouseEvent) => {

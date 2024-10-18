@@ -29,17 +29,27 @@ export default function CarouselPage(props: any) {
         setPercentage(percentage)
     }
 
-    useEffect(() => {
+    const refreshCarousel = () => {
         let current = pages.findIndex((p: any) => p.id == activeCarousel)
+        console.log(current)
         if (current != -1) {
             setCurrent(current)
             calculatePercentage(current)
         }
+    }
+
+    useEffect(() => {
+        refreshCarousel()
     }, [activeCarousel])
 
     useEffect(() => {
         setPages(props.config.pages)
     }, [props.config.pages])
+
+    useEffect(() => {
+        refreshCarousel()
+    }, [pages])
+
 
     const nextPage = () => {
         let nextPage = pages[current + 1]
