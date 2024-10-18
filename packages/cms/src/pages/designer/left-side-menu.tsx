@@ -87,7 +87,7 @@ export default function LeftSideMenu() {
     }
 
     return (
-        lang && <div className="h-[100dvh] max-h-[100dvh] w-[260px] bg-[#F2EEF0] bg-opacity-30 border-r border-light shadow-lg flex flex-col">
+        lang && <div className="h-[100dvh] max-h-[100dvh] bg-[#F2EEF0] bg-opacity-30 border-r border-light shadow-lg flex flex-col flex-none">
 
             <UserMenu />
             <div className="mx-2 mt-5 px-3 py-2 flex flex-row items-center hover:bg-primary-light hover:bg-opacity-60 rounded-lg cursor-pointer border" onClick={createNewPage}>

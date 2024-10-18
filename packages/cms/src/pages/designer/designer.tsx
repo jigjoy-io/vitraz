@@ -26,7 +26,7 @@ export default function Designer() {
 
     const lang = useLanguage()
     localization.setLanguage(lang)
-    
+
     const blocked = useBlocked()
     const page = usePage()
     const rootPage = useRootPage()
@@ -61,20 +61,26 @@ export default function Designer() {
     }, [modified])
 
     return <AuthLayer>
-        <div style={{ pointerEvents: blocked ? 'none' : 'auto'}} className="overflow-x-hidden">
+        <div style={{ pointerEvents: blocked ? 'none' : 'auto' }} className="overflow-x-hidden">
 
             <div className="flex flex-row">
-                <LeftSideMenu />
-                <div className={`flex flex-col w-[100%] max-h-[100dvh] h-[100dvh] overflow-y-auto`}>
+                <div className="w-[260px] min-w-[260px] max-w-[260px] grow-0">
+                    <LeftSideMenu />
+                </div>
+                <div className={`flex flex-col ${sidebarVisible ? 'grow' : 'w-[100%]'} max-h-[100dvh] h-[100dvh] overflow-y-auto`}>
                     <div className="h-[40px] w-[100%]">
                         <div className="bg-[#74EDDF] hover:opacity-80 flex justify-center items-center cursor-pointer rounded-md w-fit p-1 px-3 m-3 font-bold border" onClick={() => dispatch(sidebarExpanded({ expanded: true, component: Premium }))}>{localization.premium}</div>
                     </div>
                     <div className='grow'>{page && <Page />}</div>
-                    
+
                 </div>
+
+                <div className={`grow-0 ${sidebarVisible ? 'w-[25%]': ''}`}>
+                    {sidebarVisible && <RightSideMenu />}
+                </div>
+
             </div>
 
-            {sidebarVisible && <RightSideMenu />}
 
         </div>
     </AuthLayer>
