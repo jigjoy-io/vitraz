@@ -17,7 +17,7 @@ let localization = new LocalizedStrings({
         fileUploadedSuccessfully: "Your audio upload has finished!",
         uploadInProgress: "Upload in progress...",
         uploadError: "Error has occured during the upload!",
-        clickToAdd: "Click to create."
+        clickToAdd: "Click to upload an audio file"
     },
     RS: {
         create: "Kreiraj",
@@ -31,7 +31,7 @@ let localization = new LocalizedStrings({
         fileUploadedSuccessfully: "Vaš audio je uspešno otpremljen!",
         uploadInProgress: "Otpremljivanje je u toku...",
         uploadError: "Greška prilikom otpremljivanja!",
-        clickToAdd: "Klikni da kreiraš."
+        clickToAdd: "Klikni da ubaciš audio fajl"
     }
 })
 

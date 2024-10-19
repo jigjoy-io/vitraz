@@ -31,7 +31,6 @@ export default function CarouselPage(props: any) {
 
     const refreshCarousel = () => {
         let current = pages.findIndex((p: any) => p.id == activeCarousel)
-        console.log(current)
         if (current != -1) {
             setCurrent(current)
             calculatePercentage(current)

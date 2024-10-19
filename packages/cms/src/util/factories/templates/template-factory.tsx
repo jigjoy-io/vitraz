@@ -79,6 +79,19 @@ export default class TemplateFactory {
         throw ('Page not supported')
     }
 
+    static createMediaBlock(uploadedFileUrl: null | undefined, mediaType: string) {
+        if (mediaType === "audio") {
+            return TemplateFactory.createAudioBlock(uploadedFileUrl)
+          }
+          if (mediaType === "image") {
+            return TemplateFactory.createImageBlock(uploadedFileUrl)
+          }
+          if (mediaType === "video") {
+            return TemplateFactory.createReelBlock(uploadedFileUrl)
+          }
+      
+    }
+
     static createCarouselTileBlock(origin, numberOfPages = 3) {
         let block = this.create('carousel-tile')
         let page = this.createCarouselPage(origin, numberOfPages)

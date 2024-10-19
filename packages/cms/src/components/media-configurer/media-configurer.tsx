@@ -1,120 +1,111 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { blockingUpdated } from "../../reducers/toolbar-reducer";
-import TemplateFactory from "../../util/factories/templates/template-factory";
-import { updateBlock } from "../../reducers/page-reducer";
-import { createPortal } from "react-dom";
-import ClickOutsideListener from "../../util/click-outside-listener";
-import Tabs from "../tabs/tabs";
-import Tab from "../tabs/tab";
-import Alert from "../alert/alert";
-import Button from "../button/button";
-import useFileUpload from "../../util/file-upload";
-import useFileChangeHandler from "../../util/handle-file-change";
-import { fileUpdate } from "../../util/file-update";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
+import { useDispatch } from "react-redux"
+import { blockingUpdated } from "../../reducers/toolbar-reducer"
+import TemplateFactory from "../../util/factories/templates/template-factory"
+import { updateBlock } from "../../reducers/page-reducer"
+import { createPortal } from "react-dom"
+import ClickOutsideListener from "../../util/click-outside-listener"
+import Tabs from "../tabs/tabs"
+import Tab from "../tabs/tab"
+import Alert from "../alert/alert"
+import Button from "../button/button"
+import useFileUpload from "../../util/file-upload"
+import useFileChangeHandler from "../../util/handle-file-change"
+import { fileUpdate } from "../../util/file-update"
 
 interface LocalizationStrings {
-  create: string;
-  update: string;
-  embedLink: string;
-  uploadFile: string;
-  clickToUpload: string;
-  maxFileUpload: string;
-  fileTooLarge: string;
-  fileLoadSuccess: string;
-  fileUploadedSuccessfully: string;
-  uploadInProgress: string;
-  uploadError: string;
-  clickToAdd: string;
+  create: string
+  update: string
+  embedLink: string
+  uploadFile: string
+  clickToUpload: string
+  maxFileUpload: string
+  fileTooLarge: string
+  fileLoadSuccess: string
+  fileUploadedSuccessfully: string
+  uploadInProgress: string
+  uploadError: string
+  clickToAdd: string
 }
 
 interface MediaConfigurerProps {
-  mediaType: "image" | "audio" | "video";
-  icon: React.ReactNode;
-  localization: LocalizationStrings;
-  lang: string;
-  props: any;
+  mediaType: "image" | "audio" | "video"
+  icon: React.ReactNode
+  localization: LocalizationStrings
+  lang: string
+  props: any
 }
 
 export default function MediaConfigurer({ mediaType, icon, localization, props, lang }: MediaConfigurerProps) {
-  const [display, setDisplay] = useState(props.display);
-  const [value, setValue] = useState(props.value);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [display, setDisplay] = useState(props.display)
+  const [value, setValue] = useState(props.value)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const { file, fileAlert, handleFileChange, setFileAlert } = useFileChangeHandler(lang);
-  const { handleFileUpload } = useFileUpload(setValue, mediaType);
+  const { file, fileAlert, handleFileChange, setFileAlert } = useFileChangeHandler(lang)
+  const { handleFileUpload } = useFileUpload(setValue, mediaType)
   const { update, loading } = fileUpdate(props.block, setFileAlert, localization)
 
   const triggerFileInput = () => {
-    fileInputRef.current?.click();
+    fileInputRef.current?.click()
   };
 
   const [top, setTop] = useState(window.innerHeight / 2);
   const [y, setY] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
     if (ref.current) {
-      let contentRect = ref.current.getBoundingClientRect();
+      let contentRect = ref.current.getBoundingClientRect()
       if (contentRect.top + window.innerHeight / 2 > window.innerHeight) {
-        setY(-100);
-        setTop(contentRect.top);
+        setY(-100)
+        setTop(contentRect.top)
       } else {
         setY(0);
-        setTop(contentRect.top);
+        setTop(contentRect.top)
       }
     }
-  }, [display]);
+  }, [display])
 
   const openConfigurer = () => {
-    setDisplay(true);
-    dispatch(blockingUpdated(true));
-  };
+    setDisplay(true)
+    dispatch(blockingUpdated(true))
+  }
 
   const create = async () => {
-    dispatch(blockingUpdated(false));
-    const uploadedFileUrl = await update(file, handleFileUpload, value);
+    dispatch(blockingUpdated(false))
+    const uploadedFileUrl = await update(file, handleFileUpload, value)
 
-    let block;
+    let block = TemplateFactory.createMediaBlock(uploadedFileUrl, mediaType)
 
-    if (mediaType === "audio") {
-      block = TemplateFactory.createAudioBlock(uploadedFileUrl)
-    }
-    if (mediaType === "image") {
-      block = TemplateFactory.createImageBlock(uploadedFileUrl)
-    }
-    if (mediaType === "video") {
-      block = TemplateFactory.createReelBlock(uploadedFileUrl)
-    }
 
-    block.id = props.id;
-    dispatch(updateBlock(block));
-  };
+    block.id = props.id
+    dispatch(updateBlock(block))
+  }
 
   const turnOffPopup = () => {
-    let block = JSON.parse(JSON.stringify(props));
-    block.display = false;
-    dispatch(updateBlock(block));
+    let block = JSON.parse(JSON.stringify(props))
+    block.display = false
+    dispatch(updateBlock(block))
   };
 
   const onClose = () => {
-    dispatch(blockingUpdated(false));
-    setDisplay(false);
-    turnOffPopup();
+    dispatch(blockingUpdated(false))
+    setDisplay(false)
+    turnOffPopup()
   };
 
   useEffect(() => {
     window.onbeforeunload = function () {
-      turnOffPopup();
-      return true;
-    };
+      turnOffPopup()
+      return true
+    }
 
     return () => {
-      window.onbeforeunload = null;
-    };
-  }, []);
+      window.onbeforeunload = null
+    }
+  }, [])
 
   return (
     <div>
@@ -170,6 +161,6 @@ export default function MediaConfigurer({ mediaType, icon, localization, props, 
         <div className="pl-2">{localization.clickToAdd}</div>
       </div>
     </div>
-  );
+  )
 
 }
