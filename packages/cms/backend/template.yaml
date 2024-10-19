@@ -545,6 +545,37 @@ Resources:
         EntryPoints:
           - src/adapters/primary/publish-page/publish-page-adapter.ts
 
+  saveUserFeedbackFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/adapters/primary/save-user-feedback/save-user-feedback-adapter.saveUserFeedbackHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Save user feedback
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UserFeedbackTable
+      Environment:
+        Variables:
+          USER_FEEDBACK_TABLE: !Ref UserFeedbackTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /feedback
+            Method: POST
+    Metadata: #Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/adapters/primary/save-user-feedback/save-user-feedback-adapter.ts
+
   PageTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -570,6 +601,35 @@ Resources:
         - IndexName: environmentGSI
           KeySchema:
             - AttributeName: environment
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+
+  UserFeedbackTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      TableName: UserFeedback
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: requestType
+          AttributeType: S
+        - AttributeName: email
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: requestTypeGSI
+          KeySchema:
+            - AttributeName: requestType
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+        - IndexName: userGSI
+          KeySchema:
+            - AttributeName: email
               KeyType: HASH
           Projection:
             ProjectionType: ALL
