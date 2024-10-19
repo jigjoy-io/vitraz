@@ -34,20 +34,20 @@ export default class TemplateFactory {
 
     static createImageBlock(fileUrl) {
         let imageBlock = this.create('image')
-        imageBlock.source = fileUrl;
-        return imageBlock;
+        imageBlock.source = fileUrl
+        return imageBlock
     }
 
     static createAudioBlock(fileUrl) {
         let audioBlock = this.create('audio')
-        audioBlock.source = fileUrl;
-        return audioBlock;
+        audioBlock.source = fileUrl
+        return audioBlock
     }
 
     static createReelBlock(fileUrl) {
         let reelBlock = this.create('reel')
-        reelBlock.source = fileUrl;
-        return reelBlock;
+        reelBlock.source = fileUrl
+        return reelBlock
     }
 
     static createCarouselPage(origin, numberOfPages = 3) {

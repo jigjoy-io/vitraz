@@ -123,7 +123,7 @@ export default function QuestionContentEditor(props: any) {
                         accept="image/*"
                         style={{ display: 'none' }}
                     />
-                    <Button text={localization.clickToUpload} color="default" action={triggerFileInput} />
+                    <Button width="w-full" text={localization.clickToUpload} color="default" action={triggerFileInput} />
                     {file && !loading && <p className="mt-2 text-sm text-ellipsis overflow-hidden">{file.name}</p>}
                 </Tab>
                 <Tab key={localization.embedLink}>
