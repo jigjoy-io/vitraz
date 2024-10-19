@@ -110,7 +110,7 @@ export default function QuestionContentEditor(props: any) {
 
         <Checkbox id="displayImage" selected={value.displayImage} onChange={handleChange}>{localization.displayImage}</Checkbox>
         <img src={value.image} className="w-[100px] my-2 rounded-lg" />
-        <div className="flex gap-3 my-3">
+        <div className="flex gap-3 mt-3">
             <Tabs>
                 <Tab key={localization.uploadImage}>
                     <div className="mb-2">

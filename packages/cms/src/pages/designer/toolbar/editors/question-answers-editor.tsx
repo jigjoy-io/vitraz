@@ -65,7 +65,7 @@ export default function QuestionAnswersEditor(props: any) {
         setValue(answers)
     }
 
-    return <div className="flex flex-col p-2 w-[300px] mt-4">
+    return <div className="flex flex-col p-2 w-[300px] mt-1">
         {value.map((answer: any, index) => <div className="flex my-1 justify-center items-center">
 
 
@@ -73,13 +73,13 @@ export default function QuestionAnswersEditor(props: any) {
 
 
             <input className="p-1 rounded-lg border w-[100%]" value={answer.text} onChange={(e) => updateAnswer(e, index)}/>
-            <div className='ml-2 w-max p-1 h-fit bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => removeAnswer(index)}>
+            <div className='ml-2 w-max p-1 h-fit bg-primary-light border-2 border-primary rounded-md cursor-pointer' onClick={() => removeAnswer(index)}>
                 <CloseIcon />
             </div>
 
         </div>)}
 
-        <div className="my-2">
+        <div className="my-1">
             <Button  width="w-full" text={localization.addAnswer} color="default" action={addAnswer} />
         </div>
         <Button text={localization.update} action={update} />
