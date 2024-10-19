@@ -1,14 +1,16 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
-import { useLanguage } from "../../util/store";
-import VideoEditingIcon from "../../icons/video-editing-icon";
-import MediaConfigurer from "../media-configurer/media-configurer";
+import React from "react"
+import LocalizedStrings from "react-localization"
+import { useLanguage } from "../../util/store"
+import VideoEditingIcon from "../../icons/video-editing-icon"
+import MediaConfigurer from "../media-configurer/media-configurer"
 
 let localization = new LocalizedStrings({
     US: {
         create: "Create",
         update: "Update",
         embedLink: "Embed link",
+        embedLinkPlaceholder: "Enter video url",
+        embedButton: "Embed",
         uploadFile: "Upload reel",
         clickToUpload: "Click to upload reel",
         maxFileUpload: "Maximum reel size is 5mb.",
@@ -23,6 +25,8 @@ let localization = new LocalizedStrings({
         create: "Kreiraj",
         update: "Promeni",
         embedLink: "Unesi link",
+        embedLinkPlaceholder: "Unesi link do videa",
+        embedButton: "Ubaci",
         uploadFile: "Promeni reel",
         clickToUpload: "Klikni da ubaciš reel",
         maxFileUpload: "Maksimalna velicina reel-a je 5mb.",
