@@ -1,6 +1,6 @@
 import { CreatePageDto, ReturnPageDto, UpdatePageDto } from "@dto/page/page"
 import { Entity } from "@entity/entity"
-import { CreatePageProps, EnvironmentType, UnmarsalledPage, UpdatePageProps } from "@models/types"
+import { CreatePageProps, EnvironmentType, UnmarshalledPage, UpdatePageProps } from "@models/types"
 import { schema } from '@schemas/page.schema'
 
 
@@ -73,7 +73,7 @@ export class Page extends Entity<CreatePageProps> {
     }
 
     // create a dto based on the domain instance
-    public toInputDto(): UnmarsalledPage {
+    public toInputDto(): UnmarshalledPage {
         return {
             id: this.id,
             created: this.created,
@@ -102,13 +102,13 @@ export class Page extends Entity<CreatePageProps> {
     }
 
     // create a domain object based on the dto
-    public static toDomain(raw: UnmarsalledPage): Page {
+    public static toDomain(raw: UnmarshalledPage): Page {
         const instance = new Page(raw)
         instance.validate(schema)
         return instance
     }
 
-    public static toDomains(pages: UnmarsalledPage[]): Page[] {
+    public static toDomains(pages: UnmarshalledPage[]): Page[] {
         let domains: Page[] = []
         pages.forEach(page => {
             let instance = new Page(page)

@@ -8,6 +8,12 @@ export enum EnvironmentType {
     Development = 'development'
 }
 
+
+export enum RequestType {
+    PREMIUM = 'PREMIUM_REQUEST',
+    HELP = 'HELP_REQUEST'
+}
+
 export type BlankPageConfig = {
     buildingBlocks: any[]
 }
@@ -52,7 +58,7 @@ export type PageProps = {
     config: BlankPageConfig | CarouselPageConfig
 }
 
-export type UnmarsalledPage = {
+export type UnmarshalledPage = {
     id: string
     created: string
     updated: string
@@ -64,4 +70,18 @@ export type UnmarsalledPage = {
     config: BlankPageConfig | CarouselPageConfig
 }
 
+export type UserFeedbackProps = {
+    id?: string
+    created?: string
+    feedback: string
+    email: string
+    requestType: RequestType
+}
 
+export type UnmarshalledUserFeedback = {
+    id: string
+    created: string
+    feedback: string
+    email: string
+    requestType: RequestType
+}
