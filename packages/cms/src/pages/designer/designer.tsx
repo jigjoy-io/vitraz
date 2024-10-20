@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import React, { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import Page from "../../components/page"
 import { modeUpdated, rootPageUpdated } from "../../reducers/page-reducer"
@@ -33,8 +33,6 @@ export default function Designer() {
     const modified = useModified()
     const dispatch = useDispatch<AppDispatch>()
     const sidebarVisible = useSidebarVisible()
-
-    const ref = useRef<HTMLDivElement>(null)
 
 
     const update = (rootPage, page) => {
