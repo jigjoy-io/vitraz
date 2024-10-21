@@ -104,9 +104,10 @@ export class TemplatesStorage {
             },
             "profile": {
                 type: "profile",
-                headline: localization.headline,
+                firstName: localization.firstName,
+                lastName: localization.lastName,
                 description: localization.description,
-                image: "https://jigjoy.io/assets/placeholderimage.jpg",
+                image: "https://jigjoy.io/assets/profiletileplaceholderimage.jpg",
                 username: localization.username
             },
             "carousel-tile": {
