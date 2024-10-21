@@ -38,7 +38,6 @@ export const pageSlice = createSlice({
     reducers: {
 
         rootPageUpdated: (state, action: PayloadAction<any>) =>{
-            state.activePlayer = null
 
             let page: any = action.payload
             state.rootPage = page
@@ -52,7 +51,6 @@ export const pageSlice = createSlice({
         },
 
         pageUpdated: (state, action: PayloadAction<any>) => {
-            state.activePlayer = null
             state.activePage = action.payload
         },
 
@@ -89,12 +87,10 @@ export const pageSlice = createSlice({
         },
 
         pagesUpdated: (state, action: PayloadAction<any>) => {
-            state.activePlayer = null
             state.pages = action.payload
         },
 
         carouselPageSwitched: (state, action: PayloadAction<any>) => {
-            state.activePlayer = null
             state.currentCarouselPage = action.payload
         },
 
