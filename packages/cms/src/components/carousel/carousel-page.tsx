@@ -13,7 +13,7 @@ export default function CarouselPage(props: any) {
     const activeCarousel = useCurrentCarouselPage()
     const [percentage, setPercentage] = useState(0)
     const [pages, setPages] = useState(props.config.pages)
-    const [origin, setOrigin] = useState(props.origin)
+    // const [origin, setOrigin] = useState(props.origin)
     const page = usePage()
     const rootPage = useRootPage()
     const dispatch = useDispatch()

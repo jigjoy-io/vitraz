@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react"
 import LocalizedStrings from "react-localization"
-import { useLanguage } from "../../util/store"
-import VideoPlayer from "./video-player"
-import Player from "../../util/player"
-import MediaLibrary from "../../util/media-library"
+import { useActivePlayer, useLanguage } from "../../util/store"
+import { activePlayerUpdated } from "../../reducers/page-reducer"
+import { useDispatch } from "react-redux"
 
 let localization = new LocalizedStrings({
     US: {
@@ -17,32 +16,41 @@ export default function Reel(props: any) {
 
     const [source, setSource] = useState(props.source)
     const videoRef = useRef<HTMLVideoElement | null>(null)
+    const activePlayer = useActivePlayer()
     const lang = useLanguage()
-    const mediaLibrary = MediaLibrary.getInstance()
-
-    let params = {
-        id: props.id,
-        video: videoRef.current,
-        onStart: () => {},
-        onEnd: () => {}
-    }
-
-    const videoPlayer: Player = new VideoPlayer(params)
-    mediaLibrary.addPlayer(videoPlayer)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         localization.setLanguage(lang)
-
-        return () => mediaLibrary.removePlayer(videoPlayer)
     }, [])
 
     useEffect(() => {
         setSource(props.source)
-        videoRef.current?.load()
+        if(videoRef.current){
+            videoRef.current.load()
+            videoRef.current.onended = () => { videoRef.current?.pause()}
+        }
+
     }, [props.source])
 
+
+    useEffect(() => {
+
+
+        if (activePlayer && activePlayer != props.id) {
+            videoRef.current?.pause()
+        }
+
+
+    }, [activePlayer])
+
+
     const handlePlay = () => {
-        mediaLibrary.play(videoPlayer)
+        if (videoRef.current?.paused) {
+            dispatch(activePlayerUpdated(props.id))
+        } else {
+            dispatch(activePlayerUpdated(null))
+        }
     }
 
     return <div className="rounded-lg h-fit flex justify-center">

@@ -53,6 +53,7 @@ export const useExpandedPages = () => useAppSelector((state: any) => state.tree.
 export const useAuthorized = () => useAppSelector((state: any) => state.auth.authorized)
 
 export const usePage = () => useAppSelector((state: any) => state.page.activePage)
+export const useActivePlayer = () => useAppSelector((state: any) => state.page.activePlayer)
 export const useCurrentCarouselPage = () => useAppSelector((state: any) => state.page.currentCarouselPage)
 export const useModified = () => useAppSelector((state: any) => state.page.modified)
 export const usePages = () => useAppSelector((state: any) => state.page.pages)
