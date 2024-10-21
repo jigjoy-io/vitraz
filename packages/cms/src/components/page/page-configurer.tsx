@@ -56,6 +56,7 @@ export default function CarouselConfigurer(props: any) {
     const lang = useLanguage()
 
     const [top, setTop] = useState<number>()
+    const [left, setLeft] = useState<number>()
     const [y, setY] = useState<number>()
 
     const ref = useRef<HTMLDivElement>(null)
@@ -82,12 +83,13 @@ export default function CarouselConfigurer(props: any) {
 
             if (contentRect.top + window.innerHeight / 2 > window.innerHeight) {
                 setY(-100)
-                setTop(contentRect.top)
             }
             else {
                 setY(0)
-                setTop(contentRect.top)
             }
+
+            setTop(contentRect.top)
+			setLeft(contentRect.left + contentRect.width/2)
         }
 
 
@@ -136,12 +138,13 @@ export default function CarouselConfigurer(props: any) {
     return <div>
 
         {display && createPortal(<ClickOutsideListener callback={onClose}>
-            <div className="fixed rounded-md bg-[white] rounded-lg rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] -translate-x-[25%] left-[50%] z-50"
+            <div className="fixed rounded-md bg-[white] rounded-lg rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] z-50"
                 style={{
                     width: 460,
                     pointerEvents: 'auto',
                     top: top,
-                    transform: `translate(-25%, ${y}%)`
+                    left: left,
+                    transform: `translate(-50%, ${y}%)`
                 }}
             >
 

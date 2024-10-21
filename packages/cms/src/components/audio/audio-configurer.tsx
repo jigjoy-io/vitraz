@@ -1,8 +1,8 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
-import { useLanguage } from "../../util/store";
-import AudioEditingIcon from "../../icons/audio-editing-icon";
-import MediaConfigurer from "../media-configurer/media-configurer";
+import React from "react"
+import LocalizedStrings from "react-localization"
+import { useLanguage } from "../../util/store"
+import AudioEditingIcon from "../../icons/audio-editing-icon"
+import MediaConfigurer from "../media-configurer/media-configurer"
 
 let localization = new LocalizedStrings({
     US: {
@@ -19,7 +19,7 @@ let localization = new LocalizedStrings({
         fileUploadedSuccessfully: "Your audio upload has finished!",
         uploadInProgress: "Upload in progress...",
         uploadError: "Error has occured during the upload!",
-        clickToAdd: "Click to upload an audio file"
+        clickToAdd: "Click to add an audio"
     },
     RS: {
         create: "Kreiraj",
@@ -31,11 +31,11 @@ let localization = new LocalizedStrings({
         clickToUpload: "Klikni da ubaciš audio",
         maxFileUpload: "Maksimalna velicina audi-a je 5mb.",
         fileTooLarge: "Audio je prevelik. Molimo vas da otpremite audio manji od 5MB.",
-        fileLoadSuccess: "Možete započeti otpremanje audi-a.",
+        fileLoadSuccess: "Možete započeti otpremanje fajla.",
         fileUploadedSuccessfully: "Vaš audio je uspešno otpremljen!",
         uploadInProgress: "Otpremljivanje je u toku...",
         uploadError: "Greška prilikom otpremljivanja!",
-        clickToAdd: "Klikni da ubaciš audio fajl"
+        clickToAdd: "Klikni da ubaciš audio"
     }
 })
 

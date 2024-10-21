@@ -55,7 +55,8 @@ export default function MediaConfigurer({ mediaType, icon, localization, props, 
 		fileInputRef.current?.click()
 	}
 
-	const [top, setTop] = useState(window.innerHeight / 2)
+	const [top, setTop] = useState<number>()
+	const [left, setLeft] = useState<number>()
 	const [y, setY] = useState(0)
 	const ref = useRef<HTMLDivElement>(null)
 
@@ -64,11 +65,11 @@ export default function MediaConfigurer({ mediaType, icon, localization, props, 
 			let contentRect = ref.current.getBoundingClientRect()
 			if (contentRect.top + window.innerHeight / 2 > window.innerHeight) {
 				setY(-100)
-				setTop(contentRect.top)
 			} else {
-				setY(0);
-				setTop(contentRect.top)
+				setY(0)
 			}
+			setTop(contentRect.top)
+			setLeft(contentRect.left + contentRect.width/2)
 		}
 	}, [display])
 
@@ -115,7 +116,6 @@ export default function MediaConfigurer({ mediaType, icon, localization, props, 
 				setFileAlert({ type: "danger", message: localization.fileTooLarge })
 			} else {
 				const uploadedFileUrl = await update(selectedFile, handleFileUpload, value)
-				console.log(uploadedFileUrl)
 				createBlock(uploadedFileUrl)
 			}
 		}
@@ -130,9 +130,10 @@ export default function MediaConfigurer({ mediaType, icon, localization, props, 
 							width: 460,
 							pointerEvents: 'auto',
 							top: top,
-							transform: `translate(-25%, ${y}%)`
+							left: left,
+							transform: `translate(-50%, ${y}%)`
 						}}
-						className="fixed rounded-md bg-[white] rounded-lg rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] z-50 -translate-x-[25%] left-[50%]"
+						className="fixed rounded-md bg-[white] rounded-lg rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] z-50"
 					>
 						<div className="p-[5%]">
 							<div>
