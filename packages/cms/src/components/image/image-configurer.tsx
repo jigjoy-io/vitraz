@@ -1,8 +1,8 @@
-import React from "react";
-import { useLanguage } from "../../util/store";
-import LocalizedStrings from "react-localization";
-import ImageEditingIcon from "../../icons/image-editing-icon";
-import MediaConfigurer from "../media-configurer/media-configurer";
+import React from "react"
+import { useLanguage } from "../../util/store"
+import LocalizedStrings from "react-localization"
+import ImageEditingIcon from "../../icons/image-editing-icon"
+import MediaConfigurer from "../media-configurer/media-configurer"
 
 let localization = new LocalizedStrings({
     US: {
