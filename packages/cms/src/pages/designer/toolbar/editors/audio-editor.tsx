@@ -11,7 +11,6 @@ let localization = new LocalizedStrings({
         embedButton: "Embed",
         uploadFile: "Upload audio",
         clickToUpload: "Click to upload audio",
-        maxFileUpload: "Maximum audio file size is 5mb.",
         fileTooLarge: "Audio is too large. Please upload a audio smaller than 5MB.",
         fileLoadSuccess: "You can start uploading your audio.",
         uploadInProgress: "Upload in progress...",
@@ -26,7 +25,6 @@ let localization = new LocalizedStrings({
         embedButton: "Ubaci",
         uploadFile: "Promeni zvuk",
         clickToUpload: "Klikni da ubaciš zvuk",
-        maxFileUpload: "Maksimalna veličina audio fajla je 5mb.",
         fileTooLarge: "Audio je prevelik. Molimo vas da otpremite audio manji od 5MB.",
         fileLoadSuccess: "Možete započeti otpremanje audio datoteke.",
         uploadInProgress: "Otpremljivanje je u toku...",
@@ -41,6 +39,7 @@ export default function AudioEditor(props: any) {
 
     return (
         <FileEditor
+            attribute={props.attribute}
             value={props.value}
             block={props.block}
             fileType="audio"

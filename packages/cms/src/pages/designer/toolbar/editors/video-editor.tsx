@@ -11,7 +11,6 @@ let localization = new LocalizedStrings({
         embedButton: "Embed",
         uploadFile: "Upload reel",
         clickToUpload: "Click to upload reel",
-        maxFileUpload: "Maximum video file size is 5mb.",
         fileTooLarge: "Reel is too large. Please upload a reel smaller than 5MB. Or use embedded link option.",
         fileLoadSuccess: "You can start uploading your reel.",
         fileUploadedSuccessfully: "Your reel upload has finished!",
@@ -25,7 +24,6 @@ let localization = new LocalizedStrings({
         embedButton: "Ubaci",
         uploadFile: "Promeni reel",
         clickToUpload: "Klikni da ubaciš reel",
-        maxFileUpload: "Maksimalna veličina video fajla je 5mb.",
         fileTooLarge: "Reel je prevelik. Molimo vas da otpremite reel manji od 5MB. Ili koristite opciju unesi link.",
         fileLoadSuccess: "Možete započeti otpremanje reel-a.",
         fileUploadedSuccessfully: "Vaš reel je uspešno otpremljen!",
@@ -40,6 +38,7 @@ export default function VideoEditor(props: any) {
 
     return (
         <FileEditor
+            attribute={props.attribute}
             value={props.value}
             block={props.block}
             fileType="video"

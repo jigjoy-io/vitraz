@@ -1,17 +1,14 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import { blockingUpdated } from "../../reducers/toolbar-reducer"
-import TemplateFactory from "../../util/factories/templates/template-factory"
 import { updateBlock } from "../../reducers/page-reducer"
 import { createPortal } from "react-dom"
 import ClickOutsideListener from "../../util/click-outside-listener"
 import Tabs from "../tabs/tabs"
 import Tab from "../tabs/tab"
-import Input from "../input/input"
-import Button from "../button/button"
-import Alert from "../alert/alert"
-import FileUploadHelper from "../../util/file-upload/file-upload"
-import { useRootPage } from "../../util/store"
+import FileUploader from "../file-uploader/file-uploader"
+import TemplateFactory from "../../util/factories/templates/template-factory"
+import FileUrlEditor from "../file-uploader/file-url-editor"
 
 interface LocalizationStrings {
 	create: string
@@ -21,9 +18,7 @@ interface LocalizationStrings {
 	embedButton: string
 	uploadFile: string
 	clickToUpload: string
-	maxFileUpload: string
 	fileTooLarge: string
-	fileLoadSuccess: string
 	fileUploadedSuccessfully: string
 	uploadInProgress: string
 	uploadError: string
@@ -42,19 +37,8 @@ export default function MediaConfigurer({ mediaType, icon, localization, props }
 
 	const [display, setDisplay] = useState(props.display)
 	const [value, setValue] = useState(props.value)
-	const fileInputRef = useRef<HTMLInputElement>(null)
-
-    const [fileAlert, setFileAlert] = useState<any>(null)
-
-	const [uploading, setUploadingStatus] = useState(false)
-
-	const rootPage = useRootPage()
 
 	const dispatch = useDispatch()
-
-	const triggerFileInput = () => {
-		fileInputRef.current?.click()
-	}
 
 	const [top, setTop] = useState(window.innerHeight / 2)
 	const [y, setY] = useState(0)
@@ -67,7 +51,7 @@ export default function MediaConfigurer({ mediaType, icon, localization, props }
 				setY(-100)
 				setTop(contentRect.top)
 			} else {
-				setY(0);
+				setY(0)
 				setTop(contentRect.top)
 			}
 		}
@@ -76,14 +60,6 @@ export default function MediaConfigurer({ mediaType, icon, localization, props }
 	const openConfigurer = () => {
 		setDisplay(true)
 		dispatch(blockingUpdated(true))
-	}
-
-	const createBlock = (fileUrl) => {
-		dispatch(blockingUpdated(false))
-		let block = TemplateFactory.createMediaBlock(fileUrl, mediaType)
-
-		block.id = props.id
-		dispatch(updateBlock(block))
 	}
 
 	const turnOffPopup = () => {
@@ -109,18 +85,11 @@ export default function MediaConfigurer({ mediaType, icon, localization, props }
 		}
 	}, [])
 
-	const handleFileChange = async (event) => {
-		const selectedFile = event.target.files?.[0]
-		setUploadingStatus(true)
+	const createBlock = (fileUrl) => {
+		let block = TemplateFactory.createMediaBlock(fileUrl, mediaType)
 
-		try {
-			let filePath = await FileUploadHelper.upload(selectedFile, rootPage.id)
-			setValue(filePath)
-		} catch (error) {
-			setUploadingStatus(false)
-		}
-
-		
+		block.id = props.id
+		dispatch(updateBlock(block))
 	}
 
 	return (
@@ -140,25 +109,14 @@ export default function MediaConfigurer({ mediaType, icon, localization, props }
 							<div>
 								<Tabs>
 									<Tab key={localization.uploadFile}>
-										{
-											fileAlert && <div className="mb-2">
-											<Alert type={fileAlert.type} message={fileAlert.message} />
-										</div>
-										}
-										<input
-											type="file"
-											ref={fileInputRef}
-											onChange={handleFileChange}
-											accept={`${mediaType}/*`}
-											style={{ display: 'none' }}
-										/>
-										<Button width="w-full" text={localization.clickToUpload} action={triggerFileInput} disabled={uploading} />
+										<FileUploader mediaType={mediaType} localization={localization} callback={createBlock}/>
 									</Tab>
 									<Tab key={localization.embedLink}>
-										<Input value={value} onChange={setValue} placeholder={localization.embedLinkPlaceholder} />
+										{/* <Input value={value} onChange={setValue} placeholder={localization.embedLinkPlaceholder} />
 										<div className="mt-3">
 											<Button width="w-full" text={localization.embedButton} action={() => createBlock(value)} />
-										</div>
+										</div> */}
+										<FileUrlEditor />
 									</Tab>
 								</Tabs>
 							</div>
