@@ -30,20 +30,22 @@ export default function LeftSideMenu() {
     const lang = useLanguage()
     localization.setLanguage(lang)
 
-    async function fetchData() {
+    async function fetchData(reload: boolean) {
         const currentUser = await getCurrentUser()
 
         let pages = await getPages(currentUser.signInDetails?.loginId as string)
         dispatch(pagesUpdated(pages))
-        dispatch(rootPageUpdated(pages[0]))
-        dispatch(pageUpdated(pages[0]))
+        if (reload) {
+            dispatch(rootPageUpdated(pages[0]))
+            dispatch(pageUpdated(pages[0]))
+        }
+
     }
 
     useEffect(() => {
 
-        if (pages.length == 0) {
-            fetchData()
-        }
+        let reload = pages.length == 0
+        fetchData(reload)
 
     }, [])
 
