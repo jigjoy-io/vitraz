@@ -10,7 +10,7 @@ function QuestionAnswers(props: any) {
     const [alert, setAlert] = useState({})
     const [answered, setAnswered] = useState(false)
 
-    const selectAnswer = (event, outcome: any) => {
+    const selectAnswer = (outcome: any) => {
         setAnswered(false)
         setSelected(outcome)
     }
