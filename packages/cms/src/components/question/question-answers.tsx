@@ -11,6 +11,7 @@ function QuestionAnswers(props: any) {
     const [answered, setAnswered] = useState(false)
 
     const selectAnswer = (event, outcome: any) => {
+        event.stopPropagation()
         setAnswered(false)
         setSelected(outcome)
     }
