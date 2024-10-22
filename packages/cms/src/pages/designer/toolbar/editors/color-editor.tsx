@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import LocalizedStrings from "react-localization"
 import { updateBlock } from "../../../../reducers/page-reducer"
 import Button from "../../../../components/button/button"
-import colorVariants from "../../../../util/color-variants"
+import colorVariants from "../../../../util/style-helper/color-variants"
 import Item from "../../../../components/item/item"
 
 let localization = new LocalizedStrings({

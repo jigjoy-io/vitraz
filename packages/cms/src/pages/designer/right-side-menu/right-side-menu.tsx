@@ -24,7 +24,7 @@ const transition = {
     duration: 0.15,
 }
 
-const loadFeatures = () => import("../../../util/animations").then(res => res.default)
+const loadFeatures = () => import("../../../util/style-helper/animations").then(res => res.default)
 
 let localization = new LocalizedStrings({
     US: {
