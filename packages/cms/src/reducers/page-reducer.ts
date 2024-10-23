@@ -59,7 +59,7 @@ export const pageSlice = createSlice({
 
             if(state.activePage){
 
-                //state.expandedPages.push(action.payload)
+                state.expandedPages.push(action.payload)
     
                 if (state.activePage.type == 'blank') {
                     state.selected = state.activePage.id

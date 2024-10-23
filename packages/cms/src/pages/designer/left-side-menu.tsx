@@ -33,16 +33,20 @@ export default function LeftSideMenu() {
     async function fetchData() {
         const currentUser = await getCurrentUser()
 
-        let pages = await getPages(currentUser.signInDetails?.loginId as string)
+        let fetchedPages = await getPages(currentUser.signInDetails?.loginId as string)
         
 
         if(!page){
-            dispatch(rootPageUpdated(pages[0]))
-            dispatch(pageUpdated(pages[0]))
+            dispatch(rootPageUpdated(fetchedPages[0]))
+            dispatch(pageUpdated(fetchedPages[0]))
+        }else{
+            const fetchedPage = fetchedPages.find(fp => fp.id == page.id)
+            dispatch(rootPageUpdated(fetchedPage))
+            dispatch(pageUpdated(fetchedPage))
         }
 
 
-        dispatch(pagesUpdated(pages))
+        dispatch(pagesUpdated(fetchedPages))
 
     }
 
