@@ -25,7 +25,7 @@ export default function Item(props: any) {
 		<>
 
 
-			<div onClick={callback} onKeyDown={handleKeyDown} tabIndex={props.tabFocus ? 0: -1}
+			<button onClick={callback} onKeyDown={handleKeyDown} tabIndex={props.tabFocus ? 0: -1}
 				className={`min-w-[225px] ${(selected != null && selected === props.id) ? "bg-primary-light" : "bg-[white]"} 
 								border-2 border-[white] hover:bg-primary-light  
 								${props.borderOn && "border border-light shadow-md"} 
@@ -37,7 +37,7 @@ export default function Item(props: any) {
 					<div>{props.text}</div>
 				</div>
 				<div>{props.children}</div>
-			</div>
+			</button>
 
 		</>
 
