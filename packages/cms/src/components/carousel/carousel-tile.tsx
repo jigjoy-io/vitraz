@@ -19,8 +19,7 @@ export default function CarouselTile(props: any) {
         setCta(props.cta)
     }, [props.cta])
 
-    const load = (event) => {
-        event.stopPropagation();
+    const load = () => {
         dispatch(carouselPageSwitched(props.page.config.pages[0].id))
         dispatch(pageUpdated(props.page))
     }
