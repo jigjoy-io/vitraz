@@ -29,15 +29,10 @@ export default function Button(props: any) {
 	}, [props.size])
 
 	return (
-		<button tabIndex={-1} 
-		
+		<button tabIndex={-1}
+
 			className={`${color} ${width} ${props.size == 'sm' ? 'p-1 px-3 rounded-md font-bold' : 'p-3 font-bold rounded-lg text-ellipsis text-nowrap overflow-hidden'} ${!props.disabled && "cursor-pointer"} active:opacity-80 md:hover:opacity-80 touch-manipulation`}
-
-			onClick={(e) => {
-				e.preventDefault()
-				props.action()
-			  }}
-
+			onClick={(e) => { props.action() }}
 			disabled={props.disabled}
 			autoFocus={props.focus}>
 			{props.text}
