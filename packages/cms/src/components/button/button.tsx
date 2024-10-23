@@ -35,7 +35,6 @@ export default function Button(props: any) {
 
 			onClick={(e) => {
 				e.preventDefault()
-				e.stopPropagation()
 				props.action()
 			  }}
 
