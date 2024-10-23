@@ -22,7 +22,7 @@ export default function FileUrlEditor({ filePath, fileType, localization, callba
     const [urlAlert, setUrlAlert] = useState<AlertProps | null>(null)
 
     const lang = useLanguage()
-    localization.setLanguage(lang)
+    translations.setLanguage(lang)
 
     const handleUrlUpdate = (url) => {
         if (UrlValidator.validate(fileType, url)) {
