@@ -34,7 +34,7 @@ export default function Button(props: any) {
 			className={`${color} ${width} ${props.size == 'sm' ? 'p-1 px-3 rounded-md font-bold' : 'p-3 font-bold rounded-lg text-ellipsis text-nowrap overflow-hidden'} ${!props.disabled && "cursor-pointer"} active:opacity-80 md:hover:opacity-80`}
 
 			onClick={(e) => {
-				e.stopPropagation()
+				e.preventDefault()
 				props.action()
 			}}
 			disabled={props.disabled}
