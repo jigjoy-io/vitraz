@@ -3,7 +3,6 @@ import { useState } from "react"
 import Alert from "../alert/alert"
 import Button from "../button/button"
 import Item from "../item/item"
-import { v4 as uuid } from 'uuid'
 
 function QuestionAnswers(props: any) {
 
@@ -33,7 +32,7 @@ function QuestionAnswers(props: any) {
 
         <div className='flex flex-col gap-3 mt-3' key={props.id}>
 
-            {props.answers.map((answer: any) => <Item key={uuid()} tabFocus={false} borderOn={true} {...answer} answered={answered} selected={selected.id} action={selectAnswer} />)}
+            {props.answers.map((answer: any) => <Item tabFocus={false} borderOn={true} {...answer} answered={answered} selected={selected.id} action={selectAnswer} />)}
 
             {answered && <Alert  {...alert} />}
 
