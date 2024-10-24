@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLanguage, useMode, usePages } from '../../util/store'
 import localization from './onboarding.localization'
-import { carouselPageSwitched, modeUpdated, pagesUpdated, pageUpdated, rootPageUpdated } from '../../reducers/page-reducer'
+import { carouselPageSwitched, pageExpanded, pagesUpdated, pageUpdated, rootPageUpdated } from '../../reducers/page-reducer'
 import { createPage } from '../../api/page'
 import Loader from '../../components/loader/loader'
 import CloseIcon from '../../icons/close-icon'
@@ -46,29 +46,32 @@ export default function Onboarding() {
 
 
     const create = async (type) => {
+  
+        dispatch(carouselPageSwitched(null))
 
-        dispatch(modeUpdated("loading"))
-
+        // page creation
         const userAttributes = await fetchUserAttributes()
-
         let page = TemplateFactory.createPage(type, userAttributes.email)
 
-        let createdPage = await createPage(page)
-        
-        dispatch(carouselPageSwitched(null))
+        // state update
         let allPages = JSON.parse(JSON.stringify(pages))
-        allPages.push(createdPage)
+        allPages.push(page)
         dispatch(pagesUpdated(allPages))
-        
-        dispatch(rootPageUpdated(createdPage))
-        dispatch(pageUpdated(createdPage))
+
+        createPage(page)
 
 
+        dispatch(rootPageUpdated(page))
+        dispatch(pageUpdated(page))
 
-        dispatch(modeUpdated("editing"))
+        dispatch(pageExpanded(page.id))  
+
 
         navigate({
-            to: `/interactive-content-designer`
+            to: `/interactive-content-designer`,
+            search: {
+                action: "page-creation" 
+            } 
         })
     }
 

@@ -7,7 +7,7 @@ import Button from "../../components/button/button"
 import { pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/page-reducer"
 import { useLanguage, usePages, useRootPage } from "../../util/store"
 import Node from './node'
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import AnalyticsIcon from "../../icons/analytics-icon"
 import { sidebarExpanded } from "../../reducers/sidebar-reducer"
 import Loader from "../../components/loader/loader"
@@ -29,6 +29,15 @@ export default function LeftSideMenu() {
     const dispatch = useDispatch()
     const lang = useLanguage()
     localization.setLanguage(lang)
+
+    const { action } = useSearch({
+        from: '/interactive-content-designer',
+        select: (search: any) => {
+            return {
+                action: search.action
+            }
+        }
+    })
 
     async function fetchData() {
         const currentUser = await getCurrentUser()
@@ -54,7 +63,8 @@ export default function LeftSideMenu() {
     }
 
     useEffect(() => {
-        fetchData()
+        if(action!='page-creation')
+            fetchData()
     }, [])
 
     useEffect(() => {

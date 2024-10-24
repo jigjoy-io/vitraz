@@ -95,7 +95,6 @@ const Node = memo(function Node(props: any) {
 
     const remove = async (event) => {
         closeDropdown()
-        event.stopPropagation()
 
         if (props.root.id == props.id) {
             removePage(props.id)
