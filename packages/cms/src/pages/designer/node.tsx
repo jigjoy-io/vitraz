@@ -407,7 +407,7 @@ const Node = memo(function Node(props: any) {
             className={`w-[100%] h-[30px] p-1 
             ${(selected == props.id) ? ' bg-primary-light ' : ''}
             hover:bg-primary-light hover:bg-opacity-60 rounded-sm flex flex-row items-center`}
-            onMouseEnter={() => setHover(props.id)}
+            onMouseOver={() => setHover(props.id)}
             onMouseOut={() => setHover(null)}
             style={{ paddingLeft: `${ident}px` }}
         >
