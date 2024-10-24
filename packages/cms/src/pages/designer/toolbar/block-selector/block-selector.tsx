@@ -6,7 +6,7 @@ import { SelectorOptions } from "./selector-options"
 import { useActiveBlock, useLanguage, usePage } from "../../../../util/store"
 import { blockingUpdated } from "../../../../reducers/toolbar-reducer"
 import TemplateFactory from "../../../../util/factories/templates/template-factory"
-import { focusBlock, insertBlock, updateBlock } from "../../../../reducers/page-reducer"
+import { appendBlock, focusBlock, insertBlock, updateBlock } from "../../../../reducers/page-reducer"
 import { splitTextAtCursor } from "../../../../util/split-text-at-cursor"
 import { moveCursorToEnd } from "../../../../util/move-cursor-to-end"
 import ClickOutsideListener from "../../../../util/click-outside-listener"
@@ -27,7 +27,7 @@ export default function BlockSelector(props: any) {
 
     const page = usePage()
     const lang = useLanguage()
-    
+
     const [option, setOption] = useState("")
     const [options, setOptions] = useState([] as any)
     const [allOptions, setAllOptions] = useState([] as any)
@@ -218,14 +218,38 @@ export default function BlockSelector(props: any) {
     }
 
     const insert = (event, type: string) => {
+        dispatch(focusBlock(null));
+        let block = TemplateFactory.create(type);
 
-        dispatch(focusBlock(null))
-        let block = TemplateFactory.create(type)
-        block.id = props.id
-        dispatch(updateBlock(block))
-        dispatch(focusBlock(block.id))
-        closeMenu()
-    }
+        if (type !== 'block-selector') {
+            block.id = props.id;
+            dispatch(updateBlock(block));
+
+            const buildingBlocks = page.config.buildingBlocks;
+            const currentIndex = buildingBlocks.findIndex((b: any) => b.id === props.id);
+
+            const isLastBlock = currentIndex === buildingBlocks.length - 1;
+
+            if (isLastBlock) {
+                const newBlockSelector = TemplateFactory.create('block-selector');
+                dispatch(appendBlock({
+                    referenceBlock: props.id,
+                    block: newBlockSelector,
+                }));
+            }
+
+            setTimeout(() => {
+                dispatch(focusBlock(block.id));
+            }, 10);
+        } else {
+            block.id = props.id;
+            dispatch(updateBlock(block));
+            dispatch(focusBlock(block.id));
+
+        }
+
+        closeMenu();
+    };
 
     const handleLoseFocus = () => {
         dispatch(blockingUpdated(false))
