@@ -22,7 +22,7 @@ export default function CarouselPage(props: any) {
     const backToHome = async () => {
         dispatch(pageUpdated(rootPage))
 
-        if(rootPage.type=='carousel'){
+        if (rootPage.type == 'carousel') {
             dispatch(carouselPageSwitched(rootPage.config.pages[0].id))
         }
     }
@@ -80,16 +80,20 @@ export default function CarouselPage(props: any) {
                     <Content config={pages[current].config} key={pages[current].id} id={pages[current].id} />
                 </div>
 
-
                 {
-                    (current != pages.length - 1) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
-                        <Button  width="w-full" text={previous} action={previousPage} /> <Button  width="w-full" text={next} action={nextPage} />
+                    (current == 0) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
+                        <Button width="w-full" text={next} action={nextPage} />
+                    </div>
+                }
+                {
+                    (current != pages.length - 1 && current != 0) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
+                        <Button width="w-full" text={previous} action={previousPage} /> <Button width="w-full" text={next} action={nextPage} />
                     </div>
                 }
                 {
                     (current == pages.length - 1) && <div className="flex flex-row fixed bottom-0 gap-3 p-3 mt-3 bg-white w-[100%] max-w-[400px]">
 
-                        <Button  width="w-full" text={home} action={backToHome} />
+                        <Button width="w-full" text={home} action={backToHome} />
                     </div >
                 }
             </div>
