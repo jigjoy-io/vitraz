@@ -127,6 +127,7 @@ export default function ContentEditingText(props: any) {
 		<div className={`inline-block w-[100%] ${style.lineHeight} ${alignmentVariations[position]}`}>
 			<div
 				contentEditable="plaintext-only"
+				suppressContentEditableWarning={true}
 				spellCheck="false"
 				onKeyDown={handleKeyDown}
 				onBlur={(e) => updateText(e)}

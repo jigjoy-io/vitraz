@@ -12,7 +12,7 @@ import { insertBlock, removeBlock } from '../../../reducers/page-reducer'
 import { duplicateBlock } from '../../../util/traversals/duplcate-block'
 import ClickOutsideListener from '../../../util/click-outside-listener'
 import DuplicateIcon from '../../../icons/duplicate-icon'
-import OpenMenuIcon from  '../../../icons/open-menu-icon'
+import OpenMenuIcon from '../../../icons/open-menu-icon'
 import DeleteBlockIcon from '../../../icons/delete-block-icon'
 import Grid from '../../../components/grid/grid'
 import Item from '../../../components/item/item'
@@ -225,7 +225,7 @@ export default function Toolbar(props: any) {
                             <Item text={localization.duplicate} tabFocus={false} icon={DuplicateIcon} action={duplicate} />
                             <Item text={localization.delete} tabFocus={false} textColor="red" icon={DeleteBlockIcon} action={deleteBlock} />
                             {
-                                props.editingOptions.map((option: any, index) => <div ref={(el: HTMLDivElement) => { editorRefs.current[index] = el }}>
+                                props.editingOptions.map((option: any, index) => <div key={index} ref={(el: HTMLDivElement) => { editorRefs.current[index] = el }}>
                                     {index == 0 && <div className='border-b border-default-light' />}
                                     <Item text={option.name} tabFocus={false} icon={option.icon} action={() => handleOpenEditor(option, index)} />
                                 </div>
@@ -242,15 +242,15 @@ export default function Toolbar(props: any) {
 
                 createPortal(<ClickOutsideListener callback={handleEditorClose} >
                     <div className={`fixed flex rounded-md p-1 shadow bg-[white] z-50`} style={{ top: editorTop, left: editorLeft }} ref={editorRef}>
-                        <editor.editor 
-                            id={props.id} 
-                            lang={lang} 
-                            tabFocus={false} 
-                            block={props.block} 
-                            attribute={editor.key} 
-                            value={props.block[editor.key]} 
+                        <editor.editor
+                            id={props.id}
+                            lang={lang}
+                            tabFocus={false}
+                            block={props.block}
+                            attribute={editor.key}
+                            value={props.block[editor.key]}
                             extraProps={editor.extraProps}
-                            />
+                        />
                     </div>
                 </ClickOutsideListener>, document.body)
             }
