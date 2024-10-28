@@ -2,7 +2,7 @@ import LocalizedStrings from "react-localization"
 
 const localization = new LocalizedStrings({
     US: {
-        logout: "Logoout"
+        logout: "Logout"
     },
     RS: {
         logout: "Odjavi se"

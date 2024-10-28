@@ -30,7 +30,7 @@ function QuestionAnswers(props: any) {
 
     return (
 
-        <div className='flex flex-col gap-3 mt-3'>
+        <div className='flex flex-col gap-3 mt-3' key={props.id}>
 
             {props.answers.map((answer: any) => <Item tabFocus={false} borderOn={true} {...answer} answered={answered} selected={selected.id} action={selectAnswer} />)}
 

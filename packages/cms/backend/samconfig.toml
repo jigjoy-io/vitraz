@@ -4,7 +4,7 @@ version = 0.1
 
 [default]
 [default.global.parameters]
-stack_name = "store-backend"
+stack_name = "icd-services"
 
 [default.build.parameters]
 cached = true
@@ -17,7 +17,7 @@ lint = true
 capabilities = "CAPABILITY_IAM"
 confirm_changeset = true
 resolve_s3 = true
-s3_prefix = "store-backend"
+s3_prefix = "icd-services"
 region = "eu-west-1"
 profile = "Development"
 image_repositories = []
@@ -34,3 +34,25 @@ warm_containers = "EAGER"
 
 [default.local_start_lambda.parameters]
 warm_containers = "EAGER"
+
+[test.deploy.parameters]
+stack_name = "icd-services"
+resolve_s3 = true
+s3_prefix = "icd-services"
+region = "eu-west-1"
+profile = "Test"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = []
+
+[production.deploy.parameters]
+stack_name = "icd-services"
+resolve_s3 = true
+s3_prefix = "icd-services"
+region = "eu-west-1"
+profile = "Production"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = []

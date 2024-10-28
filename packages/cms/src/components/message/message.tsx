@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import colorVariants from '../../util/color-variants'
+import colorVariants from '../../util/style-helper/color-variants'
 import AudioButton from '../audio/audio-button'
 
 export default function Message(props: any) {

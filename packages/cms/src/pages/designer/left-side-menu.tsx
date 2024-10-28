@@ -6,8 +6,8 @@ import Alert from "../../components/alert/alert"
 import Button from "../../components/button/button"
 import { pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/page-reducer"
 import { useLanguage, usePages, useRootPage } from "../../util/store"
-import { Node } from './node'
-import { Link, useNavigate } from '@tanstack/react-router'
+import Node from './node'
+import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import AnalyticsIcon from "../../icons/analytics-icon"
 import { sidebarExpanded } from "../../reducers/sidebar-reducer"
 import Loader from "../../components/loader/loader"
@@ -30,21 +30,41 @@ export default function LeftSideMenu() {
     const lang = useLanguage()
     localization.setLanguage(lang)
 
+    const { action } = useSearch({
+        from: '/interactive-content-designer',
+        select: (search: any) => {
+            return {
+                action: search.action
+            }
+        }
+    })
+
     async function fetchData() {
         const currentUser = await getCurrentUser()
 
-        let pages = await getPages(currentUser.signInDetails?.loginId as string)
-        dispatch(pagesUpdated(pages))
-        dispatch(rootPageUpdated(pages[0]))
-        dispatch(pageUpdated(pages[0]))
+        let fetchedPages = await getPages(currentUser.signInDetails?.loginId as string)
+
+
+        if (!page) {
+            dispatch(rootPageUpdated(fetchedPages[0]))
+            dispatch(pageUpdated(fetchedPages[0]))
+            dispatch(pagesUpdated(fetchedPages))
+        } else {
+            const fetchedPage = fetchedPages.find(fp => fp.id == page.id)
+            dispatch(rootPageUpdated(fetchedPage))
+            dispatch(pageUpdated(fetchedPage))
+            dispatch(pagesUpdated(fetchedPages))
+        }
+
+
+
+
+
     }
 
     useEffect(() => {
-
-        if (pages.length == 0) {
+        if(action!='page-creation')
             fetchData()
-        }
-
     }, [])
 
     useEffect(() => {

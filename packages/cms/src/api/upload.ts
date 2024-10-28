@@ -7,9 +7,9 @@ export async function uploadDocument(file: { file: string; name: string; type: s
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(file),
-  };
+  }
   
-  const res: any = await fetch(`${API_HOST}/upload-document`, options);
+  const res: any = await fetch(`${API_HOST}/upload-document`, options)
   if (!res.ok) {
     throw new Error('Failed to upload the document')
   }

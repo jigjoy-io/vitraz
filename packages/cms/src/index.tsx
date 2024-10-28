@@ -28,11 +28,12 @@ document.body.appendChild(root)
 const rootDiv = ReactDOM.createRoot(root)
 
 
-const dashboardRoute = createRouteMask({
+const designerRoute = createRouteMask({
 	routeTree,
 	from: '/interactive-content-designer',
 	to: '/interactive-content-designer',
 	params: () => ({
+		action: undefined,
 		token: undefined,
 		email: undefined
 	}),
@@ -41,7 +42,7 @@ const dashboardRoute = createRouteMask({
 
 const router = createRouter({
 	routeTree,
-	routeMasks: [dashboardRoute],
+	routeMasks: [designerRoute],
 	unmaskOnReload: true
 })
 

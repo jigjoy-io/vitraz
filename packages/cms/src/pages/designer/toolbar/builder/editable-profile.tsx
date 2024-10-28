@@ -15,14 +15,16 @@ import { store } from "../../../../util/store"
 
 let localization = new LocalizedStrings({
     US: {
-        editHeadline: "Headline",
+        editFristName: "First Name",
+        editLastName: "Last Name",
         editUsername: "Username",
         editImage: "Image",
         editDescription: "Description",
         editColor: "Color"
     },
     RS: {
-        editHeadline: "Naslov",
+        editFristName: "Ime",
+        editLastName: "Prezime",
         editUsername: "Korisničko ime",
         editImage: "Slika",
         editDescription: "Opis",
@@ -33,12 +35,20 @@ export default class EditableProfile extends EditableBlock {
 
     getEditingOptions() {
         return [{
-            name: localization.editHeadline,
+            name: localization.editFristName,
             icon: RenameIcon,
-            key: 'headline',
+            key: 'firstName',
             editor: LimitedTextEditor,
             extraProps: {
-                limit: 30
+                limit: 20
+            }
+        }, {
+            name: localization.editLastName,
+            icon: RenameIcon,
+            key: 'lastName',
+            editor: LimitedTextEditor,
+            extraProps: {
+                limit: 20
             }
         }, {
             name: localization.editUsername,

@@ -7,8 +7,6 @@ export async function accessPage(id: string, pageNotFoundMessage) {
     if (res.status == 404)
         throw new NotFoundError(pageNotFoundMessage)
     return (await res.json())
-
-
 }
 
 export async function getPage(id: string) {

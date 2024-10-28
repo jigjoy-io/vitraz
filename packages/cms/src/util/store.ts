@@ -5,19 +5,18 @@ import { useDispatch, useSelector } from "react-redux"
 import toolbarReducer from '../reducers/toolbar-reducer'
 import authReducer from '../reducers/auth-reducer'
 import localizationReducer from '../reducers/localization-reducer'
-import treeReducer from '../reducers/tree-reducer'
 import sidebarReducer from '../reducers/sidebar-reducer'
 import storage from 'redux-persist/lib/storage'
 import { persistStore, persistReducer } from 'redux-persist'
 
 const rootReducer = combineReducers({
     toolbar: toolbarReducer,
-    tree: treeReducer,
     page: pageReducer,
     auth: authReducer,
     sidebar: sidebarReducer,
     localization: localizationReducer
 })
+
 
 const persistConfig = {
     key: 'root',
@@ -26,7 +25,7 @@ const persistConfig = {
 }
 
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer<ReturnType<typeof rootReducer>>(persistConfig, rootReducer)
 
 export const store = configureStore({
     reducer: persistedReducer,
@@ -48,15 +47,18 @@ export const useBlocked = () => useAppSelector((state: any) => state.toolbar.blo
 
 export const useSidebarVisible = () => useAppSelector((state: any) => state.sidebar.expanded)
 export const useSidebarComponent = () => useAppSelector((state: any) => state.sidebar.component)
-export const useExpandedPages = () => useAppSelector((state: any) => state.tree.expandedPages)
 
 export const useAuthorized = () => useAppSelector((state: any) => state.auth.authorized)
 
 export const usePage = () => useAppSelector((state: any) => state.page.activePage)
+export const useActivePlayer = () => useAppSelector((state: any) => state.page.activePlayer)
 export const useCurrentCarouselPage = () => useAppSelector((state: any) => state.page.currentCarouselPage)
 export const useModified = () => useAppSelector((state: any) => state.page.modified)
 export const usePages = () => useAppSelector((state: any) => state.page.pages)
 export const useRootPage = () => useAppSelector((state: any) => state.page.rootPage)
 export const useMode = () => useAppSelector((state: any) => state.page.mode)
+export const useSelected = () => useAppSelector((state: any) => state.page.selected)
+export const useExpandedPages = () => useAppSelector((state: any) => state.page.expandedPages)
+
 export const useActiveBlock = () => useAppSelector((state: any) => state.page.activeBlock)
 export const useLanguage = () => useAppSelector((state: any) => state.localization.language)

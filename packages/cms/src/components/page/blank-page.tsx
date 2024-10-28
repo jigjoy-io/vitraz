@@ -7,11 +7,11 @@ export default function BlankPage() {
 
     const page: any = usePage()
 
-    return <>{(page.config) && <div className="flex w-[100%] justify-center">
+    return <>{(page.config) && <div className="flex grow h-[100%] min-h-[100%] w-[100%] justify-center">
 
         <div className="flex flex-col w-full max-w-[400px] p-3">
 
-            <div>
+            <div className="grow">
                 <Content config={page.config} key={page.id} id={page.id} />
             </div>
         </div>

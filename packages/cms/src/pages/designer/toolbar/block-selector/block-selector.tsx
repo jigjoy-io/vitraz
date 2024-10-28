@@ -6,9 +6,9 @@ import { SelectorOptions } from "./selector-options"
 import { useActiveBlock, useLanguage, usePage } from "../../../../util/store"
 import { blockingUpdated } from "../../../../reducers/toolbar-reducer"
 import TemplateFactory from "../../../../util/factories/templates/template-factory"
-import { focusBlock, insertBlock, updateBlock } from "../../../../reducers/page-reducer"
-import { splitTextAtCursor } from "../../../../util/split-text-at-cursor"
-import { moveCursorToEnd } from "../../../../util/move-cursor-to-end"
+import { focusBlock, insertBlock } from "../../../../reducers/page-reducer"
+import { splitTextAtCursor } from "../../../../util/cursor-helper/split-text-at-cursor"
+import { moveCursorToEnd } from "../../../../util/cursor-helper/move-cursor-to-end"
 import ClickOutsideListener from "../../../../util/click-outside-listener"
 import Item from "../../../../components/item/item"
 
@@ -27,7 +27,7 @@ export default function BlockSelector(props: any) {
 
     const page = usePage()
     const lang = useLanguage()
-    
+
     const [option, setOption] = useState("")
     const [options, setOptions] = useState([] as any)
     const [allOptions, setAllOptions] = useState([] as any)
@@ -218,14 +218,20 @@ export default function BlockSelector(props: any) {
     }
 
     const insert = (event, type: string) => {
+        dispatch(focusBlock(null));
+        let block = TemplateFactory.create(type);
 
-        dispatch(focusBlock(null))
-        let block = TemplateFactory.create(type)
-        block.id = props.id
-        dispatch(updateBlock(block))
+        dispatch(insertBlock({
+            referenceBlock: props.id,
+            block: block,
+            position: 'above'
+        }))
+
         dispatch(focusBlock(block.id))
-        closeMenu()
-    }
+
+        setOption("")
+        closeMenu();
+    };
 
     const handleLoseFocus = () => {
         dispatch(blockingUpdated(false))

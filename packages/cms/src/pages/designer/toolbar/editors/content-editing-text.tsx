@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { focusBlock, insertBlock, updateBlock } from '../../../../reducers/page-reducer'
 import { useActiveBlock } from '../../../../util/store'
-import textEditingVariants from '../../../../util/text-editing-variations'
-import alignmentVariations from '../../../../util/alignment-variations'
+import textEditingVariants from '../../../../util/style-helper/text-editing-variations'
+import alignmentVariations from '../../../../util/style-helper/alignment-variations'
 import TemplateFactory from '../../../../util/factories/templates/template-factory'
-import { splitTextAtCursor } from '../../../../util/split-text-at-cursor'
+import { splitTextAtCursor } from '../../../../util/cursor-helper/split-text-at-cursor'
 
 export default function ContentEditingText(props: any) {
 

@@ -1,6 +1,6 @@
 import React from "react"
 import BlockFactory from "./block-factory"
-import gaps from './../gaps'
+import gaps from './../style-helper/gaps'
 
 export default class PlainBlockFactory extends React.Component {
 

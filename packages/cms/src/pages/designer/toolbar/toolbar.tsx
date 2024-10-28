@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import ToolbarButtonWrapper from './toolbar-button-wrapper'
 import { useDispatch } from 'react-redux'
@@ -48,7 +48,7 @@ let localization = new LocalizedStrings({
     }
 })
 
-const loadFeatures = () => import("../../../util/animations").then(res => res.default)
+const loadFeatures = () => import("../../../util/style-helper/animations").then(res => res.default)
 
 export default function Toolbar(props: any) {
 
@@ -158,20 +158,18 @@ export default function Toolbar(props: any) {
 
     }
 
-    useLayoutEffect(() => {
+    const repositionEditor = () => {
 
         if (editorRef.current) {
-            let editor = editorRef.current.getBoundingClientRect()
+            let e = editorRef.current.getBoundingClientRect()
 
-            if (editor.top + editor.height > window.innerHeight - 16) {
-                setEditorTop(window.innerHeight - editor.height - 16)
+            if (e.top + e.height > window.innerHeight - 16) {
+                setEditorTop(window.innerHeight - e.height - 16)
             }
         }
+    }
 
-
-    }, [editor])
-
-    useLayoutEffect(() => {
+    const repositionToolbar = () => {
 
         if (toolbarRef.current) {
             let toolbar = toolbarRef.current.getBoundingClientRect()
@@ -180,9 +178,17 @@ export default function Toolbar(props: any) {
                 setToolbarTop(window.innerHeight - toolbar.height - 16)
             }
         }
+    }
+
+    useEffect(() => {
+
+        setTimeout(() => {
+            repositionToolbar()
+            repositionEditor()
+        }, 5)
 
 
-    }, [toolbarVisible])
+    })
 
     return (<>
         <div ref={containerRef} onMouseEnter={turnOnToolbar} onMouseLeave={turnOffToolbar} className="sticky flex flex-col">
@@ -236,7 +242,15 @@ export default function Toolbar(props: any) {
 
                 createPortal(<ClickOutsideListener callback={handleEditorClose} >
                     <div className={`fixed flex rounded-md p-1 shadow bg-[white] z-50`} style={{ top: editorTop, left: editorLeft }} ref={editorRef}>
-                        <editor.editor id={props.id} lang={lang} tabFocus={false} block={props.block} attribute={editor.key} value={props.block[editor.key]} extraProps={editor.extraProps} />
+                        <editor.editor 
+                            id={props.id} 
+                            lang={lang} 
+                            tabFocus={false} 
+                            block={props.block} 
+                            attribute={editor.key} 
+                            value={props.block[editor.key]} 
+                            extraProps={editor.extraProps}
+                            />
                     </div>
                 </ClickOutsideListener>, document.body)
             }

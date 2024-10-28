@@ -55,7 +55,10 @@ export default function Designer() {
     }, [])
 
     useEffect(() => {
-        update(rootPage, page)
+
+        if(modified)
+            update(rootPage, page)
+        
     }, [modified])
 
     return <AuthLayer>

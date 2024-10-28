@@ -66,7 +66,7 @@ export async function sendMagicLinkHandler({
         const tokenRaw = await encrypt(JSON.stringify(payload))
         const tokenB64 = Buffer.from(tokenRaw).toString('base64')
         const token = escape(tokenB64)
-        const magicLink = `${BASE_URL}/interactive-content-designer?email=${email}&token=${token}`
+        const magicLink = `${BASE_URL}/interactive-content-designer?email=${email}&lang=${language}&token=${token}`
 
         const updateAttributesCommand = new AdminUpdateUserAttributesCommand({
             UserPoolId: USER_POOL_ID as string,
