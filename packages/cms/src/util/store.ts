@@ -8,7 +8,6 @@ import localizationReducer from '../reducers/localization-reducer'
 import sidebarReducer from '../reducers/sidebar-reducer'
 import storage from 'redux-persist/lib/storage'
 import { persistStore, persistReducer } from 'redux-persist'
-import { createBlacklistFilter } from 'redux-persist-transform-filter'
 
 const rootReducer = combineReducers({
     toolbar: toolbarReducer,
@@ -18,17 +17,11 @@ const rootReducer = combineReducers({
     localization: localizationReducer
 })
 
-const saveSubsetBlacklistFilter = createBlacklistFilter(
-    'page',
-    ['modified']
-)
-
 
 const persistConfig = {
     key: 'root',
     storage: storage,
-    whitelist: ['localization', 'page'],
-    transforms: [saveSubsetBlacklistFilter]
+    whitelist: ['localization', 'page']
 }
 
 
