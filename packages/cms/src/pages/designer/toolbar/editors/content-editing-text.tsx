@@ -6,7 +6,7 @@ import textEditingVariants from '../../../../util/style-helper/text-editing-vari
 import alignmentVariations from '../../../../util/style-helper/alignment-variations'
 import TemplateFactory from '../../../../util/factories/templates/template-factory'
 import { splitTextAtCursor } from '../../../../util/cursor-helper/split-text-at-cursor'
-import { moveCursorToEnd } from '../../../../util/cursor-helper/move-cursor-to-end'
+import { moveCursorToEndOff } from '../../../../util/cursor-helper/move-cursor-to-end'
 
 export default function ContentEditingText(props: any) {
 	const [position, setPosition] = useState(props.position)
@@ -83,7 +83,10 @@ export default function ContentEditingText(props: any) {
 	}
 
 	const handleMergeWithPreviousBlock = () => {
-		if (!previousTextBlock) return false
+		if (!previousTextBlock) {
+			dispatch(removeBlock(props.id))
+			return
+		}
 
 		const currentText = ref.current?.innerText || ""
 		const prevBlockElement = document.querySelector(`[data-block-id="${previousTextBlock.id}"]`) as HTMLElement
@@ -114,7 +117,7 @@ export default function ContentEditingText(props: any) {
 				sel?.addRange(range)
 				updatedPrevBlock.focus()
 
-				moveCursorToEnd(prevBlockElement, currentText.length)
+				moveCursorToEndOff(prevBlockElement, currentText.length)
 			}
 		}, 50)
 
@@ -163,7 +166,7 @@ export default function ContentEditingText(props: any) {
 			}
 		} else if (event.key === 'Backspace') {
 			const caretPosition = getCaretPosition(ref.current!)
-			if (caretPosition === 0 && previousTextBlock) {
+			if (caretPosition === 0) {
 				event.preventDefault()
 				handleMergeWithPreviousBlock()
 			}

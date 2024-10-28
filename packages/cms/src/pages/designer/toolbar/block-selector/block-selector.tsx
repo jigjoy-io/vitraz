@@ -8,7 +8,7 @@ import { blockingUpdated } from "../../../../reducers/toolbar-reducer"
 import TemplateFactory from "../../../../util/factories/templates/template-factory"
 import { focusBlock, insertBlock, removeBlock, updateBlock } from "../../../../reducers/page-reducer"
 import { splitTextAtCursor } from "../../../../util/cursor-helper/split-text-at-cursor"
-import { moveCursorToEnd } from "../../../../util/cursor-helper/move-cursor-to-end"
+import { moveCursorToEnd, moveCursorToEndOff } from "../../../../util/cursor-helper/move-cursor-to-end"
 import ClickOutsideListener from "../../../../util/click-outside-listener"
 import Item from "../../../../components/item/item"
 
@@ -62,9 +62,6 @@ export default function BlockSelector(props: any) {
         const prevText = prevBlockElement.innerText
         const mergedText = prevText + currentText
 
-        console.log("PREVIOUS BLOCK ELEMENT", prevBlockElement)
-        console.log("TEXT", inputRef)
-
         dispatch(updateBlock({
             ...previousTextBlock,
             text: mergedText
@@ -87,36 +84,11 @@ export default function BlockSelector(props: any) {
                 sel?.addRange(range)
                 updatedPrevBlock.focus()
 
-                moveCursorToEnd(prevBlockElement, currentText.length)
+                moveCursorToEndOff(prevBlockElement, currentText.length)
             }
         }, 50)
 
         return true
-    }
-
-    const getCaretPosition = (element: HTMLElement): number => {
-        const selection = window.getSelection()
-        if (selection && selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0)
-            const preCaretRange = document.createRange()
-            preCaretRange.selectNodeContents(element)
-            preCaretRange.setEnd(range.endContainer, range.endOffset)
-            const contents = Array.from(element.childNodes)
-            let position = 0
-            for (let i = 0; i < contents.length; i++) {
-                const node = contents[i]
-                if (node === range.endContainer) {
-                    position += range.endOffset
-                    break
-                } else if (node.nodeType === Node.TEXT_NODE) {
-                    position += node.textContent?.length || 0
-                } else if (node.nodeName === 'BR') {
-                    position += 1
-                }
-            }
-            return position
-        }
-        return 0
     }
 
     useEffect(() => {
@@ -274,7 +246,8 @@ export default function BlockSelector(props: any) {
         }
 
         if (event.key === 'Backspace') {
-            const caretPosition = getCaretPosition(inputRef.current!)
+            const caretPosition = inputRef.current?.selectionStart ?? 0
+
             if (caretPosition === 0 && previousTextBlock) {
                 event.preventDefault()
                 handleMergeWithPreviousBlock()

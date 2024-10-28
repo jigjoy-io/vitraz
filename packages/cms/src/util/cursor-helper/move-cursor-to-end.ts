@@ -1,4 +1,4 @@
-export const moveCursorToEnd = (element: HTMLElement, offset: number = 0) => {
+export const moveCursorToEndOff = (element: HTMLElement, offset: number = 0) => {
 	const range = document.createRange()
 	const selection = window.getSelection()
 
@@ -11,3 +11,15 @@ export const moveCursorToEnd = (element: HTMLElement, offset: number = 0) => {
 	selection?.removeAllRanges()
 	selection?.addRange(range)
 }
+// =======
+export const moveCursorToEnd = (element: HTMLElement) => {
+	const range = document.createRange()
+	const selection = window.getSelection()
+
+	range.selectNodeContents(element)
+	range.collapse(false)
+
+	selection?.removeAllRanges()
+	selection?.addRange(range)
+}
+// >>>>>>> development
