@@ -1,14 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import { Provider } from 'react-redux'
+import React from "react"
+import ReactDOM from "react-dom/client"
+import "./index.css"
+import { Provider } from "react-redux"
 import { RouterProvider, createRouteMask, createRouter } from "@tanstack/react-router"
 import { routeTree } from "./routeTree.gen"
-import { Amplify } from 'aws-amplify'
-import { persistor, store } from './util/store'
+import { Amplify } from "aws-amplify"
+import { persistor, store } from "./util/store"
 
-import { PostHogProvider } from 'posthog-js/react'
-import { PersistGate } from 'redux-persist/integration/react'
+import { PostHogProvider } from "posthog-js/react"
+import { PersistGate } from "redux-persist/integration/react"
 
 const options = {
 	api_host: process.env.REACT_APP_PUBLIC_POSTHOG_HOST,
@@ -17,33 +17,32 @@ const options = {
 Amplify.configure({
 	Auth: {
 		Cognito: {
-			userPoolId: process.env.REACT_APP_USER_POOL_ID || '',
-			userPoolClientId: process.env.REACT_APP_USER_POOL_WEB_CLIENT_ID || ''
-		}
-	}
+			userPoolId: process.env.REACT_APP_USER_POOL_ID || "",
+			userPoolClientId: process.env.REACT_APP_USER_POOL_WEB_CLIENT_ID || "",
+		},
+	},
 })
 
 const root = document.createElement("div")
 document.body.appendChild(root)
 const rootDiv = ReactDOM.createRoot(root)
 
-
 const designerRoute = createRouteMask({
 	routeTree,
-	from: '/interactive-content-designer',
-	to: '/interactive-content-designer',
+	from: "/interactive-content-designer",
+	to: "/interactive-content-designer",
 	params: () => ({
 		action: undefined,
 		token: undefined,
-		email: undefined
+		email: undefined,
 	}),
-	search: true
+	search: true,
 })
 
 const router = createRouter({
 	routeTree,
 	routeMasks: [designerRoute],
-	unmaskOnReload: true
+	unmaskOnReload: true,
 })
 
 declare module "@tanstack/react-router" {
@@ -54,15 +53,12 @@ declare module "@tanstack/react-router" {
 
 rootDiv.render(
 	<React.StrictMode>
-		<PostHogProvider
-			apiKey={process.env.REACT_APP_PUBLIC_POSTHOG_KEY}
-			options={options}>
-
+		<PostHogProvider apiKey={process.env.REACT_APP_PUBLIC_POSTHOG_KEY} options={options}>
 			<Provider store={store}>
 				<PersistGate loading={null} persistor={persistor}>
 					<RouterProvider router={router} />
 				</PersistGate>
 			</Provider>
 		</PostHogProvider>
-	</React.StrictMode>
+	</React.StrictMode>,
 )

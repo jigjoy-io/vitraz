@@ -34,7 +34,6 @@ interface MediaConfigurerProps {
 }
 
 export default function MediaConfigurer({ mediaType, icon, localization, props }: MediaConfigurerProps) {
-
 	const [display, setDisplay] = useState(props.display)
 	const [value, setValue] = useState(props.value)
 
@@ -53,10 +52,9 @@ export default function MediaConfigurer({ mediaType, icon, localization, props }
 				setY(-100)
 			} else {
 				setY(0)
-
 			}
 			setTop(contentRect.top)
-			setLeft(contentRect.left + contentRect.width/2)
+			setLeft(contentRect.left + contentRect.width / 2)
 		}
 	}, [display])
 
@@ -88,55 +86,51 @@ export default function MediaConfigurer({ mediaType, icon, localization, props }
 		}
 	}, [])
 
-
 	const createBlock = (fileUrl) => {
 		dispatch(blockingUpdated(false))
-		
+
 		let block = TemplateFactory.createMediaBlock(fileUrl, mediaType)
 
 		block.id = props.id
 		dispatch(updateBlock(block))
-
 	}
 
 	return (
 		<div>
-			{display && createPortal(
-				<ClickOutsideListener callback={onClose}>
-					<div
-						style={{
-							width: 460,
-							pointerEvents: 'auto',
-							top: top,
-							left: left,
-							transform: `translate(-50%, ${y}%)`
-						}}
-						className="fixed rounded-md bg-[white] rounded-lg rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] z-50"
-					>
-						<div className="p-[5%]">
-							<div>
-								<Tabs>
-									<Tab key={localization.uploadFile}>
-										<FileUploader mediaType={mediaType} localization={localization} callback={createBlock} />
-									</Tab>
-									<Tab key={localization.embedLink}>
-										<FileUrlEditor filePath={value} fileType={mediaType} localization={localization} callback={createBlock} />
-									</Tab>
-								</Tabs>
+			{display &&
+				createPortal(
+					<ClickOutsideListener callback={onClose}>
+						<div
+							style={{
+								width: 460,
+								pointerEvents: "auto",
+								top: top,
+								left: left,
+								transform: `translate(-50%, ${y}%)`,
+							}}
+							className="fixed rounded-md bg-[white] rounded-lg rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] z-50"
+						>
+							<div className="p-[5%]">
+								<div>
+									<Tabs>
+										<Tab key={localization.uploadFile}>
+											<FileUploader mediaType={mediaType} localization={localization} callback={createBlock} />
+										</Tab>
+										<Tab key={localization.embedLink}>
+											<FileUrlEditor filePath={value} fileType={mediaType} localization={localization} callback={createBlock} />
+										</Tab>
+									</Tabs>
+								</div>
 							</div>
 						</div>
-					</div>
-				</ClickOutsideListener>, document.body)}
+					</ClickOutsideListener>,
+					document.body,
+				)}
 
-			<div
-				ref={ref}
-				onClick={openConfigurer}
-				className="w-[100%] h-[50px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-md flex items-center pl-5 hover:opacity-60"
-			>
+			<div ref={ref} onClick={openConfigurer} className="w-[100%] h-[50px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-md flex items-center pl-5 hover:opacity-60">
 				{icon}
 				<div className="pl-2">{localization.clickToAdd}</div>
 			</div>
 		</div>
 	)
-
 }

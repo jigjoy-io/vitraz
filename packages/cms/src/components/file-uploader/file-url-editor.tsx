@@ -8,43 +8,42 @@ import LocalizedStrings from "react-localization"
 import { useLanguage } from "../../util/store"
 
 let translations = new LocalizedStrings({
-    US: {
-        emptyFieldError: "Link field is empty.",
-    },
-    RS: {
-        emptyFieldError: "Polje za link je prazno."
-    }
+	US: {
+		emptyFieldError: "Link field is empty.",
+	},
+	RS: {
+		emptyFieldError: "Polje za link je prazno.",
+	},
 })
 
 export default function FileUrlEditor({ filePath, fileType, localization, callback }) {
+	const [fileUrl, setFileUrl] = useState<string>(filePath)
+	const [urlAlert, setUrlAlert] = useState<AlertProps | null>(null)
 
-    const [fileUrl, setFileUrl] = useState<string>(filePath)
-    const [urlAlert, setUrlAlert] = useState<AlertProps | null>(null)
+	const lang = useLanguage()
+	translations.setLanguage(lang)
 
-    const lang = useLanguage()
-    translations.setLanguage(lang)
+	const handleUrlUpdate = (url) => {
+		if (UrlValidator.validate(fileType, url)) {
+			callback(url)
+		} else {
+			setUrlAlert({ type: AlertType.DANGER, message: translations.emptyFieldError })
+		}
+	}
 
-    const handleUrlUpdate = (url) => {
-        if (UrlValidator.validate(fileType, url)) {
-            callback(url)
-        } else {
+	return (
+		<>
+			{urlAlert && (
+				<div className="mb-2">
+					<Alert type={urlAlert.type} message={urlAlert.message} />
+				</div>
+			)}
 
-            setUrlAlert({ type: AlertType.DANGER, message: translations.emptyFieldError })
-        }
-    }
+			<Input value={fileUrl} onChange={setFileUrl} placeholder={localization.embedLinkPlaceholder} />
 
-    return <>
-        {
-            urlAlert && <div className="mb-2">
-                <Alert type={urlAlert.type} message={urlAlert.message} />
-            </div>
-        }
-
-        <Input value={fileUrl} onChange={setFileUrl} placeholder={localization.embedLinkPlaceholder} />
-
-        <div className="mt-3">
-            <Button width="w-full" text={localization.embedButton} action={() => handleUrlUpdate(fileUrl)} />
-        </div>
-    </>
-
+			<div className="mt-3">
+				<Button width="w-full" text={localization.embedButton} action={() => handleUrlUpdate(fileUrl)} />
+			</div>
+		</>
+	)
 }

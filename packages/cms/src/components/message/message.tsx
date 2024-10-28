@@ -1,38 +1,37 @@
-import React, { useEffect, useState } from 'react'
-import colorVariants from '../../util/style-helper/color-variants'
-import AudioButton from '../audio/audio-button'
+import React, { useEffect, useState } from "react"
+import colorVariants from "../../util/style-helper/color-variants"
+import AudioButton from "../audio/audio-button"
 
 export default function Message(props: any) {
+	const [message, setMessage] = useState(props.message)
+	const [audio, setAudio] = useState(props.audio)
+	const [position, setPosition] = useState(props.position)
+	const [color, setColor] = useState(props.color)
 
-    const [message, setMessage] = useState(props.message)
-    const [audio, setAudio] = useState(props.audio)
-    const [position, setPosition] = useState(props.position)
-    const [color, setColor] = useState(props.color)
+	useEffect(() => {
+		setMessage(props.message)
+	}, [props.message])
 
-    useEffect(() => {
-        setMessage(props.message)
-    }, [props.message])
+	useEffect(() => {
+		setColor(props.color)
+	}, [props.color])
 
-    useEffect(() => {
-        setColor(props.color)
-    }, [props.color])
+	useEffect(() => {
+		setPosition(props.position)
+	}, [props.position])
 
-    useEffect(() => {
-        setPosition(props.position)
-    }, [props.position])
+	useEffect(() => {
+		setAudio(props.audio)
+	}, [props.audio])
 
-
-    useEffect(() => {
-        setAudio(props.audio)
-    }, [props.audio])
-
-
-    return (<div className={`flex h-max w-full`} style={{ justifyContent: position }}>
-        <div className={`block w-[75%] p-4 rounded-lg ${position=='left'?'rounded-bl-none': 'rounded-br-none'} ${colorVariants[color]}`} style={{ justifyContent: position }}>
-                <div>{message}</div>
-                <div className={`mt-3 flex ${position}`} style={{ justifyContent: position }}><AudioButton id={props.id} source={audio} /></div>
-            </div>
-    </div>
-    )
-
+	return (
+		<div className={`flex h-max w-full`} style={{ justifyContent: position }}>
+			<div className={`block w-[75%] p-4 rounded-lg ${position == "left" ? "rounded-bl-none" : "rounded-br-none"} ${colorVariants[color]}`} style={{ justifyContent: position }}>
+				<div>{message}</div>
+				<div className={`mt-3 flex ${position}`} style={{ justifyContent: position }}>
+					<AudioButton id={props.id} source={audio} />
+				</div>
+			</div>
+		</div>
+	)
 }

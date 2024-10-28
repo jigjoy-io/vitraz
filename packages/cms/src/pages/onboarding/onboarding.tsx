@@ -1,107 +1,103 @@
-import { fetchUserAttributes, getCurrentUser } from '@aws-amplify/auth'
-import { useNavigate } from '@tanstack/react-router'
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { useLanguage, useMode, usePages } from '../../util/store'
-import localization from './onboarding.localization'
-import { carouselPageSwitched, pageExpanded, pagesUpdated, pageUpdated, rootPageUpdated } from '../../reducers/page-reducer'
-import { createPage } from '../../api/page'
-import Loader from '../../components/loader/loader'
-import CloseIcon from '../../icons/close-icon'
-import Title from '../../components/title/title'
-import Tile from '../../components/tile/tile'
-import Heading from '../../components/heading/heading'
-import TemplateFactory from '../../util/factories/templates/template-factory'
+import { fetchUserAttributes, getCurrentUser } from "@aws-amplify/auth"
+import { useNavigate } from "@tanstack/react-router"
+import React, { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { useLanguage, useMode, usePages } from "../../util/store"
+import localization from "./onboarding.localization"
+import { carouselPageSwitched, pageExpanded, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/page-reducer"
+import { createPage } from "../../api/page"
+import Loader from "../../components/loader/loader"
+import CloseIcon from "../../icons/close-icon"
+import Title from "../../components/title/title"
+import Tile from "../../components/tile/tile"
+import Heading from "../../components/heading/heading"
+import TemplateFactory from "../../util/factories/templates/template-factory"
 
 export default function Onboarding() {
+	const navigate = useNavigate()
+	const dispatch = useDispatch()
+	const mode = useMode()
+	const pages = usePages()
 
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const mode = useMode()
-    const pages = usePages()
+	const lang = useLanguage()
+	localization.setLanguage(lang)
 
-    const lang = useLanguage()
-    localization.setLanguage(lang)
+	const checkUser = async () => {
+		try {
+			const user = await getCurrentUser()
+			if (!user) {
+				navigate({ to: "/" })
+			}
+		} catch (error) {
+			navigate({ to: "/" })
+			console.error("Error checking user authentication:", error)
+		}
+	}
 
+	useEffect(() => {
+		checkUser()
+	}, [])
 
-    const checkUser = async () => {
-        try {
-            const user = await getCurrentUser()
-            if (!user) {
-                navigate({ to: '/' })
-            }
-        } catch (error) {
-            navigate({ to: '/' })
-            console.error("Error checking user authentication:", error)
-        }
-    }
+	useEffect(() => {
+		localization.setLanguage(lang)
+	}, [lang])
 
-    useEffect(() => {
-        checkUser()
-    }, [])
+	const create = async (type) => {
+		dispatch(carouselPageSwitched(null))
 
-    useEffect(() => {
-        localization.setLanguage(lang)
-    }, [lang])
+		// page creation
+		const userAttributes = await fetchUserAttributes()
+		let page = TemplateFactory.createPage(type, userAttributes.email)
 
+		// state update
+		let allPages = JSON.parse(JSON.stringify(pages))
+		allPages.push(page)
+		dispatch(pagesUpdated(allPages))
 
-    const create = async (type) => {
-  
-        dispatch(carouselPageSwitched(null))
+		createPage(page)
 
-        // page creation
-        const userAttributes = await fetchUserAttributes()
-        let page = TemplateFactory.createPage(type, userAttributes.email)
+		dispatch(rootPageUpdated(page))
+		dispatch(pageUpdated(page))
 
-        // state update
-        let allPages = JSON.parse(JSON.stringify(pages))
-        allPages.push(page)
-        dispatch(pagesUpdated(allPages))
+		dispatch(pageExpanded(page.id))
 
-        createPage(page)
+		navigate({
+			to: `/interactive-content-designer`,
+			search: {
+				action: "page-creation",
+			},
+		})
+	}
 
+	return (
+		<>
+			{mode == "loading" ? (
+				<Loader message={localization.loadingMessage} />
+			) : (
+				<div>
+					<div className="absolute top-10 right-10 w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer" onClick={() => navigate({ to: "/interactive-content-designer" })}>
+						<CloseIcon />
+					</div>
+					<div className="flex flex-col mt-20 items-center justify-center">
+						<Title position="center" text={localization.chooseProject}></Title>
 
-        dispatch(rootPageUpdated(page))
-        dispatch(pageUpdated(page))
-
-        dispatch(pageExpanded(page.id))  
-
-
-        navigate({
-            to: `/interactive-content-designer`,
-            search: {
-                action: "page-creation" 
-            } 
-        })
-    }
-
-    return <>
-        {
-            mode == "loading" ? <Loader message={localization.loadingMessage} /> : <div>
-                <div className='absolute top-10 right-10 w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer' onClick={() => navigate({ to: '/interactive-content-designer' })}>
-                    <CloseIcon />
-                </div>
-                <div className='flex flex-col mt-20 items-center justify-center'>
-                    <Title position="center" text={localization.chooseProject}></Title>
-
-                    <div className='flex flex-row gap-8'>
-                        <div className='w-[400px] cursor-pointer hover:bg-primary-light hover:rounded-[20px] mt-10' onClick={() => create('blank')}>
-                            <Tile>
-                                <Heading text={localization.blankPageHeading} />
-                                <p className='mt-4'>{localization.blankPageDescription}</p>
-                            </Tile>
-                        </div>
-                        <div className='w-[400px] cursor-pointer hover:bg-primary-light hover:rounded-[20px] mt-10' onClick={() => create('carousel')}>
-                            <Tile>
-                                <Heading text={localization.carouselHeading} />
-                                <p className='mt-4'>{localization.carouselDescription}</p>
-                            </Tile>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        }
-
-    </>
+						<div className="flex flex-row gap-8">
+							<div className="w-[400px] cursor-pointer hover:bg-primary-light hover:rounded-[20px] mt-10" onClick={() => create("blank")}>
+								<Tile>
+									<Heading text={localization.blankPageHeading} />
+									<p className="mt-4">{localization.blankPageDescription}</p>
+								</Tile>
+							</div>
+							<div className="w-[400px] cursor-pointer hover:bg-primary-light hover:rounded-[20px] mt-10" onClick={() => create("carousel")}>
+								<Tile>
+									<Heading text={localization.carouselHeading} />
+									<p className="mt-4">{localization.carouselDescription}</p>
+								</Tile>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
+		</>
+	)
 }

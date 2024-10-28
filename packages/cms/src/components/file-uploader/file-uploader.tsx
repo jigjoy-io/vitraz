@@ -7,63 +7,44 @@ import FileHelper from "../../util/file-upload/file-upload"
 import Button from "../button/button"
 
 export default function FileUploader({ mediaType, localization, callback }) {
+	const [uploading, setUploadingStatus] = useState(false)
+	const rootPage = useRootPage()
+	const [fileAlert, setFileAlert] = useState<AlertProps | null>(null)
 
-    const [uploading, setUploadingStatus] = useState(false)
-    const rootPage = useRootPage()
-    const [fileAlert, setFileAlert] = useState<AlertProps | null>(null)
+	const fileInputRef = useRef<HTMLInputElement>(null)
 
+	const triggerFileInput = () => {
+		fileInputRef.current?.click()
+	}
 
-    const fileInputRef = useRef<HTMLInputElement>(null)
+	const handleFileChange = async (event) => {
+		const selectedFile = event.target.files?.[0]
+		setUploadingStatus(true)
+		setFileAlert({ type: AlertType.INFO, message: localization.uploadInProgress })
 
-    const triggerFileInput = () => {
-        fileInputRef.current?.click()
-    }
+		try {
+			let filePath = await FileHelper.upload(selectedFile, rootPage.id)
+			setFileAlert({ type: AlertType.SUCCESS, message: localization.fileUploadedSuccessfully })
 
+			callback(filePath)
+		} catch (err) {
+			if (err instanceof FileTooLargeError) {
+				setFileAlert({ type: AlertType.DANGER, message: localization.fileTooLarge })
+			}
+		} finally {
+			setUploadingStatus(false)
+		}
+	}
 
-    const handleFileChange = async (event) => {
-
-        const selectedFile = event.target.files?.[0]
-        setUploadingStatus(true)
-        setFileAlert({ type: AlertType.INFO, message: localization.uploadInProgress })
-
-        try {
-
-            let filePath = await FileHelper.upload(selectedFile, rootPage.id)
-            setFileAlert({ type: AlertType.SUCCESS, message: localization.fileUploadedSuccessfully })
-
-            callback(filePath)
-
-        } catch (err) {
-
-            if (err instanceof FileTooLargeError) {
-                setFileAlert({ type: AlertType.DANGER, message: localization.fileTooLarge })
-            }
-
-        } finally {
-
-            setUploadingStatus(false)
-        }
-
-
-    }
-
-
-    return <>{
-        fileAlert && <div className="mb-2">
-            <Alert type={fileAlert.type} message={fileAlert.message} />
-        </div>
-    }
-        <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            accept={`${mediaType}/*`}
-            style={{ display: 'none' }}
-        />
-        <Button width="w-full" text={localization.clickToUpload} action={triggerFileInput} disabled={uploading} />
-
-
-
-    </>
-
+	return (
+		<>
+			{fileAlert && (
+				<div className="mb-2">
+					<Alert type={fileAlert.type} message={fileAlert.message} />
+				</div>
+			)}
+			<input type="file" ref={fileInputRef} onChange={handleFileChange} accept={`${mediaType}/*`} style={{ display: "none" }} />
+			<Button width="w-full" text={localization.clickToUpload} action={triggerFileInput} disabled={uploading} />
+		</>
+	)
 }
