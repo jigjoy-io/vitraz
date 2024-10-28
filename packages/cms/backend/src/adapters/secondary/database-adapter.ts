@@ -1,86 +1,92 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
-import { DynamoDBDocumentClient, GetCommand, PutCommand, DeleteCommand, QueryCommand, BatchWriteCommand, DeleteCommandInput } from '@aws-sdk/lib-dynamodb'
-import { PageDto } from "@dto/page/page"
-import { EnvironmentType } from '@models/types'
-const client = new DynamoDBClient({})
-const ddbDocClient = DynamoDBDocumentClient.from(client)
-const tableName = process.env.PAGE_TABLE
-import { compress, decompress } from 'compress-json'
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import {
+  DynamoDBDocumentClient,
+  GetCommand,
+  PutCommand,
+  DeleteCommand,
+  QueryCommand,
+  BatchWriteCommand,
+  DeleteCommandInput,
+} from "@aws-sdk/lib-dynamodb";
+import { PageDto } from "@dto/page/page";
+import { PageNotFoundError } from "@errors/page-not-found-error";
+import { EnvironmentType } from "@models/types";
+const client = new DynamoDBClient({});
+const ddbDocClient = DynamoDBDocumentClient.from(client);
+const tableName = process.env.PAGE_TABLE;
+import { compress, decompress } from "compress-json";
 
 const compressPage = (page: PageDto) => {
-	let p = JSON.parse(JSON.stringify(page))
-	p.config = compress(page.config)
-	return p
-}
+  let p = JSON.parse(JSON.stringify(page));
+  p.config = compress(page.config);
+  return p;
+};
 
 const decompressPage = (item: any): PageDto => {
+  let p = JSON.parse(JSON.stringify(item));
+  p.config = decompress(p.config);
+  const page: PageDto = {
+    ...(p as PageDto),
+  };
 
-	let p = JSON.parse(JSON.stringify(item))
-	p.config = decompress(p.config)
-	const page: PageDto = {
-		...(p as PageDto),
-	}
-
-	return page
-}
+  return page;
+};
 
 export async function putPage(page: PageDto): Promise<PageDto> {
+  let item = compressPage(page);
+  const params = {
+    TableName: tableName,
+    Item: item,
+  };
 
+  await ddbDocClient.send(new PutCommand(params));
 
-	let item = compressPage(page)
-	const params = {
-		TableName: tableName,
-		Item: item
-	}
-
-	await ddbDocClient.send(new PutCommand(params))
-
-	return page
+  return page;
 }
 
 export async function getPage(pageId: string): Promise<PageDto> {
+  var params = {
+    TableName: tableName,
+    Key: { id: pageId },
+  };
 
-	var params = {
-		TableName: tableName,
-		Key: { id: pageId },
-	}
+  const { Item: item } = await ddbDocClient.send(new GetCommand(params));
 
-	const { Item: item } = await ddbDocClient.send(new GetCommand(params))
+  if (!item) {
+    throw new PageNotFoundError(`Page with id: ${pageId} not found`);
+  }
 
-	let page : PageDto = decompressPage(item)
+  let page: PageDto = decompressPage(item);
 
-	return page
+  return page;
 }
 
 export async function putPages(pages: PageDto[]): Promise<PageDto[]> {
+  const createPutRequest = (page: PageDto) => {
+    let item = compressPage(page);
+    return {
+      PutRequest: {
+        Item: item,
+      },
+    };
+  };
 
-	
+  let requests = pages.map(createPutRequest);
 
-	const createPutRequest = (page: PageDto) => {
-		let item = compressPage(page)
-		return {
-			PutRequest: {
-				Item: item
-			}
-		}
-	}
+  const chunkSize = 25; // dynamodb max chunk size for working with batch
+  for (let i = 0; i < requests.length; i += chunkSize) {
+    const chunk = requests.slice(i, i + chunkSize);
 
-	let requests = pages.map(createPutRequest)
+    const command = new BatchWriteCommand({
+      RequestItems: {
+        [tableName as string]: chunk,
+      },
+    });
 
-	const chunkSize = 25 // dynamodb max chunk size for working with batch
-	for (let i = 0; i < requests.length; i += chunkSize) {
-		const chunk = requests.slice(i, i + chunkSize)
+    await ddbDocClient.send(command);
+  }
 
-		const command = new BatchWriteCommand({
-			RequestItems: {
-				[tableName as string]: chunk,
-			},
-		})
-
-		await ddbDocClient.send(command)
-	}
-
-	return pages
+  return pages;
 }
 
 export async function deletePage(pageId: any): Promise<void> {
@@ -88,40 +94,42 @@ export async function deletePage(pageId: any): Promise<void> {
     TableName: tableName,
     Key: { id: pageId },
     ReturnValues: "ALL_OLD",
-  }
+  };
 
-  const result = await ddbDocClient.send(new DeleteCommand(params))
+  const result = await ddbDocClient.send(new DeleteCommand(params));
 
   if (result.Attributes && result.Attributes.linkedPageId) {
-    const linkedPageId = result.Attributes.linkedPageId
+    const linkedPageId = result.Attributes.linkedPageId;
 
     const prodParams: DeleteCommandInput = {
       TableName: tableName,
       Key: { id: linkedPageId },
-    }
+    };
 
-    await ddbDocClient.send(new DeleteCommand(prodParams))
+    await ddbDocClient.send(new DeleteCommand(prodParams));
   }
-
 }
 
 export async function getPages(origin: string): Promise<PageDto[]> {
+  const params = {
+    KeyConditionExpression: "origin = :origin",
+    IndexName: "pageGSI",
+    ExpressionAttributeValues: {
+      ":origin": origin,
+    },
+    TableName: tableName,
+  };
 
-	const params = {
-		KeyConditionExpression: 'origin = :origin',
-		IndexName: 'pageGSI',
-		ExpressionAttributeValues: {
-			':origin': origin
-		},
-		TableName: tableName
-	}
+  const data = await ddbDocClient.send(new QueryCommand(params));
+  let items: any = data.Items as [];
+  items = items.filter(
+    (item: any) => item.environment === EnvironmentType.Development
+  );
+  items.sort(
+    (a: any, b: any) =>
+      new Date(a.created).getTime() - new Date(b.created).getTime()
+  );
+  let pages: PageDto[] = items.map(decompressPage);
 
-	const data = await ddbDocClient.send(new QueryCommand(params))
-	let items: any = data.Items as []
-	items = items.filter((item: any) => item.environment===EnvironmentType.Development) 
-	items.sort((a: any, b: any) => new Date(a.created).getTime() - new Date(b.created).getTime())
-	let pages: PageDto[] = items.map(decompressPage)
-
-
-	return pages
+  return pages;
 }
