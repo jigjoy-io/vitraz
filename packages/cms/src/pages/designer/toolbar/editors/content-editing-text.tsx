@@ -14,15 +14,20 @@ export default function ContentEditingText(props: any) {
 	const [style, setStyle] = useState({} as any)
 	const page = usePage()
 
-	const previousBlock = useSelector((state: any) => {
-		console.log("BLOCK", page.config.buildingBlocks)
-		const blocks = page.config.buildingBlocks
-		const currentIndex = blocks.findIndex((block: any) => block.id === props.id)
-		if (currentIndex > 0) {
-			return blocks[currentIndex - 1]
+	const previousTextBlock = useSelector(() => {
+		const blocks = page.config.buildingBlocks;
+		const currentIndex = blocks.findIndex((block: any) => block.id === props.id);
+
+		if (currentIndex <= 0) return null;
+
+		for (let i = currentIndex - 1; i >= 0; i--) {
+			if (blocks[i].type === "text" || blocks[i].type === "title" || blocks[i].type === "heading") {
+				return blocks[i];
+			}
 		}
-		return null
-	})
+
+		return null;
+	});
 
 	useEffect(() => {
 		setPosition(props.position)
@@ -79,28 +84,26 @@ export default function ContentEditingText(props: any) {
 	}
 
 	const handleMergeWithPreviousBlock = () => {
-		if (!previousBlock) return false
+		if (!previousTextBlock) return false
 
 		const currentText = ref.current?.innerText || ""
-		const prevBlockElement = document.querySelector(`[data-block-id="${previousBlock.id}"]`) as HTMLElement
+		const prevBlockElement = document.querySelector(`[data-block-id="${previousTextBlock.id}"]`) as HTMLElement
 		if (!prevBlockElement) return false
 
 		const prevText = prevBlockElement.innerText
 		const mergedText = prevText + currentText
 
-		console.log("DUZINA", currentText.length)
-
 		dispatch(updateBlock({
-			...previousBlock,
+			...previousTextBlock,
 			text: mergedText
 		}))
 
 		dispatch(removeBlock(props.id))
 
-		dispatch(focusBlock(previousBlock.id))
+		dispatch(focusBlock(previousTextBlock.id))
 
 		setTimeout(() => {
-			const updatedPrevBlock = document.querySelector(`[data-block-id="${previousBlock.id}"]`) as HTMLElement
+			const updatedPrevBlock = document.querySelector(`[data-block-id="${previousTextBlock.id}"]`) as HTMLElement
 			if (updatedPrevBlock) {
 				const range = document.createRange()
 				const sel = window.getSelection()
@@ -112,7 +115,7 @@ export default function ContentEditingText(props: any) {
 				sel?.addRange(range)
 				updatedPrevBlock.focus()
 
-				moveCursorToEnd(prevBlockElement)
+				moveCursorToEnd(prevBlockElement, currentText.length)
 			}
 		}, 50)
 
@@ -159,7 +162,7 @@ export default function ContentEditingText(props: any) {
 			}
 		} else if (event.key === 'Backspace') {
 			const caretPosition = getCaretPosition(ref.current!)
-			if (caretPosition === 0 && previousBlock) {
+			if (caretPosition === 0 && previousTextBlock) {
 				event.preventDefault()
 				handleMergeWithPreviousBlock()
 			}

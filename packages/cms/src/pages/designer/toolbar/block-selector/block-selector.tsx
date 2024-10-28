@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { createPortal } from 'react-dom'
 import LocalizedStrings from "react-localization"
 import { SelectorOptions } from "./selector-options"
 import { useActiveBlock, useLanguage, usePage } from "../../../../util/store"
 import { blockingUpdated } from "../../../../reducers/toolbar-reducer"
 import TemplateFactory from "../../../../util/factories/templates/template-factory"
-import { focusBlock, insertBlock } from "../../../../reducers/page-reducer"
+import { focusBlock, insertBlock, removeBlock, updateBlock } from "../../../../reducers/page-reducer"
 import { splitTextAtCursor } from "../../../../util/cursor-helper/split-text-at-cursor"
 import { moveCursorToEnd } from "../../../../util/cursor-helper/move-cursor-to-end"
 import ClickOutsideListener from "../../../../util/click-outside-listener"
@@ -39,6 +39,88 @@ export default function BlockSelector(props: any) {
     const [left, setLeft] = useState()
 
     const dispatch = useDispatch()
+
+    const previousTextBlock = useSelector(() => {
+        const blocks = page.config.buildingBlocks;
+        const currentIndex = blocks.findIndex((block: any) => block.id === props.id);
+
+        if (currentIndex <= 0) return null;
+
+        for (let i = currentIndex - 1; i >= 0; i--) {
+            if (blocks[i].type === "text" || blocks[i].type === "title" || blocks[i].type === "heading") {
+                return blocks[i];
+            }
+        }
+
+        return null;
+    });
+
+    const handleMergeWithPreviousBlock = () => {
+        if (!previousTextBlock) return false
+
+        const currentText = option
+        const prevBlockElement = document.querySelector(`[data-block-id="${previousTextBlock.id}"]`) as HTMLElement
+        if (!prevBlockElement) return false
+
+        const prevText = prevBlockElement.innerText
+        const mergedText = prevText + currentText
+
+        console.log("PREVIOUS BLOCK ELEMENT", prevBlockElement)
+        console.log("TEXT", inputRef)
+
+        dispatch(updateBlock({
+            ...previousTextBlock,
+            text: mergedText
+        }))
+
+        dispatch(removeBlock(props.id))
+
+        dispatch(focusBlock(previousTextBlock.id))
+
+        setTimeout(() => {
+            const updatedPrevBlock = document.querySelector(`[data-block-id="${previousTextBlock.id}"]`) as HTMLElement
+            if (updatedPrevBlock) {
+                const range = document.createRange()
+                const sel = window.getSelection()
+                const textNode = updatedPrevBlock.firstChild || updatedPrevBlock
+
+                range.setStart(textNode, prevText.length)
+                range.collapse(true)
+                sel?.removeAllRanges()
+                sel?.addRange(range)
+                updatedPrevBlock.focus()
+
+                moveCursorToEnd(prevBlockElement, currentText.length)
+            }
+        }, 50)
+
+        return true
+    }
+
+    const getCaretPosition = (element: HTMLElement): number => {
+        const selection = window.getSelection()
+        if (selection && selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0)
+            const preCaretRange = document.createRange()
+            preCaretRange.selectNodeContents(element)
+            preCaretRange.setEnd(range.endContainer, range.endOffset)
+            const contents = Array.from(element.childNodes)
+            let position = 0
+            for (let i = 0; i < contents.length; i++) {
+                const node = contents[i]
+                if (node === range.endContainer) {
+                    position += range.endOffset
+                    break
+                } else if (node.nodeType === Node.TEXT_NODE) {
+                    position += node.textContent?.length || 0
+                } else if (node.nodeName === 'BR') {
+                    position += 1
+                }
+            }
+            return position
+        }
+        return 0
+    }
 
     useEffect(() => {
         localization.setLanguage(lang)
@@ -208,6 +290,14 @@ export default function BlockSelector(props: any) {
 
             setOption("")
             closeMenu()
+        }
+
+        if (event.key === 'Backspace') {
+            const caretPosition = getCaretPosition(inputRef.current!)
+            if (caretPosition === 0 && previousTextBlock) {
+                event.preventDefault()
+                handleMergeWithPreviousBlock()
+            }
         }
     }
 
