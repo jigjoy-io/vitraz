@@ -1,1 +1,1 @@
-export * from './update-pages-repository'
+export * from "./update-pages-repository"

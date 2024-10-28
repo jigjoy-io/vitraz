@@ -1,1 +1,1 @@
-export * from './access-page'
+export * from "./access-page"

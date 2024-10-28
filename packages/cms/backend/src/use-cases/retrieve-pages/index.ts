@@ -1,1 +1,1 @@
-export * from './retrieve-pages'
+export * from "./retrieve-pages"

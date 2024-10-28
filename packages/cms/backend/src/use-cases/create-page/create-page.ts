@@ -1,4 +1,3 @@
-
 import { Page } from "@domain/page/page"
 import { CreatePageDto, ReturnPageDto } from "@dto/page/page"
 import { createPage } from "@repositories/create-page-repository"
@@ -9,9 +8,8 @@ import { createPage } from "@repositories/create-page-repository"
  * @returns {Promise<ReturnPageDto>} A promise that resolves to the ReturnPageDto of the created page.
  */
 export async function createPageUseCase(page: CreatePageDto): Promise<ReturnPageDto> {
+	const newPage = Page.create(page)
 
-    const newPage = Page.create(page)
-
-    const createdPage: Page = await createPage(newPage)
-    return createdPage.toOutputDto()
+	const createdPage: Page = await createPage(newPage)
+	return createdPage.toOutputDto()
 }

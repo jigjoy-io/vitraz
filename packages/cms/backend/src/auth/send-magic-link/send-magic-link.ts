@@ -1,9 +1,9 @@
-import { SignInDto } from '@dto/sign-in'
-import { ValidationError } from '@errors/validation-error'
-import { errorHandler } from '@packages/apigw-error-handler'
-import { schemaValidator } from '@packages/schema-validator'
-import { schema } from '@schemas/sign-in.schema'
-import Responses from '@utils/api-responses'
+import { SignInDto } from "@dto/sign-in"
+import { ValidationError } from "@errors/validation-error"
+import { errorHandler } from "@packages/apigw-error-handler"
+import { schemaValidator } from "@packages/schema-validator"
+import { schema } from "@schemas/sign-in.schema"
+import Responses from "@utils/api-responses"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { CognitoIdentityProviderClient, AdminGetUserCommand, AdminCreateUserCommand, AdminUpdateUserAttributesCommand } from "@aws-sdk/client-cognito-identity-provider"
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses"
@@ -20,103 +20,95 @@ const TIMEOUT_MINS = 5
 import { encrypt } from "@utils/encription"
 import { escape } from "querystring"
 
-export async function sendMagicLinkHandler({
-    body,
-}: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+export async function sendMagicLinkHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+	try {
+		if (!body) throw new ValidationError("No page body")
 
-    try {
+		const user: SignInDto = JSON.parse(body)
+		const email = user.email
+		const language = user.language
 
-        if (!body) throw new ValidationError('No page body')
+		schemaValidator(schema, user)
 
-        const user: SignInDto = JSON.parse(body)
-        const email = user.email
-        const language = user.language
+		console.log(`user: ${JSON.stringify(user)}`)
 
-        schemaValidator(schema, user)
+		try {
+			const getUserCommand = new AdminGetUserCommand({
+				Username: email,
+				UserPoolId: USER_POOL_ID as string,
+			})
+			await cognito.send(getUserCommand)
+		} catch (error: any) {
+			switch (error.name) {
+				case "UserNotFoundException":
+					const createUserCommand = new AdminCreateUserCommand({
+						Username: email,
+						UserPoolId: USER_POOL_ID as string,
+						MessageAction: "SUPPRESS",
+					})
+					await cognito.send(createUserCommand)
+					break
+			}
+		}
 
-        console.log(`user: ${JSON.stringify(user)}`)
+		// only send the magic link on the first attempt
+		const now = new Date()
+		const expiration = new Date(now.getTime() + ONE_MIN * TIMEOUT_MINS)
+		const payload = {
+			email,
+			expiration: expiration.toJSON(),
+		}
+		const tokenRaw = await encrypt(JSON.stringify(payload))
+		const tokenB64 = Buffer.from(tokenRaw).toString("base64")
+		const token = escape(tokenB64)
+		const magicLink = `${BASE_URL}/interactive-content-designer?email=${email}&lang=${language}&token=${token}`
 
-        try {
-            const getUserCommand = new AdminGetUserCommand({
-                "Username": email,
-                "UserPoolId": USER_POOL_ID as string
-            })
-            await cognito.send(getUserCommand)
-        } catch (error: any) {
+		const updateAttributesCommand = new AdminUpdateUserAttributesCommand({
+			UserPoolId: USER_POOL_ID as string,
+			Username: email,
+			UserAttributes: [
+				{
+					Name: "custom:authChallenge",
+					Value: tokenB64,
+				},
+			],
+		})
+		await cognito.send(updateAttributesCommand)
 
-            switch (error.name) {
-                case 'UserNotFoundException':
-                    const createUserCommand = new AdminCreateUserCommand({
-                        Username: email,
-                        UserPoolId: USER_POOL_ID as string,
-                        MessageAction: 'SUPPRESS'
-                    })
-                    await cognito.send(createUserCommand)
-                    break
-            }
-        }
+		let response = {
+			statusCode: 202,
+		}
 
-        // only send the magic link on the first attempt
-        const now = new Date()
-        const expiration = new Date(now.getTime() + ONE_MIN * TIMEOUT_MINS)
-        const payload = {
-            email,
-            expiration: expiration.toJSON()
-        }
-        const tokenRaw = await encrypt(JSON.stringify(payload))
-        const tokenB64 = Buffer.from(tokenRaw).toString('base64')
-        const token = escape(tokenB64)
-        const magicLink = `${BASE_URL}/interactive-content-designer?email=${email}&lang=${language}&token=${token}`
-
-        const updateAttributesCommand = new AdminUpdateUserAttributesCommand({
-            UserPoolId: USER_POOL_ID as string,
-            Username: email,
-            UserAttributes: [{
-                Name: 'custom:authChallenge',
-                Value: tokenB64
-            }]
-        })
-        await cognito.send(updateAttributesCommand)
-
-
-        let response = {
-            statusCode: 202
-        }
-
-        await sendEmail(email, magicLink, language)
-        return Responses._202(response)
-
-    } catch (error) {
-        return errorHandler(error)
-    }
+		await sendEmail(email, magicLink, language)
+		return Responses._202(response)
+	} catch (error) {
+		return errorHandler(error)
+	}
 }
 
 async function sendEmail(emailAddress: string, magicLink: string, language: string) {
+	const email: IEmail = EmailFactory.getEmail(language)
 
-    const email: IEmail = EmailFactory.getEmail(language);
+	const command = new SendEmailCommand({
+		Destination: {
+			ToAddresses: [emailAddress],
+		},
+		Message: {
+			Subject: { Data: email.getSubject() },
+			Body: {
+				Html: { Data: email.getBody(magicLink, TIMEOUT_MINS) },
+			},
+		},
+		Source: SES_FROM_ADDRESS,
+	})
 
-    const command = new SendEmailCommand({
-        Destination: {
-            ToAddresses: [emailAddress],
-        },
-        Message: {
-            Subject: { Data: email.getSubject() },
-            Body: {
-                Html: { Data: email.getBody(magicLink, TIMEOUT_MINS) },
-            },
-        },
-        Source: SES_FROM_ADDRESS,
-    });
-
-try {
-    let response = await ses.send(command)
-    // process data.
-    return response
-}
-catch (error) {
-    console.log(error)
-    // error handling.
-    return error
-}
-
+	try {
+		let response = await ses.send(command)
+		// process data.
+		return response
+	} catch (error) {
+		console.log(error)
+		// error handling.
+		return error
+	}
 }

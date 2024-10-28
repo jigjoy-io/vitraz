@@ -1,1 +1,1 @@
-export * from './upload-document'
+export * from "./upload-document"

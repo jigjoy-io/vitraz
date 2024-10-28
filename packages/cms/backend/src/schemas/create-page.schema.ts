@@ -1,89 +1,86 @@
-
 export const schema = {
-	type: 'object',
-	required: [
-		'type'
-	],
-	discriminator: { propertyName: 'type' },
+	type: "object",
+	required: ["type"],
+	discriminator: { propertyName: "type" },
 	oneOf: [
 		{
 			properties: {
 				id: {
-					type: 'string',
+					type: "string",
 				},
 				name: {
-					type: 'string',
+					type: "string",
 				},
 				origin: {
-					type: 'string',
+					type: "string",
 				},
 				created: {
-					type: 'string',
+					type: "string",
 				},
 				updated: {
-					type: 'string',
+					type: "string",
 				},
-				type: { 
-					enum: ['blank'] 
+				type: {
+					enum: ["blank"],
 				},
 				environment: {
-					enum: ['production', 'development'] 
+					enum: ["production", "development"],
 				},
 				linkedPageId: {
-					type: ['string', 'null'],
+					type: ["string", "null"],
 				},
 				config: {
-					type: 'object',
+					type: "object",
 					properties: {
 						buildingBlocks: {
-							type: 'array'
-						}
+							type: "array",
+						},
 					},
-					required: ['buildingBlocks']
-				}
+					required: ["buildingBlocks"],
+				},
 			},
-			required: ['config', 'origin', 'environment', 'linkedPageId'],
+			required: ["config", "origin", "environment", "linkedPageId"],
 		},
 		{
 			properties: {
 				id: {
-					type: 'string',
+					type: "string",
 				},
 				name: {
-					type: 'string',
+					type: "string",
 				},
 				origin: {
-					type: 'string',
+					type: "string",
 				},
 				created: {
-					type: 'string',
+					type: "string",
 				},
 				updated: {
-					type: 'string',
+					type: "string",
 				},
-				type: { 
-					enum: ['carousel'] 
+				type: {
+					enum: ["carousel"],
 				},
 				environment: {
-					enum: ['production', 'development'] 
+					enum: ["production", "development"],
 				},
 				linkedPageId: {
-					type: ['string', 'null'],
+					type: ["string", "null"],
 				},
 				config: {
-					type: 'object',
+					type: "object",
 					properties: {
 						pages: {
-							type: 'array',
+							type: "array",
 							items: {
-								type: 'object'
-							}
-						}
+								type: "object",
+							},
+						},
 					},
-					required: ['pages']
-				}
+					required: ["pages"],
+				},
 			},
-			required: ['config', 'origin', 'environment', 'linkedPageId'],
+			required: ["config", "origin", "environment", "linkedPageId"],
 		},
-	]
+	],
 }

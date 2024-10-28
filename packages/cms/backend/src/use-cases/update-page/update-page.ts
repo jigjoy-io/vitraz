@@ -1,5 +1,5 @@
 import { Page } from "@domain/page/page"
-import {  ReturnPageDto, UpdatePageDto } from "@dto/page/page"
+import { ReturnPageDto, UpdatePageDto } from "@dto/page/page"
 import { retrievePage } from "@repositories/retrieve-page-repository"
 import { updatePage } from "@repositories/update-page-repository/update-page-repository"
 
@@ -9,15 +9,14 @@ import { updatePage } from "@repositories/update-page-repository/update-page-rep
  * @returns {Promise<ReturnPageDto>} A promise that resolves to the updated page data.
  */
 export async function updatePageUseCase(page: UpdatePageDto): Promise<ReturnPageDto> {
+	// throws error if page not exists
+	const retrievedPage: Page = await retrievePage(page.id)
 
-    // throws error if page not exists
-    const retrievedPage: Page = await retrievePage(page.id)
+	// validates new page schema
+	let pageToUpdate: Page = Page.update(page, retrievedPage)
 
-    // validates new page schema
-    let pageToUpdate: Page = Page.update(page, retrievedPage)
+	// save new page
+	let updatedPage = await updatePage(pageToUpdate)
 
-    // save new page
-    let updatedPage = await updatePage(pageToUpdate)
-
-    return updatedPage.toOutputDto()
+	return updatedPage.toOutputDto()
 }

@@ -1,41 +1,41 @@
 const Responses = {
-    _DefineResponse(statusCode = 502, data = {}) {
-        return {
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Methods': 'POST, PUT, GET, DELETE, OPTIONS',
-                'Access-Control-Allow-Origin': '*',
-            },
-            statusCode,
-            body: JSON.stringify(data),
-        }
-    },
+	_DefineResponse(statusCode = 502, data = {}) {
+		return {
+			headers: {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Methods": "POST, PUT, GET, DELETE, OPTIONS",
+				"Access-Control-Allow-Origin": "*",
+			},
+			statusCode,
+			body: JSON.stringify(data),
+		}
+	},
 
-    _200(data = {}) {
-        return this._DefineResponse(200, data)
-    },
+	_200(data = {}) {
+		return this._DefineResponse(200, data)
+	},
 
-    _201(data = {}) {
-        return this._DefineResponse(201, data)
-    },
+	_201(data = {}) {
+		return this._DefineResponse(201, data)
+	},
 
-    _202(data = {}) {
-        return this._DefineResponse(202, data)
-    },
+	_202(data = {}) {
+		return this._DefineResponse(202, data)
+	},
 
-    _204(data = {}) {
-        return this._DefineResponse(204, data)
-    },
+	_204(data = {}) {
+		return this._DefineResponse(204, data)
+	},
 
-    _400(data = {}) {
-        return this._DefineResponse(400, data)
-    },
-    _404(data = {}) {
-        return this._DefineResponse(404, data)
-    },
-    _500(data = {}) {
-        return this._DefineResponse(500, data)
-    },
+	_400(data = {}) {
+		return this._DefineResponse(400, data)
+	},
+	_404(data = {}) {
+		return this._DefineResponse(404, data)
+	},
+	_500(data = {}) {
+		return this._DefineResponse(500, data)
+	},
 }
 
 export default Responses
