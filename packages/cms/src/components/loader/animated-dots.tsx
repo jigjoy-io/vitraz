@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react"
 
 const AnimatedDots = () => {
-    const [activeDotIndex, setActiveDotIndex] = useState(0)
+	const [activeDotIndex, setActiveDotIndex] = useState(0)
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setActiveDotIndex((prevIndex) => (prevIndex + 1) % 4)
-        }, 500)
-        return () => clearInterval(interval)
-    }, [])
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setActiveDotIndex((prevIndex) => (prevIndex + 1) % 4)
+		}, 500)
+		return () => clearInterval(interval)
+	}, [])
 
-    return (
-        <span className="inline-flex items-center pb-[5px]">
-            {[0, 1, 2].map((index) => (
-                <span
-                    key={index}
-                    className={`
+	return (
+		<span className="inline-flex items-center pb-[5px]">
+			{[0, 1, 2].map((index) => (
+				<span
+					key={index}
+					className={`
             inline-block 
             bg-dot-color 
             rounded-full 
@@ -25,12 +25,12 @@ const AnimatedDots = () => {
             transition-opacity 
             duration-300 
             ease-in-out 
-            ${index < activeDotIndex ? 'opacity-100' : 'opacity-20'}
+            ${index < activeDotIndex ? "opacity-100" : "opacity-20"}
           `}
-                />
-            ))}
-        </span>
-    )
+				/>
+			))}
+		</span>
+	)
 }
 
-export default AnimatedDots;
+export default AnimatedDots

@@ -16,76 +16,79 @@ import ColorIcon from "../../../../icons/color-icon"
 import { store } from "../../../../util/store"
 
 let localization = new LocalizedStrings({
-    US: {
-        rename: "Rename",
-        editImage: "Image",
-        editDescription: "Description",
-        editCta: "Call-to-acition",
-        editColor: "Color",
-        editButtons: "Navigation Buttons"
-    },
-    RS: {
-        rename: "Preimenuj",
-        editImage: "Slika",
-        editDescription: "Opis",
-        editCta: "Poziv na akciju",
-        editColor: "Boja",
-        editButtons: "Dugmad za navigaciju"
-    }
+	US: {
+		rename: "Rename",
+		editImage: "Image",
+		editDescription: "Description",
+		editCta: "Call-to-acition",
+		editColor: "Color",
+		editButtons: "Navigation Buttons",
+	},
+	RS: {
+		rename: "Preimenuj",
+		editImage: "Slika",
+		editDescription: "Opis",
+		editCta: "Poziv na akciju",
+		editColor: "Boja",
+		editButtons: "Dugmad za navigaciju",
+	},
 })
 
 export default class EditableCarouselTile extends EditableBlock {
+	getEditingOptions() {
+		return [
+			{
+				name: localization.rename,
+				icon: RenameIcon,
+				key: "title",
+				editor: TextEditor,
+			},
+			{
+				name: localization.editImage,
+				icon: ImageIcon,
+				key: "image",
+				editor: ImageEditor,
+			},
+			{
+				name: localization.editDescription,
+				icon: DescriptionIcon,
+				key: "description",
+				editor: TextAreaEditor,
+			},
+			{
+				name: localization.editCta,
+				icon: CTAIcon,
+				key: "cta",
+				editor: TextEditor,
+			},
+			{
+				name: localization.editButtons,
+				icon: NavigationArrowIcon,
+				key: "buttons",
+				editor: ButtonEditor,
+			},
+			{
+				name: localization.editColor,
+				icon: ColorIcon,
+				key: "color",
+				editor: ColorEditor,
+			},
+		]
+	}
 
-    getEditingOptions() {
-        return [{
-            name: localization.rename,
-            icon: RenameIcon,
-            key: 'title',
-            editor: TextEditor
-        }, {
-            name: localization.editImage,
-            icon: ImageIcon,
-            key: 'image',
-            editor: ImageEditor
-        }, {
-            name: localization.editDescription,
-            icon: DescriptionIcon,
-            key: 'description',
-            editor: TextAreaEditor
-        }, {
-            name: localization.editCta,
-            icon: CTAIcon,
-            key: 'cta',
-            editor: TextEditor
-        }, {
-            name: localization.editButtons,
-            icon: NavigationArrowIcon,
-            key: 'buttons',
-            editor: ButtonEditor
-        }, {
-            name: localization.editColor,
-            icon: ColorIcon,
-            key: 'color',
-            editor: ColorEditor
-        }]
-    }
+	addToolbar(props: any) {
+		const state = store.getState()
+		localization.setLanguage(state.localization.language)
 
-    addToolbar(props: any) {
-        const state = store.getState()
-        localization.setLanguage(state.localization.language)
+		this.block = (
+			<Toolbar id={props.id} block={props} editingOptions={this.getEditingOptions()} blockRadius="rounded-[20px]">
+				{this.block}
+			</Toolbar>
+		)
+		return this
+	}
 
-        this.block = <Toolbar id={props.id} block={props} editingOptions={this.getEditingOptions()} blockRadius="rounded-[20px]">{this.block}</Toolbar>
-        return this
-    }
-
-    get(props: any): any {
-
-        return this.setBlock(props)
-            .addToolbar(props)
-            .addGap(props)
-            .block
-    }
-
-
-
-} 
+	get(props: any): any {
+		return this.setBlock(props).addToolbar(props).addGap(props).block
+	}
+}

@@ -1,21 +1,23 @@
 const path = require('path')
 const { merge } = require('webpack-merge')
-const webpackBaseConfig = require('./webpack.base')
+const rspackBaseConfig = require('./rspack.base');
 
-module.exports = merge(webpackBaseConfig, {
-	mode: "development",
-	devtool: "eval-source-map",
-	cache: false,
+// @ts-ignore
+module.exports = merge(rspackBaseConfig, {
+	mode: 'production',
+	cache: true,
 	optimization: {
-		minimize: false,
+		minimize: true,
 	},
 	devServer: {
 		static: {
 			directory: path.join(__dirname, "../dist"),
 		},
+		client: {
+			overlay: false
+		},
 		port: 3000,
-		hot: true,
-		compress: false,
+		compress: true,
 		historyApiFallback: true,
 	},
 })

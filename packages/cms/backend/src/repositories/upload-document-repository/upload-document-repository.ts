@@ -23,9 +23,8 @@ export async function uploadDocument(file: { filename: string; content: Buffer; 
 	}
 
 	try {
-		const result = await s3.send(new PutObjectCommand(params))
+		await s3.send(new PutObjectCommand(params))
 		const fileUrl = `https://${params.Bucket}.s3.amazonaws.com/${params.Key}`
-		console.log('Upload result:', result)
 		return fileUrl
 	} catch (error) {
 		console.error('S3 file upload error:', error)

@@ -1,35 +1,27 @@
-import {
-	createFileRoute,
-	useSearch,
-} from '@tanstack/react-router'
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { accessPage } from '../api/page'
-import Page from '../components/page'
-import {
-	modeUpdated,
-	pageUpdated,
-	rootPageUpdated,
-} from '../reducers/page-reducer'
-import Loader from '../components/loader/loader'
-import { PostError } from '../util/errors/post-error'
-import LocalizedStrings from 'react-localization'
-import { languageUpdated } from '../reducers/localization-reducer'
-import { useLanguage } from '../util/store'
+import { createFileRoute, useSearch } from "@tanstack/react-router"
+import React, { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { accessPage } from "../api/page"
+import Page from "../components/page"
+import { modeUpdated, pageUpdated, rootPageUpdated } from "../reducers/page-reducer"
+import Loader from "../components/loader/loader"
+import { PostError } from "../util/errors/post-error"
+import LocalizedStrings from "react-localization"
+import { languageUpdated } from "../reducers/localization-reducer"
+import { useLanguage } from "../util/store"
 
 let localization = new LocalizedStrings({
 	US: {
-		loadingMessage: 'The page is loading',
-		pageNotFoundMessage: 'Page not found or is not published yet.',
+		loadingMessage: "The page is loading",
+		pageNotFoundMessage: "Page not found or is not published yet.",
 	},
 	RS: {
-		loadingMessage: 'Stranica se učitava',
-		pageNotFoundMessage:
-			'Stranica nije pronađena ili nije postavljena na produkciju.',
+		loadingMessage: "Stranica se učitava",
+		pageNotFoundMessage: "Stranica nije pronađena ili nije postavljena na produkciju.",
 	},
 })
 
-export const Route = createFileRoute('/$pageId' as never)({
+export const Route = createFileRoute("/$pageId" as never)({
 	loader: async ({ params: { pageId } }) => {
 		try {
 			return await accessPage(pageId, localization.pageNotFoundMessage)
@@ -72,7 +64,7 @@ function PageDisplay() {
 	useEffect(() => {
 		dispatch(rootPageUpdated(page))
 		dispatch(pageUpdated(page))
-		dispatch(modeUpdated('visiting'))
+		dispatch(modeUpdated("visiting"))
 	}, [page, dispatch])
 
 	return <Page />

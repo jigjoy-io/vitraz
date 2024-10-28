@@ -1,0 +1,50 @@
+name: Deploy Frontend
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/cms
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: NodeJs Setup
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo REACT_APP_API=${{secrets.REACT_APP_API}} >> .env
+          echo REACT_APP_USER_POOL_ID=${{secrets.REACT_APP_USER_POOL_ID}} >> .env
+          echo REACT_APP_USER_POOL_WEB_CLIENT_ID=${{secrets.REACT_APP_USER_POOL_WEB_CLIENT_ID}} >> .env
+          echo REACT_APP_PUBLIC_POSTHOG_KEY=${{secrets.REACT_APP_PUBLIC_POSTHOG_KEY}} >> .env
+          echo REACT_APP_PUBLIC_POSTHOG_HOST=${{secrets.REACT_APP_PUBLIC_POSTHOG_HOST}} >> .env
+          echo REACT_APP_JIGJOY_TUTORIAL=${{secrets.REACT_APP_JIGJOY_TUTORIAL}} >> .env
+          cat .env
+          
+      - name: Dependency Installation
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Config AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with: 
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+      
+      - name: Deploy to AWS S3
+        run: aws s3 sync dist/ s3://${{ secrets.BUCKET_NAME }} --exclude 'assets/*' --delete

@@ -1,21 +1,19 @@
 import React from "react"
 import BlockFactory from "./block-factory"
-import gaps from './../style-helper/gaps'
+import gaps from "./../style-helper/gaps"
 
 export default class PlainBlockFactory extends React.Component {
+	static validBlocks = ["text", "heading", "title", "image", "question", "profile", "carousel-tile", "page-tile", "reel", "message", "audio", "cta"]
 
-    static validBlocks = ["text", "heading", "title", "image", "question", "profile", "carousel-tile", "page-tile", "reel", "message", "audio", "cta"]
+	static getBlock(props: any) {
+		let validBlock = this.validBlocks.includes(props.type)
+		let block = <></>
 
-    static getBlock(props: any) {
+		if (validBlock) {
+			block = BlockFactory.get(props)
+			block = <div className={`${gaps[props.type]}`}>{block}</div>
+		}
 
-        let validBlock = this.validBlocks.includes(props.type)
-        let block = <></>
-        
-        if(validBlock){
-            block = BlockFactory.get(props)
-            block = <div className={`${gaps[props.type]}`}>{block}</div>
-        }
-        
-        return block
-    }
+		return block
+	}
 }

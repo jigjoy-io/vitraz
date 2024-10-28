@@ -1,1 +1,1 @@
-export class FileTooLargeError extends Error { }
+export class FileTooLargeError extends Error {}

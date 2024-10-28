@@ -5,43 +5,36 @@ import Button from "../button/button"
 import Item from "../item/item"
 
 function QuestionAnswers(props: any) {
+	const [selected, setSelected] = useState({} as any)
+	const [alert, setAlert] = useState({})
+	const [answered, setAnswered] = useState(false)
 
-    const [selected, setSelected] = useState({} as any)
-    const [alert, setAlert] = useState({})
-    const [answered, setAnswered] = useState(false)
+	const selectAnswer = (event, outcome: any) => {
+		setAnswered(false)
+		setSelected(outcome)
+	}
 
-    const selectAnswer = (event, outcome: any) => {
-        setAnswered(false)
-        setSelected(outcome)
-    }
+	const checkAnswer = () => {
+		if (selected.correct) {
+			setAlert(props.outcomes.correct)
+			setAnswered(true)
+		} else {
+			setAlert(props.outcomes.incorrect)
+			setAnswered(true)
+		}
+	}
 
-    const checkAnswer = () => {
+	return (
+		<div className="flex flex-col gap-3 mt-3" key={props.id}>
+			{props.answers.map((answer: any) => (
+				<Item tabFocus={false} borderOn={true} {...answer} answered={answered} selected={selected.id} action={selectAnswer} />
+			))}
 
-        if (selected.correct) {
-            setAlert(props.outcomes.correct)
-            setAnswered(true)
-        } else {
-            setAlert(props.outcomes.incorrect)
-            setAnswered(true)
-        }
+			{answered && <Alert {...alert} />}
 
-
-    }
-
-    return (
-
-        <div className='flex flex-col gap-3 mt-3' key={props.id}>
-
-            {props.answers.map((answer: any) => <Item tabFocus={false} borderOn={true} {...answer} answered={answered} selected={selected.id} action={selectAnswer} />)}
-
-            {answered && <Alert  {...alert} />}
-
-            {!answered && <Button text={props.outcomes.confirmationButtonText} key={selected.id} width="w-full" color={selected != null ? "secondary" : "default"} action={checkAnswer} disabled={selected.id == null} />}
-
-        </div>
-    )
-
+			{!answered && <Button text={props.outcomes.confirmationButtonText} key={selected.id} width="w-full" color={selected != null ? "secondary" : "default"} action={checkAnswer} disabled={selected.id == null} />}
+		</div>
+	)
 }
 
 export default QuestionAnswers
-

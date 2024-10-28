@@ -1,48 +1,43 @@
-import React, { useEffect, useState } from 'react'
-import Button from '../button/button'
-import Grid from '../grid/grid'
+import React, { useEffect, useState } from "react"
+import Button from "../button/button"
+import Grid from "../grid/grid"
 import { useDispatch } from "react-redux"
-import Tile from '../tile/tile'
-import { pageUpdated } from '../../reducers/page-reducer'
+import Tile from "../tile/tile"
+import { pageUpdated } from "../../reducers/page-reducer"
 
 export default function PageTile(props: any) {
+	const [color, setColor] = useState("")
+	const [cta, setCta] = useState(props.cta)
+	const dispatch = useDispatch()
 
-    const [color, setColor] = useState('')
-    const [cta, setCta] = useState(props.cta)
-    const dispatch = useDispatch()
+	useEffect(() => {
+		setColor(props.color)
+	}, [props.color])
 
-    useEffect(() => {
-        setColor(props.color)
-    }, [props.color])
+	useEffect(() => {
+		setCta(props.cta)
+	}, [props.cta])
 
-    useEffect(() => {
-        setCta(props.cta)
-    }, [props.cta])
+	const load = () => {
+		dispatch(pageUpdated(props.page))
+	}
 
-    const load = () => {
-        dispatch(pageUpdated(props.page))
-    }
+	return (
+		<Tile color={color}>
+			{props.image && (
+				<div className={`${props.title || props.description ? "mb-4" : "mb-20"} px-1 block`}>
+					<img className="float-right rounded-lg" height={128} width={128} src={props.image} />
+				</div>
+			)}
 
-    return (
-        <Tile color={color}>
+			<div className="font-bold text-xl">{props.title}</div>
 
-            {props.image && (
-                <div className={`${(props.title || props.description) ? 'mb-4' : 'mb-20'} px-1 block`}>
-                    <img className="float-right rounded-lg" height={128} width={128} src={props.image} />
-                </div>
-            )}
-
-            <div className='font-bold text-xl'>{props.title}</div>
-
-            {props.description && <div className='pt-4 text-xl'>{props.description}</div>}
-            <div className='pt-4'>
-
-                <Grid numberOfCols={1}>
-                    <Button text={cta} color="primary" action={load} />
-                </Grid>
-            </div>
-
-        </Tile>
-    )
-
+			{props.description && <div className="pt-4 text-xl">{props.description}</div>}
+			<div className="pt-4">
+				<Grid numberOfCols={1}>
+					<Button text={cta} color="primary" action={load} />
+				</Grid>
+			</div>
+		</Tile>
+	)
 }

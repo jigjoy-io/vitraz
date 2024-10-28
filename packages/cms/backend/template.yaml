@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  store-backend
+  icd-services
 
 Transform:
   - AWS::Serverless-2016-10-31
@@ -13,169 +13,6 @@ Globals:
       AllowOrigin: "'*'"
 
 Resources:
-  DefineAuthChallenge:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/auth/define-auth-challenge/define-auth-challenge.defineAuthChallengeHandler
-      Runtime: nodejs20.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-    Metadata: #Manage esbuild properties
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/auth/define-auth-challenge/define-auth-challenge.ts
-
-  UserPoolDefineAuthChallengeLambdaPermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:invokeFunction
-      Principal: cognito-idp.amazonaws.com
-      FunctionName: !GetAtt DefineAuthChallenge.Arn
-      SourceArn: !GetAtt JigJoyUserPool.Arn
-
-  CreateAuthChallenge:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/auth/create-auth-challenge/create-auth-challenge.createAuthChallengeHandler
-      Runtime: nodejs20.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-    Metadata: #Manage esbuild properties
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/auth/create-auth-challenge/create-auth-challenge.ts
-
-  UserPoolCreateAuthChallengeLambdaPermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:invokeFunction
-      Principal: cognito-idp.amazonaws.com
-      FunctionName: !GetAtt CreateAuthChallenge.Arn
-      SourceArn: !GetAtt JigJoyUserPool.Arn
-
-  VerifyAuthChallengeResponse:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/auth/verify-auth-challenge-response/verify-auth-challenge-response.verifyAuthChallengeResponseHandler
-      Runtime: nodejs20.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Environment:
-        Variables:
-          KMS_KEY_ID: !Ref EncryptionKey
-      Policies:
-        - Version: "2012-10-17"
-          Statement:
-            - Effect: Allow
-              Action: kms:Decrypt
-              Resource: !GetAtt EncryptionKey.Arn
-    Metadata: #Manage esbuild properties
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/auth/verify-auth-challenge-response/verify-auth-challenge-response.ts
-
-  UserPoolVerifyAuthChallengeResponseLambdaPermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:invokeFunction
-      Principal: cognito-idp.amazonaws.com
-      FunctionName: !GetAtt VerifyAuthChallengeResponse.Arn
-      SourceArn: !GetAtt JigJoyUserPool.Arn
-
-  PreSignUp:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/auth/pre-sign-up/pre-sign-up.preSignUpHandler
-      Runtime: nodejs20.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-    Metadata: #Manage esbuild properties
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/auth/pre-sign-up/pre-sign-up.ts
-
-  UserPoolPreSignUpLambdaPermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:invokeFunction
-      Principal: cognito-idp.amazonaws.com
-      FunctionName: !GetAtt PreSignUp.Arn
-      SourceArn: !GetAtt JigJoyUserPool.Arn
-
-  PostAuthentication:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/auth/post-authentication/post-authentication.postAuthenticationHandler
-      Runtime: nodejs20.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Policies:
-      - Statement:
-        - Sid: AttributesUpdate
-          Effect: Allow
-          Action:
-          - cognito-idp:AdminUpdateUserAttributes
-          Resource: '*'
-    Metadata: #Manage esbuild properties
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/auth/post-authentication/post-authentication.ts
-
-  UserPoolPostAuthenticationLambdaPermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:invokeFunction
-      Principal: cognito-idp.amazonaws.com
-      FunctionName: !GetAtt PostAuthentication.Arn
-      SourceArn: !GetAtt JigJoyUserPool.Arn
-
-  EncryptionKey:
-    Type: AWS::KMS::Key
-    Properties:
-      Enabled: true
-      EnableKeyRotation: true
-      KeyPolicy:
-        Version: "2012-10-17"
-        Id: key-default-1
-        Statement:
-          - Sid: Enable IAM User Permissions
-            Effect: Allow
-            Principal:
-              AWS: !Sub arn:aws:iam::${AWS::AccountId}:root
-            Action: kms:*
-            Resource: "*"
-      MultiRegion: false
-      PendingWindowInDays: 7
 
   # User Pool
   JigJoyUserPool:
@@ -207,7 +44,7 @@ Resources:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
       UserPoolId: !Ref JigJoyUserPool
-      Domain: "jigjoy-user-pool-domain"
+      Domain: '{{resolve:secretsmanager:vars:SecretString:UserPoolDomain}}'
 
   # Web Client
   WebClient:
@@ -219,6 +56,170 @@ Resources:
         - ALLOW_CUSTOM_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
       PreventUserExistenceErrors: ENABLED
+
+  DefineAuthChallenge:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/auth/define-auth-challenge/define-auth-challenge.defineAuthChallengeHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+    Metadata: #Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/auth/define-auth-challenge/define-auth-challenge.ts
+
+  CreateAuthChallenge:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/auth/create-auth-challenge/create-auth-challenge.createAuthChallengeHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+    Metadata: #Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/auth/create-auth-challenge/create-auth-challenge.ts
+
+  VerifyAuthChallengeResponse:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/auth/verify-auth-challenge-response/verify-auth-challenge-response.verifyAuthChallengeResponseHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Environment:
+        Variables:
+          KMS_KEY_ID: !Ref EncryptionKey
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action: kms:Decrypt
+              Resource: !GetAtt EncryptionKey.Arn
+    Metadata: #Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/auth/verify-auth-challenge-response/verify-auth-challenge-response.ts
+
+  PreSignUp:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/auth/pre-sign-up/pre-sign-up.preSignUpHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+    Metadata: #Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/auth/pre-sign-up/pre-sign-up.ts
+
+  PostAuthentication:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/auth/post-authentication/post-authentication.postAuthenticationHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Policies:
+      - Statement:
+        - Sid: AttributesUpdate
+          Effect: Allow
+          Action:
+          - cognito-idp:AdminUpdateUserAttributes
+          Resource: '*'
+    Metadata: #Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/auth/post-authentication/post-authentication.ts
+
+  UserPoolCreateAuthChallengeLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      Principal: cognito-idp.amazonaws.com
+      FunctionName: !GetAtt CreateAuthChallenge.Arn
+      SourceArn: !GetAtt JigJoyUserPool.Arn
+
+  UserPoolVerifyAuthChallengeResponseLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      Principal: cognito-idp.amazonaws.com
+      FunctionName: !GetAtt VerifyAuthChallengeResponse.Arn
+      SourceArn: !GetAtt JigJoyUserPool.Arn
+
+  UserPoolDefineAuthChallengeLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      Principal: cognito-idp.amazonaws.com
+      FunctionName: !GetAtt DefineAuthChallenge.Arn
+      SourceArn: !GetAtt JigJoyUserPool.Arn
+
+  UserPoolPreSignUpLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      Principal: cognito-idp.amazonaws.com
+      FunctionName: !GetAtt PreSignUp.Arn
+      SourceArn: !GetAtt JigJoyUserPool.Arn
+
+  UserPoolPostAuthenticationLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      Principal: cognito-idp.amazonaws.com
+      FunctionName: !GetAtt PostAuthentication.Arn
+      SourceArn: !GetAtt JigJoyUserPool.Arn
+
+  EncryptionKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Enabled: true
+      EnableKeyRotation: true
+      KeyPolicy:
+        Version: "2012-10-17"
+        Id: key-default-1
+        Statement:
+          - Sid: Enable IAM User Permissions
+            Effect: Allow
+            Principal:
+              AWS: !Sub arn:aws:iam::${AWS::AccountId}:root
+            Action: kms:*
+            Resource: "*"
+      MultiRegion: false
+      PendingWindowInDays: 7
 
   sendMagicLinkFunction:
     Type: AWS::Serverless::Function
@@ -235,7 +236,7 @@ Resources:
           KMS_KEY_ID: !Ref EncryptionKey
           USER_POOL_ID: !Ref JigJoyUserPool
           SES_FROM_ADDRESS: team@jigjoy.io
-          BASE_URL: http://jigjoy-dev.s3-website-eu-west-1.amazonaws.com
+          BASE_URL: '{{resolve:secretsmanager:vars:SecretString:FrontendUrl}}'
       Policies:
         - Version: "2012-10-17"
           Statement:
@@ -298,37 +299,6 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - src/adapters/primary/create-page/create-page-adapter.ts
-
-  migrationOldFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/adapters/primary/migration/migration-profilev2.migrateProfileV2Handler
-      Runtime: nodejs20.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Migrate pages
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref PageTable
-      Environment:
-        Variables:
-          PAGE_TABLE: !Ref PageTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /migrate
-            Method: POST
-    Metadata: #Manage esbuild properties
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/adapters/primary/migration/migration-profilev2.ts
 
   retrievePageFunction:
     Type: AWS::Serverless::Function

@@ -3,14 +3,15 @@ import { createRootRoute, Outlet } from "@tanstack/react-router"
 import { useLanguage } from "../util/store"
 
 export const Route = createRootRoute({
-    component: RootRoute
+	component: RootRoute,
 })
 
 function RootRoute() {
-    const lang = useLanguage()
+	const lang = useLanguage()
 
-    return <div key={lang}>
-        <Outlet />
-    </div>
+	return (
+		<div key={lang}>
+			<Outlet />
+		</div>
+	)
 }
-

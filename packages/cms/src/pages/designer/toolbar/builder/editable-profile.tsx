@@ -14,86 +14,87 @@ import ColorIcon from "../../../../icons/color-icon"
 import { store } from "../../../../util/store"
 
 let localization = new LocalizedStrings({
-    US: {
-        editFristName: "First Name",
-        editLastName: "Last Name",
-        editUsername: "Username",
-        editImage: "Image",
-        editDescription: "Description",
-        editColor: "Color"
-    },
-    RS: {
-        editFristName: "Ime",
-        editLastName: "Prezime",
-        editUsername: "Korisničko ime",
-        editImage: "Slika",
-        editDescription: "Opis",
-        editColor: "Boja"
-    }
+	US: {
+		editFristName: "First Name",
+		editLastName: "Last Name",
+		editUsername: "Username",
+		editImage: "Image",
+		editDescription: "Description",
+		editColor: "Color",
+	},
+	RS: {
+		editFristName: "Ime",
+		editLastName: "Prezime",
+		editUsername: "Korisničko ime",
+		editImage: "Slika",
+		editDescription: "Opis",
+		editColor: "Boja",
+	},
 })
 export default class EditableProfile extends EditableBlock {
+	getEditingOptions() {
+		return [
+			{
+				name: localization.editFristName,
+				icon: RenameIcon,
+				key: "firstName",
+				editor: LimitedTextEditor,
+				extraProps: {
+					limit: 20,
+				},
+			},
+			{
+				name: localization.editLastName,
+				icon: RenameIcon,
+				key: "lastName",
+				editor: LimitedTextEditor,
+				extraProps: {
+					limit: 20,
+				},
+			},
+			{
+				name: localization.editUsername,
+				icon: ProfileIcon,
+				key: "username",
+				editor: LimitedTextEditor,
+				extraProps: {
+					limit: 20,
+				},
+			},
+			{
+				name: localization.editImage,
+				icon: ImageIcon,
+				key: "image",
+				editor: ImageEditor,
+			},
+			{
+				name: localization.editDescription,
+				key: "description",
+				icon: DescriptionIcon,
+				editor: TextAreaEditor,
+			},
+			{
+				name: localization.editColor,
+				icon: ColorIcon,
+				editor: ColorEditor,
+				key: "color",
+			},
+		]
+	}
 
-    getEditingOptions() {
-        return [{
-            name: localization.editFristName,
-            icon: RenameIcon,
-            key: 'firstName',
-            editor: LimitedTextEditor,
-            extraProps: {
-                limit: 20
-            }
-        }, {
-            name: localization.editLastName,
-            icon: RenameIcon,
-            key: 'lastName',
-            editor: LimitedTextEditor,
-            extraProps: {
-                limit: 20
-            }
-        }, {
-            name: localization.editUsername,
-            icon: ProfileIcon,
-            key: 'username',
-            editor: LimitedTextEditor,
-            extraProps: {
-                limit: 20
-            }
-        }, {
-            name: localization.editImage,
-            icon: ImageIcon,
-            key: 'image',
-            editor: ImageEditor
-        }, {
-            name: localization.editDescription,
-            key: 'description',
-            icon: DescriptionIcon,
-            editor: TextAreaEditor
-        }, {
-            name: localization.editColor,
-            icon: ColorIcon,
-            editor: ColorEditor,
-            key: 'color'
-        }]
+	addToolbar(props: any) {
+		const state = store.getState()
+		localization.setLanguage(state.localization.language)
 
-    }
+		this.block = (
+			<Toolbar id={props.id} block={props} editingOptions={this.getEditingOptions()}>
+				<div>{this.block}</div>
+			</Toolbar>
+		)
+		return this
+	}
 
-    addToolbar(props: any) {
-
-        const state = store.getState()
-        localization.setLanguage(state.localization.language)
-
-        this.block = <Toolbar id={props.id} block={props} editingOptions={this.getEditingOptions()}><div>{this.block}</div></Toolbar>
-        return this
-    }
-
-    get(props: any): any {
-
-        return this.setBlock(props)
-            .addToolbar(props)
-            .addGap(props)
-            .block
-    }
-
-
-
-} 
+	get(props: any): any {
+		return this.setBlock(props).addToolbar(props).addGap(props).block
+	}
+}

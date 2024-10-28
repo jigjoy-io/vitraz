@@ -1,27 +1,24 @@
-
 function deleteFromBlankPage(page: any, blockId: any) {
-    page.config.buildingBlocks = page.config.buildingBlocks.filter((block: any) => block.id !== blockId)
-    return page
+	page.config.buildingBlocks = page.config.buildingBlocks.filter((block: any) => block.id !== blockId)
+	return page
 }
 
 function deleteFromCarouselPage(page: any, blockId: any) {
+	for (let i = 0; i < page.config.pages.length; i++) {
+		page.config.pages[i].config.buildingBlocks = page.config.pages[i].config.buildingBlocks.filter((b: any) => b.id !== blockId)
+	}
 
-    for (let i = 0; i < page.config.pages.length; i++) {
-        page.config.pages[i].config.buildingBlocks = page.config.pages[i].config.buildingBlocks.filter((b: any) => b.id !== blockId)
-    }
-
-    return page
+	return page
 }
 export function deleteBlock(page: any, blockId: any) {
-
-    //TODO: REMOVE AFTER REFACTORE
-    delete page.root
-    delete page.ident
-    delete page.mode
-    if (page.type == 'blank') {
-        page = deleteFromBlankPage(page, blockId)
-    } else if (page.type == 'carousel') {
-        page = deleteFromCarouselPage(page, blockId)
-    }
-    return page
+	//TODO: REMOVE AFTER REFACTORE
+	delete page.root
+	delete page.ident
+	delete page.mode
+	if (page.type == "blank") {
+		page = deleteFromBlankPage(page, blockId)
+	} else if (page.type == "carousel") {
+		page = deleteFromCarouselPage(page, blockId)
+	}
+	return page
 }
