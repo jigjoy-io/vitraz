@@ -27,7 +27,7 @@ export default function Button(props: any) {
 	return (
 		<button
 			tabIndex={-1}
-			className={`${color} ${width} ${props.size == "sm" ? "p-1 px-3 rounded-md font-bold" : "p-3 font-bold rounded-lg text-ellipsis text-nowrap overflow-hidden"} ${!props.disabled && "cursor-pointer"} active:opacity-80 md:hover:opacity-80 touch-manipulation`}
+			className={`${color} ${width} ${props.size == "sm" ? "p-1 px-3 rounded-[5px] font-bold" : "p-2 font-bold rounded-[5px] text-ellipsis text-nowrap overflow-hidden"} ${!props.disabled && "cursor-pointer"} active:opacity-80 md:hover:opacity-80`}
 			onClick={(e) => {
 				props.action()
 			}}

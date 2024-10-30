@@ -53,7 +53,7 @@ export default function PageContent(props: any) {
 	return (
 		<>
 			{blocks != null && (
-				<div className="bg-[white] h-full rounded-lg flex flex-col break-words">
+				<div className="bg-[white] h-full flex flex-col break-words">
 					<div>
 						<LazyMotion features={loadFeatures}>
 							<m.div variants={animation} initial="hidden" animate="show">

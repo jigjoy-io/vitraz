@@ -68,7 +68,7 @@ export default function CarouselPage(props: any) {
 					<div className="flex flex-col w-[100%] max-w-[400px]">
 						<div className="flex flex-row p-3">
 							<Progress percentage={percentage} />
-							<div className="w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer" onClick={backToHome}>
+							<div className="w-max bg-primary-light border-2 border-primary p-1 rounded-[5px] cursor-pointer" onClick={backToHome}>
 								<CloseIcon />
 							</div>
 						</div>

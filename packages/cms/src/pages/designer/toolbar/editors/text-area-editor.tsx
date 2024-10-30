@@ -26,7 +26,7 @@ export default function TextAreaEditor(props: any) {
 
 	return (
 		<div className="flex flex-col p-2">
-			<textarea className="p-2 rounded-lg border w-[400px] mb-2" value={value} onChange={(event) => setValue(event.target.value)} />
+			<textarea className="p-2 rounded-[5px] border w-[400px] mb-2" value={value} onChange={(event) => setValue(event.target.value)} />
 			<Button text={localization.update} action={update} />
 		</div>
 	)

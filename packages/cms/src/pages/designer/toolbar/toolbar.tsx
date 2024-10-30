@@ -53,7 +53,7 @@ export default function Toolbar(props: any) {
 	const [on, setOn] = useState(false)
 	const [editor, setEditor] = useState<any>(null)
 	const [toolbarVisible, setToolbarVisibility] = useState(false)
-	const [blockRadius, setBlockRadius] = useState(props.blockRadius ? props.blockRadius : "rounded-lg")
+	const [blockRadius, setBlockRadius] = useState(props.blockRadius ? props.blockRadius : "rounded-[5px]")
 
 	const containerRef = useRef<HTMLDivElement>(null)
 
@@ -208,12 +208,13 @@ export default function Toolbar(props: any) {
 				{toolbarVisible &&
 					createPortal(
 						<ClickOutsideListener callback={handleToolbarClose}>
-							<div className={`fixed flex rounded-md p-1 shadow bg-[white] z-50 -translate-x-[100%]`} style={{ top: toolbarTop, left: toolbarLeft }} ref={toolbarRef}>
+							<div className={`fixed flex rounded-[5px] p-1 shadow bg-[white] z-50 -translate-x-[100%]`} style={{ top: toolbarTop, left: toolbarLeft }} ref={toolbarRef}>
 								<Grid numberOfCols={1}>
 									<Item text={localization.duplicate} tabFocus={false} icon={DuplicateIcon} action={duplicate} />
 									<Item text={localization.delete} tabFocus={false} textColor="red" icon={DeleteBlockIcon} action={deleteBlock} />
 									{props.editingOptions.map((option: any, index) => (
-										<div key={index}
+										<div
+											key={index}
 											ref={(el: HTMLDivElement) => {
 												editorRefs.current[index] = el
 											}}
@@ -232,7 +233,7 @@ export default function Toolbar(props: any) {
 					editor &&
 					createPortal(
 						<ClickOutsideListener callback={handleEditorClose}>
-							<div className={`fixed flex rounded-md p-1 shadow bg-[white] z-50`} style={{ top: editorTop, left: editorLeft }} ref={editorRef}>
+							<div className={`fixed flex rounded-[5px] p-1 shadow bg-[white] z-50`} style={{ top: editorTop, left: editorLeft }} ref={editorRef}>
 								<editor.editor id={props.id} lang={lang} tabFocus={false} block={props.block} attribute={editor.key} value={props.block[editor.key]} extraProps={editor.extraProps} />
 							</div>
 						</ClickOutsideListener>,

@@ -29,7 +29,7 @@ export default function LogoutButton() {
 
 	return (
 		lang && (
-			<button className="p-1 px-2 text-left text-sm text-gray-700 transition-colors duration-200 hover:bg-primary-light rounded-md" onClick={handleLogout}>
+			<button className="p-1 px-2 text-left text-gray-700 transition-colors duration-200 hover:bg-primary-light rounded-[5px]" onClick={handleLogout}>
 				{localization.logout}
 			</button>
 		)

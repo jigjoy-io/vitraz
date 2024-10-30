@@ -8,5 +8,5 @@ export default function Input(props: any) {
 		props.onChange && props.onChange(event.target.value)
 	}
 
-	return <input onChange={handleChange} className="w-[100%] h-[40px] bg-[white] border border-light shadow-lg p-[3px] px-[8px] rounded-lg outline-none" value={value} name={props.key} placeholder={props.placeholder} type={props.type} />
+	return <input onChange={handleChange} className="w-[100%] h-[40px] bg-[white] border border-light shadow-lg p-[3px] px-[8px] rounded-[5px] outline-none" value={value} name={props.key} placeholder={props.placeholder} type={props.type} />
 }

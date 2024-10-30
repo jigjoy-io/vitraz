@@ -3,12 +3,13 @@
 @tailwind utilities;
 
 body {
-  margin: 0;
-  font-family: "Open-sans", sans-serif;
-  width: 100%;
+	margin: 0;
+	font-family: "Open-sans", sans-serif;
+	width: 100%;
+	font-size: 0.875rem;
 }
 
 :root {
-  --primary: white;
-  --secondary: #d4d4d4;
+	--primary: white;
+	--secondary: #d4d4d4;
 }

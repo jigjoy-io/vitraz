@@ -48,8 +48,8 @@ export default function Reel(props: any) {
 	}
 
 	return (
-		<div className="rounded-lg h-fit flex justify-center">
-			<video ref={videoRef} controls playsInline className="rounded-lg" onPlay={() => handlePlay()}>
+		<div className="rounded-[5px] h-fit flex justify-center">
+			<video ref={videoRef} controls playsInline className="rounded-[5px]" onPlay={() => handlePlay()}>
 				<source src={source} type="video/mp4" />
 				{localization.videoNotSupported}
 			</video>
