@@ -55,7 +55,7 @@ export default function ButtonEditor({ block, attribute, lang }: MenuEditorProps
 					<label htmlFor={key} className="block mb-1">
 						{key.charAt(0).toUpperCase() + key.slice(1)}:
 					</label>
-					<input id={key} className="p-1 rounded-lg border w-[100%]" value={text} onChange={(e) => handleInputChange(key, e.target.value)} />
+					<input id={key} className="p-1 rounded-[5px] border w-[100%]" value={text} onChange={(e) => handleInputChange(key, e.target.value)} />
 				</div>
 			))}
 			<Button text={localization.update} action={update} />

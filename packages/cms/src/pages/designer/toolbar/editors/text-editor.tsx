@@ -26,7 +26,7 @@ export default function TextEditor(props: any) {
 
 	return (
 		<div className="flex flex-col p-2">
-			<input className="p-2 rounded-lg border w-[100%] mb-2" value={value} onChange={(event) => setValue(event.target.value)} />
+			<input className="p-2 rounded-[5px] border w-[100%] mb-2" value={value} onChange={(event) => setValue(event.target.value)} />
 			<Button text={localization.update} action={update} />
 		</div>
 	)

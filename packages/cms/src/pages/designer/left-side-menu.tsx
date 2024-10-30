@@ -97,7 +97,7 @@ export default function LeftSideMenu() {
 		lang && (
 			<div className="h-[100dvh] max-h-[100dvh] bg-[#F2EEF0] bg-opacity-30 border-r border-light shadow-lg flex flex-col flex-none">
 				<UserMenu />
-				<div className="mx-2 mt-5 px-3 py-2 flex flex-row items-center hover:bg-primary-light hover:bg-opacity-60 rounded-lg cursor-pointer border" onClick={createNewPage}>
+				<div className="mx-2 mt-5 px-3 py-2 flex flex-row items-center hover:bg-primary-light hover:bg-opacity-60 rounded-[5px] cursor-pointer border" onClick={createNewPage}>
 					<AddBlockIcon />
 					<div className="font-bold">{localization.newProject}</div>
 				</div>
@@ -106,7 +106,7 @@ export default function LeftSideMenu() {
 					{pages.length > 0 && (
 						<div className="flex flex-col">
 							<div className="w-full">
-								<div className="px-3 py-2 text-sm font-bold">{localization.drafts}</div>
+								<div className="px-3 py-2 font-bold">{localization.drafts}</div>
 								<div className="flex flex-col">
 									{pages.map((page) => (
 										<Node key={page.id} {...page} root={page} ident={0} />
@@ -118,7 +118,7 @@ export default function LeftSideMenu() {
 				</div>
 
 				<div className="w-full">
-					<div className="px-3 py-2 text-sm font-bold">{localization.options}</div>
+					<div className="px-3 py-2 font-bold">{localization.options}</div>
 
 					{/* <div className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center" onClick={() => dispatch(sidebarExpanded({ expanded: true, component: Tutorial }))}>
 
@@ -172,7 +172,7 @@ export default function LeftSideMenu() {
 								<div className="w-[50%]">
 									<Button text={localization.preveiw} color="default" width="w-full" action={enterPreview} />
 								</div>
-								<Link to={`/${page.id}?lang=${lang}`} target="_blank" className="bg-primary-light hover:opacity-80 flex justify-center items-center cursor-pointer rounded-md w-[50%] font-bold">
+								<Link to={`/${page.id}?lang=${lang}`} target="_blank" className="bg-primary-light hover:opacity-80 flex justify-center items-center cursor-pointer rounded-[5px] w-[50%] font-bold">
 									{localization.share}
 								</Link>
 							</div>

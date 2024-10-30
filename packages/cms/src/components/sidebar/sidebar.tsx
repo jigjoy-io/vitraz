@@ -4,7 +4,7 @@ import Item from "../item/item"
 
 export default function Sidebar(props: any) {
 	return (
-		<div className="shadow rounded-lg min-h-[100vh]">
+		<div className="shadow rounded-[5px] min-h-[100vh]">
 			<nav className="flex min-w-[240px]">
 				<div className="p-20 min-h-[100vh] border-r-2 border-default-light">
 					<Grid layout="column">

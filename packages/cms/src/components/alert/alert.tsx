@@ -35,7 +35,7 @@ export default function Alert(props: any) {
 	}
 
 	return (
-		<div className={`${bg} p-4 rounded-lg`}>
+		<div className={`${bg} p-4 rounded-[5px]`}>
 			<div className="flex items-center">
 				<div style={{ width: "24px", height: "24px" }}>{icon != null && renderIcon()}</div>
 				<div className="pl-3">

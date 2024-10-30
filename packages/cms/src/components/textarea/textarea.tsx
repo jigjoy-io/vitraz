@@ -8,5 +8,5 @@ export default function TextArea(props: any) {
 		props.onChange && props.onChange(event.target.value)
 	}
 
-	return <textarea onChange={handleChange} rows={3} className="w-[100%] bg-[white] border border-light shadow-lg p-[3px] px-[8px] rounded-lg outline-none" value={value} name={props.key} placeholder={props.placeholder} />
+	return <textarea onChange={handleChange} rows={3} className="w-[100%] bg-[white] border border-light shadow-lg p-[3px] px-[8px] rounded-[5px] outline-none" value={value} name={props.key} placeholder={props.placeholder} />
 }

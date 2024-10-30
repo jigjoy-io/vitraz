@@ -12,5 +12,5 @@ export default function LanguageSwitcher(props) {
 		dispatch(languageUpdated(code))
 	}
 
-	return <ReactFlagsSelect selected={selected} countries={["US", "RS"]} onSelect={(code) => switchLanguage(code)} className="h-[45px] w-full bg-[white] border border-light shadow-lg rounded-lg outline-none" />
+	return <ReactFlagsSelect selected={selected} countries={["US", "RS"]} onSelect={(code) => switchLanguage(code)} className="h-[45px] w-full bg-[white] border border-light shadow-lg rounded-[5px] outline-none" />
 }

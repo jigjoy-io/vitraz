@@ -108,9 +108,9 @@ export default function MediaConfigurer({ mediaType, icon, localization, props }
 								left: left,
 								transform: `translate(-50%, ${y}%)`,
 							}}
-							className="fixed rounded-md bg-[white] rounded-lg rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] z-50"
+							className="fixed bg-[white] rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] z-50"
 						>
-							<div className="p-[5%]">
+							<div className="p-4">
 								<div>
 									<Tabs>
 										<Tab key={localization.uploadFile}>
@@ -127,7 +127,7 @@ export default function MediaConfigurer({ mediaType, icon, localization, props }
 					document.body,
 				)}
 
-			<div ref={ref} onClick={openConfigurer} className="w-[100%] h-[50px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-md flex items-center pl-5 hover:opacity-60">
+			<div ref={ref} onClick={openConfigurer} className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60">
 				{icon}
 				<div className="pl-2">{localization.clickToAdd}</div>
 			</div>

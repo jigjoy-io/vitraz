@@ -26,7 +26,7 @@ export default function PageTile(props: any) {
 		<Tile color={color}>
 			{props.image && (
 				<div className={`${props.title || props.description ? "mb-4" : "mb-20"} px-1 block`}>
-					<img className="float-right rounded-lg" height={128} width={128} src={props.image} />
+					<img className="float-right rounded-[5px]" height={128} width={128} src={props.image} />
 				</div>
 			)}
 

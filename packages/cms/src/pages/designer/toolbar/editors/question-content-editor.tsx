@@ -69,12 +69,12 @@ export default function QuestionContentEditor(props: any) {
 				</Checkbox>
 			</div>
 
-			<input className="p-1 rounded-lg border w-[100%] mb-8" value={value.text} onChange={(e: any) => handleChange("text", e.target.value)} />
+			<input className="p-1 rounded-[5px] border w-[100%] mb-8" value={value.text} onChange={(e: any) => handleChange("text", e.target.value)} />
 
 			<Checkbox id="displayImage" selected={value.displayImage} onChange={handleChange}>
 				{localization.displayImage}
 			</Checkbox>
-			<img src={value.image} className="w-[100px] my-2 rounded-lg" />
+			<img src={value.image} className="w-[100px] my-2 rounded-[5px]" />
 			<div className="flex gap-3 mt-3">
 				<Tabs>
 					<Tab key={localization.uploadImage}>

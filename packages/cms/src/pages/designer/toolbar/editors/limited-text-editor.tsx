@@ -28,7 +28,7 @@ export default function LimitedTextEditor(props: any) {
 
 	return (
 		<div className="flex flex-col p-2">
-			<input className="p-2 rounded-lg border w-[100%] mb-2" value={value} maxLength={limit} onChange={(event) => setValue(event.target.value)} />
+			<input className="p-2 rounded-[5px] border w-[100%] mb-2" value={value} maxLength={limit} onChange={(event) => setValue(event.target.value)} />
 			<div className="text-xs mb-2 gray-400">
 				<span className="float-right">
 					{value.length} / {limit}

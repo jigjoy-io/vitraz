@@ -413,7 +413,7 @@ const Node = memo(function Node(props: any) {
 			{dropdownActive &&
 				createPortal(
 					<ClickOutsideListener callback={closeDropdown}>
-						<div className={`fixed flex rounded-md p-1 shadow bg-[white]`} style={{ top: rect.top + rect.height, left: rect.x + rect.width - 20 }} ref={portalRef}>
+						<div className={`fixed flex rounded-[5px] p-1 shadow bg-[white]`} style={{ top: rect.top + rect.height, left: rect.x + rect.width - 20 }} ref={portalRef}>
 							<Grid numberOfCols={1}>
 								<Item text={localization.rename} icon={RenameIcon} action={(e) => openRenamePopup(e)} />
 								<Item text={localization.duplicate} icon={DuplicateIcon} action={duplicatePage} />
@@ -428,7 +428,7 @@ const Node = memo(function Node(props: any) {
 			{deleteActive &&
 				createPortal(
 					<ClickOutsideListener callback={closeDelete}>
-						<div className="fixed flex rounded-md p-3 shadow bg-white w-[250px]" style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+						<div className="fixed flex rounded-[5px] p-3 shadow bg-white w-[250px]" style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
 							<div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
 								<p className="font-bold">{localization.deletePage}</p>
 								<div>{localization.areYouSure}</div>
@@ -445,10 +445,10 @@ const Node = memo(function Node(props: any) {
 			{addingActive &&
 				createPortal(
 					<ClickOutsideListener callback={closeAdding}>
-						<div className="fixed flex rounded-md p-3 shadow bg-white w-[250px]" style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+						<div className="fixed flex rounded-[5px] p-3 shadow bg-white w-[250px]" style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
 							<div className="flex flex-col gap-2 w-full" onClick={(e) => e.stopPropagation()}>
 								<p className="font-bold">{localization.choosePageType}</p>
-								<select name="pageType" id="pageType" className="p-2 rounded-md w-full focus:outline-0" onChange={handlePageToCreate} value={tileToAdd}>
+								<select name="pageType" id="pageType" className="p-2 rounded-[5px] w-full focus:outline-0" onChange={handlePageToCreate} value={tileToAdd}>
 									<option value="page-tile">{localization.blankPage}</option>
 									<option value="carousel-tile">{localization.carousel}</option>
 								</select>
@@ -464,9 +464,9 @@ const Node = memo(function Node(props: any) {
 			{renameActive &&
 				createPortal(
 					<ClickOutsideListener callback={closeRename}>
-						<div className={`fixed flex rounded-md p-1 shadow bg-[white]`} style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+						<div className={`fixed flex rounded-[5px] p-1 shadow bg-[white]`} style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
 							<div className="flex flex-row gap-2">
-								<input className="p-1 rounded-md border w-[100%]" value={renameValue} onChange={(event) => setRenameValue(event.target.value)} autoFocus />
+								<input className="p-1 rounded-[5px] border w-[100%]" value={renameValue} onChange={(event) => setRenameValue(event.target.value)} autoFocus />
 								<Button text={localization.rename} size="sm" action={renamePage} />
 							</div>
 						</div>
