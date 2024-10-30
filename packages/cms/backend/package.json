@@ -1,48 +1,48 @@
 {
-    "name": "cms",
-    "description": "Backend for the jigjoy page builder",
-    "version": "0.0.1",
-    "private": true,
-    "dependencies": {
-        "@aws-sdk/client-cognito-identity-provider": "^3.635.0",
-        "@aws-sdk/client-dynamodb": "^3.398.0",
-        "@aws-sdk/client-kms": "^3.632.0",
-        "@aws-sdk/client-s3": "^3.576.0",
-        "@aws-sdk/client-ses": "^3.632.0",
-        "@aws-sdk/lib-dynamodb": "^3.398.0",
-        "ajv": "^8.16.0",
-        "ajv-formats": "^3.0.1",
-        "axios": "^1.7.7",
-        "compress-json": "^3.1.0",
-        "esbuild": "^0.21.5",
-        "lodash": "^4.17.21",
-        "uuid": "^9.0.1"
-    },
-    "devDependencies": {
-        "@types/aws-lambda": "^8.10.140",
-        "@types/node": "^20.14.9",
-        "@types/uuid": "^10.0.0",
-        "aws-sdk-client-mock": "^2.0.0",
-        "jest": "^29.2.1",
-        "ts-node": "^10.9.2",
-        "typescript": "^5.5.2"
-    },
-    "scripts": {
-        "build": "sam build --profile Development",
-        "deploy": "sam deploy --profile Development",
-        "serve": "sudo sam local start-api --port 8000",
-        "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
-    },
-    "jest": {
-        "testMatch": [
-            "**/__tests__/**/*.[jt]s?(x)",
-            "**/?(*.)+(spec|test).[jt]s?(x)",
-            "**/__tests__/**/*.mjs?(x)",
-            "**/?(*.)+(spec|test).mjs?(x)"
-        ],
-        "moduleFileExtensions": [
-            "mjs",
-            "js"
-        ]
-    }
+	"name": "cms",
+	"description": "Backend for the jigjoy page builder",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {
+		"@aws-sdk/client-cognito-identity-provider": "^3.635.0",
+		"@aws-sdk/client-dynamodb": "^3.398.0",
+		"@aws-sdk/client-kms": "^3.632.0",
+		"@aws-sdk/client-s3": "^3.576.0",
+		"@aws-sdk/client-ses": "^3.632.0",
+		"@aws-sdk/lib-dynamodb": "^3.398.0",
+		"ajv": "^8.16.0",
+		"ajv-formats": "^3.0.1",
+		"axios": "^1.7.7",
+		"compress-json": "^3.1.0",
+		"esbuild": "^0.21.5",
+		"lodash": "^4.17.21",
+		"uuid": "^9.0.1"
+	},
+	"devDependencies": {
+		"@types/aws-lambda": "^8.10.140",
+		"@types/node": "^20.14.9",
+		"@types/uuid": "^10.0.0",
+		"aws-sdk-client-mock": "^2.0.0",
+		"jest": "^29.2.1",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.5.2"
+	},
+	"scripts": {
+		"build": "sam build --profile Development",
+		"deploy": "sam deploy --profile Development",
+		"serve": "sam local start-api --profile Development --port 8000 --region eu-west-1 --env-vars env.json",
+		"test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
+	},
+	"jest": {
+		"testMatch": [
+			"**/__tests__/**/*.[jt]s?(x)",
+			"**/?(*.)+(spec|test).[jt]s?(x)",
+			"**/__tests__/**/*.mjs?(x)",
+			"**/?(*.)+(spec|test).mjs?(x)"
+		],
+		"moduleFileExtensions": [
+			"mjs",
+			"js"
+		]
+	}
 }
