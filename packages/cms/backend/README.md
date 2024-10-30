@@ -85,3 +85,13 @@ yarn serve
 ```
 
 Note: This command triggers sam local start-api --profile Development --port 8000 --region eu-west-1 --env-vars env.json, launching the API on port 8000 with the specified environment variables.
+
+### 5. Deploy to Development Environment
+
+To deploy the code to the Development environment, run:
+
+```bash
+yarn deploy
+```
+
+Note: This command triggers sam deploy --profile Development, deploying the application using the Development profile.
