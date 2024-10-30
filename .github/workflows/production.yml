@@ -4,8 +4,37 @@ on:
     branches:
       - main
 
-
 jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/cms/backend
+    environment: development
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Config AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+
+      - name: Setup Profile
+        run: |
+          aws configure set region eu-west-1 --profile Production
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile Production
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile Production
+
+      - name: Build
+        run: sam build --profile Production --use-container
+
+      - name: Deploy backend to environment
+        run: sam deploy --profile Production --no-confirm-changeset --no-fail-on-empty-changeset
+
   deploy:
     runs-on: ubuntu-latest
     defaults:
@@ -21,8 +50,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-      
-      - name: 'Create env file'
+
+      - name: "Create env file"
         run: |
           touch .env
           echo REACT_APP_API=${{secrets.REACT_APP_API}} >> .env
@@ -32,7 +61,7 @@ jobs:
           echo REACT_APP_PUBLIC_POSTHOG_HOST=${{secrets.REACT_APP_PUBLIC_POSTHOG_HOST}} >> .env
           echo REACT_APP_JIGJOY_TUTORIAL=${{secrets.REACT_APP_JIGJOY_TUTORIAL}} >> .env
           cat .env
-          
+
       - name: Dependency Installation
         run: npm install
 
@@ -41,10 +70,10 @@ jobs:
 
       - name: Config AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
-        with: 
+        with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
-      
+
       - name: Deploy to AWS S3
         run: aws s3 sync dist/ s3://${{ secrets.BUCKET_NAME }} --exclude 'assets/*' --delete
