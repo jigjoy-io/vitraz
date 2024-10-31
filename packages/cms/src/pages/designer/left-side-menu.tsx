@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux"
 import { getPages, publishPage } from "../../api/page"
 import Alert from "../../components/alert/alert"
 import Button from "../../components/button/button"
-import { pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/page-reducer"
+import { pageExpanded, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/page-reducer"
 import { useLanguage, usePages, useRootPage } from "../../util/store"
 import Node from "./node"
 import { Link, useNavigate, useSearch } from "@tanstack/react-router"
@@ -57,7 +57,12 @@ export default function LeftSideMenu() {
 	}
 
 	useEffect(() => {
-		if (action != "page-creation") fetchData()
+		if (action != "page-creation") {
+			fetchData()
+			if (pages.length > 0) {
+				dispatch(pageExpanded(pages[0].id))
+			}
+		}
 	}, [])
 
 	useEffect(() => {
