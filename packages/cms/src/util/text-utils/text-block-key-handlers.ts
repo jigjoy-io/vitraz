@@ -121,7 +121,7 @@ const handleEnter = (context: KeyHandlerContext) => {
 			insertBlock({
 				referenceBlock: blockId,
 				block: blockAfter,
-				position: "below",
+				position: "above",
 			}),
 		)
 
@@ -134,7 +134,7 @@ const handleEnter = (context: KeyHandlerContext) => {
 			insertBlock({
 				referenceBlock: blockId,
 				block: newBlock,
-				position: "below",
+				position: "above",
 			}),
 		)
 
