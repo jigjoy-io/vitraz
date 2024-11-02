@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { createPortal } from "react-dom"
 import LocalizedStrings from "react-localization"
 import { SelectorOptions } from "./selector-options"
@@ -7,10 +7,10 @@ import { useActiveBlock, useLanguage, usePage } from "../../../../util/store"
 import { blockingUpdated } from "../../../../reducers/toolbar-reducer"
 import TemplateFactory from "../../../../util/factories/templates/template-factory"
 import { focusBlock, insertBlock } from "../../../../reducers/page-reducer"
-import { splitTextAtCursor } from "../../../../util/cursor-helper/split-text-at-cursor"
-import { moveCursorToEnd } from "../../../../util/cursor-helper/move-cursor-to-end"
 import ClickOutsideListener from "../../../../util/click-outside-listener"
 import Item from "../../../../components/item/item"
+import { findPreviousTextBlock } from "../../../../util/text-utils/use-text-block"
+import { handleTextBlockKeyDown } from "../../../../util/text-utils/text-block-key-handlers"
 
 let localization = new LocalizedStrings({
 	US: {
@@ -36,6 +36,11 @@ export default function BlockSelector(props: any) {
 	const [left, setLeft] = useState()
 
 	const dispatch = useDispatch()
+
+	const previousTextBlock = useSelector(() => {
+		const blocks = page.config.buildingBlocks
+		return findPreviousTextBlock(blocks, props.id, ["text", "title", "heading", "block-selector"])
+	})
 
 	useEffect(() => {
 		localization.setLanguage(lang)
@@ -105,91 +110,19 @@ export default function BlockSelector(props: any) {
 		}
 	}
 
-	const handleKeyDown = (event: any) => {
-		if (event.key === "Enter" && event.shiftKey) {
-			event.preventDefault()
-
-			let block = TemplateFactory.createTextBlock(event.target.value)
-
-			dispatch(
-				insertBlock({
-					referenceBlock: props.id,
-					block: block,
-					position: "above",
-				}),
-			)
-
-			dispatch(focusBlock(block.id))
-
-			const caretPosition = (event.target as HTMLInputElement).selectionStart || 0
-			const isCaretAtEnd = caretPosition === event.target.value.length
-
-			setTimeout(() => {
-				const newTextBlock = document.querySelector(`[data-block-id="${block.id}"]`) as HTMLElement
-
-				if (newTextBlock) {
-					moveCursorToEnd(newTextBlock)
-					const text = newTextBlock.innerText || ""
-
-					if (!isCaretAtEnd) {
-						const beforeCursor = text.slice(0, caretPosition).trim()
-						const afterCursor = text.slice(caretPosition).trim()
-
-						newTextBlock.innerText = beforeCursor + "\n" + afterCursor
-					} else {
-						newTextBlock.innerText = newTextBlock.innerText + "\n\n"
-					}
-
-					moveCursorToEnd(newTextBlock)
-				}
-			}, 50)
-
-			setOption("")
-		}
-
-		if (event.key === "Enter" && !event.shiftKey) {
-			const caretPosition = (event.target as HTMLInputElement).selectionStart || 0
-			const isCaretAtEnd = caretPosition === event.target.value.length
-
-			const text = event.target.value
-
-			const { beforeCursor, afterCursor } = splitTextAtCursor(text, caretPosition)
-
-			if ((beforeCursor || afterCursor) && !isCaretAtEnd) {
-				let blockBefore = TemplateFactory.createTextBlock(beforeCursor)
-
-				dispatch(
-					insertBlock({
-						referenceBlock: props.id,
-						block: blockBefore,
-						position: "above",
-					}),
-				)
-
-				let blockAfter = TemplateFactory.createTextBlock(afterCursor)
-
-				dispatch(
-					insertBlock({
-						referenceBlock: props.id,
-						block: blockAfter,
-						position: "above",
-					}),
-				)
-			} else if (isCaretAtEnd) {
-				let newBlock = TemplateFactory.createTextBlock(event.target.value)
-
-				dispatch(
-					insertBlock({
-						referenceBlock: props.id,
-						block: newBlock,
-						position: "above",
-					}),
-				)
-			}
-
-			setOption("")
-			closeMenu()
-		}
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+		handleTextBlockKeyDown({
+			event,
+			dispatch,
+			blockId: props.id,
+			blockType: "block-selector",
+			ref: inputRef,
+			options: {
+				onClose: closeMenu,
+				setOption: setOption,
+			},
+			previousBlock: previousTextBlock,
+		})
 	}
 
 	const closeMenu = () => {
