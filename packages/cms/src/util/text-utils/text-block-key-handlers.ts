@@ -131,7 +131,7 @@ const handleEnter = (context: KeyHandlerContext) => {
 			insertBlock({
 				referenceBlock: blockId,
 				block: blockAfter,
-				position: "below",
+				position: "above",
 			}),
 		)
 
@@ -144,9 +144,11 @@ const handleEnter = (context: KeyHandlerContext) => {
 			insertBlock({
 				referenceBlock: blockId,
 				block: newBlock,
-				position: "above",
+				position: blockType === "block-selector" ? "above" : "below",
 			}),
 		)
+
+		if (blockType !== "block-selector") dispatch(focusBlock(newBlock.id))
 	}
 
 	if (options?.setOption) {

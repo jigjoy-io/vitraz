@@ -5,7 +5,7 @@ interface Block {
 }
 
 export const findPreviousTextBlock = (blocks: Block[], currentBlockId: string, validTypes: string[] = ["text", "title", "heading", "block-selector"]): Block | null => {
-	const currentIndex = blocks.findIndex((block) => block.id === currentBlockId)
+	const currentIndex = blocks?.findIndex((block) => block.id === currentBlockId)
 
 	if (currentIndex <= 0) return null
 
