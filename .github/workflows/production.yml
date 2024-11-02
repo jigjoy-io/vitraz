@@ -1,4 +1,4 @@
-name: Deploy Frontend
+name: Deploy App
 on:
   push:
     branches:
@@ -10,7 +10,7 @@ jobs:
     defaults:
       run:
         working-directory: ./packages/cms/backend
-    environment: development
+    environment: production
 
     steps:
       - name: Checkout
@@ -35,7 +35,7 @@ jobs:
       - name: Deploy backend to environment
         run: sam deploy --profile Production --no-confirm-changeset --no-fail-on-empty-changeset
 
-  deploy:
+  deploy-frontend:
     runs-on: ubuntu-latest
     defaults:
       run:
