@@ -6,307 +6,177 @@ import { SelectorOptions } from "./selector-options"
 import { useActiveBlock, useLanguage, usePage } from "../../../../util/store"
 import { blockingUpdated } from "../../../../reducers/toolbar-reducer"
 import TemplateFactory from "../../../../util/factories/templates/template-factory"
-import { focusBlock, insertBlock, removeBlock, updateBlock } from "../../../../reducers/page-reducer"
-import { splitTextAtCursor } from "../../../../util/cursor-helper/split-text-at-cursor"
-import { moveCursorToEnd, moveCursorToEndOff } from "../../../../util/cursor-helper/move-cursor-to-end"
+import { focusBlock, insertBlock } from "../../../../reducers/page-reducer"
 import ClickOutsideListener from "../../../../util/click-outside-listener"
 import Item from "../../../../components/item/item"
+import { findPreviousTextBlock } from "../../../../util/text-utils/use-text-block"
+import { handleTextBlockKeyDown } from "../../../../util/text-utils/text-block-key-handlers"
 
 let localization = new LocalizedStrings({
-    US: {
-        selectorText: "Write something, or type '/' to insert...",
-    },
-    RS: {
-        selectorText: "Napiši nešto ili unesi '/' da dodaš blok...",
-    },
+	US: {
+		selectorText: "Write something, or type '/' to insert...",
+	},
+	RS: {
+		selectorText: "Napiši nešto ili unesi '/' da dodaš blok...",
+	},
 })
 
 export default function BlockSelector(props: any) {
-    const page = usePage()
-    const lang = useLanguage()
+	const page = usePage()
+	const lang = useLanguage()
 
-    const [option, setOption] = useState("")
-    const [options, setOptions] = useState([] as any)
-    const [allOptions, setAllOptions] = useState([] as any)
-    const [showMenu, setShowMenu] = useState(false)
-    const [placeholder, setPlaceholder] = useState(localization.selectorText)
-    const activeBlock = useActiveBlock()
-    const inputRef = useRef<HTMLInputElement>(null)
-    const [top, setTop] = useState(-500)
-    const [left, setLeft] = useState()
+	const [option, setOption] = useState("")
+	const [options, setOptions] = useState([] as any)
+	const [allOptions, setAllOptions] = useState([] as any)
+	const [showMenu, setShowMenu] = useState(false)
+	const [placeholder, setPlaceholder] = useState(localization.selectorText)
+	const activeBlock = useActiveBlock()
+	const inputRef = useRef<HTMLInputElement>(null)
+	const [top, setTop] = useState(-500)
+	const [left, setLeft] = useState()
 
-    const dispatch = useDispatch()
+	const dispatch = useDispatch()
 
-    const previousTextBlock = useSelector(() => {
-        const blocks = page.config.buildingBlocks;
-        const currentIndex = blocks.findIndex((block: any) => block.id === props.id);
+	const previousTextBlock = useSelector(() => {
+		const blocks = page.config.buildingBlocks
+		return findPreviousTextBlock(blocks, props.id, ["text", "title", "heading", "block-selector"])
+	})
 
-        if (currentIndex <= 0) return null;
+	useEffect(() => {
+		localization.setLanguage(lang)
+		const selectorOptions = SelectorOptions.getOptions(lang)
 
-        for (let i = currentIndex - 1; i >= 0; i--) {
-            if (blocks[i].type === "text" || blocks[i].type === "title" || blocks[i].type === "heading") {
-                return blocks[i];
-            }
-        }
+		setOptions(page.type != "blank" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions)
+		setAllOptions(page.type != "blank" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions)
 
-        return null;
-    });
+		inputRef.current?.focus()
+	}, [])
 
-    const handleMergeWithPreviousBlock = () => {
-        if (!previousTextBlock) return false
+	useEffect(() => {
+		if (activeBlock == props.id) inputRef.current?.focus()
+	}, [activeBlock])
 
-        const currentText = option
-        const prevBlockElement = document.querySelector(`[data-block-id="${previousTextBlock.id}"]`) as HTMLElement
-        if (!prevBlockElement) return false
+	const filterCommands = (option: any, value: any, index: number) => {
+		option.commands = allOptions[index].commands.filter((command: any) => command.label.toLowerCase().includes(value.slice(1).toLowerCase()))
+		return option
+	}
 
-        const prevText = prevBlockElement.innerText
-        const mergedText = prevText + currentText
+	function setMenuPosition() {
+		if (inputRef.current) {
+			let rect: any = inputRef.current.getBoundingClientRect()
 
-        dispatch(updateBlock({
-            ...previousTextBlock,
-            text: mergedText
-        }))
+			setLeft(rect.left + rect.width)
 
-        dispatch(removeBlock(props.id))
+			if (rect.top + window.innerHeight / 2 > window.innerHeight) {
+				setTop(rect.top)
+				return rect.top
+			} else {
+				setTop(rect.bottom)
+				return rect.bottom
+			}
+		}
+	}
 
-        dispatch(focusBlock(previousTextBlock.id))
+	useEffect(() => {
+		setMenuPosition()
+	}, [options])
 
-        setTimeout(() => {
-            const updatedPrevBlock = document.querySelector(`[data-block-id="${previousTextBlock.id}"]`) as HTMLElement
-            if (updatedPrevBlock) {
-                const range = document.createRange()
-                const sel = window.getSelection()
-                const textNode = updatedPrevBlock.firstChild || updatedPrevBlock
+	const calculateY = () => {
+		if (inputRef.current) {
+			let rect: any = inputRef.current.getBoundingClientRect()
+			if (rect.top + window.innerHeight / 2 > window.innerHeight) {
+				return 100
+			} else {
+				return 0
+			}
+		}
+	}
 
-                range.setStart(textNode, prevText.length)
-                range.collapse(true)
-                sel?.removeAllRanges()
-                sel?.addRange(range)
-                updatedPrevBlock.focus()
+	const handleChange = (event: any) => {
+		setOption(event.target.value)
 
-                moveCursorToEndOff(prevBlockElement, currentText.length)
-            }
-        }, 50)
+		if (event.target.value.startsWith("/")) {
+			let comm = JSON.parse(JSON.stringify(allOptions))
+			let temp = comm.map((option: any, index: number) => filterCommands(option, event.target.value, index))
 
-        return true
-    }
+			let result = temp.filter((option) => option.commands.length > 0)
 
-    useEffect(() => {
-        localization.setLanguage(lang)
-        const selectorOptions = SelectorOptions.getOptions(lang)
+			setOptions(result)
+			setShowMenu(true)
+			dispatch(blockingUpdated(true))
+		} else {
+			setShowMenu(false)
+			dispatch(blockingUpdated(false))
+		}
+	}
 
-        setOptions(page.type != "blank" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions)
-        setAllOptions(page.type != "blank" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions)
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+		handleTextBlockKeyDown({
+			event,
+			dispatch,
+			blockId: props.id,
+			blockType: "block-selector",
+			ref: inputRef,
+			options: {
+				onClose: closeMenu,
+				setOption: setOption,
+			},
+			previousBlock: previousTextBlock,
+		})
+	}
 
-        inputRef.current?.focus()
-    }, [])
+	const closeMenu = () => {
+		dispatch(blockingUpdated(false))
+		setShowMenu(false)
+	}
 
-    useEffect(() => {
-        if (activeBlock == props.id) inputRef.current?.focus()
-    }, [activeBlock])
+	const insert = (event, type: string) => {
+		dispatch(focusBlock(null))
+		let block = TemplateFactory.create(type)
 
-    const filterCommands = (option: any, value: any, index: number) => {
-        option.commands = allOptions[index].commands.filter((command: any) => command.label.toLowerCase().includes(value.slice(1).toLowerCase()))
-        return option
-    }
+		dispatch(
+			insertBlock({
+				referenceBlock: props.id,
+				block: block,
+				position: "above",
+			}),
+		)
 
-    function setMenuPosition() {
-        if (inputRef.current) {
-            let rect: any = inputRef.current.getBoundingClientRect()
+		dispatch(focusBlock(block.id))
 
-            setLeft(rect.left + rect.width)
+		setOption("")
+		closeMenu()
+	}
 
-            if (rect.top + window.innerHeight / 2 > window.innerHeight) {
-                setTop(rect.top)
-                return rect.top
-            } else {
-                setTop(rect.bottom)
-                return rect.bottom
-            }
-        }
-    }
+	const handleLoseFocus = () => {
+		dispatch(blockingUpdated(false))
+		dispatch(focusBlock(null))
+	}
 
-    useEffect(() => {
-        setMenuPosition()
-    }, [options])
+	return (
+		<div>
+			{showMenu &&
+				createPortal(
+					<ClickOutsideListener callback={closeMenu}>
+						<div style={{ top: top, left: left, transform: `translate(-100%, -${calculateY()}%)` }} className={`fixed flex flex-col w-[400px] min-w-[400px] h-auto max-h-[500px] overflow-y-auto bg-white shadow rounded-lg p-1 -translate-x-[100%]`}>
+							{options.map((option: any, index) => (
+								<div key={option.key}>
+									{option.commands.map((command: any) => (
+										<div className="p-1" key={command.key}>
+											<Item icon={command.icon} text={command.label} tabFocus={true} action={(e: any) => insert(e, command.key)}>
+												<div className="mt-2 text-sm">{command.description}</div>
+											</Item>
+										</div>
+									))}
+									{options.length != index + 1 && <hr />}
+								</div>
+							))}
+						</div>
+					</ClickOutsideListener>,
+					document.body,
+				)}
 
-    const calculateY = () => {
-        if (inputRef.current) {
-            let rect: any = inputRef.current.getBoundingClientRect()
-            if (rect.top + window.innerHeight / 2 > window.innerHeight) {
-                return 100
-            } else {
-                return 0
-            }
-        }
-    }
-
-    const handleChange = (event: any) => {
-        setOption(event.target.value)
-
-        if (event.target.value.startsWith("/")) {
-            let comm = JSON.parse(JSON.stringify(allOptions))
-            let temp = comm.map((option: any, index: number) => filterCommands(option, event.target.value, index))
-
-            let result = temp.filter((option) => option.commands.length > 0)
-
-            setOptions(result)
-            setShowMenu(true)
-            dispatch(blockingUpdated(true))
-        } else {
-            setShowMenu(false)
-            dispatch(blockingUpdated(false))
-        }
-    }
-
-    const handleKeyDown = (event: any) => {
-        if (event.key === "Enter" && event.shiftKey) {
-            event.preventDefault()
-
-            let block = TemplateFactory.createTextBlock(event.target.value)
-
-            dispatch(
-                insertBlock({
-                    referenceBlock: props.id,
-                    block: block,
-                    position: "above",
-                }),
-            )
-
-            dispatch(focusBlock(block.id))
-
-            const caretPosition = (event.target as HTMLInputElement).selectionStart || 0
-            const isCaretAtEnd = caretPosition === event.target.value.length
-
-            setTimeout(() => {
-                const newTextBlock = document.querySelector(`[data-block-id="${block.id}"]`) as HTMLElement
-
-                if (newTextBlock) {
-                    moveCursorToEnd(newTextBlock)
-                    const text = newTextBlock.innerText || ""
-
-                    if (!isCaretAtEnd) {
-                        const beforeCursor = text.slice(0, caretPosition).trim()
-                        const afterCursor = text.slice(caretPosition).trim()
-
-                        newTextBlock.innerText = beforeCursor + "\n" + afterCursor
-                    } else {
-                        newTextBlock.innerText = newTextBlock.innerText + "\n\n"
-                    }
-
-                    moveCursorToEnd(newTextBlock)
-                }
-            }, 50)
-
-            setOption("")
-        }
-
-        if (event.key === "Enter" && !event.shiftKey) {
-            const caretPosition = (event.target as HTMLInputElement).selectionStart || 0
-            const isCaretAtEnd = caretPosition === event.target.value.length
-
-            const text = event.target.value
-
-            const { beforeCursor, afterCursor } = splitTextAtCursor(text, caretPosition)
-
-            if ((beforeCursor || afterCursor) && !isCaretAtEnd) {
-                let blockBefore = TemplateFactory.createTextBlock(beforeCursor)
-
-                dispatch(
-                    insertBlock({
-                        referenceBlock: props.id,
-                        block: blockBefore,
-                        position: "above",
-                    }),
-                )
-
-                let blockAfter = TemplateFactory.createTextBlock(afterCursor)
-
-                dispatch(
-                    insertBlock({
-                        referenceBlock: props.id,
-                        block: blockAfter,
-                        position: "above",
-                    }),
-                )
-            } else if (isCaretAtEnd) {
-                let newBlock = TemplateFactory.createTextBlock(event.target.value)
-
-                dispatch(
-                    insertBlock({
-                        referenceBlock: props.id,
-                        block: newBlock,
-                        position: "above",
-                    }),
-                )
-            }
-
-            setOption("")
-            closeMenu()
-        }
-
-        if (event.key === 'Backspace') {
-            const caretPosition = inputRef.current?.selectionStart ?? 0
-
-            if (caretPosition === 0 && previousTextBlock) {
-                event.preventDefault()
-                handleMergeWithPreviousBlock()
-            }
-        }
-    }
-
-    const closeMenu = () => {
-        dispatch(blockingUpdated(false))
-        setShowMenu(false)
-    }
-
-    const insert = (event, type: string) => {
-        dispatch(focusBlock(null))
-        let block = TemplateFactory.create(type)
-
-        dispatch(
-            insertBlock({
-                referenceBlock: props.id,
-                block: block,
-                position: "above",
-            }),
-        )
-
-        dispatch(focusBlock(block.id))
-
-        setOption("")
-        closeMenu()
-    }
-
-    const handleLoseFocus = () => {
-        dispatch(blockingUpdated(false))
-        dispatch(focusBlock(null))
-    }
-
-    return (
-        <div>
-            {showMenu &&
-                createPortal(
-                    <ClickOutsideListener callback={closeMenu}>
-                        <div style={{ top: top, left: left, transform: `translate(-100%, -${calculateY()}%)` }} className={`fixed flex flex-col w-[400px] min-w-[400px] h-auto max-h-[500px] overflow-y-auto bg-white shadow rounded-lg p-1 -translate-x-[100%]`}>
-                            {options.map((option: any, index) => (
-                                <div key={option.key}>
-                                    {option.commands.map((command: any) => (
-                                        <div className="p-1" key={command.key}>
-                                            <Item icon={command.icon} text={command.label} tabFocus={true} action={(e: any) => insert(e, command.key)}>
-                                                <div className="mt-2 text-sm">{command.description}</div>
-                                            </Item>
-                                        </div>
-                                    ))}
-                                    {options.length != index + 1 && <hr />}
-                                </div>
-                            ))}
-                        </div>
-                    </ClickOutsideListener>,
-                    document.body,
-                )}
-
-            <input ref={inputRef} type="text" value={option} onFocus={() => setPlaceholder(localization.selectorText)} className="w-[100%] h-[1.8rem] bg-primary-light rounded-md hover:bg-gray-300 flex items-center focus:outline-0 placeholder:text-[black] py-4 px-2 opacity-80 " placeholder={placeholder} onChange={handleChange} onKeyDown={handleKeyDown} onBlur={handleLoseFocus} />
-        </div>
-    )
+			<input ref={inputRef} type="text" value={option} onFocus={() => setPlaceholder(localization.selectorText)} className="w-[100%] h-[1.8rem] bg-primary-light rounded-md hover:bg-gray-300 flex items-center focus:outline-0 placeholder:text-[black] py-4 px-2 opacity-80 " placeholder={placeholder} onChange={handleChange} onKeyDown={handleKeyDown} onBlur={handleLoseFocus} />
+		</div>
+	)
 }
