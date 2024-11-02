@@ -105,13 +105,23 @@ const handleEnter = (context: KeyHandlerContext) => {
 	const { isCaretAtEnd, beforeCursor, afterCursor } = getCaretContext(ref.current)
 
 	if ((beforeCursor || afterCursor) && !isCaretAtEnd) {
-		if (ref.current instanceof HTMLDivElement) {
+		if (blockType !== "block-selector") {
 			ref.current.innerText = beforeCursor
 			dispatch(
 				updateBlock({
 					id: blockId,
 					text: beforeCursor,
 					type: blockType,
+				}),
+			)
+		} else {
+			let blockBefore = TemplateFactory.createTextBlock(beforeCursor)
+
+			dispatch(
+				insertBlock({
+					referenceBlock: blockId,
+					block: blockBefore,
+					position: "above",
 				}),
 			)
 		}
@@ -121,7 +131,7 @@ const handleEnter = (context: KeyHandlerContext) => {
 			insertBlock({
 				referenceBlock: blockId,
 				block: blockAfter,
-				position: "above",
+				position: "below",
 			}),
 		)
 
