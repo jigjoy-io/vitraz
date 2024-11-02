@@ -36,19 +36,17 @@ export const mergeWithPreviousBlock = (currentBlock: TextBlock, previousBlock: T
 	const updatedPrevBlock = document.querySelector(`[data-block-id="${previousBlock.id}"]`) as HTMLElement
 
 	if (updatedPrevBlock) {
-		setTimeout(() => {
-			const range = document.createRange()
-			const sel = window.getSelection()
-			const textNode = updatedPrevBlock.firstChild || updatedPrevBlock
+		const range = document.createRange()
+		const sel = window.getSelection()
+		const textNode = updatedPrevBlock.firstChild || updatedPrevBlock
 
-			range.setStart(textNode, prevText.length)
-			range.collapse(true)
-			sel?.removeAllRanges()
-			sel?.addRange(range)
-			updatedPrevBlock.focus()
+		range.setStart(textNode, prevText.length)
+		range.collapse(true)
+		sel?.removeAllRanges()
+		sel?.addRange(range)
+		updatedPrevBlock.focus()
 
-			moveCursorToEndOff(prevBlockElement, currentText.length)
-		}, 50)
+		moveCursorToEndOff(prevBlockElement, currentText.length)
 	}
 
 	return true

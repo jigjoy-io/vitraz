@@ -147,15 +147,6 @@ const handleEnter = (context: KeyHandlerContext) => {
 				position: "above",
 			}),
 		)
-
-		dispatch(focusBlock(newBlock.id))
-		setTimeout(() => {
-			const newTextBlock = document.querySelector(`[data-block-id="${newBlock.id}"]`) as HTMLElement
-
-			if (newTextBlock) {
-				moveCursorToEnd(newTextBlock)
-			}
-		}, 50)
 	}
 
 	if (options?.setOption) {
