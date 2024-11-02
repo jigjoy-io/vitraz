@@ -2,6 +2,7 @@ import { S3, PutObjectCommand } from "@aws-sdk/client-s3"
 
 const s3 = new S3()
 const assetsBucket = process.env.ASSETS_BUCKET
+const region = process.env.REGION
 
 /**
  * Uploads a file to S3 and returns the file URL.
@@ -24,7 +25,7 @@ export async function uploadDocument(file: { filename: string; content: Buffer; 
 
 	try {
 		await s3.send(new PutObjectCommand(params))
-		const fileUrl = `https://${params.Bucket}.s3.amazonaws.com/${params.Key}`
+		const fileUrl = `https://${params.Bucket}.s3-website-eu-west-1.amazonaws.com/${params.Key}`
 		return fileUrl
 	} catch (error) {
 		console.error("S3 file upload error:", error)
