@@ -2,7 +2,7 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { useLanguage } from "../../util/store"
 import AudioEditingIcon from "../../icons/audio-editing-icon"
-import MediaConfigurer from "../media-configurer/media-configurer"
+import MediaSettings from "../media-settings/media-settings"
 
 let localization = new LocalizedStrings({
 	US: {
@@ -39,5 +39,5 @@ export default function AudioConfigurer(props: any) {
 	const lang = useLanguage()
 	localization.setLanguage(lang)
 
-	return <MediaConfigurer mediaType="audio" icon={<AudioEditingIcon />} localization={localization} props={props} lang={lang} />
+	return <MediaSettings mediaType="audio" icon={<AudioEditingIcon />} localization={localization} props={props} lang={lang} />
 }

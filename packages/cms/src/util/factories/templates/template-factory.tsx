@@ -48,6 +48,10 @@ export default class TemplateFactory {
 		return reelBlock
 	}
 
+	static createInputBlock() {
+		return this.create("input")
+	}
+
 	static createCarouselPage(origin, numberOfPages = 3) {
 		let page = this.create("carousel")
 		page.origin = origin

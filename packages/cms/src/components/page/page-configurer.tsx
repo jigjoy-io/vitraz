@@ -40,7 +40,7 @@ let localization = new LocalizedStrings({
 	},
 })
 
-export default function CarouselConfigurer(props: any) {
+export default function PageConfigurer(props: any) {
 	const dispatch = useDispatch()
 
 	const [display, setDisplay] = useState(props.display)

@@ -10,6 +10,7 @@ import EditableAudio from "../../pages/designer/toolbar/builder/editable-audio"
 import EditableCarouselTile from "../../pages/designer/toolbar/builder/editable-carousel-tile"
 import BasicEditableBlock from "../../pages/designer/toolbar/builder/basic-editable-block"
 import EditablePageTile from "../../pages/designer/toolbar/builder/editable-page-tile"
+import EditableInput from "../../pages/designer/toolbar/builder/editable-input"
 
 export default class EditorFactory extends React.Component {
 	static builders: any = {
@@ -41,6 +42,12 @@ export default class EditorFactory extends React.Component {
 			builder: new EditableReel(),
 		},
 		"reel-configurer": {
+			builder: new BasicEditableBlock(),
+		},
+		input: {
+			builder: new EditableInput(),
+		},
+		"input-configurer": {
 			builder: new BasicEditableBlock(),
 		},
 		message: {

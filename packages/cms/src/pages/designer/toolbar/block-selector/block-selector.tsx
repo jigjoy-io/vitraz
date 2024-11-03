@@ -46,8 +46,8 @@ export default function BlockSelector(props: any) {
 		localization.setLanguage(lang)
 		const selectorOptions = SelectorOptions.getOptions(lang)
 
-		setOptions(page.type != "blank" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions)
-		setAllOptions(page.type != "blank" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions)
+		setOptions(page.type == "carousel" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions.filter((opt: any) => opt.key != "inputs"))
+		setAllOptions(page.type == "carousel" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions.filter((opt: any) => opt.key != "inputs"))
 
 		inputRef.current?.focus()
 	}, [])

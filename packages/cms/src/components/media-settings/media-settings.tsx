@@ -25,7 +25,7 @@ interface LocalizationStrings {
 	clickToAdd: string
 }
 
-interface MediaConfigurerProps {
+interface MediaSettingsProps {
 	mediaType: "image" | "audio" | "video"
 	icon: React.ReactNode
 	localization: LocalizationStrings
@@ -33,7 +33,7 @@ interface MediaConfigurerProps {
 	props: any
 }
 
-export default function MediaConfigurer({ mediaType, icon, localization, props }: MediaConfigurerProps) {
+export default function MediaSettings({ mediaType, icon, localization, props }: MediaSettingsProps) {
 	const [display, setDisplay] = useState(props.display)
 	const [value, setValue] = useState(props.value)
 
