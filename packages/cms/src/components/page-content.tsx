@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useCallback, useRef } from "react"
 import { LazyMotion, m } from "framer-motion"
 import { useMode } from "../util/store"
-import { appendBlock, focusBlock } from "../reducers/page-reducer"
+import { appendBlock, focusBlock, updateBlock } from "../reducers/page-reducer"
 import { useDispatch } from "react-redux"
 import TemplateFactory from "../util/factories/templates/template-factory"
 import BuildingBlock from "../util/factories/building-block"
+import { DndProvider, useDrag, useDrop, XYCoord } from "react-dnd"
+import { HTML5Backend } from "react-dnd-html5-backend"
+import { Identifier } from "dnd-core"
+import update from "immutability-helper"
 
 const animation = {
 	hidden: { opacity: 0 },
@@ -22,52 +26,211 @@ const item = {
 	show: { opacity: 1 },
 }
 
+const DropIndicator = ({ position }: { position: "top" | "bottom" }) => (
+	<div
+		className={`absolute left-0 right-0 h-1 bg-blue-500 pointer-events-none
+      ${position === "top" ? "-top-0.5" : "-bottom-0.5"}`}
+		style={{
+			zIndex: 50,
+			boxShadow: "0 0 4px rgba(59, 130, 246, 0.5)",
+		}}
+	/>
+)
+
+const DraggableBlock = React.memo(({ block, index, moveBlock, mode }: { block: any; index: number; moveBlock: (dragIndex: number, hoverIndex: number) => void; mode: string }) => {
+	const [dropPosition, setDropPosition] = useState<"top" | "bottom" | null>(null)
+	const ref = useRef<HTMLDivElement>(null)
+	const [isOver, setIsOver] = useState(false)
+
+	useEffect(() => {
+		const element = ref.current
+		if (!element) return
+
+		element.addEventListener("dragstart", (e) => {
+			if (e.dataTransfer) {
+				const dragPreview = element.cloneNode(true) as HTMLElement
+				dragPreview.style.opacity = "0.25"
+				dragPreview.style.position = "absolute"
+				dragPreview.style.top = "-1000px"
+				document.body.appendChild(dragPreview)
+				e.dataTransfer.setDragImage(dragPreview, 0, 0)
+				setTimeout(() => document.body.removeChild(dragPreview), 0)
+			}
+		})
+	}, [])
+
+	const [{ handlerId }, drop] = useDrop<{ index: number; id: string; type: string }, void, { handlerId: Identifier | null }>({
+		accept: "BLOCK",
+		collect(monitor) {
+			return {
+				handlerId: monitor.getHandlerId(),
+				isOver: monitor.isOver(),
+			}
+		},
+		hover(item, monitor) {
+			if (!ref.current) {
+				return
+			}
+			const dragIndex = item.index
+			const hoverIndex = index
+
+			if (dragIndex === hoverIndex) {
+				setDropPosition(null)
+				return
+			}
+
+			const hoverBoundingRect = ref.current?.getBoundingClientRect()
+			const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+			const clientOffset = monitor.getClientOffset()
+
+			if (!clientOffset) {
+				return
+			}
+
+			const hoverClientY = clientOffset.y - hoverBoundingRect.top
+
+			setDropPosition(hoverClientY <= hoverMiddleY ? "top" : "bottom")
+		},
+		drop(item, monitor) {
+			if (!ref.current) {
+				return
+			}
+
+			const dragIndex = item.index
+			const hoverIndex = index
+
+			if (dragIndex === hoverIndex) {
+				return
+			}
+
+			const hoverBoundingRect = ref.current?.getBoundingClientRect()
+			const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+			const clientOffset = monitor.getClientOffset()
+
+			if (!clientOffset) {
+				return
+			}
+
+			const hoverClientY = clientOffset.y - hoverBoundingRect.top
+			const dropPosition = hoverClientY < hoverMiddleY ? "top" : "bottom"
+			const finalIndex = dropPosition === "top" ? hoverIndex : hoverIndex + 1
+
+			// Only move when dropping on the correct side of the middle
+			moveBlock(dragIndex, finalIndex)
+			item.index = finalIndex
+			setDropPosition(null)
+			setIsOver(false)
+		},
+	})
+
+	const [{ isDragging }, drag] = useDrag({
+		type: "BLOCK",
+		item: () => ({ id: block.id, index, type: "BLOCK" }),
+		collect: (monitor) => ({
+			isDragging: monitor.isDragging(),
+		}),
+		end: () => {
+			setDropPosition(null)
+			setIsOver(false)
+		},
+	})
+
+	drag(drop(ref))
+
+	return (
+		<div className={`relative ${isOver ? "z-50" : "z-0"}`}>
+			{isOver && dropPosition === "top" && <DropIndicator position="top" />}
+			<m.div ref={ref} variants={item} style={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId} className="group relative">
+				<div className="relative">
+					{mode === "editing" && (
+						<div
+							className="opacity-0 group-hover:opacity-100 absolute left-2 top-1/2 -translate-y-1/2 
+                         cursor-grab active:cursor-grabbing p-1 hover:bg-gray-100 rounded"
+						>
+							<span className="select-none">⋮⋮</span>
+						</div>
+					)}
+					<div className={`${mode === "editing" ? "pl-8" : ""}`}>
+						<BuildingBlock {...block} mode={mode} />
+					</div>
+				</div>
+			</m.div>
+			{isOver && dropPosition === "bottom" && <DropIndicator position="bottom" />}
+		</div>
+	)
+})
+
 const loadFeatures = () => import("../util/style-helper/animations").then((res) => res.default)
 
 export default function PageContent(props: any) {
-	const mode: any = useMode()
-	const id: any = props.id
+	const mode = useMode()
 	const dispatch = useDispatch()
-
-	const [blocks, setBlocks] = useState(props.config.buildingBlocks)
+	const [blocks, setBlocks] = useState<any[]>([])
 
 	useEffect(() => {
-		setBlocks(props.config.buildingBlocks)
-	}, [props.config])
+		if (props.config?.buildingBlocks) {
+			setBlocks(props.config.buildingBlocks)
+		}
+	}, [props.config?.buildingBlocks])
 
-	const ativateSelector = () => {
-		if (blocks.length != 0 && blocks[blocks.length - 1].type == "block-selector") {
+	const moveBlock = useCallback(
+		(dragIndex: number, hoverIndex: number) => {
+			setBlocks((prevBlocks: any[]) => {
+				const newBlocks = update(prevBlocks, {
+					$splice: [
+						[dragIndex, 1],
+						[hoverIndex, 0, prevBlocks[dragIndex]],
+					],
+				})
+
+				dispatch(
+					updateBlock({
+						...props,
+						config: {
+							...props.config,
+							buildingBlocks: newBlocks,
+						},
+					}),
+				)
+
+				return newBlocks
+			})
+		},
+		[dispatch, props],
+	)
+
+	const activateSelector = useCallback(() => {
+		if (blocks.length !== 0 && blocks[blocks.length - 1].type === "block-selector") {
 			dispatch(focusBlock(blocks[blocks.length - 1].id))
 		} else {
-			let selector = TemplateFactory.createBlockSelector()
-
+			const selector = TemplateFactory.createBlockSelector()
 			dispatch(
 				appendBlock({
-					pageId: id,
+					pageId: props.id,
 					block: selector,
 				}),
 			)
 		}
+	}, [blocks, dispatch, props.id])
+
+	if (!blocks) {
+		return null
 	}
 
 	return (
-		<>
-			{blocks != null && (
-				<div className="bg-[white] h-full flex flex-col break-words">
-					<div>
-						<LazyMotion features={loadFeatures}>
-							<m.div variants={animation} initial="hidden" animate="show">
-								{blocks.map((block: any) => (
-									<m.div key={block.id} variants={item}>
-										<BuildingBlock {...block} mode={mode} />
-									</m.div>
-								))}
-							</m.div>
-						</LazyMotion>
-					</div>
-					<div className="grow min-h-[150px]" onClick={ativateSelector}></div>
+		<DndProvider backend={HTML5Backend}>
+			<div className="bg-white h-full flex flex-col break-words">
+				<div className="relative">
+					<LazyMotion features={loadFeatures}>
+						<m.div variants={animation} initial="hidden" animate="show">
+							{blocks.map((block, index) => (
+								<DraggableBlock key={block.id} block={block} index={index} moveBlock={moveBlock} mode={mode} />
+							))}
+						</m.div>
+					</LazyMotion>
 				</div>
-			)}
-		</>
+				<div className="grow min-h-[150px]" onClick={activateSelector}></div>
+			</div>
+		</DndProvider>
 	)
 }
