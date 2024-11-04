@@ -74,7 +74,7 @@ export default function CarouselPage(props: any) {
 						</div>
 
 						<div className="h-[100%] p-3">
-							<Content config={pages[current].config} key={pages[current].id} id={pages[current].id} />
+							<Content config={pages[current].config} key={pages[current].id} id={pages[current].id} type={pages[current].type} origin={pages[current].origin} name={pages[current].name} linkedPageId={pages[current].linkedPageId} environment={pages[current].environment} />
 						</div>
 
 						{current == 0 && (

@@ -22,6 +22,7 @@ export class PageFactory extends React.Component {
 	}
 
 	static get(props: PageProps) {
+		console.log("PAGEsss", props)
 		if (!props || !props.type) {
 			console.warn("Invalid props passed to PageFactory.get:", props)
 			return null

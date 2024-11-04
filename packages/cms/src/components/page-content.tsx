@@ -176,15 +176,19 @@ export default function PageContent(props: any) {
 					],
 				})
 
-				dispatch(
-					updateBlock({
-						...props,
-						config: {
-							...props.config,
-							buildingBlocks: newBlocks,
-						},
-					}),
-				)
+				const updatedPage = {
+					config: {
+						buildingBlocks: newBlocks,
+					},
+					environment: props.environment,
+					id: props.id,
+					linkedPageId: props.linkedPageId,
+					name: props.name,
+					origin: props.origin,
+					type: props.type,
+				}
+
+				dispatch(updateBlock(updatedPage))
 
 				return newBlocks
 			})
