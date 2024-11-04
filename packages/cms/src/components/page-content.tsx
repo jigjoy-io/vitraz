@@ -5,7 +5,7 @@ import { appendBlock, focusBlock, updateBlock } from "../reducers/page-reducer"
 import { useDispatch } from "react-redux"
 import TemplateFactory from "../util/factories/templates/template-factory"
 import BuildingBlock from "../util/factories/building-block"
-import { DndProvider, useDrag, useDrop, XYCoord } from "react-dnd"
+import { DndProvider, useDrag, useDrop } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import { Identifier } from "dnd-core"
 import update from "immutability-helper"
@@ -26,21 +26,9 @@ const item = {
 	show: { opacity: 1 },
 }
 
-const DropIndicator = ({ position }: { position: "top" | "bottom" }) => (
-	<div
-		className={`absolute left-0 right-0 h-1 bg-blue-500 pointer-events-none
-      ${position === "top" ? "-top-0.5" : "-bottom-0.5"}`}
-		style={{
-			zIndex: 50,
-			boxShadow: "0 0 4px rgba(59, 130, 246, 0.5)",
-		}}
-	/>
-)
-
 const DraggableBlock = React.memo(({ block, index, moveBlock, mode }: { block: any; index: number; moveBlock: (dragIndex: number, hoverIndex: number) => void; mode: string }) => {
 	const [dropPosition, setDropPosition] = useState<"top" | "bottom" | null>(null)
 	const ref = useRef<HTMLDivElement>(null)
-	const [isOver, setIsOver] = useState(false)
 
 	useEffect(() => {
 		const element = ref.current
@@ -51,15 +39,20 @@ const DraggableBlock = React.memo(({ block, index, moveBlock, mode }: { block: a
 				const dragPreview = element.cloneNode(true) as HTMLElement
 				dragPreview.style.opacity = "0.25"
 				dragPreview.style.position = "absolute"
-				dragPreview.style.top = "-1000px"
+				dragPreview.style.top = "-3000px"
+				dragPreview.style.left = "-3000px"
 				document.body.appendChild(dragPreview)
-				e.dataTransfer.setDragImage(dragPreview, 0, 0)
+
+				const rect = dragPreview.getBoundingClientRect()
+
+				e.dataTransfer.setDragImage(dragPreview, -20, rect.height + 5000)
+
 				setTimeout(() => document.body.removeChild(dragPreview), 0)
 			}
 		})
 	}, [])
 
-	const [{ handlerId }, drop] = useDrop<{ index: number; id: string; type: string }, void, { handlerId: Identifier | null }>({
+	const [{ handlerId, isOver }, drop] = useDrop<{ index: number; id: string; type: string }, void, { handlerId: Identifier | null; isOver: boolean }>({
 		accept: "BLOCK",
 		collect(monitor) {
 			return {
@@ -68,9 +61,8 @@ const DraggableBlock = React.memo(({ block, index, moveBlock, mode }: { block: a
 			}
 		},
 		hover(item, monitor) {
-			if (!ref.current) {
-				return
-			}
+			if (!ref.current) return
+
 			const dragIndex = item.index
 			const hoverIndex = index
 
@@ -83,43 +75,32 @@ const DraggableBlock = React.memo(({ block, index, moveBlock, mode }: { block: a
 			const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 			const clientOffset = monitor.getClientOffset()
 
-			if (!clientOffset) {
-				return
-			}
+			if (!clientOffset) return
 
 			const hoverClientY = clientOffset.y - hoverBoundingRect.top
-
 			setDropPosition(hoverClientY <= hoverMiddleY ? "top" : "bottom")
 		},
 		drop(item, monitor) {
-			if (!ref.current) {
-				return
-			}
+			if (!ref.current) return
 
 			const dragIndex = item.index
 			const hoverIndex = index
 
-			if (dragIndex === hoverIndex) {
-				return
-			}
+			if (dragIndex === hoverIndex) return
 
 			const hoverBoundingRect = ref.current?.getBoundingClientRect()
 			const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 			const clientOffset = monitor.getClientOffset()
 
-			if (!clientOffset) {
-				return
-			}
+			if (!clientOffset) return
 
 			const hoverClientY = clientOffset.y - hoverBoundingRect.top
-			const dropPosition = hoverClientY < hoverMiddleY ? "top" : "bottom"
-			const finalIndex = dropPosition === "top" ? hoverIndex : hoverIndex + 1
+			const finalPosition = hoverClientY < hoverMiddleY ? "top" : "bottom"
+			const finalIndex = finalPosition === "top" ? hoverIndex : hoverIndex + 1
 
-			// Only move when dropping on the correct side of the middle
 			moveBlock(dragIndex, finalIndex)
 			item.index = finalIndex
 			setDropPosition(null)
-			setIsOver(false)
 		},
 	})
 
@@ -129,22 +110,26 @@ const DraggableBlock = React.memo(({ block, index, moveBlock, mode }: { block: a
 		collect: (monitor) => ({
 			isDragging: monitor.isDragging(),
 		}),
-		end: () => {
-			setDropPosition(null)
-			setIsOver(false)
-		},
 	})
 
 	drag(drop(ref))
 
 	return (
-		<div className={`relative ${isOver ? "z-50" : "z-0"}`}>
-			{isOver && dropPosition === "top" && <DropIndicator position="top" />}
-			<m.div ref={ref} variants={item} style={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId} className="group relative">
+		<div className="relative group">
+			{isOver && dropPosition === "top" && (
+				<div
+					className="absolute -top-[1px] left-0 right-0 h-[3px]"
+					style={{
+						zIndex: 100,
+						backgroundColor: "#F672D1",
+					}}
+				/>
+			)}
+			<m.div ref={ref} variants={item} style={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId} className={`relative ${isDragging ? "z-50" : "z-0"}`}>
 				<div className="relative">
 					{mode === "editing" && (
 						<div
-							className="opacity-0 group-hover:opacity-100 absolute left-2 top-1/2 -translate-y-1/2 
+							className="opacity-0 group-hover:opacity-0 absolute left-2 
                          cursor-grab active:cursor-grabbing p-1 hover:bg-gray-100 rounded"
 						>
 							<span className="select-none">⋮⋮</span>
@@ -155,7 +140,15 @@ const DraggableBlock = React.memo(({ block, index, moveBlock, mode }: { block: a
 					</div>
 				</div>
 			</m.div>
-			{isOver && dropPosition === "bottom" && <DropIndicator position="bottom" />}
+			{isOver && dropPosition === "bottom" && (
+				<div
+					className="absolute -bottom-[1px] left-0 right-0 h-[3px]"
+					style={{
+						zIndex: 100,
+						backgroundColor: "#F672D1",
+					}}
+				/>
+			)}
 		</div>
 	)
 })
