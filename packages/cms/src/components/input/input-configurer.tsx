@@ -25,7 +25,7 @@ let localization = new LocalizedStrings({
 		create: "Kreiraj",
 		placeholder: "Poruka za unos",
 		label: "Oznaka",
-		textInput: "Unose teksta",
+		textInput: "Unos teksta",
 		dateInput: "Unos datuma",
 		numberInput: "Unos broja",
 		inputType: "Tip unosa",
