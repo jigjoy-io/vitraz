@@ -59,7 +59,7 @@ export default function ContentEditingText(props: any) {
 
 	return (
 		<div className={`inline-block w-[100%] ${style.lineHeight} ${alignmentVariations[position]}`}>
-			<div contentEditable="plaintext-only" spellCheck="false" onKeyDown={handleKeyDown} onBlur={(e) => updateText(e)} data-block-id={props.id} className={`${style.class} w-[100%] [&[contenteditable]]:focus:border-none [&[contenteditable]]:focus:outline-none`} ref={ref}>
+			<div contentEditable="plaintext-only" suppressContentEditableWarning={true} spellCheck="false" onKeyDown={handleKeyDown} onBlur={(e) => updateText(e)} data-block-id={props.id} className={`${style.class} w-[100%] [&[contenteditable]]:focus:border-none [&[contenteditable]]:focus:outline-none`} ref={ref}>
 				{props.text}
 			</div>
 		</div>
