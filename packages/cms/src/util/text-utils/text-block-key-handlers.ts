@@ -236,7 +236,7 @@ class BackspaceCommand extends KeyCommand {
 		const isInput = ref.current instanceof HTMLInputElement
 		const caretPosition = isInput ? (ref.current.selectionStart ?? 0) : getCursorPosition(ref.current)
 
-		if ((blockType === "block-selector" && !ref.current.innerText.trim()) || caretPosition === 0) {
+		if ((!isInput && !ref.current.innerText.trim()) || caretPosition === 0) {
 			event.preventDefault()
 			const currentText = isInput ? ref.current.value : ref.current.innerText || ""
 			mergeWithPreviousBlock({ id: blockId }, previousBlock, currentText, dispatch)
