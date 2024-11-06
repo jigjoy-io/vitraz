@@ -1,5 +1,5 @@
 import { focusBlock, removeBlock, updateBlock } from "../../reducers/page-reducer"
-import { moveCursorToEndOff } from "../cursor-helper/move-cursor-to-end"
+import { moveCursorToEnd, moveCursorToEndOff } from "../cursor-helper/move-cursor-to-end"
 
 interface TextBlock {
 	id: string
@@ -36,17 +36,9 @@ export const mergeWithPreviousBlock = (currentBlock: TextBlock, previousBlock: T
 	const updatedPrevBlock = document.querySelector(`[data-block-id="${previousBlock.id}"]`) as HTMLElement
 
 	if (updatedPrevBlock) {
-		const range = document.createRange()
-		const sel = window.getSelection()
-		const textNode = updatedPrevBlock.firstChild || updatedPrevBlock
-
-		range.setStart(textNode, prevText.length)
-		range.collapse(true)
-		sel?.removeAllRanges()
-		sel?.addRange(range)
-		updatedPrevBlock.focus()
-
-		moveCursorToEndOff(prevBlockElement, currentText.length)
+		setTimeout(() => {
+			moveCursorToEndOff(prevBlockElement, prevText.length)
+		}, 50)
 	}
 
 	return true
