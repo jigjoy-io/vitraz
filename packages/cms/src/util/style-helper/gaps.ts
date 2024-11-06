@@ -7,6 +7,7 @@ const gaps = {
 	question: "py-3",
 	message: "py-3",
 	profile: "py-3",
+	input: "py-2",
 	"carousel-tile": "py-3",
 	"page-tile": "py-3",
 	"block-selector": "py-1",

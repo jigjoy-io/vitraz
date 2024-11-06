@@ -1,5 +1,5 @@
-import { schemaValidator } from '@packages/schema-validator'
-import { v4 as uuid } from 'uuid'
+import { schemaValidator } from "@packages/schema-validator"
+import { v4 as uuid } from "uuid"
 
 export abstract class Entity<T> {
 	private readonly _id: string

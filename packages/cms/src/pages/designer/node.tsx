@@ -381,22 +381,22 @@ const Node = memo(function Node(props: any) {
 				className={`w-[100%] h-[30px] p-1 
             ${selected == props.id ? " bg-primary-light " : ""}
             hover:bg-primary-light hover:bg-opacity-60 rounded-sm flex flex-row items-center`}
-				onMouseOver={() => setHover(props.id)}
-				onMouseOut={() => setHover(null)}
+				onMouseEnter={() => setHover(props.id)}
+				onMouseLeave={() => setHover(null)}
 				style={{ paddingLeft: `${ident}px` }}
 			>
 				<ExpandPage id={props.id} type={props.type} expand={expandPage} hover={hover} />
 
 				<div className="ml-1 px-1 hover:cursor-pointer grow flex truncate text-ellipsis overflow-hidden">{props.name}</div>
-				{hover == props.id && (
+				{hover === props.id && (
 					<>
-						<div onClick={expandDropdown} ref={ref}>
+						<div onClick={expandDropdown} ref={ref} onMouseOut={() => setHover(null)}>
 							<ToolbarButtonWrapper tooltip={<div className="text-center text-[14px]">{localization.moreOptions}</div>}>
 								<MoreIcon />
 							</ToolbarButtonWrapper>
 						</div>
 
-						<div onClick={addPage}>
+						<div onClick={addPage} onMouseOut={() => setHover(null)}>
 							<ToolbarButtonWrapper tooltip={addTooltip()}>
 								<AddBlockIcon />
 							</ToolbarButtonWrapper>

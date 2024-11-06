@@ -8,6 +8,7 @@ import VideoIcon from "../../../../icons/video-icon"
 import AudioIcon from "../../../../icons/audio-icon"
 import QuestionIcon from "../../../../icons/question-icon"
 import MessageIcon from "../../../../icons/message-icon"
+import InputIcon from "../../../../icons/input-icon"
 
 export class SelectorOptions {
 	static getOptions(language) {
@@ -25,7 +26,6 @@ export class SelectorOptions {
 					},
 				],
 			},
-
 			{
 				key: "pages",
 				commands: [
@@ -63,6 +63,17 @@ export class SelectorOptions {
 						label: localization.text,
 						description: localization.textDescription,
 						icon: RenameIcon,
+					},
+				],
+			},
+			{
+				key: "inputs",
+				commands: [
+					{
+						key: "input-configurer",
+						label: localization.input,
+						description: localization.inputDescription,
+						icon: InputIcon,
 					},
 				],
 			},

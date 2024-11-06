@@ -39,6 +39,19 @@ export class TemplatesStorage {
 				position: "left",
 				size: "large",
 			},
+			input: {
+				type: "input",
+				placeholder: localization.placeholder,
+				label: localization.label,
+				inputType: "text",
+			},
+			"input-configurer": {
+				placeholder: localization.placeholder,
+				label: localization.label,
+				type: "input-configurer",
+				inputType: "text",
+				display: true,
+			},
 			"image-configurer": {
 				type: "image-configurer",
 				source: "https://jigjoy.io/assets/placeholderimage.jpg",

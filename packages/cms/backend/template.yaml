@@ -13,7 +13,6 @@ Globals:
       AllowOrigin: "'*'"
 
 Resources:
-
   # User Pool
   JigJoyUserPool:
     Type: AWS::Cognito::UserPool
@@ -44,7 +43,7 @@ Resources:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
       UserPoolId: !Ref JigJoyUserPool
-      Domain: '{{resolve:secretsmanager:vars:SecretString:UserPoolDomain}}'
+      Domain: "{{resolve:secretsmanager:vars:SecretString:UserPoolDomain}}"
 
   # Web Client
   WebClient:
@@ -56,6 +55,24 @@ Resources:
         - ALLOW_CUSTOM_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
       PreventUserExistenceErrors: ENABLED
+
+  EncryptionKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Enabled: true
+      EnableKeyRotation: true
+      KeyPolicy:
+        Version: "2012-10-17"
+        Id: key-default-1
+        Statement:
+          - Sid: Enable IAM User Permissions
+            Effect: Allow
+            Principal:
+              AWS: !Sub arn:aws:iam::${AWS::AccountId}:root
+            Action: kms:*
+            Resource: "*"
+      MultiRegion: false
+      PendingWindowInDays: 7
 
   DefineAuthChallenge:
     Type: AWS::Serverless::Function
@@ -148,12 +165,12 @@ Resources:
       MemorySize: 128
       Timeout: 100
       Policies:
-      - Statement:
-        - Sid: AttributesUpdate
-          Effect: Allow
-          Action:
-          - cognito-idp:AdminUpdateUserAttributes
-          Resource: '*'
+        - Statement:
+            - Sid: AttributesUpdate
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminUpdateUserAttributes
+              Resource: "*"
     Metadata: #Manage esbuild properties
       BuildMethod: esbuild
       BuildProperties:
@@ -203,24 +220,6 @@ Resources:
       FunctionName: !GetAtt PostAuthentication.Arn
       SourceArn: !GetAtt JigJoyUserPool.Arn
 
-  EncryptionKey:
-    Type: AWS::KMS::Key
-    Properties:
-      Enabled: true
-      EnableKeyRotation: true
-      KeyPolicy:
-        Version: "2012-10-17"
-        Id: key-default-1
-        Statement:
-          - Sid: Enable IAM User Permissions
-            Effect: Allow
-            Principal:
-              AWS: !Sub arn:aws:iam::${AWS::AccountId}:root
-            Action: kms:*
-            Resource: "*"
-      MultiRegion: false
-      PendingWindowInDays: 7
-
   sendMagicLinkFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -236,7 +235,7 @@ Resources:
           KMS_KEY_ID: !Ref EncryptionKey
           USER_POOL_ID: !Ref JigJoyUserPool
           SES_FROM_ADDRESS: team@jigjoy.io
-          BASE_URL: '{{resolve:secretsmanager:vars:SecretString:FrontendUrl}}'
+          BASE_URL: "{{resolve:secretsmanager:vars:SecretString:FrontendUrl}}"
       Policies:
         - Version: "2012-10-17"
           Statement:
@@ -247,12 +246,7 @@ Resources:
               Action: kms:Encrypt
               Resource: !GetAtt EncryptionKey.Arn
             - Effect: Allow
-              Action:
-                [
-                  "cognito-idp:AdminUpdateUserAttributes",
-                  "cognito-idp:AdminGetUser",
-                  "cognito-idp:AdminCreateUser",
-                ]
+              Action: ["cognito-idp:AdminUpdateUserAttributes", "cognito-idp:AdminGetUser", "cognito-idp:AdminCreateUser"]
               Resource: !GetAtt JigJoyUserPool.Arn
       Events:
         Api:
@@ -374,7 +368,7 @@ Resources:
       Description: Upload user document to S3
       Environment:
         Variables:
-          ASSETS_BUCKET: '{{resolve:secretsmanager:vars:SecretString:AssetsBucket}}'
+          ASSETS_BUCKET: "{{resolve:secretsmanager:vars:SecretString:AssetsBucket}}"
       Events:
         Api:
           Type: Api
@@ -468,7 +462,7 @@ Resources:
       Environment:
         Variables:
           PAGE_TABLE: !Ref PageTable
-          ASSETS_BUCKET: '{{resolve:secretsmanager:vars:SecretString:AssetsBucket}}'
+          ASSETS_BUCKET: "{{resolve:secretsmanager:vars:SecretString:AssetsBucket}}"
       Events:
         Api:
           Type: Api

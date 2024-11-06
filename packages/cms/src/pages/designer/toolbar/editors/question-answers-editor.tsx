@@ -68,8 +68,8 @@ export default function QuestionAnswersEditor(props: any) {
 				<div className="flex my-1 justify-center items-center">
 					<Checkbox selected={answer.correct} onChange={() => selectCorrectAnswer(index)} />
 
-					<input className="p-1 rounded-lg border w-[100%]" value={answer.text} onChange={(e) => updateAnswer(e, index)} />
-					<div className="ml-2 w-max p-1 h-fit bg-primary-light border-2 border-primary rounded-md cursor-pointer" onClick={() => removeAnswer(index)}>
+					<input className="p-1 rounded-[5px] border w-[100%]" value={answer.text} onChange={(e) => updateAnswer(e, index)} />
+					<div className="ml-2 w-max p-1 h-fit bg-primary-light border-2 border-primary rounded-[5px] cursor-pointer" onClick={() => removeAnswer(index)}>
 						<CloseIcon />
 					</div>
 				</div>

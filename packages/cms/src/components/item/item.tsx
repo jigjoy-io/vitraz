@@ -26,7 +26,7 @@ export default function Item(props: any) {
 			${selected != null && selected === props.id ? "bg-primary-light" : "bg-[white]"} 
 			border-2 border-[white] md:hover:bg-primary-light  
 			${props.borderOn && "border border-light shadow-md"} 
-			p-[3px] rounded-md cursor-pointer flex flex-col`}
+			p-[3px] rounded-[5px] cursor-pointer flex flex-col`}
 		>
 			<div className="flex flex-row">
 				{props.icon && (
@@ -34,7 +34,7 @@ export default function Item(props: any) {
 						<props.icon />
 					</div>
 				)}
-				{props.color && <div className={`border w-[25px] h-[25px] mr-4 rounded-lg ${props.color}`} />}
+				{props.color && <div className={`border w-[25px] h-[25px] mr-4 rounded-[5px] ${props.color}`} />}
 				<div>{props.text}</div>
 			</div>
 			<div>{props.children}</div>

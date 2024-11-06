@@ -8,5 +8,14 @@ export default function Input(props: any) {
 		props.onChange && props.onChange(event.target.value)
 	}
 
-	return <input onChange={handleChange} className="w-[100%] h-[40px] bg-[white] border border-light shadow-lg p-[3px] px-[8px] rounded-lg outline-none" value={value} name={props.key} placeholder={props.placeholder} type={props.type} />
+	return (
+		<>
+			{props.label && (
+				<div className="py-1">
+					<label>{props.label}</label>
+				</div>
+			)}
+			<input onChange={handleChange} className="w-[100%] min-h-[40px] h-[40px] p-2 bg-[white] border border-light shadow-lg px-[8px] rounded-[5px] outline-none" value={props.inputType == "date" && !value ? new Date() : value} name={props.key} placeholder={props.placeholder} type={props.inputType} />
+		</>
+	)
 }

@@ -51,17 +51,17 @@ export default function UserFeedback({ localization, requestType }: UserFeedback
 	}
 
 	return (
-		<div className="mt-20 flex flex-col justify-center items-center gap-6 px-20">
+		<div className="mt-20 flex flex-col justify-center items-center gap-4 px-10">
 			<Heading position="center" text={localization.heading} />
 			<Text position="center" text={localization.description} />
 			{successMessage ? (
 				<div className="text-[green] text-center">{successMessage}</div>
 			) : (
 				<>
-					<div className="w-[500px] max-w-[100%]">
+					<div className="w-full">
 						<TextArea placeholder={localization.placeholder} onChange={handleChange} />
 					</div>
-					<div className="text-[red]">{errorMessage}</div>
+					{errorMessage && <div className="text-[red]">{errorMessage}</div>}
 					<Button text={localization.cta} action={submitRequest} />
 				</>
 			)}

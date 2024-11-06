@@ -1,1 +1,1 @@
-export { Entity } from './entity'
+export { Entity } from "./entity"

@@ -46,8 +46,8 @@ export default function BlockSelector(props: any) {
 		localization.setLanguage(lang)
 		const selectorOptions = SelectorOptions.getOptions(lang)
 
-		setOptions(page.type != "blank" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions)
-		setAllOptions(page.type != "blank" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions)
+		setOptions(page.type == "carousel" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions.filter((opt: any) => opt.key != "inputs"))
+		setAllOptions(page.type == "carousel" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions.filter((opt: any) => opt.key != "inputs"))
 
 		inputRef.current?.focus()
 	}, [])
@@ -158,13 +158,13 @@ export default function BlockSelector(props: any) {
 			{showMenu &&
 				createPortal(
 					<ClickOutsideListener callback={closeMenu}>
-						<div style={{ top: top, left: left, transform: `translate(-100%, -${calculateY()}%)` }} className={`fixed flex flex-col w-[400px] min-w-[400px] h-auto max-h-[500px] overflow-y-auto bg-white shadow rounded-lg p-1 -translate-x-[100%]`}>
+						<div style={{ top: top, left: left, transform: `translate(-100%, -${calculateY()}%)` }} className={`fixed flex flex-col w-[100%] md:max-w-[340px] h-auto max-h-[400px] overflow-y-auto bg-white shadow rounded-[5px] p-1 -translate-x-[100%]`}>
 							{options.map((option: any, index) => (
 								<div key={option.key}>
 									{option.commands.map((command: any) => (
 										<div className="p-1" key={command.key}>
 											<Item icon={command.icon} text={command.label} tabFocus={true} action={(e: any) => insert(e, command.key)}>
-												<div className="mt-2 text-sm">{command.description}</div>
+												<div className="mt-2">{command.description}</div>
 											</Item>
 										</div>
 									))}
@@ -176,7 +176,7 @@ export default function BlockSelector(props: any) {
 					document.body,
 				)}
 
-			<input ref={inputRef} type="text" value={option} onFocus={() => setPlaceholder(localization.selectorText)} className="w-[100%] h-[1.8rem] bg-primary-light rounded-md hover:bg-gray-300 flex items-center focus:outline-0 placeholder:text-[black] py-4 px-2 opacity-80 " placeholder={placeholder} onChange={handleChange} onKeyDown={handleKeyDown} onBlur={handleLoseFocus} />
+			<input ref={inputRef} type="text" value={option} onFocus={() => setPlaceholder(localization.selectorText)} className="w-[100%] h-[1.8rem] bg-primary-light rounded-[5px] hover:bg-gray-300 flex items-center focus:outline-0 placeholder:text-[black] py-4 px-2 opacity-80 " placeholder={placeholder} onChange={handleChange} onKeyDown={handleKeyDown} onBlur={handleLoseFocus} />
 		</div>
 	)
 }

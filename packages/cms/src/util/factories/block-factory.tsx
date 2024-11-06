@@ -6,6 +6,7 @@ const Heading = lazy(() => import("../../components/heading/heading"))
 const Title = lazy(() => import("../../components/title/title"))
 const Image = lazy(() => import("../../components/image/image"))
 const Button = lazy(() => import("../../components/button/button"))
+const Input = lazy(() => import("../../components/input/input"))
 const Question = lazy(() => import("../../components/question/question"))
 const CarouselTile = lazy(() => import("../../components/carousel/carousel-tile"))
 const Message = lazy(() => import("../../components/message/message"))
@@ -18,6 +19,7 @@ const BlockSelector = lazy(() => import("../../pages/designer/toolbar/block-sele
 const ImageConfigurer = lazy(() => import("../../components/image/image-configurer"))
 const AudioConfigurer = lazy(() => import("../../components/audio/audio-configurer"))
 const ReelConfigurer = lazy(() => import("../../components/reel/reel-configurer"))
+const InputConfigurer = lazy(() => import("../../components/input/input-configurer"))
 
 export default class BlockFactory extends React.Component {
 	static buildingBlocks: any = {
@@ -44,6 +46,12 @@ export default class BlockFactory extends React.Component {
 		},
 		button: {
 			component: Button,
+		},
+		input: {
+			component: Input,
+		},
+		"input-configurer": {
+			component: InputConfigurer,
 		},
 		question: {
 			component: Question,

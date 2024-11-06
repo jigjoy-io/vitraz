@@ -9,7 +9,7 @@ export default function BlankPage() {
 		<>
 			{page.config && (
 				<div className="flex grow h-[100%] min-h-[100%] w-[100%] justify-center">
-					<div className="flex flex-col w-full max-w-[400px] p-3">
+					<div className="flex flex-col w-full md:max-w-[360px] p-3">
 						<div className="grow">
 							<Content config={page.config} key={page.id} id={page.id} />
 						</div>

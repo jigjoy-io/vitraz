@@ -75,7 +75,7 @@ export default function Onboarding() {
 				<Loader message={localization.loadingMessage} />
 			) : (
 				<div>
-					<div className="absolute top-10 right-10 w-max bg-primary-light border-2 border-primary p-1 rounded-md cursor-pointer" onClick={() => navigate({ to: "/interactive-content-designer" })}>
+					<div className="absolute top-10 right-10 w-max bg-primary-light border-2 border-primary p-1 rounded-[5px] cursor-pointer" onClick={() => navigate({ to: "/interactive-content-designer" })}>
 						<CloseIcon />
 					</div>
 					<div className="flex flex-col mt-20 items-center justify-center">

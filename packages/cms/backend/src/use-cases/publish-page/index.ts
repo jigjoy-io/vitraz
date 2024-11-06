@@ -1,1 +1,1 @@
-export * from './publish-page'
+export * from "./publish-page"

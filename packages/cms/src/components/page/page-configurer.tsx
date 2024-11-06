@@ -40,7 +40,7 @@ let localization = new LocalizedStrings({
 	},
 })
 
-export default function CarouselConfigurer(props: any) {
+export default function PageConfigurer(props: any) {
 	const dispatch = useDispatch()
 
 	const [display, setDisplay] = useState(props.display)
@@ -125,9 +125,9 @@ export default function CarouselConfigurer(props: any) {
 				createPortal(
 					<ClickOutsideListener callback={onClose}>
 						<div
-							className="fixed rounded-md bg-[white] rounded-lg rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] z-50"
+							className="fixed bg-[white] rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] z-50"
 							style={{
-								width: 460,
+								width: 400,
 								pointerEvents: "auto",
 								top: top,
 								left: left,
@@ -143,7 +143,7 @@ export default function CarouselConfigurer(props: any) {
 													<label className="flex-none flex items-center w-[33%]" htmlFor="headline">
 														{localization.title}
 													</label>
-													<input className="ml-4 p-1 rounded-lg border w-[100%]" value={title} onChange={(e: any) => setHeadline(e.target.value)} />
+													<input className="ml-4 p-1 rounded-[5px] border w-[100%]" value={title} onChange={(e: any) => setHeadline(e.target.value)} />
 												</div>
 											</div>
 
@@ -152,7 +152,7 @@ export default function CarouselConfigurer(props: any) {
 													<label className="flex-none flex items-center w-[33%]" htmlFor="headline">
 														{localization.description}
 													</label>
-													<input className="ml-4 p-1 rounded-lg border w-[100%]" value={description} onChange={(e: any) => setDescription(e.target.value)} />
+													<input className="ml-4 p-1 rounded-[5px] border w-[100%]" value={description} onChange={(e: any) => setDescription(e.target.value)} />
 												</div>
 											</div>
 										</Tab>
@@ -184,7 +184,7 @@ export default function CarouselConfigurer(props: any) {
 					</ClickOutsideListener>,
 					document.body,
 				)}
-			<div ref={ref} onClick={openConfigurer} className="w-[100%] h-[50px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-md flex items-center pl-5 hover:opacity-60">
+			<div ref={ref} onClick={openConfigurer} className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60">
 				<CarouselIcon />
 				<div className="pl-2">{localization.clickToAdd}</div>
 			</div>

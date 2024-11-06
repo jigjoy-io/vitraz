@@ -1,41 +1,58 @@
-# Template for Micro Frontends with Module Federation
+# React Frontend - Local Setup
 
-This repository template leverages the module federation paradigm to facilitate efficient code sharing across micro frontends. It uses Webpack as the bundler, TypeScript for type safety, Babel for JavaScript transpilation, and Tailwind CSS for styling. Designed to streamline the setup process, this template accelerates the creation of new repositories for micro frontend applications.
+This guide provides instructions for running a React frontend locally, designed to interact with the serverless backend. Please make sure to set up and run the backend by following the [backend README](./path/to/backend/README.md) before starting the frontend.
 
-## Creating a New Micro-Frontend
+## Prerequisites
 
-Run the following command in your terminal, replacing name_of_new_project with your desired project name:
+- Ensure the backend is running locally (see [backend setup instructions](./path/to/backend/README.md)).
+- [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/) - For managing dependencies and scripts.
 
-`npx degit git@github.com:jigjoy-io/module-federation-template.git#main name_of_new_project`
+## Steps
 
-## Running Instructions 
+### 1. Install Dependencies
 
-To run a new micro-frontend project follow these steps:
+Run the following command to install project dependencies:
 
-### Navigate to the Project Directory
+```bash
+yarn install
+```
+### 2. Set Environment Variables
 
-Change into your new project directory:
+Create an `.env` file in the root directory and fill in the required variables. Ensure these values match those in the backend configuration.
 
-`cd name_of_new_project`
+```json
+REACT_APP_USER_POOL_ID=_
+REACT_APP_USER_POOL_WEB_CLIENT_ID=_
+REACT_APP_API=_
+```
 
-### Install Dependencies
+### 3. Start the Development Server
 
-Install the required dependencies by running:
+To start the frontend in development mode, run:
 
-`yarn install`
+```bash
+yarn start
+```
+or
 
-### Run the Development Server
+```bash
+yarn serve
+```
 
-Start the development server with:
+Note: This command triggers rspack serve --config configs/rspack.dev.js, launching the frontend application in development mode.
 
-`yarn start`
+### 4. Bundle Code for Production
 
-Your new micro-frontend project is now set up and running. You can start developing your application using Webpack, TypeScript, Babel, and Tailwind CSS.
+To compile and bundle the code for production, run:
 
-## Build the Project
+```bash
+yarn build
+```
+Note: This command triggers rspack --config configs/rspack.prod.js, creating a dist folder with the bundled code ready for deployment.
 
-To build the project, run:
+## Additional Information
 
-`yarn build`
+- **Frontend Development Port**: The application typically runs on `http://localhost:3000`.
+- **Production Output**: Bundled code is available in the `dist` folder for deployment.
 
-This will create a `dist` folder where the built files will be regenerated each time you run this command.
+Refer to the [backend README](backend) if you encounter issues connecting the frontend to the backend.

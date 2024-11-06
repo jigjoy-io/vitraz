@@ -2,7 +2,7 @@ import React from "react"
 import { useLanguage } from "../../util/store"
 import LocalizedStrings from "react-localization"
 import ImageEditingIcon from "../../icons/image-editing-icon"
-import MediaConfigurer from "../media-configurer/media-configurer"
+import MediaSettings from "../media-settings/media-settings"
 
 let localization = new LocalizedStrings({
 	US: {
@@ -41,5 +41,5 @@ export default function ImageConfigurer(props: any) {
 	const lang = useLanguage()
 	localization.setLanguage(lang)
 
-	return <MediaConfigurer mediaType="image" icon={<ImageEditingIcon />} localization={localization} props={props} lang={lang} />
+	return <MediaSettings mediaType="image" icon={<ImageEditingIcon />} localization={localization} props={props} lang={lang} />
 }

@@ -1,1 +1,1 @@
-export * from './remove-page'
+export * from "./remove-page"

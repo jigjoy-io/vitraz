@@ -2,7 +2,7 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { useLanguage } from "../../util/store"
 import VideoEditingIcon from "../../icons/video-editing-icon"
-import MediaConfigurer from "../media-configurer/media-configurer"
+import MediaSettings from "../media-settings/media-settings"
 
 let localization = new LocalizedStrings({
 	US: {
@@ -41,5 +41,5 @@ export default function ReelConfigurer(props: any) {
 	const lang = useLanguage()
 	localization.setLanguage(lang)
 
-	return <MediaConfigurer mediaType="video" icon={<VideoEditingIcon />} localization={localization} props={props} lang={lang} />
+	return <MediaSettings mediaType="video" icon={<VideoEditingIcon />} localization={localization} props={props} lang={lang} />
 }

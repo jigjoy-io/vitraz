@@ -1,1 +1,1 @@
-export * from './update-page'
+export * from "./update-page"

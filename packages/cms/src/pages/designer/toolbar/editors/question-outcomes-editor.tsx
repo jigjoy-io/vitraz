@@ -52,22 +52,22 @@ export default function QuestionOutcomesEditor(props: any) {
 	return (
 		<div className="flex flex-col p-2 w-[350px] mt-1">
 			<div>{localization.confirmationButtonText}</div>
-			<input className="p-1 mt-2 rounded-lg border w-[100%] mb-3" value={value.confirmationButtonText} onChange={(e: any) => handleButtonChange("confirmationButtonText", e.target.value)} />
+			<input className="p-1 mt-2 rounded-[5px] border w-[100%] mb-3" value={value.confirmationButtonText} onChange={(e: any) => handleButtonChange("confirmationButtonText", e.target.value)} />
 
 			<div className="h-max">
 				<Tabs>
 					<Tab key={localization.correct}>
 						<div>{localization.titile}</div>
-						<input className="p-1 mt-2 rounded-lg border w-[100%] mb-3" value={value.correct.title} onChange={(e: any) => handleOutcomeChange("correct", "title", e.target.value)} />
+						<input className="p-1 mt-2 rounded-[5px] border w-[100%] mb-3" value={value.correct.title} onChange={(e: any) => handleOutcomeChange("correct", "title", e.target.value)} />
 						<div>{localization.message}</div>
-						<textarea className="p-1 mt-1 rounded-lg border w-[100%]" value={value.correct.message} onChange={(e: any) => handleOutcomeChange("correct", "message", e.target.value)} />
+						<textarea className="p-1 mt-1 rounded-[5px] border w-[100%]" value={value.correct.message} onChange={(e: any) => handleOutcomeChange("correct", "message", e.target.value)} />
 					</Tab>
 
 					<Tab key={localization.incorrect}>
 						<div>{localization.titile}</div>
-						<input className="p-1 mt-2 rounded-lg border w-[100%] mb-3" value={value.incorrect.title} onChange={(e: any) => handleOutcomeChange("incorrect", "title", e.target.value)} />
+						<input className="p-1 mt-2 rounded-[5px] border w-[100%] mb-3" value={value.incorrect.title} onChange={(e: any) => handleOutcomeChange("incorrect", "title", e.target.value)} />
 						<div>{localization.message}</div>
-						<textarea className="p-1 mt-1 rounded-lg border w-[100%]" value={value.incorrect.message} onChange={(e: any) => handleOutcomeChange("incorrect", "message", e.target.value)} />
+						<textarea className="p-1 mt-1 rounded-[5px] border w-[100%]" value={value.incorrect.message} onChange={(e: any) => handleOutcomeChange("incorrect", "message", e.target.value)} />
 					</Tab>
 				</Tabs>
 			</div>

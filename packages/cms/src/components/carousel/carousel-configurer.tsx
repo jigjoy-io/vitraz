@@ -128,13 +128,13 @@ export default function CarouselConfigurer(props: any) {
 					<ClickOutsideListener callback={onClose}>
 						<div
 							style={{
-								width: 460,
+								width: 400,
 								pointerEvents: "auto",
 								top: top,
 								left: left,
 								transform: `translate(-50%, ${y}%)`,
 							}}
-							className="fixed rounded-md bg-[white] rounded-lg rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] z-50"
+							className="fixed bg-[white] rounded-[5px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)] z-50"
 						>
 							<div className="p-[5%]">
 								<div>
@@ -145,7 +145,7 @@ export default function CarouselConfigurer(props: any) {
 													<label className="flex-none flex items-center w-[33%]" htmlFor="headline">
 														{localization.title}
 													</label>
-													<input className="ml-4 p-1 rounded-lg border w-[100%]" value={title} onChange={(e: any) => setHeadline(e.target.value)} />
+													<input className="ml-4 p-1 rounded-[5px] border w-[100%]" value={title} onChange={(e: any) => setHeadline(e.target.value)} />
 												</div>
 											</div>
 
@@ -154,7 +154,7 @@ export default function CarouselConfigurer(props: any) {
 													<label className="flex-none flex items-center w-[33%]" htmlFor="headline">
 														{localization.description}
 													</label>
-													<input className="ml-4 p-1 rounded-lg border w-[100%]" value={description} onChange={(e: any) => setDescription(e.target.value)} />
+													<input className="ml-4 p-1 rounded-[5px] border w-[100%]" value={description} onChange={(e: any) => setDescription(e.target.value)} />
 												</div>
 											</div>
 
@@ -163,7 +163,7 @@ export default function CarouselConfigurer(props: any) {
 													<label className="flex-none flex items-center w-[33%]" htmlFor="numberOfPages">
 														{localization.numberOfPages}
 													</label>
-													<input className="ml-4 p-1 rounded-lg border w-[100%]" type="number" min={1} value={numberOfPages} onChange={(e: any) => setNumberOfPages(e.target.value)} />
+													<input className="ml-4 p-1 rounded-[5px] border w-[100%]" type="number" min={1} value={numberOfPages} onChange={(e: any) => setNumberOfPages(e.target.value)} />
 												</div>
 											</div>
 										</Tab>
@@ -195,7 +195,7 @@ export default function CarouselConfigurer(props: any) {
 					</ClickOutsideListener>,
 					document.body,
 				)}
-			<div ref={ref} onClick={openConfigurer} className="w-[100%] h-[50px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-md flex items-center pl-5 hover:opacity-60">
+			<div ref={ref} onClick={openConfigurer} className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60">
 				<CarouselIcon />
 				<div className="pl-2">{localization.clickToAdd}</div>
 			</div>

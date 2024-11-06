@@ -1,1 +1,1 @@
-export * from './upload-document-repository'
+export * from "./upload-document-repository"

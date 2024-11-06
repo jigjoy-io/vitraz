@@ -94,7 +94,7 @@ function AudioButton({ id, position, source }: AudioButtonProps) {
 		<>
 			<audio className="hidden" ref={audioRef} />
 			<div className="flex w-full" style={{ justifyContent: position }}>
-				<div className="w-max hover:bg-primary-light border-2 border-[transparent] p-1 rounded-md cursor-pointer" onClick={togglePlay}>
+				<div className="w-max hover:bg-primary-light border-2 border-[transparent] p-1 rounded-[5px] cursor-pointer" onClick={togglePlay}>
 					{renderIcon()}
 				</div>
 			</div>

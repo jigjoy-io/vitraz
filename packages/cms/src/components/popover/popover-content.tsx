@@ -36,7 +36,7 @@ export default function PopoverContent(props: any) {
 					{createPortal(
 						<ClickOutsideListener callback={props.onClose}>
 							<div
-								className={`fixed flex rounded-md p-1 shadow bg-[white] 
+								className={`fixed flex rounded-[5px] p-1 shadow bg-[white] 
 						${props.position == "left" && "-translate-x-[100%]"} 
 						${props.position == "right" && "translate-x-[25px]"}`}
 								style={{ top: top, left: left }}

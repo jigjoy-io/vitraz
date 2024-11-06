@@ -23,6 +23,8 @@ let localization = new LocalizedStrings({
 		previous: "Previous",
 		next: "Next",
 		backToHome: "Back to Home",
+		placeholder: "Placeholder text",
+		label: "Label",
 	},
 	RS: {
 		questionText: "Tekst pitanja...",
@@ -46,6 +48,8 @@ let localization = new LocalizedStrings({
 		previous: "Nazad",
 		next: "Napred",
 		backToHome: "Povratak na početnu",
+		placeholder: "Poruka za unos",
+		label: "Oznaka",
 	},
 })
 
