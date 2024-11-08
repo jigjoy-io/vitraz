@@ -15,7 +15,7 @@ import OpenMenuIcon from "../../../icons/open-menu-icon"
 import DeleteBlockIcon from "../../../icons/delete-block-icon"
 import Grid from "../../../components/grid/grid"
 import Item from "../../../components/item/item"
-import { useDrag, useDrop } from "react-dnd"
+import { useDrag } from "react-dnd"
 
 const animation = {
 	hidden: { opacity: 0 },
@@ -184,7 +184,15 @@ export default function Toolbar(props: any) {
 	}, [dragPreview])
 
 	return (
-		<div ref={containerRef} onMouseEnter={() => setOn(true)} onMouseLeave={() => setOn(false)} className="sticky flex flex-col">
+		<div
+			ref={containerRef}
+			onMouseEnter={() => setOn(true)}
+			onMouseLeave={() => setOn(false)}
+			className={`
+            sticky flex flex-col
+            ${isDragging ? "opacity-50 bg-gray-100 rounded-md" : ""}
+        `}
+		>
 			<LazyMotion features={loadFeatures}>
 				<AnimatePresence>
 					{(on || toolbarVisible || editor) && (

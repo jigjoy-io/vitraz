@@ -1,8 +1,7 @@
-// src/util/factories/page-factory.tsx
 import React from "react"
 import CarouselPage from "../../components/carousel/carousel-page"
 import BlankPage from "../../components/page/blank-page"
-import PageContent from "../../components/page-content" // Make sure this import path is correct
+import PageContent from "../../components/page-content"
 
 interface PageProps {
 	type: string
@@ -30,7 +29,7 @@ export class PageFactory extends React.Component {
 		const layout = this.layouts[props.type]
 		if (!layout || !layout.component) {
 			console.warn(`No component found for type: ${props.type}`)
-			return <PageContent {...props} /> // Fallback to PageContent if no specific layout
+			return <PageContent {...props} />
 		}
 
 		const Component = layout.component

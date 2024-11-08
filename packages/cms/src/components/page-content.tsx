@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { LazyMotion, m } from "framer-motion"
 import { useMode, usePage } from "../util/store"
-import { pageUpdated } from "../reducers/page-reducer"
+import { appendBlock, focusBlock, pageUpdated } from "../reducers/page-reducer"
 import { useDispatch } from "react-redux"
 import { useDrop } from "react-dnd"
 import EditorFactory from "../util/factories/editor-factory"
+import TemplateFactory from "../util/factories/templates/template-factory"
 
 const animation = {
 	hidden: { opacity: 0 },
@@ -113,6 +114,21 @@ export default function PageContent(props: any) {
 		...(position === "top" ? { top: "-2px" } : { bottom: "-2px" }),
 	})
 
+	const ativateSelector = () => {
+		if (blocks.length != 0 && blocks[blocks.length - 1].type == "block-selector") {
+			dispatch(focusBlock(blocks[blocks.length - 1].id))
+		} else {
+			let selector = TemplateFactory.createBlockSelector()
+
+			dispatch(
+				appendBlock({
+					pageId: props.id,
+					block: selector,
+				}),
+			)
+		}
+	}
+
 	return (
 		<div className="bg-white h-full flex flex-col break-words">
 			<div className={`relative ${isOver && canDrop ? "bg-gray-50" : ""}`} ref={drop}>
@@ -143,7 +159,7 @@ export default function PageContent(props: any) {
 					</m.div>
 				</LazyMotion>
 			</div>
-			<div className="grow min-h-[150px]" />
+			<div className="grow min-h-[150px]" onClick={ativateSelector}></div>
 		</div>
 	)
 }
