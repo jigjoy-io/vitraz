@@ -236,6 +236,12 @@ const Node = memo(function Node(props: any) {
 		dispatch(blockingUpdated(false))
 	}
 
+	useEffect(() => {
+		if (expandedPages.length === 0 && (!props.root || props.root.id === props.id)) {
+			dispatch(pageExpanded(props.id))
+		}
+	}, [])
+
 	const expandPage = () => {
 		const expanded = expandedPages.includes(props.id)
 
