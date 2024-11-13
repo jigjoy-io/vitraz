@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { LazyMotion, m } from "framer-motion"
-import { useMode, usePage } from "../util/store"
+import { useCurrentCarouselPage, useMode, usePage } from "../util/store"
 import { appendBlock, focusBlock, updateBlock } from "../reducers/page-reducer"
 import { useDispatch } from "react-redux"
 import { useDrop } from "react-dnd"
@@ -25,7 +25,25 @@ export default function PageContent(props: any) {
 	const dispatch = useDispatch()
 	const [blocks, setBlocks] = useState<any[]>([])
 	const page = usePage()
+	const activeCarousel = useCurrentCarouselPage()
 	const [dropTarget, setDropTarget] = useState<{ index: number; position: "top" | "bottom" } | null>(null)
+
+	function findPageById(page, targetId) {
+		if (page.id === targetId) {
+			return page
+		}
+
+		if (page.config && page.config.pages && Array.isArray(page.config.pages)) {
+			for (const nestedPage of page.config.pages) {
+				const result = findPageById(nestedPage, targetId)
+				if (result) {
+					return result
+				}
+			}
+		}
+
+		return null
+	}
 
 	const [{ isOver, canDrop }, drop] = useDrop<any, void, { isOver: boolean; canDrop: boolean }>(
 		() => ({
@@ -73,15 +91,29 @@ export default function PageContent(props: any) {
 				const [movedBlock] = filteredBlocks.splice(dragIndex, 1)
 				filteredBlocks.splice(targetIndex, 0, movedBlock)
 
-				dispatch(
-					updateBlock({
-						...page,
-						config: {
-							...page.config,
-							buildingBlocks: filteredBlocks,
-						},
-					}),
-				)
+				const carouselPage = findPageById(page, activeCarousel)
+
+				if (carouselPage) {
+					dispatch(
+						updateBlock({
+							...carouselPage,
+							config: {
+								...carouselPage.config,
+								buildingBlocks: filteredBlocks,
+							},
+						}),
+					)
+				} else {
+					dispatch(
+						updateBlock({
+							...page,
+							config: {
+								...page.config,
+								buildingBlocks: filteredBlocks,
+							},
+						}),
+					)
+				}
 
 				setDropTarget(null)
 			},
