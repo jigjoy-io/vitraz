@@ -3,7 +3,7 @@ import Button from "../button/button"
 import Grid from "../grid/grid"
 import { useDispatch } from "react-redux"
 import Tile from "../tile/tile"
-import { pageUpdated } from "../../reducers/page-reducer"
+import { pageExpanded, pageUpdated } from "../../reducers/page-reducer"
 
 export default function PageTile(props: any) {
 	const [color, setColor] = useState("")
@@ -20,6 +20,7 @@ export default function PageTile(props: any) {
 
 	const load = () => {
 		dispatch(pageUpdated(props.page))
+		dispatch(pageExpanded(props.page.id))
 	}
 
 	return (

@@ -25,7 +25,7 @@ let localization = new LocalizedStrings({
 		create: "Kreiraj",
 		placeholder: "Poruka za unos",
 		label: "Oznaka",
-		textInput: "Unose teksta",
+		textInput: "Unos teksta",
 		dateInput: "Unos datuma",
 		numberInput: "Unos broja",
 		inputType: "Tip unosa",
@@ -150,14 +150,16 @@ export default function InputConfigurer(props: any) {
 										<input className="ml-4 p-1 rounded-[5px] border w-[100%]" value={label} onChange={(e: any) => setLabel(e.target.value)} />
 									</div>
 								</div>
-								<div className="w-[100%] mt-[1rem]">
-									<div className="flex flex-row w-full">
-										<label className="flex-none flex items-center w-[33%]" htmlFor="placeholder">
-											{localization.placeholder}
-										</label>
-										<input className="ml-4 p-1 rounded-[5px] border w-[100%]" value={placeholder} onChange={(e: any) => setPlaceholder(e.target.value)} />
+								{inputType !== "date" && (
+									<div className="w-[100%] mt-[1rem]">
+										<div className="flex flex-row w-full">
+											<label className="flex-none flex items-center w-[33%]" htmlFor="placeholder">
+												{localization.placeholder}
+											</label>
+											<input className="ml-4 p-1 rounded-[5px] border w-[100%]" value={placeholder} onChange={(e: any) => setPlaceholder(e.target.value)} />
+										</div>
 									</div>
-								</div>
+								)}
 
 								<div className="mt-[1rem]">
 									<Button width="w-full" text={localization.create} action={create} />

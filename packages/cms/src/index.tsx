@@ -11,6 +11,7 @@ import { PostHogProvider } from "posthog-js/react"
 import { PersistGate } from "redux-persist/integration/react"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
+import { Helmet } from "react-helmet"
 
 const options = {
 	api_host: process.env.REACT_APP_PUBLIC_POSTHOG_HOST,
@@ -59,6 +60,11 @@ rootDiv.render(
 			<DndProvider backend={HTML5Backend}>
 				<Provider store={store}>
 					<PersistGate loading={null} persistor={persistor}>
+						<Helmet>
+							<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+							<meta http-equiv="expires" content="0" />
+							<meta http-equiv="pragma" content="no-cache" />
+						</Helmet>
 						<RouterProvider router={router} />
 					</PersistGate>
 				</Provider>

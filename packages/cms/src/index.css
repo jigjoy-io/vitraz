@@ -13,3 +13,7 @@ body {
 	--primary: white;
 	--secondary: #d4d4d4;
 }
+
+input {
+	-webkit-appearance: none;
+}

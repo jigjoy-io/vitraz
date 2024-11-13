@@ -1,5 +1,5 @@
 import { focusBlock, removeBlock, updateBlock } from "../../reducers/page-reducer"
-import { moveCursorToEndOff } from "../cursor-helper/move-cursor-to-end"
+import { moveCursorToEnd, moveCursorToEndOff } from "../cursor-helper/move-cursor-to-end"
 
 interface TextBlock {
 	id: string
@@ -9,16 +9,13 @@ interface TextBlock {
 
 export const mergeWithPreviousBlock = (currentBlock: TextBlock, previousBlock: TextBlock | null, currentText: string, dispatch: any): boolean => {
 	if (!previousBlock) {
-		dispatch(removeBlock(currentBlock.id))
+		if (!currentText) {
+			dispatch(removeBlock(currentBlock.id))
+		}
 		return true
 	}
 
 	const prevBlockElement = document.querySelector(`[data-block-id="${previousBlock.id}"]`) as HTMLElement
-
-	if (!prevBlockElement) {
-		dispatch(removeBlock(currentBlock.id))
-		return false
-	}
 
 	const prevText = prevBlockElement.innerText
 	const mergedText = prevText + currentText
@@ -36,17 +33,13 @@ export const mergeWithPreviousBlock = (currentBlock: TextBlock, previousBlock: T
 	const updatedPrevBlock = document.querySelector(`[data-block-id="${previousBlock.id}"]`) as HTMLElement
 
 	if (updatedPrevBlock) {
-		const range = document.createRange()
-		const sel = window.getSelection()
-		const textNode = updatedPrevBlock.firstChild || updatedPrevBlock
-
-		range.setStart(textNode, prevText.length)
-		range.collapse(true)
-		sel?.removeAllRanges()
-		sel?.addRange(range)
-		updatedPrevBlock.focus()
-
-		moveCursorToEndOff(prevBlockElement, currentText.length)
+		if (currentText.length) {
+			setTimeout(() => {
+				moveCursorToEndOff(prevBlockElement, currentText.length)
+			}, 50)
+		} else {
+			moveCursorToEnd(prevBlockElement)
+		}
 	}
 
 	return true
