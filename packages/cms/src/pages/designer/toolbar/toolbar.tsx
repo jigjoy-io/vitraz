@@ -30,16 +30,20 @@ const transition = {
 
 let localization = new LocalizedStrings({
 	US: {
-		openMenu: "Open menu",
+		open: "Open",
+		menu: " menu",
 		duplicate: "Duplicate block",
 		delete: "Delete block",
-		dragging: "Dragging...",
+		drag: "Drag",
+		toMove: " to move",
 	},
 	RS: {
-		openMenu: "Otvori meni",
+		open: "Otvori meni",
+		menu: " meni",
 		duplicate: "Kloniraj blok",
 		delete: "Obriši blok",
-		dragging: "Prevlačenje...",
+		drag: "Prevuci",
+		toMove: " da pomeriš blok",
 	},
 })
 
@@ -195,7 +199,16 @@ export default function Toolbar(props: any) {
 								<div className="flex flex-row">
 									<AddNewBlock id={props.id} />
 									<div onClick={handleToolbarOpen} ref={openMenuRef}>
-										<ToolbarButtonWrapper tooltip={<div className="text-center text-[14px]">{isDragging ? localization.dragging : localization.openMenu}</div>}>
+										<ToolbarButtonWrapper
+											tooltip={
+												<div className="text-center text-[14px]">
+													<div>
+														<span className="font-extrabold">{localization.open}</span> {localization.menu}
+													</div>
+													<span className="font-extrabold">{localization.drag}</span> {localization.toMove}
+												</div>
+											}
+										>
 											<div ref={drag} className="cursor-grab active:cursor-grabbing" style={{ opacity: isDragging ? 0.4 : 1 }}>
 												<OpenMenuIcon />
 											</div>

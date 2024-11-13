@@ -23,10 +23,6 @@ export default function Input(props: any) {
 		return `${year}-${month}-${day}`
 	}
 
-	useEffect(() => {
-		console.log(props)
-	}, [])
-
 	return (
 		<>
 			{props.label && (
@@ -34,14 +30,7 @@ export default function Input(props: any) {
 					<label>{props.label}</label>
 				</div>
 			)}
-			<input
-				onChange={handleChange}
-				className="w-[100%] min-h-[40px] h-[40px] p-2 bg-[white] border border-light shadow-lg px-[8px] rounded-[5px] outline-none"
-				value={props.inputType === "date" ? formatDate(value) : value}
-				name={props.key}
-				placeholder={props.placeholder}
-				type={props.inputType}
-			/>
+			<input onChange={handleChange} className="w-[100%] min-h-[40px] h-[40px] p-2 bg-[white] border border-light shadow-lg px-[8px] rounded-[5px] outline-none" value={props.inputType === "date" ? formatDate(value) : value} name={props.key} placeholder={props.placeholder} type={props.inputType} />
 		</>
 	)
 }
