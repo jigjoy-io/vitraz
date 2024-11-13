@@ -6,9 +6,7 @@ export default function Input(props: any) {
 	const handleChange = (event: any) => {
 		let newValue = event.target.value
 
-		if (props.inputType === "number") {
-			newValue = newValue.replace(/[^0-9]/g, "")
-		} else if (props.inputType === "date") {
+		if (props.inputType === "date") {
 			newValue = formatDate(newValue)
 		}
 
@@ -18,13 +16,11 @@ export default function Input(props: any) {
 
 	const handleKeyDown = (event: any) => {
 		if (props.inputType === "number") {
-			if ([8, 9, 46, 37, 38, 39, 40, 190, 189].includes(event.keyCode)) {
+			if (/[0-9.+-]/.test(event.key)) {
 				return
 			}
 
-			if (!/[0-9]/.test(event.key)) {
-				event.preventDefault()
-			}
+			event.preventDefault()
 		}
 	}
 
