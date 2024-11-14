@@ -109,7 +109,7 @@ export default function CarouselPage(props) {
 							</div>
 						</div>
 
-						<div className="relative h-full overflow-hidden">
+						<div className="relative h-full">
 							<AnimatePresence initial={false} custom={direction} mode="wait">
 								<motion.div
 									key={pages[current].id}
