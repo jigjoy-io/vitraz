@@ -44,6 +44,7 @@ export const useBlocked = () => useAppSelector((state: any) => state.toolbar.blo
 
 export const useSidebarVisible = () => useAppSelector((state: any) => state.sidebar.expanded)
 export const useSidebarComponent = () => useAppSelector((state: any) => state.sidebar.component)
+export const useHovered = () => useAppSelector((state: any) => state.sidebar.hovered)
 
 export const useAuthorized = () => useAppSelector((state: any) => state.auth.authorized)
 
