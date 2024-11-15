@@ -7,9 +7,16 @@ import DeleteBlockIcon from "../../icons/delete-block-icon"
 import DuplicateIcon from "../../icons/duplicate-icon"
 import ExpandPage from "../../icons/expand-page"
 import MoreIcon from "../../icons/more-icon"
-import { carouselPageSwitched, pageCollapsed, pageExpanded, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/page-reducer"
+import {
+	carouselPageSwitched,
+	pageCollapsed,
+	pageExpanded,
+	pagesUpdated,
+	pageUpdated,
+	rootPageUpdated,
+} from "../../reducers/page-reducer"
 import { blockingUpdated } from "../../reducers/toolbar-reducer"
-import { useExpandedPages, useLanguage, usePage, usePages, useSelected } from "../../util/store"
+import { useExpandedPages, useHovered, useLanguage, usePage, usePages, useSelected } from "../../util/store"
 import { deletePage } from "../../util/traversals/delete-page"
 import { duplicateBlock } from "../../util/traversals/duplcate-block"
 import { findParent } from "../../util/traversals/find-parent"
@@ -24,6 +31,7 @@ import RenameIcon from "../../icons/rename-icon"
 import { languageUpdated } from "../../reducers/localization-reducer"
 import ToolbarButtonWrapper from "./toolbar/toolbar-button-wrapper"
 import TemplateFactory from "../../util/factories/templates/template-factory"
+import { nodeHovered } from "../../reducers/sidebar-reducer"
 
 let localization = new LocalizedStrings({
 	US: {
@@ -69,7 +77,6 @@ let localization = new LocalizedStrings({
 const Node = memo(function Node(props: any) {
 	const activePage = usePage()
 	const selected = useSelected()
-	const [hover, setHover] = useState(null)
 
 	const [renameActive, setRenameActive] = useState(false)
 	const [dropdownActive, setDropdownActive] = useState(false)
@@ -89,6 +96,7 @@ const Node = memo(function Node(props: any) {
 	const pages = usePages()
 	const expandedPages = useExpandedPages()
 	const lang = useLanguage()
+	const hovered = useHovered()
 
 	const dispatch = useDispatch()
 
@@ -381,22 +389,24 @@ const Node = memo(function Node(props: any) {
 				className={`w-[100%] h-[30px] p-1 
             ${selected == props.id ? " bg-primary-light " : ""}
             hover:bg-primary-light hover:bg-opacity-60 rounded-sm flex flex-row items-center`}
-				onMouseEnter={() => setHover(props.id)}
-				onMouseLeave={() => setHover(null)}
+				onMouseEnter={() => dispatch(nodeHovered(props.id))}
+				onPointerLeave={() => dispatch(nodeHovered(null))}
 				style={{ paddingLeft: `${ident}px` }}
 			>
-				<ExpandPage id={props.id} type={props.type} expand={expandPage} hover={hover} />
+				<ExpandPage id={props.id} type={props.type} expand={expandPage} hover={hovered === props.id} />
 
-				<div className="ml-1 px-1 hover:cursor-pointer grow flex truncate text-ellipsis overflow-hidden">{props.name}</div>
-				{hover === props.id && (
+				<div className="ml-1 px-1 hover:cursor-pointer grow flex truncate text-ellipsis overflow-hidden">
+					{props.name}
+				</div>
+				{hovered === props.id && (
 					<>
-						<div onClick={expandDropdown} ref={ref} onMouseOut={() => setHover(null)}>
+						<div onClick={expandDropdown} ref={ref}>
 							<ToolbarButtonWrapper tooltip={<div className="text-center text-[14px]">{localization.moreOptions}</div>}>
 								<MoreIcon />
 							</ToolbarButtonWrapper>
 						</div>
 
-						<div onClick={addPage} onMouseOut={() => setHover(null)}>
+						<div onClick={addPage}>
 							<ToolbarButtonWrapper tooltip={addTooltip()}>
 								<AddBlockIcon />
 							</ToolbarButtonWrapper>
@@ -406,14 +416,28 @@ const Node = memo(function Node(props: any) {
 			</div>
 
 			<div className="flex flex-col">
-				{expandedPages.includes(props.id) && props.config.buildingBlocks && props.config.buildingBlocks.map((block) => <div key={block.id}>{(block.type == "page-tile" || block.type == "carousel-tile") && <Node {...block.page} ident={ident} root={props.root} />}</div>)}
-				{expandedPages.includes(props.id) && props.config.pages && props.config.pages.map((page) => <Node key={page.id} {...page} ident={ident} root={props.root} />)}
+				{expandedPages.includes(props.id) &&
+					props.config.buildingBlocks &&
+					props.config.buildingBlocks.map((block) => (
+						<div key={block.id}>
+							{(block.type == "page-tile" || block.type == "carousel-tile") && (
+								<Node {...block.page} ident={ident} root={props.root} />
+							)}
+						</div>
+					))}
+				{expandedPages.includes(props.id) &&
+					props.config.pages &&
+					props.config.pages.map((page) => <Node key={page.id} {...page} ident={ident} root={props.root} />)}
 			</div>
 
 			{dropdownActive &&
 				createPortal(
 					<ClickOutsideListener callback={closeDropdown}>
-						<div className={`fixed flex rounded-md p-1 shadow bg-[white]`} style={{ top: rect.top + rect.height, left: rect.x + rect.width - 20 }} ref={portalRef}>
+						<div
+							className={`fixed flex rounded-md p-1 shadow bg-[white]`}
+							style={{ top: rect.top + rect.height, left: rect.x + rect.width - 20 }}
+							ref={portalRef}
+						>
 							<Grid numberOfCols={1}>
 								<Item text={localization.rename} icon={RenameIcon} action={(e) => openRenamePopup(e)} />
 								<Item text={localization.duplicate} icon={DuplicateIcon} action={duplicatePage} />
@@ -428,7 +452,10 @@ const Node = memo(function Node(props: any) {
 			{deleteActive &&
 				createPortal(
 					<ClickOutsideListener callback={closeDelete}>
-						<div className="fixed flex rounded-md p-3 shadow bg-white w-[250px]" style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+						<div
+							className="fixed flex rounded-md p-3 shadow bg-white w-[250px]"
+							style={{ top: rect.top + rect.height, left: rect.x + rect.width }}
+						>
 							<div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
 								<p className="font-bold">{localization.deletePage}</p>
 								<div>{localization.areYouSure}</div>
@@ -445,10 +472,19 @@ const Node = memo(function Node(props: any) {
 			{addingActive &&
 				createPortal(
 					<ClickOutsideListener callback={closeAdding}>
-						<div className="fixed flex rounded-md p-3 shadow bg-white w-[250px]" style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+						<div
+							className="fixed flex rounded-md p-3 shadow bg-white w-[250px]"
+							style={{ top: rect.top + rect.height, left: rect.x + rect.width }}
+						>
 							<div className="flex flex-col gap-2 w-full" onClick={(e) => e.stopPropagation()}>
 								<p className="font-bold">{localization.choosePageType}</p>
-								<select name="pageType" id="pageType" className="p-2 rounded-md w-full focus:outline-0" onChange={handlePageToCreate} value={tileToAdd}>
+								<select
+									name="pageType"
+									id="pageType"
+									className="p-2 rounded-md w-full focus:outline-0"
+									onChange={handlePageToCreate}
+									value={tileToAdd}
+								>
 									<option value="page-tile">{localization.blankPage}</option>
 									<option value="carousel-tile">{localization.carousel}</option>
 								</select>
@@ -464,9 +500,17 @@ const Node = memo(function Node(props: any) {
 			{renameActive &&
 				createPortal(
 					<ClickOutsideListener callback={closeRename}>
-						<div className={`fixed flex rounded-md p-1 shadow bg-[white]`} style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
+						<div
+							className={`fixed flex rounded-md p-1 shadow bg-[white]`}
+							style={{ top: rect.top + rect.height, left: rect.x + rect.width }}
+						>
 							<div className="flex flex-row gap-2">
-								<input className="p-1 rounded-md border w-[100%]" value={renameValue} onChange={(event) => setRenameValue(event.target.value)} autoFocus />
+								<input
+									className="p-1 rounded-md border w-[100%]"
+									value={renameValue}
+									onChange={(event) => setRenameValue(event.target.value)}
+									autoFocus
+								/>
 								<Button text={localization.rename} size="sm" action={renamePage} />
 							</div>
 						</div>
