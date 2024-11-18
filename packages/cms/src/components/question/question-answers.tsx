@@ -27,8 +27,8 @@ function QuestionAnswers(props: any) {
 		}
 	}
 
-	const correctSound = new Audio("https://s3.eu-west-1.amazonaws.com/jigjoy.io/assets/correct_answer.wav")
-	const incorrectSound = new Audio("https://s3.eu-west-1.amazonaws.com/jigjoy.io/assets/wrong_answer.wav")
+	const correctSound = new Audio("/audio/correct.wav")
+	const incorrectSound = new Audio("/audio/incorrect.wav")
 
 	return (
 		<div className="flex flex-col gap-2 mt-3" key={props.id}>
