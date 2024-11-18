@@ -44,7 +44,11 @@ module.exports = {
 			filename: "[name].[contenthash].css",
 		}),
 		new rspack.CopyRspackPlugin({
-			patterns: [{ from: "manifest.json" }, { from: "./public/audio/", to: "public/audio" }],
+			patterns: [
+				{ from: "manifest.json" },
+				{ from: "./public/favicon.ico" },
+				{ from: "./public/audio", to: "public/audio" },
+			],
 		}),
 		new Dotenv({
 			path: "./.env",
