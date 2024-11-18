@@ -14,7 +14,7 @@ import { store } from "../../../../util/store"
 
 let localization = new LocalizedStrings({
 	US: {
-		editMessage: "Image",
+		editMessage: "Message",
 		editAudio: "Audio",
 		editColor: "Color",
 		editPosition: "Position",
