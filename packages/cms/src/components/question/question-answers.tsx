@@ -18,12 +18,17 @@ function QuestionAnswers(props: any) {
 	const checkAnswer = () => {
 		if (selected.correct) {
 			setAlert(props.outcomes.correct)
+			correctSound.play()
 			setAnswered(true)
 		} else {
 			setAlert(props.outcomes.incorrect)
+			incorrectSound.play()
 			setAnswered(true)
 		}
 	}
+
+	const correctSound = new Audio("https://s3.eu-west-1.amazonaws.com/jigjoy.io/assets/correct_answer.wav")
+	const incorrectSound = new Audio("https://s3.eu-west-1.amazonaws.com/jigjoy.io/assets/wrong_answer.wav")
 
 	return (
 		<div className="flex flex-col gap-2 mt-3" key={props.id}>
