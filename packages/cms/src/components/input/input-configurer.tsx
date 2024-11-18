@@ -134,7 +134,13 @@ export default function InputConfigurer(props: any) {
 										<label className="flex-none flex items-center w-[33%]" htmlFor="inputType">
 											{localization.inputType}
 										</label>
-										<select name="inputType" id="inputType" className="ml-4 py-2 rounded-[5px] w-full focus:outline-0" onChange={(e) => setInputType(e.target.value)} value={inputType}>
+										<select
+											name="inputType"
+											id="inputType"
+											className="ml-4 py-2 rounded-[5px] border w-full focus:outline-0"
+											onChange={(e) => setInputType(e.target.value)}
+											value={inputType}
+										>
 											<option value="text">{localization.textInput}</option>
 											<option value="number">{localization.numberInput}</option>
 											<option value="date">{localization.dateInput}</option>
@@ -147,7 +153,11 @@ export default function InputConfigurer(props: any) {
 										<label className="flex-none flex items-center w-[33%]" htmlFor="label">
 											{localization.label}
 										</label>
-										<input className="ml-4 p-1 rounded-[5px] border w-[100%]" value={label} onChange={(e: any) => setLabel(e.target.value)} />
+										<input
+											className="ml-4 p-1 rounded-[5px] border w-[100%]"
+											value={label}
+											onChange={(e: any) => setLabel(e.target.value)}
+										/>
 									</div>
 								</div>
 								{inputType !== "date" && (
@@ -156,7 +166,11 @@ export default function InputConfigurer(props: any) {
 											<label className="flex-none flex items-center w-[33%]" htmlFor="placeholder">
 												{localization.placeholder}
 											</label>
-											<input className="ml-4 p-1 rounded-[5px] border w-[100%]" value={placeholder} onChange={(e: any) => setPlaceholder(e.target.value)} />
+											<input
+												className="ml-4 p-1 rounded-[5px] border w-[100%]"
+												value={placeholder}
+												onChange={(e: any) => setPlaceholder(e.target.value)}
+											/>
 										</div>
 									</div>
 								)}
@@ -169,7 +183,11 @@ export default function InputConfigurer(props: any) {
 					</ClickOutsideListener>,
 					document.body,
 				)}
-			<div ref={ref} onClick={openConfigurer} className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60">
+			<div
+				ref={ref}
+				onClick={openConfigurer}
+				className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60"
+			>
 				<InputIcon />
 				<div className="pl-2">{localization.clickToAdd}</div>
 			</div>
