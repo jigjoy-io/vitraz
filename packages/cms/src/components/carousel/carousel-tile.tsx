@@ -27,7 +27,7 @@ export default function CarouselTile(props: any) {
 	return (
 		<Tile color={color}>
 			{props.image && (
-				<div className={`${props.title || props.description ? "mb-4" : "mb-20"} px-1 block`}>
+				<div className={`${props.title || props.description ? "mb-10" : "mb-20"} px-1 block`}>
 					<img className="float-right rounded-[5px]" height={128} width={128} src={props.image} />
 				</div>
 			)}
