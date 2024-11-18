@@ -100,7 +100,7 @@ export default function CarouselPage(props) {
 	return (
 		<>
 			{page && (
-				<div className="flex max-h-[100dvh] h-[100dvh] w-full justify-center overflow-hidden">
+				<div className="flex max-h-[100dvh] h-[100dvh] w-full justify-center">
 					<div className="flex flex-col w-full md:max-w-[360px]">
 						<div className="flex flex-row p-3">
 							<Progress percentage={percentage} />
@@ -111,15 +111,7 @@ export default function CarouselPage(props) {
 
 						<div className="relative h-full">
 							<AnimatePresence initial={false} custom={direction} mode="wait">
-								<motion.div
-									key={pages[current].id}
-									custom={direction}
-									variants={variants}
-									initial="enter"
-									animate="center"
-									exit="exit"
-									className="absolute w-full h-full p-3"
-								>
+								<motion.div key={pages[current].id} custom={direction} variants={variants} initial="enter" animate="center" exit="exit" className="absolute w-full h-full p-3">
 									<Content config={pages[current].config} key={pages[current].id} id={pages[current].id} />
 								</motion.div>
 							</AnimatePresence>
