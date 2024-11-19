@@ -110,8 +110,16 @@ export default function CarouselPage(props) {
 						</div>
 
 						<div className="relative h-full">
-							<AnimatePresence initial={false} custom={direction} mode="wait">
-								<motion.div key={pages[current].id} custom={direction} variants={variants} initial="enter" animate="center" exit="exit" className="absolute w-full h-full p-3">
+							<AnimatePresence initial={true} custom={direction} mode="wait">
+								<motion.div
+									key={pages[current].id}
+									custom={direction}
+									variants={variants}
+									initial="enter"
+									animate="center"
+									exit="exit"
+									className="absolute w-full h-full p-3"
+								>
 									<Content config={pages[current].config} key={pages[current].id} id={pages[current].id} />
 								</motion.div>
 							</AnimatePresence>
