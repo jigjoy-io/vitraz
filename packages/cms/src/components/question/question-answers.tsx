@@ -27,8 +27,8 @@ function QuestionAnswers(props: any) {
 		}
 	}
 
-	const correctSound = new Audio("/audio/correct.wav")
-	const incorrectSound = new Audio("/audio/incorrect.wav")
+	const correctSound = new Audio("/public/audio/correct.wav")
+	const incorrectSound = new Audio("/public/audio/incorrect.wav")
 
 	return (
 		<div className="flex flex-col gap-2 mt-3" key={props.id}>
