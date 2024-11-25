@@ -62,7 +62,7 @@ export default function Designer() {
 						<div className="grow">{page && <Page />}</div>
 					</div>
 
-					<div className={`grow-0 ${sidebarVisible ? "w-[500px]" : ""}`}>{sidebarVisible && <RightSideMenu />}</div>
+					<div className={`grow-0 ${sidebarVisible ? "w-[750px]" : ""}`}>{sidebarVisible && <RightSideMenu />}</div>
 				</div>
 			</div>
 		</AuthLayer>
