@@ -4,38 +4,18 @@ import ImageEditor from "../editors/image-editor"
 import TextAreaEditor from "../editors/text-area-editor"
 import Toolbar from "../toolbar"
 import EditableBlock from "./editable-block"
-import LocalizedStrings from "react-localization"
 import LimitedTextEditor from "../editors/limited-text-editor"
 import RenameIcon from "../../../../icons/rename-icon"
 import ProfileIcon from "../../../../icons/profile-icon"
 import ImageIcon from "../../../../icons/image-icon"
 import DescriptionIcon from "../../../../icons/description-icon"
 import ColorIcon from "../../../../icons/color-icon"
-import { store } from "../../../../util/store"
 
-let localization = new LocalizedStrings({
-	US: {
-		editFristName: "First Name",
-		editLastName: "Last Name",
-		editUsername: "Username",
-		editImage: "Image",
-		editDescription: "Description",
-		editColor: "Color",
-	},
-	RS: {
-		editFristName: "Ime",
-		editLastName: "Prezime",
-		editUsername: "Korisničko ime",
-		editImage: "Slika",
-		editDescription: "Opis",
-		editColor: "Boja",
-	},
-})
 export default class EditableProfile extends EditableBlock {
 	getEditingOptions() {
 		return [
 			{
-				name: localization.editFristName,
+				name: "First Name",
 				icon: RenameIcon,
 				key: "firstName",
 				editor: LimitedTextEditor,
@@ -44,7 +24,7 @@ export default class EditableProfile extends EditableBlock {
 				},
 			},
 			{
-				name: localization.editLastName,
+				name: "Last Name",
 				icon: RenameIcon,
 				key: "lastName",
 				editor: LimitedTextEditor,
@@ -53,7 +33,7 @@ export default class EditableProfile extends EditableBlock {
 				},
 			},
 			{
-				name: localization.editUsername,
+				name: "Username",
 				icon: ProfileIcon,
 				key: "username",
 				editor: LimitedTextEditor,
@@ -62,19 +42,19 @@ export default class EditableProfile extends EditableBlock {
 				},
 			},
 			{
-				name: localization.editImage,
+				name: "Image",
 				icon: ImageIcon,
 				key: "image",
 				editor: ImageEditor,
 			},
 			{
-				name: localization.editDescription,
+				name: "Description",
 				key: "description",
 				icon: DescriptionIcon,
 				editor: TextAreaEditor,
 			},
 			{
-				name: localization.editColor,
+				name: "Color",
 				icon: ColorIcon,
 				editor: ColorEditor,
 				key: "color",
@@ -83,9 +63,6 @@ export default class EditableProfile extends EditableBlock {
 	}
 
 	addToolbar(props: any) {
-		const state = store.getState()
-		localization.setLanguage(state.localization.language)
-
 		this.block = (
 			<Toolbar id={props.id} block={props} editingOptions={this.getEditingOptions()}>
 				<div>{this.block}</div>

@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { createPortal } from "react-dom"
-import LocalizedStrings from "react-localization"
 import { SelectorOptions } from "./selector-options"
-import { useActiveBlock, useLanguage, usePage } from "../../../../util/store"
+import { useActiveBlock, usePage } from "../../../../util/store"
 import { blockingUpdated } from "../../../../reducers/toolbar-reducer"
 import TemplateFactory from "../../../../util/factories/templates/template-factory"
 import { focusBlock, insertBlock } from "../../../../reducers/page-reducer"
@@ -12,24 +11,14 @@ import Item from "../../../../components/item/item"
 import { findPreviousTextBlock } from "../../../../util/text-utils/use-text-block"
 import { handleTextBlockKeyDown } from "../../../../util/text-utils/text-block-key-handlers"
 
-let localization = new LocalizedStrings({
-	US: {
-		selectorText: "Write something, or type '/' to insert...",
-	},
-	RS: {
-		selectorText: "Napiši nešto ili unesi '/' da dodaš blok...",
-	},
-})
-
 export default function BlockSelector(props: any) {
 	const page = usePage()
-	const lang = useLanguage()
 
 	const [option, setOption] = useState("")
 	const [options, setOptions] = useState([] as any)
 	const [allOptions, setAllOptions] = useState([] as any)
 	const [showMenu, setShowMenu] = useState(false)
-	const [placeholder, setPlaceholder] = useState(localization.selectorText)
+	const [placeholder, setPlaceholder] = useState("Write something, or type '/' to insert...")
 	const activeBlock = useActiveBlock()
 	const inputRef = useRef<HTMLInputElement>(null)
 	const [top, setTop] = useState(-500)
@@ -43,19 +32,10 @@ export default function BlockSelector(props: any) {
 	})
 
 	useEffect(() => {
-		localization.setLanguage(lang)
-		const selectorOptions = SelectorOptions.getOptions(lang)
+		const selectorOptions = SelectorOptions.getOptions()
 
-		setOptions(
-			page.type == "carousel"
-				? selectorOptions.filter((opt: any) => opt.key != "pages")
-				: selectorOptions.filter((opt: any) => opt.key != "inputs"),
-		)
-		setAllOptions(
-			page.type == "carousel"
-				? selectorOptions.filter((opt: any) => opt.key != "pages")
-				: selectorOptions.filter((opt: any) => opt.key != "inputs"),
-		)
+		setOptions(page.type == "carousel" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions)
+		setAllOptions(page.type == "carousel" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions)
 
 		inputRef.current?.focus()
 	}, [])
@@ -198,7 +178,7 @@ export default function BlockSelector(props: any) {
 				ref={inputRef}
 				type="text"
 				value={option}
-				onFocus={() => setPlaceholder(localization.selectorText)}
+				onFocus={() => setPlaceholder(placeholder)}
 				className="w-full h-10 px-3 py-2 bg-white rounded-md border border-gray-200 shadow-sm transition-all duration-300 ease-outplaceholder:text-gray-400hover:border-gray-300focus:outline-none focus:border-pink-300 focus:bg-pink-50/30focus:-translate-y-[1px]focus:placeholder:text-pink-300"
 				placeholder={placeholder}
 				onChange={handleChange}

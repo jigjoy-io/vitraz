@@ -7,38 +7,10 @@ import ClickOutsideListener from "../../util/click-outside-listener"
 import Tab from "../tabs/tab"
 import { updateBlock } from "../../reducers/page-reducer"
 import { useDispatch } from "react-redux"
-import { useLanguage, usePage } from "../../util/store"
+import { usePage } from "../../util/store"
 import { blockingUpdated } from "../../reducers/toolbar-reducer"
 import { createPortal } from "react-dom"
-import LocalizedStrings from "react-localization"
 import TemplateFactory from "../../util/factories/templates/template-factory"
-
-let localization = new LocalizedStrings({
-	US: {
-		create: "Create",
-		title: "Title: ",
-		description: "Description: ",
-		clickToAdd: "Click to add a page",
-		comingSoon: "Coming soon!",
-		freebie: "Freebie",
-		leadMagnet: "Lead magnet",
-		paid: "Paid",
-		carouselSettings: "Carousel Settings",
-		accessType: "Access Type",
-	},
-	RS: {
-		create: "Kreiraj",
-		title: "Naslov: ",
-		description: "Opis: ",
-		clickToAdd: "Klikni da dodaš stranicu",
-		comingSoon: "Uskoro",
-		freebie: "Besplatno",
-		leadMagnet: "Lead magnet",
-		paid: "Plaćeno",
-		carouselSettings: "Podešavanje karusela",
-		accessType: "Podešavanje pristupa",
-	},
-})
 
 export default function PageConfigurer(props: any) {
 	const dispatch = useDispatch()
@@ -48,7 +20,6 @@ export default function PageConfigurer(props: any) {
 	const [description, setDescription] = useState(props.description)
 	const [title, setHeadline] = useState(props.title)
 	const activePage = usePage()
-	const lang = useLanguage()
 
 	const [top, setTop] = useState<number>()
 	const [left, setLeft] = useState<number>()
@@ -57,8 +28,6 @@ export default function PageConfigurer(props: any) {
 	const ref = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
-		localization.setLanguage(lang)
-
 		window.onbeforeunload = function () {
 			turnOffPopup()
 			return true
@@ -137,38 +106,58 @@ export default function PageConfigurer(props: any) {
 							<div className="p-[5%]">
 								<div>
 									<Tabs>
-										<Tab key={localization.carouselSettings}>
+										<Tab key="Carousel Settings">
 											<div className="w-[100%] mt-[1rem]">
 												<div className="flex flex-row w-full">
 													<label className="flex-none flex items-center w-[33%]" htmlFor="headline">
-														{localization.title}
+														Title:
 													</label>
-													<input className="ml-4 p-1 rounded-[5px] border w-[100%]" value={title} onChange={(e: any) => setHeadline(e.target.value)} />
+													<input
+														className="ml-4 p-1 rounded-[5px] border w-[100%]"
+														value={title}
+														onChange={(e: any) => setHeadline(e.target.value)}
+													/>
 												</div>
 											</div>
 
 											<div className="w-[100%] mt-[1rem]">
 												<div className="flex flex-row w-full">
 													<label className="flex-none flex items-center w-[33%]" htmlFor="headline">
-														{localization.description}
+														Description:
 													</label>
-													<input className="ml-4 p-1 rounded-[5px] border w-[100%]" value={description} onChange={(e: any) => setDescription(e.target.value)} />
+													<input
+														className="ml-4 p-1 rounded-[5px] border w-[100%]"
+														value={description}
+														onChange={(e: any) => setDescription(e.target.value)}
+													/>
 												</div>
 											</div>
 										</Tab>
 
-										<Tab key={localization.accessType}>
+										<Tab key="Access Type">
 											<div className="w-[100%]">
-												<div className="opacity-30">{localization.comingSoon}</div>
+												<div className="opacity-30">Coming soon!</div>
 												<div className="flex flex-row w-full mt-3 gap-3">
-													<Checkbox disabled={true} selected={accessType == "freebie"} onChange={() => setAccessType("freebie")}>
-														{localization.freebie}
+													<Checkbox
+														disabled={true}
+														selected={accessType == "freebie"}
+														onChange={() => setAccessType("freebie")}
+													>
+														Freebie
 													</Checkbox>
-													<Checkbox disabled={true} selected={accessType == "lead magnet"} onChange={() => setAccessType("lead magnet")}>
-														{localization.leadMagnet}
+													<Checkbox
+														disabled={true}
+														selected={accessType == "lead magnet"}
+														onChange={() => setAccessType("lead magnet")}
+													>
+														Lead magnet
 													</Checkbox>
-													<Checkbox disabled={true} selected={accessType == "paid"} onChange={() => setAccessType("paid")}>
-														{localization.paid}
+													<Checkbox
+														disabled={true}
+														selected={accessType == "paid"}
+														onChange={() => setAccessType("paid")}
+													>
+														Paid
 													</Checkbox>
 												</div>
 											</div>
@@ -176,7 +165,7 @@ export default function PageConfigurer(props: any) {
 									</Tabs>
 
 									<div className="mt-[1rem]">
-										<Button width="w-full" text={localization.create} action={create} />
+										<Button width="w-full" text="Create" action={create} />
 									</div>
 								</div>
 							</div>
@@ -184,9 +173,13 @@ export default function PageConfigurer(props: any) {
 					</ClickOutsideListener>,
 					document.body,
 				)}
-			<div ref={ref} onClick={openConfigurer} className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60">
+			<div
+				ref={ref}
+				onClick={openConfigurer}
+				className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60"
+			>
 				<CarouselIcon />
-				<div className="pl-2">{localization.clickToAdd}</div>
+				<div className="pl-2">Click to add a page</div>
 			</div>
 		</div>
 	)

@@ -4,10 +4,8 @@ import { useDispatch } from "react-redux"
 import { AddNewBlock } from "./builder/add-new-block"
 import { createPortal } from "react-dom"
 import { AnimatePresence, LazyMotion, m } from "framer-motion"
-import LocalizedStrings from "react-localization"
-import { useLanguage, usePage } from "../../../util/store"
 import { blockingUpdated } from "../../../reducers/toolbar-reducer"
-import { insertBlock, removeBlock, pageUpdated } from "../../../reducers/page-reducer"
+import { insertBlock, removeBlock } from "../../../reducers/page-reducer"
 import { duplicateBlock } from "../../../util/traversals/duplcate-block"
 import ClickOutsideListener from "../../../util/click-outside-listener"
 import DuplicateIcon from "../../../icons/duplicate-icon"
@@ -27,25 +25,6 @@ const transition = {
 	ease: "easeIn",
 	duration: 0.25,
 }
-
-let localization = new LocalizedStrings({
-	US: {
-		open: "Open",
-		menu: " menu",
-		duplicate: "Duplicate block",
-		delete: "Delete block",
-		drag: "Drag",
-		toMove: " to move",
-	},
-	RS: {
-		open: "Otvori meni",
-		menu: " meni",
-		duplicate: "Kloniraj blok",
-		delete: "Obriši blok",
-		drag: "Prevuci",
-		toMove: " da pomeriš blok",
-	},
-})
 
 const loadFeatures = () => import("../../../util/style-helper/animations").then((res) => res.default)
 
@@ -67,12 +46,6 @@ export default function Toolbar(props: any) {
 	const [editorLeft, setEditorLeft] = useState<number>()
 
 	const dispatch = useDispatch()
-	const lang = useLanguage()
-	const page = usePage()
-
-	useEffect(() => {
-		localization.setLanguage(lang)
-	}, [lang])
 
 	const [{ isDragging }, drag, dragPreview] = useDrag<any, void, { isDragging: boolean }>(
 		() => ({
@@ -92,7 +65,8 @@ export default function Toolbar(props: any) {
 	const handleMouseMove = (e: MouseEvent) => {
 		if (containerRef.current) {
 			const rect = containerRef.current.getBoundingClientRect()
-			const isWithinRange = e.clientX >= rect.left - 200 && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom
+			const isWithinRange =
+				e.clientX >= rect.left - 200 && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom
 			setOn(isWithinRange)
 		}
 	}
@@ -203,13 +177,17 @@ export default function Toolbar(props: any) {
 											tooltip={
 												<div className="text-center text-[14px]">
 													<div>
-														<span className="font-extrabold">{localization.open}</span> {localization.menu}
+														<span className="font-extrabold">Open</span> menu
 													</div>
-													<span className="font-extrabold">{localization.drag}</span> {localization.toMove}
+													<span className="font-extrabold">Drag</span> to move
 												</div>
 											}
 										>
-											<div ref={drag} className="cursor-grab active:cursor-grabbing" style={{ opacity: isDragging ? 0.4 : 1 }}>
+											<div
+												ref={drag}
+												className="cursor-grab active:cursor-grabbing"
+												style={{ opacity: isDragging ? 0.4 : 1 }}
+											>
 												<OpenMenuIcon />
 											</div>
 										</ToolbarButtonWrapper>
@@ -226,16 +204,28 @@ export default function Toolbar(props: any) {
 					className={`opacity-50 bg-default-light h-[100%] w-[100%] 
                     ${editor != null || toolbarVisible ? "absolute" : "hidden"} ${blockRadius}`}
 				/>
-				<div className={`${on && !toolbarVisible && editor == null && "opacity-80"} ${blockRadius}`}>{props.children}</div>
+				<div className={`${on && !toolbarVisible && editor == null && "opacity-80"} ${blockRadius}`}>
+					{props.children}
+				</div>
 			</div>
 
 			{toolbarVisible &&
 				createPortal(
 					<ClickOutsideListener callback={handleToolbarClose}>
-						<div className="fixed flex rounded-[5px] p-1 shadow bg-[white] z-50 -translate-x-[100%]" style={{ top: toolbarTop, left: toolbarLeft }} ref={toolbarRef}>
+						<div
+							className="fixed flex rounded-[5px] p-1 shadow bg-[white] z-50 -translate-x-[100%]"
+							style={{ top: toolbarTop, left: toolbarLeft }}
+							ref={toolbarRef}
+						>
 							<Grid numberOfCols={1}>
-								<Item text={localization.duplicate} tabFocus={false} icon={DuplicateIcon} action={duplicate} />
-								<Item text={localization.delete} tabFocus={false} textColor="red" icon={DeleteBlockIcon} action={deleteBlock} />
+								<Item text="Duplicate block" tabFocus={false} icon={DuplicateIcon} action={duplicate} />
+								<Item
+									text="Delete block"
+									tabFocus={false}
+									textColor="red"
+									icon={DeleteBlockIcon}
+									action={deleteBlock}
+								/>
 								{props.editingOptions.map((option: any, index: number) => (
 									<div
 										key={index}
@@ -244,7 +234,12 @@ export default function Toolbar(props: any) {
 										}}
 									>
 										{index === 0 && <div className="border-b border-default-light" />}
-										<Item text={option.name} tabFocus={false} icon={option.icon} action={() => handleOpenEditor(option, index)} />
+										<Item
+											text={option.name}
+											tabFocus={false}
+											icon={option.icon}
+											action={() => handleOpenEditor(option, index)}
+										/>
 									</div>
 								))}
 							</Grid>
@@ -257,8 +252,19 @@ export default function Toolbar(props: any) {
 				editor &&
 				createPortal(
 					<ClickOutsideListener callback={handleEditorClose}>
-						<div className="fixed flex rounded-[5px] p-1 shadow bg-[white] z-50" style={{ top: editorTop, left: editorLeft }} ref={editorRef}>
-							<editor.editor id={props.id} lang={lang} tabFocus={false} block={props.block} attribute={editor.key} value={props.block[editor.key]} extraProps={editor.extraProps} />
+						<div
+							className="fixed flex rounded-[5px] p-1 shadow bg-[white] z-50"
+							style={{ top: editorTop, left: editorLeft }}
+							ref={editorRef}
+						>
+							<editor.editor
+								id={props.id}
+								tabFocus={false}
+								block={props.block}
+								attribute={editor.key}
+								value={props.block[editor.key]}
+								extraProps={editor.extraProps}
+							/>
 						</div>
 					</ClickOutsideListener>,
 					document.body,

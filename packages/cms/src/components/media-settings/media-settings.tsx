@@ -10,30 +10,13 @@ import FileUploader from "../file-uploader/file-uploader"
 import TemplateFactory from "../../util/factories/templates/template-factory"
 import FileUrlEditor from "../file-uploader/file-url-editor"
 
-interface LocalizationStrings {
-	create: string
-	update: string
-	embedLink: string
-	embedLinkPlaceholder: string
-	embedButton: string
-	uploadFile: string
-	clickToUpload: string
-	fileTooLarge: string
-	fileUploadedSuccessfully: string
-	uploadInProgress: string
-	uploadError: string
-	clickToAdd: string
-}
-
 interface MediaSettingsProps {
 	mediaType: "image" | "audio" | "video"
 	icon: React.ReactNode
-	localization: LocalizationStrings
-	lang: string
 	props: any
 }
 
-export default function MediaSettings({ mediaType, icon, localization, props }: MediaSettingsProps) {
+export default function MediaSettings({ mediaType, icon, props }: MediaSettingsProps) {
 	const [display, setDisplay] = useState(props.display)
 	const [value, setValue] = useState(props.value)
 
@@ -113,11 +96,11 @@ export default function MediaSettings({ mediaType, icon, localization, props }: 
 							<div className="p-4">
 								<div>
 									<Tabs>
-										<Tab key={localization.uploadFile}>
-											<FileUploader mediaType={mediaType} localization={localization} callback={createBlock} />
+										<Tab key={`Upload ${mediaType}`}>
+											<FileUploader mediaType={mediaType} callback={createBlock} />
 										</Tab>
-										<Tab key={localization.embedLink}>
-											<FileUrlEditor filePath={value} fileType={mediaType} localization={localization} callback={createBlock} />
+										<Tab key="Embed link">
+											<FileUrlEditor filePath={value} fileType={mediaType} callback={createBlock} />
 										</Tab>
 									</Tabs>
 								</div>
@@ -127,9 +110,13 @@ export default function MediaSettings({ mediaType, icon, localization, props }: 
 					document.body,
 				)}
 
-			<div ref={ref} onClick={openConfigurer} className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60">
+			<div
+				ref={ref}
+				onClick={openConfigurer}
+				className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60"
+			>
 				{icon}
-				<div className="pl-2">{localization.clickToAdd}</div>
+				<div className="pl-2">Click to add an {mediaType}</div>
 			</div>
 		</div>
 	)

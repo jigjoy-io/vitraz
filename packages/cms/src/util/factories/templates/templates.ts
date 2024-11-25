@@ -1,12 +1,7 @@
 import { v4 as uuid } from "uuid"
-import localization from "./templates.localization"
-import { store } from "../../store"
 
 export class TemplatesStorage {
 	static getTemplates() {
-		const state = store.getState()
-		localization.setLanguage(state.localization.language)
-
 		let templates = {
 			audio: {
 				type: "audio",
@@ -39,16 +34,20 @@ export class TemplatesStorage {
 				position: "left",
 				size: "large",
 			},
-			input: {
-				type: "input",
-				placeholder: localization.placeholder,
-				label: localization.label,
-				inputType: "text",
+			form: {
+				type: "form",
+				inputs: [
+					{
+						label: "Label",
+						inputType: "text",
+						placeholder: "Placeholder text",
+					},
+				],
 			},
-			"input-configurer": {
-				placeholder: localization.placeholder,
-				label: localization.label,
-				type: "input-configurer",
+			"form-configurer": {
+				placeholder: "Placeholder text",
+				label: "Label",
+				type: "form-configurer",
 				inputType: "text",
 				display: true,
 			},
@@ -61,7 +60,7 @@ export class TemplatesStorage {
 				type: "question",
 				content: {
 					displayQuestion: true,
-					text: localization.questionText,
+					text: "Question text...",
 					displayImage: true,
 					image: "/public/images/placeholderimage.jpg",
 				},
@@ -69,36 +68,36 @@ export class TemplatesStorage {
 					{
 						id: uuid(),
 						correct: false,
-						text: localization.answerText1,
+						text: "Answer 1 text",
 					},
 					{
 						id: uuid(),
 						correct: true,
-						text: localization.answerText2,
+						text: "Answer 2 text",
 					},
 					{
 						id: uuid(),
 						correct: false,
-						text: localization.answerText3,
+						text: "Answer 3 text",
 					},
 				],
 				outcomes: {
-					confirmationButtonText: localization.confirmationButtonText,
+					confirmationButtonText: "Check the answer",
 					correct: {
-						message: localization.correctMessage,
-						title: localization.correctTitle,
+						message: "The answer is correct.",
+						title: "Great!",
 						type: "success",
 					},
 					incorrect: {
-						message: localization.incorrectMessage,
-						title: localization.incorrectTitle,
+						message: "The answer is not correct.",
+						title: "Better luck next time",
 						type: "danger",
 					},
 				},
 			},
 			message: {
 				type: "message",
-				message: localization.messageText,
+				message: "Message text goes here...",
 				audio: "https://www.w3schools.com/html/mov_bbb.mp4",
 				position: "left",
 				color: "rose",
@@ -115,17 +114,17 @@ export class TemplatesStorage {
 			},
 			profile: {
 				type: "profile",
-				firstName: localization.firstName,
-				lastName: localization.lastName,
-				description: localization.description,
+				firstName: "First Name",
+				lastName: "Last Name",
+				description: "Description...",
 				image: "/public/images/profiletileplaceholderimage.jpg",
-				username: localization.username,
+				username: "@username",
 			},
 			"carousel-tile": {
 				type: "carousel-tile",
-				title: localization.title,
-				description: localization.description,
-				cta: localization.cta,
+				title: "Title",
+				description: "Description...",
+				cta: "Start",
 			},
 			"block-selector": {
 				type: "block-selector",
@@ -133,41 +132,41 @@ export class TemplatesStorage {
 			"carousel-configurer": {
 				type: "carousel-configurer",
 				accessType: "freebie",
-				title: localization.title,
-				description: localization.description,
+				title: "Title",
+				description: "Description...",
 				numberOfPages: 3,
 				display: true,
 			},
 			carousel: {
 				type: "carousel",
-				name: localization.carousel,
+				name: "Carousel",
 				environment: "development",
 				linkedPageId: null,
 				config: {
 					pages: [],
 					buttons: {
-						previous: localization.previous,
-						next: localization.next,
-						home: localization.backToHome,
+						previous: "Previous",
+						next: "Next",
+						home: "Back to Home",
 					},
 				},
 			},
 			"page-configurer": {
 				type: "page-configurer",
 				accessType: "freebie",
-				title: localization.title,
-				description: localization.description,
+				title: "Title",
+				description: "Description...",
 				display: true,
 			},
 			"page-tile": {
 				type: "page-tile",
-				title: localization.title,
-				description: localization.description,
-				cta: localization.cta,
+				title: "Title",
+				description: "Description...",
+				cta: "Start",
 			},
 			blank: {
 				type: "blank",
-				name: localization.blankPage,
+				name: "Blank Page",
 				environment: "development",
 				linkedPageId: null,
 				config: {

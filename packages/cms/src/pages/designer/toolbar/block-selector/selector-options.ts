@@ -1,4 +1,3 @@
-import localization from "./selector-options.localization"
 import ProfileIcon from "../../../../icons/profile-icon"
 import PageIcon from "../../../../icons/page-icon"
 import CarouselIcon from "../../../../icons/carousel-icon"
@@ -11,17 +10,15 @@ import MessageIcon from "../../../../icons/message-icon"
 import InputIcon from "../../../../icons/input-icon"
 
 export class SelectorOptions {
-	static getOptions(language) {
-		localization.setLanguage(language)
-
+	static getOptions() {
 		let options = [
 			{
 				key: "profile",
 				commands: [
 					{
 						key: "profile",
-						label: localization.profile,
-						description: localization.profileDescription,
+						label: "Profile",
+						description: "Showcase personal information and expertise.",
 						icon: ProfileIcon,
 					},
 				],
@@ -31,14 +28,14 @@ export class SelectorOptions {
 				commands: [
 					{
 						key: "page-configurer",
-						label: localization.blankPage,
-						description: localization.blankPageDescription,
+						label: "Blank Page",
+						description: "Create a sub-page inside this page",
 						icon: PageIcon,
 					},
 					{
 						key: "carousel-configurer",
-						label: localization.carousel,
-						description: localization.carouselDescription,
+						label: "Carousel",
+						description: "Split content into multiple connected pages.",
 						icon: CarouselIcon,
 					},
 				],
@@ -48,20 +45,20 @@ export class SelectorOptions {
 				commands: [
 					{
 						key: "title",
-						label: localization.title,
-						description: localization.titleDescription,
+						label: "Title",
+						description: "Create a bold section heading",
 						icon: RenameIcon,
 					},
 					{
 						key: "heading",
-						label: localization.heading,
-						description: localization.headingDescription,
+						label: "Heading",
+						description: "Create a medium section heading",
 						icon: RenameIcon,
 					},
 					{
 						key: "text",
-						label: localization.text,
-						description: localization.textDescription,
+						label: "Text",
+						description: "Begin writing with plain text",
 						icon: RenameIcon,
 					},
 				],
@@ -70,9 +67,9 @@ export class SelectorOptions {
 				key: "inputs",
 				commands: [
 					{
-						key: "input-configurer",
-						label: localization.input,
-						description: localization.inputDescription,
+						key: "form-configurer",
+						label: "Form",
+						description: "Collect user informations.",
 						icon: InputIcon,
 					},
 				],
@@ -83,20 +80,20 @@ export class SelectorOptions {
 				commands: [
 					{
 						key: "image-configurer",
-						label: localization.image,
-						description: localization.imageDescription,
+						label: "Image",
+						description: "Upload an image or insert its link.",
 						icon: ImageIcon,
 					},
 					{
 						key: "reel-configurer",
-						label: localization.video,
-						description: localization.videoDescription,
+						label: "Reel",
+						description: "Upload an video or insert its link.",
 						icon: VideoIcon,
 					},
 					{
 						key: "audio-configurer",
-						label: localization.audio,
-						description: localization.audioDescription,
+						label: "Audio",
+						description: "Upload audio or insert its link.",
 						icon: AudioIcon,
 					},
 				],
@@ -106,14 +103,14 @@ export class SelectorOptions {
 				commands: [
 					{
 						key: "question",
-						label: localization.question,
-						description: localization.questionDescription,
+						label: "Question",
+						description: "Test user's knowledge by asking question.",
 						icon: QuestionIcon,
 					},
 					{
 						key: "message",
-						label: localization.message,
-						description: localization.messageDescription,
+						label: "Message",
+						description: "Display message bubble.",
 						icon: MessageIcon,
 					},
 				],

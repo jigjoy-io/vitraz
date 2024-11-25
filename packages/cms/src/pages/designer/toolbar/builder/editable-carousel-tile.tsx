@@ -5,7 +5,6 @@ import Toolbar from "../toolbar"
 import EditableBlock from "./editable-block"
 import ImageEditor from "../editors/image-editor"
 import TextAreaEditor from "../editors/text-area-editor"
-import LocalizedStrings from "react-localization"
 import ButtonEditor from "../editors/button-editor"
 import RenameIcon from "../../../../icons/rename-icon"
 import ImageIcon from "../../../../icons/image-icon"
@@ -13,62 +12,42 @@ import CTAIcon from "../../../../icons/cta-icon"
 import DescriptionIcon from "../../../../icons/description-icon"
 import NavigationArrowIcon from "../../../../icons/navigation-arrow-icon"
 import ColorIcon from "../../../../icons/color-icon"
-import { store } from "../../../../util/store"
-
-let localization = new LocalizedStrings({
-	US: {
-		rename: "Rename",
-		editImage: "Image",
-		editDescription: "Description",
-		editCta: "Call-to-acition",
-		editColor: "Color",
-		editButtons: "Navigation Buttons",
-	},
-	RS: {
-		rename: "Preimenuj",
-		editImage: "Slika",
-		editDescription: "Opis",
-		editCta: "Poziv na akciju",
-		editColor: "Boja",
-		editButtons: "Dugmad za navigaciju",
-	},
-})
 
 export default class EditableCarouselTile extends EditableBlock {
 	getEditingOptions() {
 		return [
 			{
-				name: localization.rename,
+				name: "Rename",
 				icon: RenameIcon,
 				key: "title",
 				editor: TextEditor,
 			},
 			{
-				name: localization.editImage,
+				name: "Image",
 				icon: ImageIcon,
 				key: "image",
 				editor: ImageEditor,
 			},
 			{
-				name: localization.editDescription,
+				name: "Description",
 				icon: DescriptionIcon,
 				key: "description",
 				editor: TextAreaEditor,
 			},
 			{
-				name: localization.editCta,
+				name: "Call-to-acition",
 				icon: CTAIcon,
 				key: "cta",
 				editor: TextEditor,
 			},
 			{
-				name: localization.editButtons,
+				name: "Navigation Buttons",
 				icon: NavigationArrowIcon,
 				key: "buttons",
 				editor: ButtonEditor,
 			},
 			{
-				name: localization.editColor,
+				name: "Color",
 				icon: ColorIcon,
 				key: "color",
 				editor: ColorEditor,
@@ -77,9 +56,6 @@ export default class EditableCarouselTile extends EditableBlock {
 	}
 
 	addToolbar(props: any) {
-		const state = store.getState()
-		localization.setLanguage(state.localization.language)
-
 		this.block = (
 			<Toolbar id={props.id} block={props} editingOptions={this.getEditingOptions()} blockRadius="rounded-[20px]">
 				{this.block}

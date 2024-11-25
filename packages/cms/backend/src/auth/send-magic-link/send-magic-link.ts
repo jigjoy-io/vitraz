@@ -5,9 +5,13 @@ import { schemaValidator } from "@packages/schema-validator"
 import { schema } from "@schemas/sign-in.schema"
 import Responses from "@utils/api-responses"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { CognitoIdentityProviderClient, AdminGetUserCommand, AdminCreateUserCommand, AdminUpdateUserAttributesCommand } from "@aws-sdk/client-cognito-identity-provider"
+import {
+	CognitoIdentityProviderClient,
+	AdminGetUserCommand,
+	AdminCreateUserCommand,
+	AdminUpdateUserAttributesCommand,
+} from "@aws-sdk/client-cognito-identity-provider"
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses"
-import { EmailFactory, IEmail } from "@utils/email-factory-pattern"
 
 const ses = new SESClient()
 
@@ -26,7 +30,6 @@ export async function sendMagicLinkHandler({ body }: APIGatewayProxyEvent): Prom
 
 		const user: SignInDto = JSON.parse(body)
 		const email = user.email
-		const language = user.language
 
 		schemaValidator(schema, user)
 
@@ -61,7 +64,7 @@ export async function sendMagicLinkHandler({ body }: APIGatewayProxyEvent): Prom
 		const tokenRaw = await encrypt(JSON.stringify(payload))
 		const tokenB64 = Buffer.from(tokenRaw).toString("base64")
 		const token = escape(tokenB64)
-		const magicLink = `${BASE_URL}/interactive-content-designer?email=${email}&lang=${language}&token=${token}`
+		const magicLink = `${BASE_URL}/interactive-content-designer?email=${email}&token=${token}`
 
 		const updateAttributesCommand = new AdminUpdateUserAttributesCommand({
 			UserPoolId: USER_POOL_ID as string,
@@ -79,15 +82,31 @@ export async function sendMagicLinkHandler({ body }: APIGatewayProxyEvent): Prom
 			statusCode: 202,
 		}
 
-		await sendEmail(email, magicLink, language)
+		await sendEmail(email, magicLink)
 		return Responses._202(response)
 	} catch (error) {
 		return errorHandler(error)
 	}
 }
 
-async function sendEmail(emailAddress: string, magicLink: string, language: string) {
-	const email: IEmail = EmailFactory.getEmail(language)
+interface IEmail {
+	getSubject(): string
+	getBody(magicLink: string, timeoutMins: number): string
+}
+
+class Email implements IEmail {
+	getSubject(): string {
+		return "JigJoy Login Link"
+	}
+
+	getBody(magicLink: string, timeoutMins: number): string {
+		return `<html><body><p>This is your one-time sign in link (it will expire in ${timeoutMins} mins):</p>
+				<a href="${magicLink}" target="_blank">link</a></body></html>`
+	}
+}
+
+async function sendEmail(emailAddress: string, magicLink: string) {
+	const email: IEmail = new Email()
 
 	const command = new SendEmailCommand({
 		Destination: {

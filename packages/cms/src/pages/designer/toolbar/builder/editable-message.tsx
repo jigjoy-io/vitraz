@@ -5,51 +5,34 @@ import PositionEditor from "../editors/position-editor"
 import TextAreaEditor from "../editors/text-area-editor"
 import Toolbar from "../toolbar"
 import EditableBlock from "./editable-block"
-import LocalizedStrings from "react-localization"
 import MessageIcon from "../../../../icons/message-icon"
 import AudioIcon from "../../../../icons/audio-icon"
 import ColorIcon from "../../../../icons/color-icon"
 import PositionIcon from "../../../../icons/position-icon"
-import { store } from "../../../../util/store"
-
-let localization = new LocalizedStrings({
-	US: {
-		editMessage: "Message",
-		editAudio: "Audio",
-		editColor: "Color",
-		editPosition: "Position",
-	},
-	RS: {
-		editMessage: "Poruka",
-		editAudio: "Zvuk",
-		editColor: "Boja",
-		editPosition: "Pozicija",
-	},
-})
 
 export default class EditableMessage extends EditableBlock {
 	getEditingOptions() {
 		return [
 			{
-				name: localization.editMessage,
+				name: "Message",
 				key: "message",
 				icon: MessageIcon,
 				editor: TextAreaEditor,
 			},
 			{
-				name: localization.editAudio,
+				name: "Audio",
 				key: "audio",
 				icon: AudioIcon,
 				editor: AudioEditor,
 			},
 			{
-				name: localization.editColor,
+				name: "Color",
 				key: "color",
 				icon: ColorIcon,
 				editor: ColorEditor,
 			},
 			{
-				name: localization.editPosition,
+				name: "Position",
 				key: "position",
 				icon: PositionIcon,
 				editor: PositionEditor,
@@ -58,9 +41,6 @@ export default class EditableMessage extends EditableBlock {
 	}
 
 	addToolbar(props: any) {
-		const state = store.getState()
-		localization.setLanguage(state.localization.language)
-
 		this.block = (
 			<Toolbar id={props.id} block={props} editingOptions={this.getEditingOptions()}>
 				<div>{this.block}</div>

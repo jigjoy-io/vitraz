@@ -6,30 +6,14 @@ import FileUrlEditor from "../../../../components/file-uploader/file-url-editor"
 import { updateBlock } from "../../../../reducers/page-reducer"
 import { useDispatch } from "react-redux"
 
-interface LocalizationStrings {
-	update: string
-	embedLink: string
-	uploadFile: string
-	clickToUpload: string
-	fileTooLarge: string
-	fileLoadSuccess: string
-	fileUploadedSuccessfully: string
-	uploadInProgress: string
-	uploadError: string
-	embedLinkPlaceholder: string
-	embedButton: string
-}
-
 interface FileEditorProps {
 	value: string
 	attribute: string
 	block: any
 	fileType: "image" | "video" | "audio"
-	localization: LocalizationStrings
-	lang: "US" | "RS"
 }
 
-export default function FileEditor({ value, block, attribute, fileType, localization }: FileEditorProps) {
+export default function FileEditor({ value, block, attribute, fileType }: FileEditorProps) {
 	const dispatch = useDispatch()
 
 	const update = (fileUrl) => {
@@ -41,11 +25,11 @@ export default function FileEditor({ value, block, attribute, fileType, localiza
 	return (
 		<div className="flex flex-col p-2 w-[300px] mt-4">
 			<Tabs>
-				<Tab key={localization.uploadFile}>
-					<FileUploader mediaType={fileType} localization={localization} callback={update} />
+				<Tab key={`Upload ${fileType}`}>
+					<FileUploader mediaType={fileType} callback={update} />
 				</Tab>
-				<Tab key={localization.embedLink}>
-					<FileUrlEditor filePath={value} fileType={fileType} localization={localization} callback={update} />
+				<Tab key="Embed link">
+					<FileUrlEditor filePath={value} fileType={fileType} callback={update} />
 				</Tab>
 			</Tabs>
 		</div>

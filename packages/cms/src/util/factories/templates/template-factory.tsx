@@ -48,8 +48,8 @@ export default class TemplateFactory {
 		return reelBlock
 	}
 
-	static createInputBlock() {
-		return this.create("input")
+	static createFormBlock() {
+		return this.create("form")
 	}
 
 	static createCarouselPage(origin, numberOfPages = 3) {
