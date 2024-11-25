@@ -40,7 +40,7 @@ export default function Alert(props: any) {
 				<div style={{ width: "24px", height: "24px" }}>{icon != null && renderIcon()}</div>
 				<div className="pl-3">
 					<div className="font-bold">{props.title}</div>
-					<div>{props.message}</div>
+					<div className="capitalize">{props.message}</div>
 				</div>
 			</div>
 		</div>

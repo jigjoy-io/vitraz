@@ -3,7 +3,20 @@ import BlockFactory from "./block-factory"
 import gaps from "./../style-helper/gaps"
 
 export default class PlainBlockFactory extends React.Component {
-	static validBlocks = ["text", "heading", "title", "image", "question", "profile", "carousel-tile", "page-tile", "reel", "message", "audio", "input"]
+	static validBlocks = [
+		"text",
+		"heading",
+		"title",
+		"image",
+		"question",
+		"profile",
+		"carousel-tile",
+		"page-tile",
+		"reel",
+		"message",
+		"audio",
+		"form",
+	]
 
 	static getBlock(props: any) {
 		let validBlock = this.validBlocks.includes(props.type)

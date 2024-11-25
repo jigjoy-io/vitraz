@@ -6,7 +6,7 @@ import { FileTooLargeError } from "../../util/errors/file-too-large-error"
 import FileHelper from "../../util/file-upload/file-upload"
 import Button from "../button/button"
 
-export default function FileUploader({ mediaType, localization, callback }) {
+export default function FileUploader({ mediaType, callback }) {
 	const [uploading, setUploadingStatus] = useState(false)
 	const rootPage = useRootPage()
 	const [fileAlert, setFileAlert] = useState<AlertProps | null>(null)
@@ -20,16 +20,19 @@ export default function FileUploader({ mediaType, localization, callback }) {
 	const handleFileChange = async (event) => {
 		const selectedFile = event.target.files?.[0]
 		setUploadingStatus(true)
-		setFileAlert({ type: AlertType.INFO, message: localization.uploadInProgress })
+		setFileAlert({ type: AlertType.INFO, message: "Upload in progress.." })
 
 		try {
 			let filePath = await FileHelper.upload(selectedFile, rootPage.id)
-			setFileAlert({ type: AlertType.SUCCESS, message: localization.fileUploadedSuccessfully })
+			setFileAlert({ type: AlertType.SUCCESS, message: `Your ${mediaType} upload has finished!` })
 
 			callback(filePath)
 		} catch (err) {
 			if (err instanceof FileTooLargeError) {
-				setFileAlert({ type: AlertType.DANGER, message: localization.fileTooLarge })
+				setFileAlert({
+					type: AlertType.DANGER,
+					message: `${mediaType} is too large. Please upload a ${mediaType} smaller than 5MB.`,
+				})
 			}
 		} finally {
 			setUploadingStatus(false)
@@ -43,8 +46,14 @@ export default function FileUploader({ mediaType, localization, callback }) {
 					<Alert type={fileAlert.type} message={fileAlert.message} />
 				</div>
 			)}
-			<input type="file" ref={fileInputRef} onChange={handleFileChange} accept={`${mediaType}/*`} style={{ display: "none" }} />
-			<Button width="w-full" text={localization.clickToUpload} action={triggerFileInput} disabled={uploading} />
+			<input
+				type="file"
+				ref={fileInputRef}
+				onChange={handleFileChange}
+				accept={`${mediaType}/*`}
+				style={{ display: "none" }}
+			/>
+			<Button width="w-full" text="Upload" action={triggerFileInput} disabled={uploading} />
 		</>
 	)
 }

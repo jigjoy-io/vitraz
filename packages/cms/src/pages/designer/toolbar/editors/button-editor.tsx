@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
-import LocalizedStrings from "react-localization"
 import { updateBlock } from "../../../../reducers/page-reducer"
 import Button from "../../../../components/button/button"
 
@@ -14,27 +13,9 @@ interface MenuEditorProps {
 	block: any
 	attribute: string
 	value?: ButtonTexts
-	lang: string
 }
 
-let localization = new LocalizedStrings({
-	US: {
-		update: "Update",
-		previous: "Previous",
-		next: "Next",
-		home: "Back to Home",
-	},
-	RS: {
-		update: "Promeni",
-		previous: "Nazad",
-		next: "Napred",
-		home: "Povratak na početnu",
-	},
-})
-
-export default function ButtonEditor({ block, attribute, lang }: MenuEditorProps) {
-	localization.setLanguage(lang)
-
+export default function ButtonEditor({ block, attribute }: MenuEditorProps) {
 	const [buttonTexts, setButtonTexts] = useState<ButtonTexts>(block.page.config.buttons)
 	const dispatch = useDispatch()
 
@@ -55,10 +36,15 @@ export default function ButtonEditor({ block, attribute, lang }: MenuEditorProps
 					<label htmlFor={key} className="block mb-1">
 						{key.charAt(0).toUpperCase() + key.slice(1)}:
 					</label>
-					<input id={key} className="p-1 rounded-[5px] border w-[100%]" value={text} onChange={(e) => handleInputChange(key, e.target.value)} />
+					<input
+						id={key}
+						className="p-1 rounded-[5px] border w-[100%]"
+						value={text}
+						onChange={(e) => handleInputChange(key, e.target.value)}
+					/>
 				</div>
 			))}
-			<Button text={localization.update} action={update} />
+			<Button text="Update" action={update} />
 		</div>
 	)
 }

@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState } from "react"
+import React, { memo, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import { createPage, removePage, updatePage } from "../../api/page"
 import Grid from "../../components/grid/grid"
@@ -16,7 +16,7 @@ import {
 	rootPageUpdated,
 } from "../../reducers/page-reducer"
 import { blockingUpdated } from "../../reducers/toolbar-reducer"
-import { useExpandedPages, useHovered, useLanguage, usePage, usePages, useSelected } from "../../util/store"
+import { useExpandedPages, useHovered, usePage, usePages, useSelected } from "../../util/store"
 import { deletePage } from "../../util/traversals/delete-page"
 import { duplicateBlock } from "../../util/traversals/duplcate-block"
 import { findParent } from "../../util/traversals/find-parent"
@@ -25,54 +25,11 @@ import { createPortal } from "react-dom"
 import ClickOutsideListener from "../../util/click-outside-listener"
 import Button from "../../components/button/button"
 import { pushBlock } from "../../util/traversals/push-block"
-import LocalizedStrings from "react-localization"
 import AddBlockIcon from "../../icons/add-block-icon"
 import RenameIcon from "../../icons/rename-icon"
-import { languageUpdated } from "../../reducers/localization-reducer"
 import ToolbarButtonWrapper from "./toolbar/toolbar-button-wrapper"
 import TemplateFactory from "../../util/factories/templates/template-factory"
 import { nodeHovered } from "../../reducers/sidebar-reducer"
-
-let localization = new LocalizedStrings({
-	US: {
-		click: "Click",
-		ctrlClick: "Ctrl-click",
-		addBelow: "to add below",
-		addAbove: "to add page above",
-		addPageInside: "Add page inside",
-		moreOptions: "Delete, duplicate, and more...",
-		rename: "Rename",
-		duplicate: "Duplicate",
-		delete: "Delete",
-		choosePageType: "Choose Page Type",
-		blankPage: "Blank Page",
-		carousel: "Carousel",
-		create: "Create",
-		deletePage: "Delete Page Permanently?",
-		areYouSure: "Are you sure? This will permanently erase all content.",
-		yes: "Yes",
-		no: "No",
-	},
-	RS: {
-		click: "Klikni",
-		ctrlClick: "Ctrl-klik",
-		addBelow: "da dodaš stranicu dole",
-		addAbove: "da dodaš stranicu gore",
-		addPageInside: "Dodaj stranicu unutra",
-		moreOptions: "Obriši, kloniraj, i drugo...",
-		rename: "Preimenuj",
-		duplicate: "Kloniraj",
-		delete: "Obriši",
-		choosePageType: "Odaberite tip stranice",
-		blankPage: "Prazna stranica",
-		carousel: "Karusel",
-		create: "Kreiraj",
-		deletePage: "Brisanje stranice",
-		areYouSure: "Da li si siguran? Čitav sadržaj unutar stranice biće obrisan.",
-		yes: "Da",
-		no: "Ne",
-	},
-})
 
 const Node = memo(function Node(props: any) {
 	const activePage = usePage()
@@ -95,7 +52,6 @@ const Node = memo(function Node(props: any) {
 
 	const pages = usePages()
 	const expandedPages = useExpandedPages()
-	const lang = useLanguage()
 	const hovered = useHovered()
 
 	const dispatch = useDispatch()
@@ -254,11 +210,6 @@ const Node = memo(function Node(props: any) {
 		}
 	}
 
-	useEffect(() => {
-		localization.setLanguage(lang)
-		dispatch(languageUpdated(lang))
-	}, [lang])
-
 	const loadPage = async (e: React.MouseEvent, selectedPage) => {
 		e.stopPropagation()
 
@@ -295,14 +246,14 @@ const Node = memo(function Node(props: any) {
 			return (
 				<div className="text-center text-[14px]">
 					<div>
-						<span className="font-extrabold">{localization.click}</span> {localization.addBelow}
+						<span className="font-extrabold">Click</span> to add below
 					</div>
-					<span className="font-extrabold">{localization.ctrlClick}</span> {localization.addAbove}
+					<span className="font-extrabold">Ctrl-click</span> to add page above
 				</div>
 			)
 		}
 
-		return <div className="text-center text-[14px]">{localization.addPageInside}</div>
+		return <div className="text-center text-[14px]">Add page inside</div>
 	}
 
 	const addBlankPageToCarousel = (carousel, position) => {
@@ -401,7 +352,9 @@ const Node = memo(function Node(props: any) {
 				{hovered === props.id && (
 					<>
 						<div onClick={expandDropdown} ref={ref}>
-							<ToolbarButtonWrapper tooltip={<div className="text-center text-[14px]">{localization.moreOptions}</div>}>
+							<ToolbarButtonWrapper
+								tooltip={<div className="text-center text-[14px]">Delete, duplicate, and more...</div>}
+							>
 								<MoreIcon />
 							</ToolbarButtonWrapper>
 						</div>
@@ -439,10 +392,10 @@ const Node = memo(function Node(props: any) {
 							ref={portalRef}
 						>
 							<Grid numberOfCols={1}>
-								<Item text={localization.rename} icon={RenameIcon} action={(e) => openRenamePopup(e)} />
-								<Item text={localization.duplicate} icon={DuplicateIcon} action={duplicatePage} />
+								<Item text="Rename" icon={RenameIcon} action={(e) => openRenamePopup(e)} />
+								<Item text="Duplicate" icon={DuplicateIcon} action={duplicatePage} />
 								<div className="border-b border-default-light" />
-								<Item text={localization.delete} icon={DeleteBlockIcon} action={(e) => openDeletePopup(e)} />
+								<Item text="Delete" icon={DeleteBlockIcon} action={(e) => openDeletePopup(e)} />
 							</Grid>
 						</div>
 					</ClickOutsideListener>,
@@ -457,11 +410,11 @@ const Node = memo(function Node(props: any) {
 							style={{ top: rect.top + rect.height, left: rect.x + rect.width }}
 						>
 							<div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
-								<p className="font-bold">{localization.deletePage}</p>
-								<div>{localization.areYouSure}</div>
+								<p className="font-bold">Delete Page Permanently?</p>
+								<div>Are you sure? This will permanently erase all content.</div>
 								<div className="flex gap-2 mt-3 justify-end">
-									<Button size="sm" color="white" text={localization.yes} action={remove} />
-									<Button size="sm" color="default" text={localization.no} action={closeDelete} />
+									<Button size="sm" color="white" text="Yes" action={remove} />
+									<Button size="sm" color="default" text="No" action={closeDelete} />
 								</div>
 							</div>
 						</div>
@@ -477,7 +430,7 @@ const Node = memo(function Node(props: any) {
 							style={{ top: rect.top + rect.height, left: rect.x + rect.width }}
 						>
 							<div className="flex flex-col gap-2 w-full" onClick={(e) => e.stopPropagation()}>
-								<p className="font-bold">{localization.choosePageType}</p>
+								<p className="font-bold">Choose Page Type</p>
 								<select
 									name="pageType"
 									id="pageType"
@@ -485,11 +438,11 @@ const Node = memo(function Node(props: any) {
 									onChange={handlePageToCreate}
 									value={tileToAdd}
 								>
-									<option value="page-tile">{localization.blankPage}</option>
-									<option value="carousel-tile">{localization.carousel}</option>
+									<option value="page-tile">Blank Page</option>
+									<option value="carousel-tile">Carousel</option>
 								</select>
 								<div className="flex mt-3">
-									<Button size="sm" color="white" text={localization.create} action={createNewPage} />
+									<Button size="sm" color="white" text="Create" action={createNewPage} />
 								</div>
 							</div>
 						</div>
@@ -511,7 +464,7 @@ const Node = memo(function Node(props: any) {
 									onChange={(event) => setRenameValue(event.target.value)}
 									autoFocus
 								/>
-								<Button text={localization.rename} size="sm" action={renamePage} />
+								<Button text="Rename" size="sm" action={renamePage} />
 							</div>
 						</div>
 					</ClickOutsideListener>,

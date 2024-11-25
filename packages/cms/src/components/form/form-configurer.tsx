@@ -2,46 +2,19 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import ClickOutsideListener from "../../util/click-outside-listener"
 import { updateBlock } from "../../reducers/page-reducer"
 import { useDispatch } from "react-redux"
-import { useLanguage } from "../../util/store"
 import { blockingUpdated } from "../../reducers/toolbar-reducer"
 import { createPortal } from "react-dom"
-import LocalizedStrings from "react-localization"
 import TemplateFactory from "../../util/factories/templates/template-factory"
 import InputIcon from "../../icons/input-icon"
 import Button from "../button/button"
 
-let localization = new LocalizedStrings({
-	US: {
-		create: "Create",
-		placeholder: "Placeholder",
-		label: "Label",
-		textInput: "Text input",
-		dateInput: "Date input",
-		numberInput: "Number input",
-		inputType: "Input type",
-		clickToAdd: "Click to add an input",
-	},
-	RS: {
-		create: "Kreiraj",
-		placeholder: "Poruka za unos",
-		label: "Oznaka",
-		textInput: "Unos teksta",
-		dateInput: "Unos datuma",
-		numberInput: "Unos broja",
-		inputType: "Tip unosa",
-		clickToAdd: "Klikni da ubaciš polje za unos",
-	},
-})
-
-export default function InputConfigurer(props: any) {
+export default function FormConfigurer(props: any) {
 	const dispatch = useDispatch()
 
 	const [display, setDisplay] = useState(props.display)
 	const [placeholder, setPlaceholder] = useState(props.placeholder)
 	const [label, setLabel] = useState(props.label)
 	const [inputType, setInputType] = useState(props.inputType)
-
-	const lang = useLanguage()
 
 	const [top, setTop] = useState<number>()
 	const [left, setLeft] = useState<number>()
@@ -50,8 +23,6 @@ export default function InputConfigurer(props: any) {
 	const ref = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
-		localization.setLanguage(lang)
-
 		window.onbeforeunload = function () {
 			turnOffPopup()
 			return true
@@ -90,7 +61,7 @@ export default function InputConfigurer(props: any) {
 	const create = () => {
 		dispatch(blockingUpdated(false))
 
-		let block = TemplateFactory.createInputBlock()
+		let block = TemplateFactory.createFormBlock()
 		block.placeholder = placeholder
 		block.label = label
 		block.inputType = inputType
@@ -132,7 +103,7 @@ export default function InputConfigurer(props: any) {
 								<div className="w-[100%] mt-[1rem]">
 									<div className="flex flex-row w-full">
 										<label className="flex-none flex items-center w-[33%]" htmlFor="inputType">
-											{localization.inputType}
+											Input type
 										</label>
 										<select
 											name="inputType"
@@ -141,9 +112,9 @@ export default function InputConfigurer(props: any) {
 											onChange={(e) => setInputType(e.target.value)}
 											value={inputType}
 										>
-											<option value="text">{localization.textInput}</option>
-											<option value="number">{localization.numberInput}</option>
-											<option value="date">{localization.dateInput}</option>
+											<option value="text">Text input</option>
+											<option value="number">Number input</option>
+											<option value="date">Date input</option>
 										</select>
 									</div>
 								</div>
@@ -151,7 +122,7 @@ export default function InputConfigurer(props: any) {
 								<div className="w-[100%] mt-[1rem]">
 									<div className="flex flex-row w-full">
 										<label className="flex-none flex items-center w-[33%]" htmlFor="label">
-											{localization.label}
+											Label
 										</label>
 										<input
 											className="ml-4 p-1 rounded-[5px] border w-[100%]"
@@ -164,7 +135,7 @@ export default function InputConfigurer(props: any) {
 									<div className="w-[100%] mt-[1rem]">
 										<div className="flex flex-row w-full">
 											<label className="flex-none flex items-center w-[33%]" htmlFor="placeholder">
-												{localization.placeholder}
+												Placeholder
 											</label>
 											<input
 												className="ml-4 p-1 rounded-[5px] border w-[100%]"
@@ -176,7 +147,7 @@ export default function InputConfigurer(props: any) {
 								)}
 
 								<div className="mt-[1rem]">
-									<Button width="w-full" text={localization.create} action={create} />
+									<Button width="w-full" text="Create" action={create} />
 								</div>
 							</div>
 						</div>
@@ -189,7 +160,7 @@ export default function InputConfigurer(props: any) {
 				className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60"
 			>
 				<InputIcon />
-				<div className="pl-2">{localization.clickToAdd}</div>
+				<div className="pl-2">Click to add an input</div>
 			</div>
 		</div>
 	)

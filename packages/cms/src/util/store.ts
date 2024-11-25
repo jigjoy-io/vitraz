@@ -3,7 +3,6 @@ import pageReducer from "../reducers/page-reducer"
 import { useDispatch, useSelector } from "react-redux"
 import toolbarReducer from "../reducers/toolbar-reducer"
 import authReducer from "../reducers/auth-reducer"
-import localizationReducer from "../reducers/localization-reducer"
 import sidebarReducer from "../reducers/sidebar-reducer"
 import storage from "redux-persist/lib/storage"
 import { persistStore, persistReducer } from "redux-persist"
@@ -13,13 +12,12 @@ const rootReducer = combineReducers({
 	page: pageReducer,
 	auth: authReducer,
 	sidebar: sidebarReducer,
-	localization: localizationReducer,
 })
 
 const persistConfig = {
 	key: "root",
 	storage: storage,
-	whitelist: ["localization", "page"],
+	whitelist: ["page"],
 }
 
 const persistedReducer = persistReducer<ReturnType<typeof rootReducer>>(persistConfig, rootReducer)
@@ -59,4 +57,3 @@ export const useSelected = () => useAppSelector((state: any) => state.page.selec
 export const useExpandedPages = () => useAppSelector((state: any) => state.page.expandedPages)
 
 export const useActiveBlock = () => useAppSelector((state: any) => state.page.activeBlock)
-export const useLanguage = () => useAppSelector((state: any) => state.localization.language)

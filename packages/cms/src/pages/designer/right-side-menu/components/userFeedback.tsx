@@ -6,24 +6,16 @@ import TextArea from "../../../../components/textarea/textarea"
 import { getCurrentUser } from "aws-amplify/auth"
 import { RequestType, saveUserFeedback } from "../../../../api/feedback"
 
-interface LocalizationStrings {
+interface UserFeedbackProps {
 	heading: string
 	description: string
-	placeholder: string
-	errorMessage: string
-	successMessage: string
-	cta: string
-}
-
-interface UserFeedbackProps {
 	requestType: RequestType
-	localization: LocalizationStrings
 }
 
-export default function UserFeedback({ localization, requestType }: UserFeedbackProps) {
+export default function UserFeedback({ heading, description, requestType }: UserFeedbackProps) {
 	const [feedbackMessage, setFeedbackMessage] = useState("")
-	const [errorMessage, setErrorMessage] = useState("")
-	const [successMessage, setSuccessMessage] = useState("")
+	const [error, setError] = useState(false)
+	const [success, setSuccess] = useState(true)
 
 	const handleChange = (value) => {
 		setFeedbackMessage(value)
@@ -31,11 +23,11 @@ export default function UserFeedback({ localization, requestType }: UserFeedback
 
 	const submitRequest = async () => {
 		if (!feedbackMessage) {
-			setErrorMessage(localization.errorMessage)
+			setError(true)
 			return
 		}
 
-		setSuccessMessage(localization.successMessage)
+		setSuccess(true)
 
 		const user = await getCurrentUser()
 		const { username, signInDetails } = user
@@ -52,17 +44,19 @@ export default function UserFeedback({ localization, requestType }: UserFeedback
 
 	return (
 		<div className="mt-20 flex flex-col justify-center items-center gap-4 px-10">
-			<Heading position="center" text={localization.heading} />
-			<Text position="center" text={localization.description} />
-			{successMessage ? (
-				<div className="text-[green] text-center">{successMessage}</div>
+			<Heading position="center" text={heading} />
+			<Text position="center" text={description} />
+			{success ? (
+				<div className="text-[green] text-center">
+					Your message has been successfully saved. Our team will contact you shortly.
+				</div>
 			) : (
 				<>
 					<div className="w-full">
-						<TextArea placeholder={localization.placeholder} onChange={handleChange} />
+						<TextArea placeholder="Leave a message, and we’ll contact you soon." onChange={handleChange} />
 					</div>
-					{errorMessage && <div className="text-[red]">{errorMessage}</div>}
-					<Button text={localization.cta} action={submitRequest} />
+					{error && <div className="text-[red]">The message field is required. Please enter your message.</div>}
+					<Button text="Submit" action={submitRequest} />
 				</>
 			)}
 		</div>
