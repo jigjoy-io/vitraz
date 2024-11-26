@@ -19,19 +19,21 @@ function findPageById(page, targetId) {
 }
 
 export class ToolbarDropStrategy implements DropStrategy {
-	execute(dropTarget, selectedBlocks, blocks, page, activeCarousel, dispatch, setDropTarget) {
-		if (!dropTarget) return
+	execute(dropTarget, blocks, page, activeCarousel, dispatch, setDropTarget, item) {
+		if (!dropTarget || !item) return
 
-		const dragIndex = selectedBlocks[0]?.index
-		const hoverIndex = dropTarget.index
+		const draggedBlockId = item?.block?.id
+		const draggedBlock = blocks.find((block) => block.id === draggedBlockId)
 
-		if (dragIndex === hoverIndex) return
+		if (!draggedBlock) return
 
-		const targetIndex = dropTarget.position === "top" ? hoverIndex : hoverIndex
+		const filteredBlocks = blocks.filter((block) => block.id !== draggedBlockId)
 
-		const filteredBlocks = blocks.filter((block) => block !== null)
-		const [movedBlock] = filteredBlocks.splice(dragIndex, 1)
-		filteredBlocks.splice(targetIndex, 0, movedBlock)
+		const targetIndex = blocks.findIndex((block) => block.id === dropTarget.block.id)
+		if (targetIndex === -1) return
+
+		const newPosition = dropTarget.position === "top" ? targetIndex : targetIndex + 1
+		filteredBlocks.splice(newPosition, 0, draggedBlock)
 
 		const carouselPage = findPageById(page, activeCarousel)
 		const targetPage = carouselPage || page
@@ -45,5 +47,7 @@ export class ToolbarDropStrategy implements DropStrategy {
 				},
 			}),
 		)
+
+		setDropTarget(null)
 	}
 }

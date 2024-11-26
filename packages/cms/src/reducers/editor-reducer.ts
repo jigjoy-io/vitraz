@@ -19,7 +19,6 @@ export const editorSlice = createSlice({
 			state.blocked = action.payload
 		},
 		selectBlocks: (state, action: PayloadAction<any>) => {
-			console.log("PPAYLOAD", action.payload)
 			state.selectedBlocks = action.payload
 		},
 	},

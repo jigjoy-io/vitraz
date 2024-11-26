@@ -6,7 +6,7 @@ import { createPortal } from "react-dom"
 import { AnimatePresence, LazyMotion, m } from "framer-motion"
 import LocalizedStrings from "react-localization"
 import { useLanguage, useSelectedBlocks } from "../../../util/store"
-import { blockingUpdated } from "../../../reducers/editor-reducer"
+import { blockingUpdated, selectBlocks } from "../../../reducers/editor-reducer"
 import { insertBlock, removeBlock } from "../../../reducers/page-reducer"
 import { duplicateBlock } from "../../../util/traversals/duplcate-block"
 import ClickOutsideListener from "../../../util/click-outside-listener"
@@ -77,10 +77,12 @@ export default function Toolbar(props: any) {
 	const [{ isDragging }, drag, dragPreview] = useDrag<any, void, { isDragging: boolean }>(
 		() => ({
 			type: "BLOCK",
-			item: {
-				type: "BLOCK",
-				index: props.index,
-				block: props.block,
+			item: () => {
+				return {
+					type: "BLOCK",
+					index: props.index,
+					block: props.block,
+				}
 			},
 			collect: (monitor) => ({
 				isDragging: monitor.isDragging(),
@@ -89,25 +91,9 @@ export default function Toolbar(props: any) {
 				captureDraggingState: true,
 			},
 		}),
+
 		[props.index, props.block],
 	)
-
-	useEffect(() => {
-		const previewContainer = document.createElement("div")
-
-		selectedBlocks.forEach((block) => {
-			const element = document.getElementById(block.id)
-			if (element) {
-				const clone = element.cloneNode(true) as HTMLElement
-				previewContainer.appendChild(clone)
-			}
-		})
-
-		if (containerRef.current) {
-			console.log("PREV CONT", previewContainer)
-			dragPreview(previewContainer)
-		}
-	}, [selectedBlocks])
 
 	const handleMouseMove = (e: MouseEvent) => {
 		if (containerRef.current) {

@@ -11,7 +11,7 @@ export class DropHandler {
 		this.strategy = strategy
 	}
 
-	execute(dropTarget, selectedBlocks, blocks, page, activeCarousel, dispatch, setDropTarget) {
-		this.strategy.execute(dropTarget, selectedBlocks, blocks, page, activeCarousel, dispatch, setDropTarget)
+	execute(dropTarget, selectedBlocks, blocks, page, activeCarousel, dispatch, setDropTarget, item) {
+		this.strategy.execute(dropTarget, selectedBlocks, blocks, page, activeCarousel, dispatch, setDropTarget, item)
 	}
 }

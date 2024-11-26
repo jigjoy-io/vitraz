@@ -93,20 +93,23 @@ export default function EditPageContent(props: any) {
 				<LazyMotion features={loadFeatures}>
 					<m.div variants={animation} initial="hidden" animate="show">
 						<DragSelection />
-						{blocks.map((block, index) => (
+						{blocks.map((block) => (
 							<div
 								key={block.id}
 								id={block.id}
-								data-block-index={index}
+								data-block-id={block.id}
 								className={`relative ${
 									selectedBlocks.some((selectedBlock) => selectedBlock.id === block.id) ? "bg-highlight" : ""
 								}`}
 							>
-								{dropTarget?.index === index && dropTarget.position === "top" && (
+								{/* Drop indicator for "top" */}
+								{dropTarget?.block?.id === block.id && dropTarget?.position === "top" && (
 									<div className="pointer-events-none" style={getDropIndicatorStyle("top")} />
 								)}
-								{EditorFactory.getEditableBlock({ ...block, index })}
-								{dropTarget?.index === index && dropTarget.position === "bottom" && (
+								{/* Render the editable block */}
+								{EditorFactory.getEditableBlock(block)}
+								{/* Drop indicator for "bottom" */}
+								{dropTarget?.block?.id === block.id && dropTarget?.position === "bottom" && (
 									<div className="pointer-events-none" style={getDropIndicatorStyle("bottom")} />
 								)}
 							</div>

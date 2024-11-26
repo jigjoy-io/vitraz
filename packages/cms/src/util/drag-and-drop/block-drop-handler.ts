@@ -13,7 +13,7 @@ interface UseBlockDropHandlerParams {
 }
 
 interface DropTarget {
-	index: number
+	block: any
 	position: "top" | "bottom"
 }
 
@@ -38,10 +38,14 @@ export function useBlockDropHandler({
 				if (!dragRect) return
 
 				const hoverElements = document.elementsFromPoint(dragRect.x, dragRect.y)
-				const blockElement = hoverElements.find((el) => el.getAttribute("data-block-index"))
+				const blockElement = hoverElements.find((el) => el.getAttribute("data-block-id"))
 
 				if (blockElement) {
-					const hoverIndex = parseInt(blockElement.getAttribute("data-block-index") || "0")
+					const hoverBlockId = blockElement.getAttribute("data-block-id")
+					const hoverBlock = blocks.find((block) => block.id === hoverBlockId)
+
+					if (!hoverBlock) return
+
 					const hoverRect = blockElement.getBoundingClientRect()
 					const hoverMiddleY = (hoverRect.bottom - hoverRect.top) / 2
 					const clientOffset = monitor.getClientOffset()
@@ -51,15 +55,15 @@ export function useBlockDropHandler({
 					const hoverClientY = clientOffset.y - hoverRect.top
 					const position = hoverClientY < hoverMiddleY ? "top" : "bottom"
 
-					if (!dropTarget || dropTarget.index !== hoverIndex || dropTarget.position !== position) {
-						setDropTarget({ index: hoverIndex, position })
+					if (!dropTarget || dropTarget.block?.id !== hoverBlock.id || dropTarget.position !== position) {
+						setDropTarget({ block: hoverBlock, position })
 					}
 				} else {
 					setDropTarget(null)
 				}
 			},
 			drop(item, monitor) {
-				dropHandler.execute(dropTarget, selectedBlocks, blocks, page, activeCarousel, dispatch, setDropTarget)
+				dropHandler.execute(dropTarget, selectedBlocks, blocks, page, activeCarousel, dispatch, setDropTarget, item)
 				setDropTarget(null)
 			},
 		}),
