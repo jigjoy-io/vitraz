@@ -29,11 +29,22 @@ export default function EditPageContent(props: any) {
 	const selectedBlocks = useSelectedBlocks()
 	const activeCarousel = useCurrentCarouselPage()
 	const [boxSelection, setBoxSelection] = useState<any>()
+	const [isDragging, setIsDragging] = useState(false)
 
 	const { DragSelection } = useSelectionContainer({
-		onSelectionStart: () => dispatch(selectBlocks([])),
-		onSelectionChange: (selectionBox) => setBoxSelection(selectionBox),
+		onSelectionStart: () => {
+			console.log("TRALALA")
+			if (isDragging) return
+			dispatch(selectBlocks([]))
+			setBoxSelection(null)
+		},
+		onSelectionChange: (selectionBox) => {
+			console.log("blalal")
+			if (isDragging) return
+			setBoxSelection(selectionBox)
+		},
 		onSelectionEnd: () => {
+			if (isDragging) return
 			const finalizedSelection = blocks.filter((block) => {
 				const blockElement = document.querySelector(`[id="${block.id}"]`)
 				if (!blockElement) return false
@@ -44,12 +55,14 @@ export default function EditPageContent(props: any) {
 			})
 
 			dispatch(selectBlocks(finalizedSelection))
+			setBoxSelection(null)
 		},
 		selectionProps: { className: "bg-blue-100" },
 	})
 
 	const handleClick = () => {
 		dispatch(selectBlocks([]))
+		setBoxSelection(null)
 	}
 
 	const { isOver, canDrop, drop, dropTarget } = useBlockDropHandler({
@@ -58,6 +71,7 @@ export default function EditPageContent(props: any) {
 		page,
 		activeCarousel,
 		dispatch,
+		setIsDragging,
 	})
 
 	useEffect(() => {

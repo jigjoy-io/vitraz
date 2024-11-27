@@ -19,7 +19,7 @@ function findPageById(page, targetId) {
 }
 
 export class ToolbarDropStrategy implements DropStrategy {
-	execute(dropTarget, blocks, page, activeCarousel, dispatch, setDropTarget, item) {
+	execute(dropTarget, selectBlocks, blocks, page, activeCarousel, dispatch, setDropTarget, item) {
 		if (!dropTarget || !item) return
 
 		const draggedBlockId = item?.block?.id
