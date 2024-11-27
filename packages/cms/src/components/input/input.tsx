@@ -50,7 +50,7 @@ export default function Input(props: any) {
 			<input
 				onChange={handleChange}
 				onKeyDown={handleKeyDown}
-				className="w-[100%] min-h-[40px] h-[40px] p-2 bg-[white] border border-light shadow-lg px-[8px] rounded-[5px] outline-none"
+				className="w-[100%] min-h-[40px] h-[40px] p-2 bg-[white] border border-light shadow-lg px-[8px] rounded-[5px] outline-none text-[16px]"
 				value={props.inputType === "date" ? formatDate(value) : value}
 				name={props.key}
 				placeholder={props.placeholder}
