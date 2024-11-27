@@ -11,7 +11,6 @@ interface UseBlockDropHandlerParams {
 	activeCarousel: any
 	dispatch: Dispatch<any>
 	setIsDragging
-	setBlockSelection
 }
 
 interface DropTarget {
