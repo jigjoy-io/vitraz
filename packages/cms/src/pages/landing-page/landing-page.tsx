@@ -51,7 +51,6 @@ function LandingPage() {
 								Blog
 							</div>
 						</div>
-
 						<div className="hidden lg:block p-5">
 							<div className="justify-end">
 								<div className="flex gap-4 xl:gap-8 lg:mx-40 2xl:mx-80 justify-end">
@@ -96,6 +95,9 @@ function LandingPage() {
 												<p className="text-xl">Try for free</p>
 											</div>
 										</div>
+									</div>
+									<div className="p-5 flex justify-center">
+										<p>No signup needed to try.</p>
 									</div>
 								</m.div>
 							</m.div>
