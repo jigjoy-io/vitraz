@@ -11,6 +11,7 @@ interface UseBlockDropHandlerParams {
 	activeCarousel: any
 	dispatch: Dispatch<any>
 	setIsDragging
+	cancelCurrentSelection
 }
 
 interface DropTarget {
@@ -25,6 +26,7 @@ export function useBlockDropHandler({
 	activeCarousel,
 	dispatch,
 	setIsDragging,
+	cancelCurrentSelection,
 }: UseBlockDropHandlerParams) {
 	const [dropTarget, setDropTarget] = useState<DropTarget | null>(null)
 
@@ -88,6 +90,7 @@ export function useBlockDropHandler({
 				setIsDragging(false)
 				dropHandler.execute(dropTarget, selectedBlocks, blocks, page, activeCarousel, dispatch, setDropTarget, item)
 				setDropTarget(null)
+				cancelCurrentSelection()
 			},
 			begin: () => {
 				setIsDragging(true)

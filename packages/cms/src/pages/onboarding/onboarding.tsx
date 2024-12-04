@@ -24,28 +24,28 @@ export default function Onboarding() {
 	const mode = useMode()
 	const pages = usePages()
 
-	const checkUser = async () => {
-		try {
-			const user = await getCurrentUser()
-			if (!user) {
-				navigate({ to: "/" })
-			}
-		} catch (error) {
-			navigate({ to: "/" })
-			console.error("Error checking user authentication:", error)
-		}
-	}
+	// const checkUser = async () => {
+	// 	try {
+	// 		const user = await getCurrentUser()
+	// 		if (!user) {
+	// 			navigate({ to: "/" })
+	// 		}
+	// 	} catch (error) {
+	// 		navigate({ to: "/" })
+	// 		console.error("Error checking user authentication:", error)
+	// 	}
+	// }
 
-	useEffect(() => {
-		checkUser()
-	}, [])
+	// useEffect(() => {
+	// 	checkUser()
+	// }, [])
 
 	const create = async (type) => {
 		dispatch(carouselPageSwitched(null))
 
 		// page creation
-		const userAttributes = await fetchUserAttributes()
-		let page = TemplateFactory.createPage(type, userAttributes.email)
+		// const userAttributes = await fetchUserAttributes()
+		let page = TemplateFactory.createPage(type, "TEST")
 
 		// state update
 		let allPages = JSON.parse(JSON.stringify(pages))
