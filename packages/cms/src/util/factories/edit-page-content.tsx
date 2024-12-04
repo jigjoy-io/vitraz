@@ -8,6 +8,7 @@ import { boxesIntersect, useSelectionContainer } from "@air/react-drag-to-select
 import { useBlockDropHandler } from "../drag-and-drop/block-drop-handler"
 import TemplateFactory from "./templates/template-factory"
 import EditorFactory from "./editor-factory"
+import { CustomDragLayer } from "../../components/custom-drag-layer/custom-drag-layer"
 
 const animation = {
 	hidden: { opacity: 0 },
@@ -31,7 +32,7 @@ export default function EditPageContent(props: any) {
 	const [boxSelection, setBoxSelection] = useState<any>()
 	const [isDragging, setIsDragging] = useState(false)
 
-	const { DragSelection } = useSelectionContainer({
+	const { DragSelection, cancelCurrentSelection } = useSelectionContainer({
 		onSelectionStart: () => {
 			if (isDragging) return
 			dispatch(selectBlocks([]))
@@ -61,6 +62,7 @@ export default function EditPageContent(props: any) {
 	const handleClick = () => {
 		dispatch(selectBlocks([]))
 		setBoxSelection(null)
+		cancelCurrentSelection()
 	}
 
 	const { isOver, canDrop, drop, dropTarget } = useBlockDropHandler({
@@ -70,6 +72,7 @@ export default function EditPageContent(props: any) {
 		activeCarousel,
 		dispatch,
 		setIsDragging,
+		cancelCurrentSelection,
 	})
 
 	useEffect(() => {
@@ -131,6 +134,7 @@ export default function EditPageContent(props: any) {
 					</LazyMotion>
 				</div>
 			</div>
+			<CustomDragLayer selectedBlocks={selectedBlocks} />
 			<div className="grow min-h-[150px]" onClick={activateSelector}></div>
 		</div>
 	)

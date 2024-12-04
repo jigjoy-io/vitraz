@@ -38,7 +38,7 @@ export default function CarouselTile(props: any) {
 
 			<div className="pt-4">
 				<Grid numberOfCols={1}>
-					<Button rounded text={cta} color="gradient" action={load} />
+					<Button rounded expanded text={cta} color="gradient" action={load} />
 				</Grid>
 			</div>
 		</Tile>

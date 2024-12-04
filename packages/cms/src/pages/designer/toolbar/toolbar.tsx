@@ -15,6 +15,7 @@ import DeleteBlockIcon from "../../../icons/delete-block-icon"
 import Grid from "../../../components/grid/grid"
 import Item from "../../../components/item/item"
 import { useDrag } from "react-dnd"
+import { getEmptyImage } from "react-dnd-html5-backend"
 
 const animation = {
 	hidden: { opacity: 0 },
@@ -68,33 +69,15 @@ export default function Toolbar(props: any) {
 		[props.index, props.block],
 	)
 
-	// useEffect(() => {
-	// 	if (selectedBlocks && selectedBlocks.length > 0) {
-	// 		const previewContainer = document.createElement("div")
-	// 		previewContainer.style.backgroundColor = "red"
-	// 		previewContainer.style.opacity = "0.5"
-	// 		previewContainer.style.position = "relative"
-	// 		previewContainer.style.zIndex = "9999"
-
-	// 		selectedBlocks.forEach((block) => {
-	// 			const element = document.getElementById(block.id)
-	// 			if (element) {
-	// 				const clone = element.cloneNode(true) as HTMLElement
-	// 				previewContainer.appendChild(clone)
-	// 			}
-	// 		})
-
-	// 		setTimeout(() => {
-	// 			dragPreview(previewContainer)
-	// 		}, 1000)
-	// 	}
-	// }, [selectedBlocks, dragPreview])
-
 	useEffect(() => {
-		if (containerRef.current) {
+		if (containerRef.current && !selectedBlocks) {
 			dragPreview(containerRef.current)
 		}
 	}, [dragPreview])
+
+	useEffect(() => {
+		dragPreview(getEmptyImage(), { captureDraggingState: true })
+	}, [])
 
 	const handleMouseMove = (e: MouseEvent) => {
 		if (containerRef.current) {
