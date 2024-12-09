@@ -61,7 +61,7 @@ class PositiveAnswer(BaseModel):
 
     type: str = "success"
     title: str = Field(default="Great!", description="Positive message title")
-    message: str = Field(default="The answer is correct.", description="Positive message")
+    message: str = Field(default="The answer is correct.", description="Fun fact about question/answer.")
 
 class NegativeAnswer(BaseModel):
     """Information about question's message for negative answer."""
@@ -69,7 +69,7 @@ class NegativeAnswer(BaseModel):
 
     type: str = "danger"
     title: str = Field(default="Better luck next time", description="Negative message title")
-    message: str = Field(default="The answer is not correct.", description="Negative message")
+    message: str = Field(default="The answer is not correct.", description="Explanation why the answer is incorrect.")
 
 class QuestionOutcomes(BaseModel):
     """Information about question's outome messages."""
