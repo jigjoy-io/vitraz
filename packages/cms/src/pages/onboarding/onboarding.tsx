@@ -44,8 +44,11 @@ export default function Onboarding() {
 		dispatch(carouselPageSwitched(null))
 
 		// page creation
-		// const userAttributes = await fetchUserAttributes()
-		let page = TemplateFactory.createPage(type, "TEST")
+		const user = await getCurrentUser()
+		const { username, signInDetails } = user
+		const email = signInDetails?.loginId || username
+
+		let page = TemplateFactory.createPage(type, email)
 
 		// state update
 		let allPages = JSON.parse(JSON.stringify(pages))
