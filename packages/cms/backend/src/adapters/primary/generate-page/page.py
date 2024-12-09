@@ -160,14 +160,9 @@ class QuestionPage(BaseBuildingBlock):
         blocks = " ".join(block.get_block() for block in self.config.buildingBlocks)
         return f"[{self.type}] {self.id}\n{blocks}\n"
 
-class Pages(BaseModel):
-    """Container for a list of pages."""
-    pages:  List[Union['TopicIntorductionPage', 'QuestionPage']] = Field(default_factory=list, description="The list of carousel's pages")
-
-
 class BuildingBlocks(BaseModel):
     """Container for a list of building blocks."""
-    buildingBlocks: List[Union['Carousel', 'Title', 'Heading', 'Text']] = Field(
+    buildingBlocks: List[Union['CarouselTile', 'Title', 'Heading', 'Text']] = Field(
         default_factory=list,
         description="List of building blocks such as carousel, title, heading, or text."
     )
@@ -180,7 +175,7 @@ class BuildingBlocks(BaseModel):
             if isinstance(block, dict):
                 block_type = block.get("type")
                 if block_type == "carousel":
-                    parsed_blocks.append(Carousel(**block))
+                    parsed_blocks.append(CarouselTile(**block))
                 elif block_type == "title":
                     parsed_blocks.append(Title(**block))
                 elif block_type == "heading":
@@ -211,18 +206,35 @@ class Buttons(BaseModel):
     """Navigation buttons for the Carousel."""
     previous: str = Field(default="Previous", description="Text for the Previous button.")
     next: str = Field(default="Next", description="Text for the Next button.")
-    backToHome: str = Field(default="Back to Home", description="Text for the Back to Home button.")
+    home: str = Field(default="Back to Home", description="Text that would be displayed on the button which redirect user to home page.")
+
+class CarouselConfig(BaseModel):
+    """The info about carousel configuration."""
+
+    buttons: Buttons = Field(default_factory=Buttons, description="Navigation buttons.")
+    pages:  List[Union['TopicIntorductionPage', 'QuestionPage']] = Field(default_factory=list, description="The list of carousel's pages")
+
+class CarouselPage(BaseBuildingBlock):
+    """Information about a Carousel building block."""
 
 
-class Carousel(BaseBuildingBlock):
-    """Information about a Carousel building block."""    
     id: str = Field(default=str(uuid.uuid4()), description="Unique identificator of building block")
     type: str = "carousel"
-    name: str = Field(description="The shortest possible description of the section/carousel")
+    name: Optional[str] = Field(default=None, description="Shrtest title of the carousel. It should be summarization of carousel pages provided in the config.")
+    config: CarouselConfig = Field(default_factory=CarouselConfig, description="The container for carousel configuration. Contains definition of pages and navigation buttons")
+
+
+class CarouselTile(BaseBuildingBlock):
+    """Information about a Carousel tile building block."""
+
+    id: str = Field(default=str(uuid.uuid4()), description="Unique identificator of building block")
+    type: str = "carousel-tile"
     title: Optional[str] = Field(default=None, description="Title of the section/carousel")
     description: Optional[str] = Field(default=None, description="Single sentence description about the section/carousel")
-    buttons: Buttons = Field(default_factory=Buttons, description="Navigation buttons.")
-    config: Pages = Field(description="Connected pages in the carousel.")
+
+    
+    cta: str = Field(default="Start", description="Text for the call-to-action button which runs carousel.")
+    page: CarouselPage = Field(default_factory=CarouselPage, description="The page will be renderd when user click on the call-to-action button")
 
     def get_block(self):
         pages = " ".join(page.get_block() for page in self.config.pages)
@@ -231,7 +243,7 @@ class Carousel(BaseBuildingBlock):
 
 class Lessons(BaseModel):
     """Container for a carousels."""
-    buildingBlocks:  List[Union['Carousel']]  = Field(default_factory=list, description="Lessons are consists from multiple carousels")
+    buildingBlocks:  List[Union['CarouselTile']]  = Field(default_factory=list, description="Lessons are consists from multiple carousels")
 
     @classmethod
     def parse_raw_blocks(cls, raw_blocks):
@@ -240,8 +252,8 @@ class Lessons(BaseModel):
         for block in raw_blocks:
             if isinstance(block, dict):
                 block_type = block.get("type")
-                if block_type == "carousel":
-                    parsed_blocks.append(Carousel(**block))
+                if block_type == "carousel-tile":
+                    parsed_blocks.append(CarouselTile(**block))
                 else:
                     raise ValueError(f"Unknown building block type: {block_type}")
             else:
@@ -261,7 +273,7 @@ class LessonTemplate(BaseBuildingBlock):
         return f"[{self.type}] {self.id}\n{blocks}\n"
 
 # Update forward references
-Pages.update_forward_refs()
+CarouselConfig.update_forward_refs()
 BuildingBlocks.update_forward_refs()
 Lessons.update_forward_refs()
 SingleQuestion.update_forward_refs()

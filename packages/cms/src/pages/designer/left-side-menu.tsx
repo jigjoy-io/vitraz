@@ -58,7 +58,6 @@ export default function LeftSideMenu() {
 	}
 
 	useEffect(() => {
-		dispatch(sidebarExpanded({ expanded: true, component: AI }))
 		if (action != "page-creation") fetchData()
 	}, [])
 

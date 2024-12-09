@@ -48,7 +48,7 @@ export default function AI() {
 		dispatch(pagesUpdated(allPages))
 
 		setLoading(false)
-		createPage(generatePage)
+		//createPage(generatePage)
 	}
 
 	return (

@@ -43,14 +43,15 @@ export default function EditPageContent(props: any) {
 			setBoxSelection(selectionBox)
 		},
 		onSelectionEnd: () => {
-			if (isDragging) return
 			const finalizedSelection = blocks.filter((block) => {
 				const blockElement = document.querySelector(`[id="${block.id}"]`)
 				if (!blockElement) return false
 
 				const rect = blockElement.getBoundingClientRect()
-				const blockBox = { top: rect.top, left: rect.left, width: rect.width, height: rect.height }
-				return boxesIntersect(boxSelection, blockBox)
+				if (boxSelection) {
+					const blockBox = { top: rect.top, left: rect.left, width: rect.width, height: rect.height }
+					return boxesIntersect(boxSelection, blockBox)
+				}
 			})
 
 			dispatch(selectBlocks(finalizedSelection))
