@@ -5,7 +5,6 @@ export default function Button(props: any) {
 	const [color, setColor] = useState("bg-default text-[white]")
 	const [width, setWidth] = useState(props.width)
 	const [size, setSize] = useState("lg")
-	const [expandedWidth, setExpandedWidth] = useState("")
 
 	const setTheme = () => {
 		if (props.color == "primary") {
@@ -26,12 +25,6 @@ export default function Button(props: any) {
 	useEffect(() => {
 		setSize(props.size)
 	}, [props.size])
-
-	useEffect(() => {
-		if (props.expanded) {
-			setExpandedWidth("w-[100px]")
-		}
-	}, [props.expanded])
 
 	return (
 		<button

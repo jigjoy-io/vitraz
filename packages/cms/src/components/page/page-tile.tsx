@@ -36,7 +36,7 @@ export default function PageTile(props: any) {
 			{props.description && <div className="pt-4">{props.description}</div>}
 			<div className="pt-4">
 				<Grid numberOfCols={1}>
-					<Button text={cta} expanded color="gradient" rounded action={load} />
+					<Button text={cta} color="gradient" rounded action={load} />
 				</Grid>
 			</div>
 		</Tile>
