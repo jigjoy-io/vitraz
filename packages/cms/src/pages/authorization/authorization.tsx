@@ -30,7 +30,11 @@ const loadFeatures = () => import("../../util/style-helper/animations").then((re
 export default function Authorization(props: any) {
 	const [message, setMessage] = useState("")
 	const [email, setEmail] = useState("")
+
+	const [color, setColor] = useState("text-[geen]")
 	const navigate = useNavigate()
+
+	const isEmail = (email) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
 
 	const checkUser = async () => {
 		try {
@@ -47,8 +51,14 @@ export default function Authorization(props: any) {
 
 	async function authorize() {
 		try {
-			setMessage("Log in link has been sent to provided email")
-			await createSingInChallenge({ email: email })
+			if (!isEmail(email)) {
+				setColor("text-[red]")
+				setMessage("Please provide valid email address")
+			} else {
+				setColor("text-[green]")
+				setMessage("Log in link has been sent to provided email")
+				await createSingInChallenge({ email: email })
+			}
 		} catch (error) {
 			setMessage(error.message)
 		}
@@ -85,7 +95,7 @@ export default function Authorization(props: any) {
 						<Input onChange={handleEmailChange} key="email" type="email" placeholder="Enter Your Email" />
 					</m.div>
 					{message != "" && (
-						<m.div variants={item} className="flex flex-col text-[green]">
+						<m.div variants={item} className={`flex flex-col ${color}`}>
 							{message}
 						</m.div>
 					)}
