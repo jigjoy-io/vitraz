@@ -36,7 +36,7 @@ export default function Button(props: any) {
 	return (
 		<button
 			tabIndex={-1}
-			className={`${color} ${width} min-h-[40px] ${props.expanded && expandedWidth} ${props.size == "sm" ? "p-1 px-3 rounded-[5px] font-bold" : "p-2 font-bold rounded-[5px] text-ellipsis text-nowrap overflow-hidden"} ${!props.disabled && "cursor-pointer"} active:opacity-80 md:hover:opacity-80 ${props.rounded && "rounded-full"}`}
+			className={`${color} ${width} min-h-[40px] ${props.size == "sm" ? "p-1 px-3 rounded-[5px] font-bold" : "p-2 px-4 font-bold rounded-[5px] text-nowrap overflow-hidden"} ${!props.disabled && "cursor-pointer"} active:opacity-80 md:hover:opacity-80 ${props.rounded && "rounded-full"}`}
 			onClick={(e) => {
 				props.action()
 			}}
