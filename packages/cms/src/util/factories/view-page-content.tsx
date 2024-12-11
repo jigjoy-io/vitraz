@@ -28,7 +28,7 @@ export default function ViewPageContent(props: any) {
 	}, [props.config?.buildingBlocks])
 
 	return (
-		<div className="bg-white h-full flex flex-col break-words max-w-[360px]">
+		<div className="bg-white h-full flex flex-col break-words md:max-w-[360px]">
 			<LazyMotion features={loadFeatures}>
 				<m.div variants={animation} initial="hidden" animate="show">
 					{blocks.map((block) => (
