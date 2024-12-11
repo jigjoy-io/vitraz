@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import { LazyMotion, m } from "framer-motion"
-import { useMode } from "../store"
 import PlainBlockFactory from "./plain-block-factory"
 
 const animation = {
@@ -18,7 +17,6 @@ const loadFeatures = () => import("../../util/style-helper/animations").then((re
 
 export default function ViewPageContent(props: any) {
 	const [blocks, setBlocks] = useState<any[]>([])
-	const mode = useMode()
 
 	useEffect(() => {
 		if (props.config?.buildingBlocks) {
