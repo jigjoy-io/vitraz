@@ -4,7 +4,7 @@ import { updateBlock } from "../../../../reducers/page-reducer"
 import { useActiveBlock, usePage } from "../../../../util/store"
 import textEditingVariants from "../../../../util/style-helper/text-editing-variations"
 import alignmentVariations from "../../../../util/style-helper/alignment-variations"
-import { findPreviousTextBlock } from "../../../../util/text-utils/use-text-block"
+import { findNextBlock, findPreviousTextBlock } from "../../../../util/text-utils/use-text-block"
 import { handleTextBlockKeyDown } from "../../../../util/text-utils/text-block-key-handlers"
 
 export default function ContentEditingText(props: any) {
@@ -16,6 +16,11 @@ export default function ContentEditingText(props: any) {
 	const previousTextBlock = useSelector(() => {
 		const blocks = page.config.buildingBlocks
 		return findPreviousTextBlock(blocks, props.id, ["text", "title", "heading"])
+	})
+
+	const nextBlock = useSelector(() => {
+		const blocks = page.config.buildingBlocks
+		return findNextBlock(blocks, props.id)
 	})
 
 	useEffect(() => {
@@ -54,12 +59,22 @@ export default function ContentEditingText(props: any) {
 			blockType: props.type,
 			ref,
 			previousBlock: previousTextBlock,
+			nextBlock: nextBlock,
 		})
 	}
 
 	return (
 		<div className={`inline-block w-[100%] ${style.lineHeight} ${alignmentVariations[position]}`}>
-			<div contentEditable="plaintext-only" suppressContentEditableWarning={true} spellCheck="false" onKeyDown={handleKeyDown} onBlur={(e) => updateText(e)} data-block-id={props.id} className={`${style.class} w-[100%] [&[contenteditable]]:focus:border-none [&[contenteditable]]:focus:outline-none`} ref={ref}>
+			<div
+				contentEditable="plaintext-only"
+				suppressContentEditableWarning={true}
+				spellCheck="false"
+				onKeyDown={handleKeyDown}
+				onBlur={(e) => updateText(e)}
+				data-block-id={props.id}
+				className={`${style.class} w-[100%] [&[contenteditable]]:focus:border-none [&[contenteditable]]:focus:outline-none`}
+				ref={ref}
+			>
 				{props.text}
 			</div>
 		</div>

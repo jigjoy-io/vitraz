@@ -18,6 +18,7 @@ interface KeyHandlerContext {
 		setOption?: (value: string) => void
 	}
 	previousBlock?: any
+	nextBlock: any
 }
 
 interface CaretContext {
@@ -171,7 +172,7 @@ class EnterCommand extends KeyCommand {
 	}
 
 	private handleEndOfBlock(): void {
-		const { dispatch, blockId, blockType, event } = this.context
+		const { dispatch, blockId, blockType, event, nextBlock } = this.context
 
 		if (blockType === "block-selector") {
 			const value = (event.target as HTMLInputElement).value || ""
@@ -187,15 +188,18 @@ class EnterCommand extends KeyCommand {
 		} else {
 			const newBlock = TemplateFactory.createBlockSelector()
 
-			dispatch(
-				insertBlock({
-					referenceBlock: blockId,
-					block: newBlock,
-					position: "below",
-				}),
-			)
-
-			dispatch(focusBlock(newBlock.id))
+			if (nextBlock.type == "block-selector") {
+				dispatch(focusBlock(nextBlock.id))
+			} else {
+				dispatch(
+					insertBlock({
+						referenceBlock: blockId,
+						block: newBlock,
+						position: "below",
+					}),
+				)
+				dispatch(focusBlock(newBlock.id))
+			}
 		}
 	}
 
@@ -229,7 +233,7 @@ class EnterCommand extends KeyCommand {
 
 class BackspaceCommand extends KeyCommand {
 	execute(): void {
-		const { event, ref, previousBlock, blockId, dispatch, blockType } = this.context
+		const { event, ref, previousBlock, blockId, dispatch } = this.context
 
 		if (!ref?.current) return
 

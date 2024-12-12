@@ -8,7 +8,7 @@ import TemplateFactory from "../../../../util/factories/templates/template-facto
 import { focusBlock, insertBlock } from "../../../../reducers/page-reducer"
 import ClickOutsideListener from "../../../../util/click-outside-listener"
 import Item from "../../../../components/item/item"
-import { findPreviousTextBlock } from "../../../../util/text-utils/use-text-block"
+import { findNextBlock, findPreviousTextBlock } from "../../../../util/text-utils/use-text-block"
 import { handleTextBlockKeyDown } from "../../../../util/text-utils/text-block-key-handlers"
 
 export default function BlockSelector(props: any) {
@@ -29,6 +29,11 @@ export default function BlockSelector(props: any) {
 	const previousTextBlock = useSelector(() => {
 		const blocks = page.config.buildingBlocks
 		return findPreviousTextBlock(blocks, props.id, ["text", "title", "heading", "block-selector"])
+	})
+
+	const nextBlock = useSelector(() => {
+		const blocks = page.config.buildingBlocks
+		return findNextBlock(blocks, props.id)
 	})
 
 	useEffect(() => {
@@ -112,6 +117,7 @@ export default function BlockSelector(props: any) {
 				setOption: setOption,
 			},
 			previousBlock: previousTextBlock,
+			nextBlock: nextBlock,
 		})
 	}
 
