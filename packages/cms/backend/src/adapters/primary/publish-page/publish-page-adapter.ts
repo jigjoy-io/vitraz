@@ -19,11 +19,11 @@ export async function publishPageHandler({ body }: APIGatewayProxyEvent): Promis
 
 		console.log(`request for page publishing: ${JSON.stringify(page)}`)
 
-		const pages: ReturnPageDto[] = await publishPageUseCase(page)
+		const publishedPage: ReturnPageDto = await publishPageUseCase(page)
 
-		console.log(`page published: ${JSON.stringify(pages)}`)
+		console.log(`page published: ${JSON.stringify(publishedPage)}`)
 
-		return Responses._201(pages)
+		return Responses._201(publishedPage)
 	} catch (error) {
 		return errorHandler(error)
 	}

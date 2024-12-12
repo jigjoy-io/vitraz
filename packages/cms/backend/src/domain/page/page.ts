@@ -34,7 +34,7 @@ export class Page extends Entity<CreatePageProps> {
 			created: page.created,
 			type: newPage.type,
 			environment: EnvironmentType.Development,
-			linkedPageId: page.props.linkedPageId,
+			linkedPageId: newPage.linkedPageId,
 			name: newPage.name,
 			origin: newPage.origin,
 			config: newPage.config,
@@ -46,21 +46,20 @@ export class Page extends Entity<CreatePageProps> {
 		return instance
 	}
 
-	public static publish(page: Page): Page[] {
+	public static publish(page: UpdatePageDto): Page {
 		const pageProps: CreatePageProps = {
-			id: page.props.linkedPageId ? page.props.linkedPageId : undefined,
-			type: page.props.type,
+			id: page.linkedPageId as string,
+			type: page.type,
 			environment: EnvironmentType.Production,
 			linkedPageId: page.id,
-			name: page.props.name,
-			origin: page.props.origin,
-			config: page.props.config,
+			name: page.name,
+			origin: page.origin,
+			config: page.config,
 		}
 
 		const instance: Page = new Page(pageProps)
 		instance.validate(schema)
-		page.props.linkedPageId = instance.props.id as string
-		return [instance, page]
+		return instance
 	}
 
 	// create a dto based on the domain instance

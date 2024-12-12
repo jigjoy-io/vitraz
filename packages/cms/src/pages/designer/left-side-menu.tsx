@@ -1,7 +1,7 @@
 import { getCurrentUser } from "aws-amplify/auth"
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import { getPages, publishPage } from "../../api/page"
+import { getPages, publishPage, updatePage } from "../../api/page"
 import Alert from "../../components/alert/alert"
 import Button from "../../components/button/button"
 import { pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/page-reducer"
@@ -18,6 +18,7 @@ import Tutorial from "./right-side-menu/components/tutorial"
 import BookIcon from "../../icons/book-icon."
 import AI from "./right-side-menu/components/ai"
 import MagicIcon from "../../icons/magic-icon"
+import { v4 as uuidv4 } from "uuid"
 
 export default function LeftSideMenu() {
 	const navigate = useNavigate()
@@ -68,19 +69,28 @@ export default function LeftSideMenu() {
 		setShowSuccess(false)
 		setShowError(false)
 		try {
-			let pages = await publishPage(page)
-			let newPage = pages.find((p) => p.id === page.id)
-			dispatch(rootPageUpdated(newPage))
-			dispatch(pageUpdated(newPage))
+			let pageToPublish = JSON.parse(JSON.stringify(page))
+
+			if (!pageToPublish.linkedPageId) {
+				pageToPublish.linkedPageId = uuidv4()
+
+				dispatch(rootPageUpdated(pageToPublish))
+				dispatch(pageUpdated(pageToPublish))
+
+				updatePage(pageToPublish)
+			}
+
+			await publishPage(pageToPublish)
+
 			setShowSuccess(true)
-		} catch (error) {
-			setShowError(true)
-		} finally {
 			setIsLoading(false)
 			setTimeout(() => {
 				setShowSuccess(false)
 				setShowError(false)
 			}, 3000)
+		} catch (error) {
+			console.log(error)
+			setShowError(true)
 		}
 	}
 

@@ -1,5 +1,13 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
-import { DynamoDBDocumentClient, GetCommand, PutCommand, DeleteCommand, QueryCommand, BatchWriteCommand, DeleteCommandInput } from "@aws-sdk/lib-dynamodb"
+import {
+	DynamoDBDocumentClient,
+	GetCommand,
+	PutCommand,
+	DeleteCommand,
+	QueryCommand,
+	BatchWriteCommand,
+	DeleteCommandInput,
+} from "@aws-sdk/lib-dynamodb"
 import { PageDto } from "@dto/page/page"
 import { PageNotFoundError } from "@errors/page-not-found-error"
 import { EnvironmentType } from "@models/types"
@@ -51,34 +59,6 @@ export async function getPage(pageId: string): Promise<PageDto> {
 	let page: PageDto = decompressPage(item)
 
 	return page
-}
-
-export async function putPages(pages: PageDto[]): Promise<PageDto[]> {
-	const createPutRequest = (page: PageDto) => {
-		let item = compressPage(page)
-		return {
-			PutRequest: {
-				Item: item,
-			},
-		}
-	}
-
-	let requests = pages.map(createPutRequest)
-
-	const chunkSize = 25 // dynamodb max chunk size for working with batch
-	for (let i = 0; i < requests.length; i += chunkSize) {
-		const chunk = requests.slice(i, i + chunkSize)
-
-		const command = new BatchWriteCommand({
-			RequestItems: {
-				[tableName as string]: chunk,
-			},
-		})
-
-		await ddbDocClient.send(command)
-	}
-
-	return pages
 }
 
 export async function deletePage(pageId: any): Promise<void> {

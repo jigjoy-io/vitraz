@@ -90,6 +90,7 @@ const Node = memo(function Node(props: any) {
 			let page = pages.find((page) => page.id == props.id)
 			let clone = duplicateBlock(page)
 			let result = JSON.parse(JSON.stringify(pages))
+			clone.linkedPageId = null
 			result.push(clone)
 			createPage(clone)
 			dispatch(pagesUpdated(result))
