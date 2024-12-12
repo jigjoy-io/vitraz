@@ -10,7 +10,6 @@ import { RightSideMenu } from "./right-side-menu/right-side-menu"
 import AuthLayer from "../authorization/auth-layer"
 import { blockingUpdated } from "../../reducers/editor-reducer"
 import { sidebarExpanded } from "../../reducers/sidebar-reducer"
-import Premium from "./right-side-menu/components/premium"
 
 export default function Designer() {
 	const blocked = useBlocked()
@@ -51,14 +50,6 @@ export default function Designer() {
 					<div
 						className={`flex flex-col ${sidebarVisible ? "grow" : "w-[100%]"} max-h-[100dvh] h-[100dvh] overflow-y-auto`}
 					>
-						<div className="h-[40px] w-[100%]">
-							<div
-								className="bg-[#74EDDF] hover:opacity-80 flex justify-center items-center cursor-pointer rounded-[5px] w-fit p-[2px] px-3 m-3 font-bold border"
-								onClick={() => dispatch(sidebarExpanded({ expanded: true, component: Premium }))}
-							>
-								Premium
-							</div>
-						</div>
 						<div className="grow">{page && <Page />}</div>
 					</div>
 
