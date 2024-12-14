@@ -55,7 +55,7 @@ export default function AI() {
 	return (
 		<div className="flex flex-col justify-center items-center gap-4 px-10">
 			<Heading position="center" text="JigJoy AI" />
-			<Text position="center" text="Just type a prompt and JigJoy AI will create engage bite-size lesson." />
+			<Text position="center" text="Just type a prompt and JigJoy AI will create an engaging, bite-sized lesson. " />
 			<div>
 				<div className="flex flex-col max-w-[500px] w-[500px] gap-3 mt-20">
 					<div className="flex flex-row gap-3">
