@@ -11,21 +11,18 @@ function setCaretPosition(el, pos) {
 	// Loop through all child nodes
 
 	for (var node of el.childNodes) {
-		console.log(node.nodeType)
 		if (node.nodeType == 3) {
 			// we have a text node
 			if (node.length >= pos) {
 				const range = document.createRange()
 				const selection = window.getSelection()
 
-				//el = document.querySelector(`[data-block-id="${el.id}"]`) as HTMLElement
-				console.log(`position: ${pos}`)
 				range.setStart(node, pos)
 				range.collapse(true)
 
 				selection?.removeAllRanges()
 				selection?.addRange(range)
-				return -1 // we are done
+				return -1
 			}
 		} else {
 			pos = setCaretPosition(node, pos)
