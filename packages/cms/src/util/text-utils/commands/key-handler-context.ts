@@ -1,4 +1,4 @@
-interface KeyHandlerContext {
+export interface KeyHandlerContext {
 	event: React.KeyboardEvent
 	dispatch: any
 	blockId: string

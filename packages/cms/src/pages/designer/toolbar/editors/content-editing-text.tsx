@@ -4,7 +4,7 @@ import { updateBlock } from "../../../../reducers/page-reducer"
 import { useActiveBlock } from "../../../../util/store"
 import textEditingVariants from "../../../../util/style-helper/text-editing-variations"
 import alignmentVariations from "../../../../util/style-helper/alignment-variations"
-import { handleTextBlockKeyDown } from "../../../../util/text-utils/text-block-key-handlers"
+import { handleTextBlockKeyDown } from "../../../../util/factories/key-command-factory"
 
 export default function ContentEditingText(props: any) {
 	const [position, setPosition] = useState(props.position)
