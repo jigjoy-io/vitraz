@@ -1,9 +1,9 @@
 import { splitTextAtCursor } from "../cursor-helper/split-text-at-cursor"
 import { moveCursorToEnd } from "../cursor-helper/move-cursor-to-end"
 import TemplateFactory from "../factories/templates/template-factory"
-import { focusBlock, insertBlock, updateBlock } from "../../reducers/page-reducer"
+import { focusBlock, insertBlock, removeBlock, updateBlock } from "../../reducers/page-reducer"
 import { getCursorPosition } from "../cursor-helper/get-cursor-position"
-import { mergeWithPreviousBlock } from "./merge-blocks"
+import { mergeWithPreviousBlock, setCaretPosition } from "./merge-blocks"
 import { findNextBlock } from "./use-text-block"
 
 interface KeyHandlerContext {
@@ -70,8 +70,23 @@ class ShiftEnterCommand extends KeyCommand {
 
 			event.preventDefault()
 
-			const value = (event.target as HTMLInputElement).value || ""
-			const block = TemplateFactory.createTextBlock(value)
+			let text = (event.target as HTMLInputElement).value || ""
+
+			if (!ref?.current) return
+
+			const { caretPosition, isCaretAtEnd } = CaretPositionStrategy.getContext(ref.current)
+
+			await new Promise((resolve) => setTimeout(resolve, 50))
+
+			if (!isCaretAtEnd) {
+				const beforeCursor = text.slice(0, caretPosition).trim()
+				const afterCursor = text.slice(caretPosition).trim()
+				text = `${beforeCursor}\n${afterCursor}`
+			} else {
+				text = `${text}\n\n`
+			}
+
+			const block = TemplateFactory.createTextBlock(text)
 
 			dispatch(
 				insertBlock({
@@ -81,44 +96,23 @@ class ShiftEnterCommand extends KeyCommand {
 				}),
 			)
 
-			dispatch(focusBlock(block.id))
-
-			if (ref?.current) {
-				await this.handleNewBlockText(ref.current, block.id)
-			}
-
-			options?.setOption?.("")
-		} catch (error) {
-			console.error("Error in ShiftEnterCommand execute:", error)
-			throw error
-		}
-	}
-
-	private async handleNewBlockText(currentElement: HTMLElement, newBlockId: string): Promise<void> {
-		try {
-			const { caretPosition, isCaretAtEnd } = CaretPositionStrategy.getContext(currentElement)
-
-			await new Promise((resolve) => setTimeout(resolve, 50))
-
-			const newTextBlock = document.querySelector(`[data-block-id="${newBlockId}"]`) as HTMLElement | null
-
-			if (!newTextBlock) {
-				throw new Error(`Could not find block with id ${newBlockId}`)
-			}
-
-			const text = newTextBlock.innerText || ""
+			dispatch(removeBlock(blockId))
 
 			if (!isCaretAtEnd) {
 				const beforeCursor = text.slice(0, caretPosition).trim()
 				const afterCursor = text.slice(caretPosition).trim()
-				newTextBlock.innerText = `${beforeCursor}\n${afterCursor}`
+				text = `${beforeCursor}\n${afterCursor}`
 			} else {
-				newTextBlock.innerText = `${newTextBlock.innerText}\n\n`
+				text = `${text}\n\n`
 			}
 
-			moveCursorToEnd(newTextBlock)
+			setTimeout(() => {
+				let prevBlockElement = document.querySelector(`[data-block-id="${block.id}"]`) as HTMLElement
+
+				setCaretPosition(prevBlockElement, caretPosition + 1)
+			}, 25)
 		} catch (error) {
-			console.error("Error in handleNewBlockText:", error)
+			console.error("Error in ShiftEnterCommand execute:", error)
 			throw error
 		}
 	}

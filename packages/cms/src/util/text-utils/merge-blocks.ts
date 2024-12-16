@@ -7,7 +7,7 @@ interface TextBlock {
 	[key: string]: any
 }
 
-function setCaretPosition(el, pos) {
+export function setCaretPosition(el, pos) {
 	// Loop through all child nodes
 
 	for (var node of el.childNodes) {
