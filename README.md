@@ -10,5 +10,5 @@ With a modular approach, users can mix and match different components to build u
 
 To run the frontend and backend locally, please refer to the respective README files:
 
-- **[Frontend Setup](./packages/cms)** - Instructions for setting up and running the React frontend.
-- **[Backend Setup](./packages/cms/backend)** - Instructions for setting up and running the serverless backend.
+- **[Frontend Setup](./packages/editor)** - Instructions for setting up and running the React frontend.
+- **[Backend Setup](./packages/editor/backend)** - Instructions for setting up and running the serverless backend.

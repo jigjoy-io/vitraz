@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./packages/cms/backend
+        working-directory: ./packages/editor/backend
     environment: production
 
     steps:
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./packages/cms
+        working-directory: ./packages/editor
     environment: production
 
     steps:

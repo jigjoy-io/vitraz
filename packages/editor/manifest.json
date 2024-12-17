@@ -2,7 +2,7 @@
 	"version": "1.0.0",
 	"manifest_version": 3,
 	"name": "Jig Joy",
-	"description": "A text-to-play engine that transforms imagination into playful apps.",
+	"description": "Text-to-play engine that transforms imagination into playful apps.",
 	"icons": {
 		"16": "./public/logo16.png",
 		"48": "./public/logo192.png",
@@ -10,6 +10,6 @@
 	},
 	"action": {
 		"default_popup": "index.html",
-		"default_title": "A text-to-play engine that transforms imagination into playful apps."
+		"default_title": "Text-to-play engine that transforms imagination into playful apps."
 	}
 }
