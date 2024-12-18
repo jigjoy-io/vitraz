@@ -5,8 +5,42 @@ import { carouselPageSwitched, pageUpdated } from "../../reducers/page-reducer"
 import CloseIcon from "../../icons/close-icon"
 import Button from "../button/button"
 import Progress from "../progress/progress"
-import Content from "../page-content"
-import { useCurrentCarouselPage, usePage, useRootPage } from "../../util/store"
+import PageContent from "../page-content"
+import { useCurrentCarouselPage, useRootPage } from "../../util/store"
+
+const springConfig = {
+	type: "spring",
+	stiffness: 200,
+	damping: 25,
+	mass: 1.5,
+}
+
+const variants = {
+	enter: (direction) => ({
+		x: direction > 0 ? 20 : -20,
+		opacity: 0,
+		transition: {
+			x: springConfig,
+			opacity: { duration: 0.2 },
+		},
+	}),
+	center: {
+		x: 0,
+		opacity: 1,
+		transition: {
+			x: springConfig,
+			opacity: { duration: 0.3 },
+		},
+	},
+	exit: (direction) => ({
+		x: direction > 0 ? -20 : 20,
+		opacity: 0,
+		transition: {
+			x: springConfig,
+			opacity: { duration: 0.2 },
+		},
+	}),
+}
 
 export default function CarouselPage(props) {
 	const [current, setCurrent] = useState(0)
@@ -14,7 +48,6 @@ export default function CarouselPage(props) {
 	const activeCarousel = useCurrentCarouselPage()
 	const [percentage, setPercentage] = useState(0)
 	const [pages, setPages] = useState(props.config.pages)
-	const page = usePage()
 	const rootPage = useRootPage()
 	const dispatch = useDispatch()
 	const { previous, next, home } = props.config.buttons
@@ -63,43 +96,9 @@ export default function CarouselPage(props) {
 		dispatch(carouselPageSwitched(previousPage.id))
 	}
 
-	const springConfig = {
-		type: "spring",
-		stiffness: 200,
-		damping: 25,
-		mass: 1.5,
-	}
-
-	const variants = {
-		enter: (direction) => ({
-			x: direction > 0 ? 20 : -20,
-			opacity: 0,
-			transition: {
-				x: springConfig,
-				opacity: { duration: 0.2 },
-			},
-		}),
-		center: {
-			x: 0,
-			opacity: 1,
-			transition: {
-				x: springConfig,
-				opacity: { duration: 0.3 },
-			},
-		},
-		exit: (direction) => ({
-			x: direction > 0 ? -20 : 20,
-			opacity: 0,
-			transition: {
-				x: springConfig,
-				opacity: { duration: 0.2 },
-			},
-		}),
-	}
-
 	return (
 		<>
-			{page && pages[current] && (
+			{pages[current] && (
 				<div className="flex max-h-[100dvh] h-[100dvh] w-full justify-center">
 					<div className="flex flex-col w-full md:max-w-[360px]">
 						<div className="flex flex-row p-3 w-full min-w-[360px]">
@@ -120,7 +119,7 @@ export default function CarouselPage(props) {
 									exit="exit"
 									className="w-full h-full p-3"
 								>
-									<Content config={pages[current].config} key={pages[current].id} id={pages[current].id} />
+									<PageContent config={pages[current].config} key={pages[current].id} id={pages[current].id} />
 								</motion.div>
 							</AnimatePresence>
 						</div>

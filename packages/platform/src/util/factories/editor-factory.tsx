@@ -72,8 +72,9 @@ export default class EditorFactory extends React.Component {
 		},
 	}
 
-	static getEditableBlock(props: any) {
+	static getEditableBlock(props: any, page) {
 		let builder = this.builders[props.type].builder
+		builder.page = page
 		return builder.get(props)
 	}
 }

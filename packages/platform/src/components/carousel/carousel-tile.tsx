@@ -19,6 +19,7 @@ export default function CarouselTile(props: any) {
 	}, [props.cta])
 
 	const load = () => {
+		console.log(props.page.config.pages[0].id)
 		dispatch(carouselPageSwitched(props.page.config.pages[0].id))
 		dispatch(pageUpdated(props.page))
 		dispatch(pageExpanded(props.page.id))

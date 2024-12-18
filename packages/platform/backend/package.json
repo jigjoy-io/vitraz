@@ -1,6 +1,6 @@
 {
-	"name": "cms",
-	"description": "Backend for the jigjoy page builder",
+	"name": "editor-backend",
+	"description": "Backend for the jigjoy page editor",
 	"version": "0.0.1",
 	"private": true,
 	"dependencies": {

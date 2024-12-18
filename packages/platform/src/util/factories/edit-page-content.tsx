@@ -26,7 +26,8 @@ const loadFeatures = () => import("../style-helper/animations").then((res) => re
 export default function EditPageContent(props: any) {
 	const [blocks, setBlocks] = useState<any[]>([])
 	const dispatch = useDispatch()
-	const page = usePage()
+
+	const [page, setPage] = useState<any>(props.page)
 	const selectedBlocks = useSelectedBlocks()
 	const activeCarousel = useCurrentCarouselPage()
 	const [boxSelection, setBoxSelection] = useState<any>()
@@ -122,7 +123,7 @@ export default function EditPageContent(props: any) {
 									{dropTarget?.block?.id === block.id && dropTarget?.position === "top" && (
 										<div className="pointer-events-none" style={getDropIndicatorStyle("top")} />
 									)}
-									{EditorFactory.getEditableBlock(block)}
+									{EditorFactory.getEditableBlock(block, page)}
 									{dropTarget?.block?.id === block.id && dropTarget?.position === "bottom" && (
 										<div className="pointer-events-none" style={getDropIndicatorStyle("bottom")} />
 									)}

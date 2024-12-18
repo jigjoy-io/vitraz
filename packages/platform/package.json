@@ -1,6 +1,6 @@
 {
-	"name": "cms",
-	"version": "0.1.0",
+	"name": "platform",
+	"version": "1.0.7",
 	"private": true,
 	"scripts": {
 		"generate-routes": "tsr generate",

@@ -34,5 +34,5 @@ function PageDisplay() {
 		dispatch(modeUpdated("visiting"))
 	}, [page, dispatch])
 
-	return <Page />
+	return <Page page={page} />
 }
