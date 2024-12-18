@@ -212,12 +212,9 @@ export default function Toolbar(props: any) {
 
 			<div>
 				<div
-					className={`opacity-50 bg-highlight h-[100%] w-[100%] 
-                    ${editor != null || toolbarVisible ? "absolute" : "hidden"} ${blockRadius}`}
+					className={` h-[100%] w-[100%] ${selectedBlocks.some((selectedBlock) => selectedBlock.id === props.block.id) ? "absolute opacity-50 bg-blue-100 rounded-lg" : "hidden"} ${blockRadius}`}
 				/>
-				<div className={`${on && !toolbarVisible && editor == null && "opacity-80"} ${blockRadius}`}>
-					{props.children}
-				</div>
+				<div className={`${on && !toolbarVisible && editor == null && ""} ${blockRadius}`}>{props.children}</div>
 			</div>
 
 			{toolbarVisible &&

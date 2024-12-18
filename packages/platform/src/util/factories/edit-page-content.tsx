@@ -3,7 +3,7 @@ import { LazyMotion, m } from "framer-motion"
 import { useDispatch } from "react-redux"
 import { appendBlock, focusBlock } from "../../reducers/page-reducer"
 import { useCurrentCarouselPage, usePage, useSelectedBlocks } from "../store"
-import { selectBlocks } from "../../reducers/editor-reducer"
+import { blocksSelected } from "../../reducers/editor-reducer"
 import { boxesIntersect, useSelectionContainer } from "@air/react-drag-to-select"
 import { useBlockDropHandler } from "../drag-and-drop/block-drop-handler"
 import TemplateFactory from "./templates/template-factory"
@@ -26,8 +26,7 @@ const loadFeatures = () => import("../style-helper/animations").then((res) => re
 export default function EditPageContent(props: any) {
 	const [blocks, setBlocks] = useState<any[]>([])
 	const dispatch = useDispatch()
-
-	const [page, setPage] = useState<any>(props.page)
+	const page = usePage()
 	const selectedBlocks = useSelectedBlocks()
 	const activeCarousel = useCurrentCarouselPage()
 	const [boxSelection, setBoxSelection] = useState<any>()
@@ -36,14 +35,10 @@ export default function EditPageContent(props: any) {
 	const { DragSelection, cancelCurrentSelection } = useSelectionContainer({
 		onSelectionStart: () => {
 			if (isDragging) return
-			dispatch(selectBlocks([]))
+			dispatch(blocksSelected([]))
 			setBoxSelection(null)
 		},
 		onSelectionChange: (selectionBox) => {
-			if (isDragging) return
-			setBoxSelection(selectionBox)
-		},
-		onSelectionEnd: () => {
 			const finalizedSelection = blocks.filter((block) => {
 				const blockElement = document.querySelector(`[id="${block.id}"]`)
 				if (!blockElement || !boxSelection) return false
@@ -53,16 +48,36 @@ export default function EditPageContent(props: any) {
 				return boxesIntersect(boxSelection, blockBox)
 			})
 
-			dispatch(selectBlocks(finalizedSelection))
+			dispatch(blocksSelected(finalizedSelection))
+
+			setBoxSelection(selectionBox)
+		},
+		onSelectionEnd: () => {
 			setBoxSelection(null)
 		},
-		selectionProps: { className: "bg-blue-100" },
+		shouldStartSelecting: (target) => {
+			/**
+			 * In this example, we're preventing users from selecting in elements
+			 * that have a data-disableselect attribute on them or one of their parents
+			 */
+			if (target instanceof HTMLElement) {
+				let el = target
+				while (el.parentElement && !el.dataset.disableselect) {
+					el = el.parentElement
+				}
+				return el.dataset.disableselect !== "true"
+			}
+
+			/**
+			 * If the target doesn't exist, return false
+			 * This would most likely not happen. It's really a TS safety check
+			 */
+			return false
+		},
 	})
 
 	const handleClick = () => {
-		dispatch(selectBlocks([]))
-		setBoxSelection(null)
-		cancelCurrentSelection()
+		dispatch(blocksSelected([]))
 	}
 
 	const { isOver, canDrop, drop, dropTarget } = useBlockDropHandler({
@@ -103,26 +118,19 @@ export default function EditPageContent(props: any) {
 	}
 
 	return (
-		<div className="bg-white h-full flex flex-col break-words" onClick={handleClick}>
+		<div className="bg-white h-full w-full flex flex-col break-words" onClick={handleClick}>
 			<div className={`relative ${isOver && canDrop ? "bg-gray-50" : ""} flex items-center justify-center`} ref={drop}>
 				<div className="flex flex-col w-full md:max-w-[360px]">
 					<LazyMotion features={loadFeatures}>
 						<m.div variants={animation} initial="hidden" animate="show">
 							<DragSelection />
+							<CustomDragLayer selectedBlocks={selectedBlocks} />
 							{blocks.map((block) => (
-								<div
-									key={block.id}
-									id={block.id}
-									data-block-id={block.id}
-									className={`relative ${
-										selectedBlocks.some((selectedBlock) => selectedBlock.id === block.id)
-											? "bg-highlight rounded-lg"
-											: ""
-									}`}
-								>
+								<div key={block.id} id={block.id} data-block-id={block.id} className={`relative`}>
 									{dropTarget?.block?.id === block.id && dropTarget?.position === "top" && (
 										<div className="pointer-events-none" style={getDropIndicatorStyle("top")} />
 									)}
+
 									{EditorFactory.getEditableBlock(block, page)}
 									{dropTarget?.block?.id === block.id && dropTarget?.position === "bottom" && (
 										<div className="pointer-events-none" style={getDropIndicatorStyle("bottom")} />
@@ -133,7 +141,7 @@ export default function EditPageContent(props: any) {
 					</LazyMotion>
 				</div>
 			</div>
-			<CustomDragLayer selectedBlocks={selectedBlocks} />
+
 			<div className="grow min-h-[150px]" onClick={activateSelector}></div>
 		</div>
 	)

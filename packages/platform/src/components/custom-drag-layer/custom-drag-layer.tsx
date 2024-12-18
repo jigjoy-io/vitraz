@@ -3,12 +3,6 @@ import { useDragLayer, XYCoord } from "react-dnd"
 
 interface Block {
 	id: string
-	content: {
-		text?: string
-		displayQuestion?: string
-		displayImage?: boolean
-		image?: string
-	}
 }
 
 interface CustomDragLayerProps {
@@ -64,7 +58,7 @@ export const CustomDragLayer: React.FC<CustomDragLayerProps> = ({ selectedBlocks
 const layerStyles: CSSProperties = {
 	position: "fixed",
 	pointerEvents: "none",
-	zIndex: 100,
+	zIndex: 1000,
 	left: 0,
 	top: 0,
 	width: "100%",
