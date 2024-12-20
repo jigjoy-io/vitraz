@@ -1,6 +1,6 @@
 {
-	"name": "ui-library",
-	"version": "0.0.0",
+	"name": "page-editor",
+	"version": "0.1.0",
 	"private": true,
 	"scripts": {
 		"start": "rspack serve --config configs/rspack.dev.js",
