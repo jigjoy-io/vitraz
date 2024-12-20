@@ -1,5 +1,6 @@
-import React from "react"
-import Profile from "../../../../ui-library/src/components/profile"
+import React, { lazy } from "react"
+
+const Profile = lazy(() => import("ui-library/Profile"))
 
 export default function ProfileBlock(props) {
 	return (

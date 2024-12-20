@@ -1,5 +1,6 @@
-import React from "react"
-import Question from "../building-blocks/question/question"
+import React, { lazy } from "react"
+
+const Question = lazy(() => import("ui-library/Question"))
 
 export default function QuestionBlock(props) {
 	return (

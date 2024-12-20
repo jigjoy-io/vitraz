@@ -1,5 +1,6 @@
-import React from "react"
-import Video from "../building-blocks/video"
+import React, { lazy } from "react"
+
+const Video = lazy(() => import("ui-library/Video"))
 
 export default function VideoBlock(props) {
 	return (

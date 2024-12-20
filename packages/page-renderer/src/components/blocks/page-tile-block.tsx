@@ -1,5 +1,6 @@
-import React from "react"
-import PageTile from "../../../../ui-library/src/components/page-tile"
+import React, { lazy } from "react"
+
+const PageTile = lazy(() => import("ui-library/PageTile"))
 
 export default function PageTileBlock(props) {
 	return (

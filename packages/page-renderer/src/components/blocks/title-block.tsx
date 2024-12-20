@@ -1,5 +1,6 @@
-import React from "react"
-import Title from "../../../../ui-library/src/components/title"
+import React, { lazy } from "react"
+
+const Title = lazy(() => import("ui-library/Title"))
 
 export default function TitleBlock(props) {
 	return (

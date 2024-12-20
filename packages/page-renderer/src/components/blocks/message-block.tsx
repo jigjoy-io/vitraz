@@ -1,5 +1,6 @@
-import React from "react"
-import Message from "../../../../ui-library/src/components/message"
+import React, { lazy } from "react"
+
+const Message = lazy(() => import("ui-library/Message"))
 
 export default function MessageBlock(props) {
 	return (

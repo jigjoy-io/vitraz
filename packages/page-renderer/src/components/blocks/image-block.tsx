@@ -1,5 +1,6 @@
-import React from "react"
-import Image from "../../../../ui-library/src/components/image"
+import React, { lazy } from "react"
+
+const Image = lazy(() => import("ui-library/Image"))
 
 export default function ImageBlock(props) {
 	return (

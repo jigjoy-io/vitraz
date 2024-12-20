@@ -1,5 +1,6 @@
-import React from "react"
-import Heading from "../../../../ui-library/src/components/heading"
+import React, { lazy } from "react"
+
+const Heading = lazy(() => import("ui-library/Heading"))
 
 export default function HeadingBlock(props) {
 	return (

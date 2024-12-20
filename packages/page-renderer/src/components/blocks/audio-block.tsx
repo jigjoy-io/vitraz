@@ -1,10 +1,13 @@
-import React from "react"
-import Audio from "../../../../ui-library/src/components/audio-button"
+import React, { lazy, Suspense } from "react"
+
+const Audio = lazy(() => import("ui-library/Audio"))
 
 export default function AudioBlock(props) {
 	return (
 		<div className="py-3">
-			<Audio {...props} />
+			<Suspense>
+				<Audio {...props} />
+			</Suspense>
 		</div>
 	)
 }

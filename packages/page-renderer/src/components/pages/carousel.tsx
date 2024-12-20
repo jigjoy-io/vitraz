@@ -7,6 +7,8 @@ import Progress from "../../../../ui-library/src/components/progress"
 import PageContent from "./page-content"
 import { useCurrentCarouselPage, useRootPage } from "../../../../platform/src/util/store"
 
+const Button = lazy(() => import("ui-library/Button"))
+
 const springConfig = {
 	type: "spring",
 	stiffness: 200,

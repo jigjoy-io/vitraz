@@ -1,5 +1,6 @@
-import React from "react"
-import Text from "../../../../ui-library/src/components/text"
+import React, { lazy } from "react"
+
+const Text = lazy(() => import("ui-library/Text"))
 
 export default function TextBlock(props) {
 	return (
