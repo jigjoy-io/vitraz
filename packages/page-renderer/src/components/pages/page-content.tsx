@@ -16,13 +16,10 @@ const animation = {
 const loadFeatures = () => import("../../util/style-helper/animations").then((res) => res.default)
 
 export default function PageContent(props: any) {
-	const [blocks, setBlocks] = useState<any[]>([])
+	const [blocks, setBlocks] = useState<any[]>(props.config?.buildingBlocks)
 
 	useEffect(() => {
-		if (props.config?.buildingBlocks) {
-			const validBlocks = props.config.buildingBlocks.filter((block) => block !== null)
-			setBlocks(validBlocks)
-		}
+		setBlocks(props.config?.buildingBlocks)
 	}, [props.config?.buildingBlocks])
 
 	return (
@@ -31,7 +28,7 @@ export default function PageContent(props: any) {
 				<m.div variants={animation} initial="hidden" animate="show">
 					{blocks.map((block) => (
 						<div key={block.id} className="relative">
-							{BlockFactory.getBlock({ ...block })}
+							{BlockFactory.createBlock({ ...block, onPageSwitch: props.onPageSwitch })}
 						</div>
 					))}
 				</m.div>

@@ -8,7 +8,7 @@ module.exports = {
 		main: path.join(__dirname, "../src/index.tsx"),
 	},
 	output: {
-		publicPath: "auto",
+		publicPath: "http://localhost:3003/",
 	},
 	mode: "development",
 	target: "web",
@@ -59,9 +59,9 @@ module.exports = {
 			chunks: ["main"],
 		}),
 		new rspack.container.ModuleFederationPlugin({
-			name: "micro-frontend",
+			name: "jigjoyui",
 			filename: "remoteEntry.js",
-			library: { type: "assign", name: "ui-library" },
+			library: { type: "assign", name: "jigjoyui" },
 			remotes: {},
 			exposes: {
 				"./Title": "./src/components/title",
@@ -76,6 +76,8 @@ module.exports = {
 				"./Question": "./src/components/question/question",
 				"./Message": "./src/components/message",
 				"./Button": "./src/components/button",
+				"./Progress": "./src/components/progress",
+				"./CloseIcon": "./src/icons/close-icon",
 			},
 			shared: {
 				react: {

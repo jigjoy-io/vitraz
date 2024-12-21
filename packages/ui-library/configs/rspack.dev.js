@@ -13,7 +13,7 @@ const devConfig = {
 		static: {
 			directory: path.join(__dirname, "../dist"),
 		},
-		port: 3000,
+		port: 3003,
 		hot: true,
 		compress: false,
 		historyApiFallback: true,

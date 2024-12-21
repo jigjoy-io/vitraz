@@ -1,13 +1,11 @@
 import React, { lazy, Suspense, useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
 import { motion, AnimatePresence } from "framer-motion"
-import { carouselPageSwitched, pageUpdated } from "../../../../platform/src/reducers/page-reducer"
-import CloseIcon from "../../../../platform/src/icons/close-icon"
-import Progress from "../../../../ui-library/src/components/progress"
+
 import PageContent from "./page-content"
-import { useCurrentCarouselPage, useRootPage } from "../../../../platform/src/util/store"
 
 const Button = lazy(() => import("ui-library/Button"))
+const Progress = lazy(() => import("ui-library/Progress"))
+const CloseIcon = lazy(() => import("ui-library/CloseIcon"))
 
 const springConfig = {
 	type: "spring",
@@ -46,55 +44,38 @@ const variants = {
 export default function Carousel(props) {
 	const [current, setCurrent] = useState(0)
 	const [direction, setDirection] = useState(0)
-	const activeCarousel = useCurrentCarouselPage()
+
 	const [percentage, setPercentage] = useState(0)
 	const [pages, setPages] = useState(props.config.pages)
-	const rootPage = useRootPage()
-	const dispatch = useDispatch()
+
 	const { previous, next, home } = props.config.buttons
 
-	const backToHome = async () => {
-		dispatch(pageUpdated(rootPage))
-		if (rootPage.type === "carousel") {
-			dispatch(carouselPageSwitched(rootPage.config.pages[0].id))
-		}
-	}
+	const backToHome = async () => {}
 
 	const calculatePercentage = (pageNumber) => {
 		let percentage = (pageNumber / (pages.length - 1)) * 100
 		setPercentage(percentage)
 	}
 
-	const refreshCarousel = () => {
-		let currentIndex = pages.findIndex((p) => p.id === activeCarousel)
-		if (currentIndex !== -1) {
-			setCurrent(currentIndex)
-			calculatePercentage(currentIndex)
-		}
-	}
-
 	useEffect(() => {
-		refreshCarousel()
-	}, [activeCarousel])
+		if (current !== -1) {
+			calculatePercentage(current)
+		}
+	}, [current])
 
 	useEffect(() => {
 		setPages(props.config.pages)
+		setCurrent(0)
 	}, [props.config.pages])
-
-	useEffect(() => {
-		refreshCarousel()
-	}, [pages])
 
 	const nextPage = () => {
 		setDirection(1)
-		let nextPage = pages[current + 1]
-		dispatch(carouselPageSwitched(nextPage.id))
+		setCurrent(current + 1)
 	}
 
 	const previousPage = () => {
 		setDirection(-1)
-		let previousPage = pages[current - 1]
-		dispatch(carouselPageSwitched(previousPage.id))
+		setCurrent(current - 1)
 	}
 
 	return (

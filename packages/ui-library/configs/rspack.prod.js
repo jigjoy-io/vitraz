@@ -21,7 +21,7 @@ module.exports = merge(rspackBaseConfig, {
 		client: {
 			overlay: false,
 		},
-		port: 3000,
+		port: 3003,
 		compress: true,
 		historyApiFallback: true,
 	},

@@ -5,7 +5,7 @@ import AbstractBlockFactory from "./abstract-block-factory"
 export default class BlockFactory {
 	static factory: AbstractBlockFactory = new RenderBlockFactory()
 
-	static getBlock(blockConfig: any): ReactElement {
+	static createBlock(blockConfig: any): ReactElement {
 		switch (blockConfig.type) {
 			case "title":
 				return this.factory.createTitleBlock(blockConfig)
