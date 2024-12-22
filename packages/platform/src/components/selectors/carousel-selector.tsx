@@ -2,7 +2,7 @@ import React, { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } f
 import CarouselIcon from "../../icons/carousel-icon"
 
 const Button = lazy(() => import("renderer/Button"))
-import Checkbox from "../../../../ui-library/src/components/checkbox"
+import Checkbox from "../../../../jigjoyui/src/components/checkbox"
 import Tabs from "../shared/tabs/tabs"
 import Tab from "../shared/tabs/tab"
 import ClickOutsideListener from "../../util/click-outside-listener"

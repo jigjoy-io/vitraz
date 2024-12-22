@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react"
 
-const CarouselTile = lazy(() => import("ui-library/CarouselTile"))
+const CarouselTile = lazy(() => import("@jigjoy-ui/carousel-tile"))
 
 export default function CarouselTileBlock(props) {
 	return (

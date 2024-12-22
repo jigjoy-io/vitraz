@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react"
 
-const Audio = lazy(() => import("ui-library/Audio"))
+const Audio = lazy(() => import("@jigjoy-ui/audio-button"))
 
 export default function AudioBlock(props) {
 	return (

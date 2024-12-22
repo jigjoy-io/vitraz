@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react"
 
-const Heading = lazy(() => import("ui-library/Heading"))
+const Heading = lazy(() => import("@jigjoy-ui/heading"))
 
 export default function HeadingBlock(props) {
 	return (

@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react"
 
-const Title = lazy(() => import("ui-library/Title"))
+const Title = lazy(() => import("@jigjoy-ui/title"))
 
 export default function TitleBlock(props) {
 	return (

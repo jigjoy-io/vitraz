@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from "react"
 import CarouselIcon from "../../icons/carousel-icon"
 const Button = lazy(() => import("renderer/Button"))
-import Checkbox from "../../../../ui-library/src/components/checkbox"
+import Checkbox from "../../../../jigjoyui/src/components/checkbox"
 import ClickOutsideListener from "../../util/click-outside-listener"
 import { updateBlock } from "../../reducers/page-reducer"
 import { useDispatch } from "react-redux"

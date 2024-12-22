@@ -4,8 +4,8 @@ import { v4 as uuid } from "uuid"
 import { updateBlock } from "../../../../reducers/page-reducer"
 
 const Button = lazy(() => import("renderer/Button"))
-import Checkbox from "../../../../../../ui-library/src/components/checkbox"
-import CloseIcon from "../../../../icons/close-icon"
+import Checkbox from "../../../../../../jigjoyui/src/components/checkbox"
+import CloseIcon from "../../../../../../jigjoyui/src/icons/close-icon"
 
 export default function QuestionAnswersEditor(props: any) {
 	const [value, setValue] = useState(props.value)

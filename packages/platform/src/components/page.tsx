@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { PageFactory } from "../util/factories/page-factory"
+import { PageFactory } from "../../../renderer/src/components/factories/page-factory"
 
 function Page(props) {
 	const [page, setPage] = useState(props.page)

@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from "framer-motion"
 
 import PageContent from "./page-content"
 
-const Button = lazy(() => import("ui-library/Button"))
-const Progress = lazy(() => import("ui-library/Progress"))
-const CloseIcon = lazy(() => import("ui-library/CloseIcon"))
+const Button = lazy(() => import("@jigjoy-ui/button"))
+const Progress = lazy(() => import("@jigjoy-ui/progress"))
+const CloseIcon = lazy(() => import("@jigjoy-ui/close-icon"))
 
 const springConfig = {
 	type: "spring",

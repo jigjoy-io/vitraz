@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react"
 
-const AudioButton = lazy(() => import("../../../../ui-library/src/components/audio-button"))
+const AudioButton = lazy(() => import("../../../../jigjoyui/src/components/audio-button"))
 const Text = lazy(() => import("renderer/Text"))
 const Heading = lazy(() => import("renderer/Heading"))
 const Title = lazy(() => import("renderer/Title"))

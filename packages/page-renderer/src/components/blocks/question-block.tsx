@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react"
 
-const Question = lazy(() => import("ui-library/Question"))
+const Question = lazy(() => import("@jigjoy-ui/question"))
 
 export default function QuestionBlock(props) {
 	return (

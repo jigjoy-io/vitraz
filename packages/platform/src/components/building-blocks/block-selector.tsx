@@ -6,7 +6,7 @@ import { useActiveBlock, usePage } from "../../util/store"
 import { blockingUpdated } from "../../reducers/editor-reducer"
 import TemplateFactory from "../../util/factories/templates/template-factory"
 import { focusBlock, insertBlock } from "../../reducers/page-reducer"
-import ClickOutsideListener from "../../../../ui-library/src/util/click-outside-listener"
+import ClickOutsideListener from "../../../../jigjoyui/src/util/click-outside-listener"
 import Item from "../../../../components/item/item"
 import { handleTextBlockKeyDown } from "../../util/factories/key-command-factory"
 

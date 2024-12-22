@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react"
 
-const Video = lazy(() => import("ui-library/Video"))
+const Video = lazy(() => import("@jigjoy-ui/video"))
 
 export default function VideoBlock(props) {
 	return (

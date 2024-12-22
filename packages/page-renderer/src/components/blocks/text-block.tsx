@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react"
 
-const Text = lazy(() => import("ui-library/Text"))
+const Text = lazy(() => import("@jigjoy-ui/text"))
 
 export default function TextBlock(props) {
 	return (

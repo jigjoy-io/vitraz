@@ -60,12 +60,11 @@ module.exports = {
 		}),
 		new rspack.container.ModuleFederationPlugin({
 			name: "renderer",
-			library: { type: "assign", name: "renderer" },
 			filename: "remoteEntry.js",
-			remotes: {},
-			exposes: {
-				"./Page": "./src/page-renderer",
+			remotes: {
+				"@jigjoy-ui": "jigjoy_ui@http://localhost:3003/remoteEntry.js",
 			},
+			exposes: {},
 			shared: {
 				react: {
 					singleton: true,

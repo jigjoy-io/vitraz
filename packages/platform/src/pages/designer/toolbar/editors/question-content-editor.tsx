@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { updateBlock } from "../../../../reducers/page-reducer"
-import Checkbox from "../../../../../../ui-library/src/components/checkbox"
+import Checkbox from "../../../../../../jigjoyui/src/components/checkbox"
 import Tabs from "../../../../components/tabs/tabs"
 import Tab from "../../../../components/tabs/tab"
 import FileUploader from "../../../../components/file-uploader/file-uploader"

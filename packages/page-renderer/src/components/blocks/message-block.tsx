@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react"
 
-const Message = lazy(() => import("ui-library/Message"))
+const Message = lazy(() => import("@jigjoy-ui/message"))
 
 export default function MessageBlock(props) {
 	return (

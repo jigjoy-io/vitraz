@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useState } from "react"
 import Alert from "../alert/alert"
 import AlertProps, { AlertType } from "../alert/alert-props"
-import Input from "../../../../../ui-library/src/components/input"
+import Input from "../../../../../jigjoyui/src/components/input"
 const Button = lazy(() => import("renderer/Button"))
 
 export default function FileUrlEditor({ filePath, fileType, callback }) {
