@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import CheckedIcon from "../../../platform/src/icons/checked-icon"
+import CheckedIcon from "../icons/checked-icon"
 
 export default function Checkbox(props: any) {
 	const [selected, setSelected] = useState(props.selected)

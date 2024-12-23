@@ -1,5 +1,5 @@
 import React from "react"
-import { useExpandedPages } from "../util/store"
+import { useExpandedPages } from "../../../platform/src/util/store"
 import CarouselIcon from "./carousel-icon"
 import ExpandDownIcon from "./expand-down-icon"
 import PageIcon from "./page-icon"

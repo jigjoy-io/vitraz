@@ -3,9 +3,10 @@ import { useDispatch } from "react-redux"
 import { v4 as uuid } from "uuid"
 import { updateBlock } from "../../../../reducers/page-reducer"
 
-const Button = lazy(() => import("renderer/Button"))
-import Checkbox from "../../../../../../jigjoyui/src/components/checkbox"
-import CloseIcon from "../../../../../../jigjoyui/src/icons/close-icon"
+const Button = lazy(() => import("@jigjoy-ui/button"))
+const CloseIcon = lazy(() => import("@jigjoy-ui/icons/close-icon"))
+
+const Checkbox = lazy(() => import("@jigjoy-ui/checkbox"))
 
 export default function QuestionAnswersEditor(props: any) {
 	const [value, setValue] = useState(props.value)
@@ -49,33 +50,31 @@ export default function QuestionAnswersEditor(props: any) {
 	}
 
 	return (
-		<div className="flex flex-col p-2 w-[300px] mt-1">
-			{value.map((answer: any, index) => (
-				<div className="flex my-1 justify-center items-center">
-					<Checkbox selected={answer.correct} onChange={() => selectCorrectAnswer(index)} />
+		<Suspense>
+			<div className="flex flex-col p-2 w-[300px] mt-1">
+				{value.map((answer: any, index) => (
+					<div className="flex my-1 justify-center items-center">
+						<Checkbox selected={answer.correct} onChange={() => selectCorrectAnswer(index)} />
 
-					<input
-						className="p-1 rounded-[5px] border w-[100%]"
-						value={answer.text}
-						onChange={(e) => updateAnswer(e, index)}
-					/>
-					<div
-						className="ml-2 w-max p-1 h-fit bg-primary-light border-2 border-primary rounded-[5px] cursor-pointer"
-						onClick={() => removeAnswer(index)}
-					>
-						<CloseIcon />
+						<input
+							className="p-1 rounded-[5px] border w-[100%]"
+							value={answer.text}
+							onChange={(e) => updateAnswer(e, index)}
+						/>
+						<div
+							className="ml-2 w-max p-1 h-fit bg-primary-light border-2 border-primary rounded-[5px] cursor-pointer"
+							onClick={() => removeAnswer(index)}
+						>
+							<CloseIcon />
+						</div>
 					</div>
-				</div>
-			))}
+				))}
 
-			<div className="my-1">
-				<Suspense>
+				<div className="my-1">
 					<Button width="w-full" text="Add answer" color="default" action={addAnswer} />
-				</Suspense>
-			</div>
-			<Suspense>
+				</div>
 				<Button text="Update" action={update} />
-			</Suspense>
-		</div>
+			</div>
+		</Suspense>
 	)
 }

@@ -5,7 +5,7 @@ import PageContent from "./page-content"
 
 const Button = lazy(() => import("@jigjoy-ui/button"))
 const Progress = lazy(() => import("@jigjoy-ui/progress"))
-const CloseIcon = lazy(() => import("@jigjoy-ui/close-icon"))
+const CloseIcon = lazy(() => import("@jigjoy-ui/icons/close-icon"))
 
 const springConfig = {
 	type: "spring",

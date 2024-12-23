@@ -80,7 +80,7 @@ module.exports = {
 				"./video": "./src/components/video",
 				"./button": "./src/components/button",
 				"./progress": "./src/components/progress",
-				"./close-icon": "./src/icons/close-icon",
+				"./icons/close-icon": "./src/icons/close-icon",
 			},
 			shared: {
 				react: {
