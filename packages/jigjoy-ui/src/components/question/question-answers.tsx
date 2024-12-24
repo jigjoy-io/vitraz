@@ -3,11 +3,11 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Item from "../item"
 import Button from "../button"
-import Alert from "../alert/alert"
+import Alert, { AlertProps } from "../alert"
 
 function QuestionAnswers(props: any) {
 	const [selected, setSelected] = useState({} as any)
-	const [alert, setAlert] = useState({})
+	const [alert, setAlert] = useState<AlertProps | null>(null)
 	const [answered, setAnswered] = useState(false)
 
 	const selectAnswer = (event, outcome: any) => {
@@ -37,7 +37,7 @@ function QuestionAnswers(props: any) {
 			))}
 			<motion.div className="relative mt-2" layout>
 				<AnimatePresence mode="popLayout">
-					{answered ? (
+					{answered && alert?.type ? (
 						<motion.div
 							key="alert"
 							initial={{ y: 100, opacity: 0 }}

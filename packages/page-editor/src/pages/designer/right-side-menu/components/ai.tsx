@@ -1,12 +1,12 @@
 import React, { lazy, Suspense, useState } from "react"
-const Button = lazy(() => import("renderer/Button"))
+const Button = lazy(() => import("@jigjoy-ui/button"))
 import { getCurrentUser } from "aws-amplify/auth"
 import { createPage, generatePage } from "../../../../api/page"
 import { refinePage } from "../../../../util/traversals/refine-page"
 import { usePages } from "../../../../util/store"
 import { pagesUpdated } from "../../../../reducers/page-reducer"
 import { useDispatch } from "react-redux"
-import Loader from "../../../../components/loader/loader"
+import Loader from "@jigjoy-ui/loader"
 
 export default function AI() {
 	const [chatMessage, setChatMessage] = useState("")
@@ -60,13 +60,7 @@ export default function AI() {
 				<div className="flex flex-col max-w-[500px] w-[500px] gap-3 mt-20">
 					<div className="flex flex-row gap-3">
 						<div className="grow">
-							<input
-								type="text"
-								value={chatMessage}
-								className="w-full h-10 px-3 py-2 bg-white rounded-md shadow-[0px_0px_20px_5px_rgba(66,_220,_219,_0.5)] border border-light outline-none"
-								placeholder="Write here what you want to learn today..."
-								onChange={handleChange}
-							/>
+							<input type="text" value={chatMessage} className="w-full h-10 px-3 py-2 bg-white rounded-md shadow-[0px_0px_20px_5px_rgba(66,_220,_219,_0.5)] border border-light outline-none" placeholder="Write here what you want to learn today..." onChange={handleChange} />
 						</div>
 						<div className="w-fit">
 							<Suspense>
@@ -74,9 +68,7 @@ export default function AI() {
 							</Suspense>
 						</div>
 					</div>
-					{error && (
-						<div className="text-[red] text-center">The message field is required. Please enter your message.</div>
-					)}
+					{error && <div className="text-[red] text-center">The message field is required. Please enter your message.</div>}
 				</div>
 			</div>
 			{loading && (

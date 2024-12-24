@@ -2,23 +2,27 @@ import { getCurrentUser } from "aws-amplify/auth"
 import React, { lazy, Suspense, useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { getPages, publishPage, updatePage } from "../../api/page"
-import Alert from "../../components/alert/alert"
 
-const Button = lazy(() => import("renderer/Button"))
+const Button = lazy(() => import("@jigjoy-ui/button"))
+import Loader from "@jigjoy-ui/loader"
+import Alert from "@jigjoy-ui/alert"
+import HelpIcon from "@jigjoy-ui/icons/help-icon"
+import MagicIcon from "@jigjoy-ui/icons/magic-icon"
+import BookIcon from "@jigjoy-ui/icons/book-icon"
+import PlusIcon from "@jigjoy-ui/icons/plus-icon"
+
 import { pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/page-reducer"
 import { usePages, useRootPage } from "../../util/store"
 import Node from "./node"
 import { Link, useNavigate, useSearch } from "@tanstack/react-router"
 import { sidebarExpanded } from "../../reducers/sidebar-reducer"
-import Loader from "../../components/loader/loader"
-import HelpIcon from "../../icons/help-icon"
-import AddBlockIcon from "../../icons/add-block-icon"
+
 import Help from "./right-side-menu/components/help"
 import UserMenu from "../authorization/user-menu/user-menu"
 import Tutorial from "./right-side-menu/components/tutorial"
-import BookIcon from "../../icons/book-icon."
+
 import AI from "./right-side-menu/components/ai"
-import MagicIcon from "../../icons/magic-icon"
+
 import { v4 as uuidv4 } from "uuid"
 
 export default function LeftSideMenu() {
@@ -102,11 +106,8 @@ export default function LeftSideMenu() {
 	return (
 		<div className="h-[100dvh] max-h-[100dvh] bg-[#F2EEF0] bg-opacity-30 border-r border-light shadow-lg flex flex-col flex-none">
 			<UserMenu />
-			<div
-				className="mx-2 mt-5 px-3 py-2 flex flex-row items-center hover:bg-primary-light hover:bg-opacity-60 rounded-[5px] cursor-pointer border"
-				onClick={createNewPage}
-			>
-				<AddBlockIcon />
+			<div className="mx-2 mt-5 px-3 py-2 flex flex-row items-center hover:bg-primary-light hover:bg-opacity-60 rounded-[5px] cursor-pointer border" onClick={createNewPage}>
+				<PlusIcon />
 				<div className="font-bold">Start New Project</div>
 			</div>
 
@@ -128,10 +129,7 @@ export default function LeftSideMenu() {
 			<div className="w-full">
 				<div className="px-3 py-2 font-bold">Options</div>
 
-				<div
-					className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center"
-					onClick={() => dispatch(sidebarExpanded({ expanded: true, component: AI }))}
-				>
+				<div className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center" onClick={() => dispatch(sidebarExpanded({ expanded: true, component: AI }))}>
 					<div className="flex flex-row w-[100%] h-[100%]">
 						<div className="pr-2 flex items-center">
 							<MagicIcon />
@@ -140,10 +138,7 @@ export default function LeftSideMenu() {
 					</div>
 				</div>
 
-				<div
-					className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center"
-					onClick={() => dispatch(sidebarExpanded({ expanded: true, component: Tutorial }))}
-				>
+				<div className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center" onClick={() => dispatch(sidebarExpanded({ expanded: true, component: Tutorial }))}>
 					<div className="flex flex-row w-[100%] h-[100%]">
 						<div className="pr-2 flex items-center">
 							<BookIcon />
@@ -152,10 +147,7 @@ export default function LeftSideMenu() {
 					</div>
 				</div>
 
-				<div
-					className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center"
-					onClick={() => dispatch(sidebarExpanded({ expanded: true, component: Help }))}
-				>
+				<div className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center" onClick={() => dispatch(sidebarExpanded({ expanded: true, component: Help }))}>
 					<div className="flex flex-row w-[100%] h-[100%]">
 						<div className="pr-2 flex items-center">
 							<HelpIcon />
@@ -177,20 +169,12 @@ export default function LeftSideMenu() {
 						)}
 						{showSuccess && (
 							<div className="px-3">
-								<Alert
-									type="success"
-									title="Project published"
-									message="Click `Share` to get a link with applied changes"
-								/>
+								<Alert type="success" title="Project published" message="Click `Share` to get a link with applied changes" />
 							</div>
 						)}
 						{showError && (
 							<div className="px-3">
-								<Alert
-									type="danger"
-									title="Something went wrong"
-									message="The page was not published. Please try again later or contact JigJoy support."
-								/>
+								<Alert type="danger" title="Something went wrong" message="The page was not published. Please try again later or contact JigJoy support." />
 							</div>
 						)}
 						<div className="w-[100%] px-3 py-1 flex gap-x-2">
@@ -199,11 +183,7 @@ export default function LeftSideMenu() {
 									<Button text="Preview" color="default" width="w-full" action={enterPreview} />
 								</Suspense>
 							</div>
-							<Link
-								to={`/${page.id}`}
-								target="_blank"
-								className="bg-primary-light hover:opacity-80 flex justify-center items-center cursor-pointer rounded-[5px] w-[50%] font-bold"
-							>
+							<Link to={`/${page.id}`} target="_blank" className="bg-primary-light hover:opacity-80 flex justify-center items-center cursor-pointer rounded-[5px] w-[50%] font-bold">
 								Share
 							</Link>
 						</div>

@@ -1,5 +1,5 @@
 import React from "react"
-import Reel from "../../../../components/reel/reel"
+import Video from "@jigjoy-ui/video"
 
 export default function Tutorial() {
 	return (
@@ -8,7 +8,7 @@ export default function Tutorial() {
 				<p className="text-heading">Platform Tutorial</p>
 			</div>
 			<div className="p-16">
-				<Reel source="https://jigjoy.io/assets/jigjoy-platform-demo.mp4" />
+				<Video source="https://jigjoy.io/assets/jigjoy-platform-demo.mp4" />
 			</div>
 		</div>
 	)

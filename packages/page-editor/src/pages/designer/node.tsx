@@ -1,20 +1,8 @@
 import React, { lazy, memo, Suspense, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import { createPage, removePage, updatePage } from "../../api/page"
-import Grid from "../../components/grid/grid"
-import Item from "../../components/item/item"
-import DeleteBlockIcon from "../../icons/delete-block-icon"
-import DuplicateIcon from "../../icons/duplicate-icon"
-import ExpandPage from "../../icons/expand-page"
-import MoreIcon from "../../icons/more-icon"
-import {
-	carouselPageSwitched,
-	pageCollapsed,
-	pageExpanded,
-	pagesUpdated,
-	pageUpdated,
-	rootPageUpdated,
-} from "../../reducers/page-reducer"
+
+import { carouselPageSwitched, pageCollapsed, pageExpanded, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/page-reducer"
 import { blockingUpdated } from "../../reducers/editor-reducer"
 import { useExpandedPages, useHovered, usePage, usePages, useSelected } from "../../util/store"
 import { deletePage } from "../../util/traversals/delete-page"
@@ -22,14 +10,22 @@ import { duplicateBlock } from "../../util/traversals/duplcate-block"
 import { findParent } from "../../util/traversals/find-parent"
 import { replaceBlock } from "../../util/traversals/replace-block"
 import { createPortal } from "react-dom"
-import ClickOutsideListener from "../../util/click-outside-listener"
-const Button = lazy(() => import("renderer/Button"))
+
 import { pushBlock } from "../../util/traversals/push-block"
-import AddBlockIcon from "../../icons/add-block-icon"
-import RenameIcon from "../../icons/rename-icon"
-import ToolbarButtonWrapper from "./toolbar/toolbar-button-wrapper"
+
+import DragHandleIcon from "@jigjoy-ui/icons/drag-handle-icon"
+import ToolbarButtonWrapper from "../../components/shared/toolbar/tooltip-button-wrapper"
 import TemplateFactory from "../../util/factories/templates/template-factory"
 import { nodeHovered } from "../../reducers/sidebar-reducer"
+
+const Button = lazy(() => import("@jigjoy-ui/button"))
+import ClickOutsideListener from "@jigjoy-ui/util/click-outside-listener"
+import Grid from "@jigjoy-ui/grid"
+import Item from "@jigjoy-ui/item"
+import PlusIcon from "@jigjoy-ui/icons/plus-icon"
+import DeleteIcon from "@jigjoy-ui/icons/delete-icon"
+import DuplicateIcon from "@jigjoy-ui/icons/duplicate-icon"
+import RenameIcon from "@jigjoy-ui/icons/rename-icon"
 
 const Node = memo(function Node(props: any) {
 	const activePage = usePage()
@@ -345,24 +341,20 @@ const Node = memo(function Node(props: any) {
 				onPointerLeave={() => dispatch(nodeHovered(null))}
 				style={{ paddingLeft: `${ident}px` }}
 			>
-				<ExpandPage id={props.id} type={props.type} expand={expandPage} hover={hovered === props.id} />
+				{/* <ExpandPageIcon id={props.id} type={props.type} expand={expandPage} hover={hovered === props.id} /> */}
 
-				<div className="ml-1 px-1 hover:cursor-pointer grow flex truncate text-ellipsis overflow-hidden">
-					{props.name}
-				</div>
+				<div className="ml-1 px-1 hover:cursor-pointer grow flex truncate text-ellipsis overflow-hidden">{props.name}</div>
 				{hovered === props.id && (
 					<>
 						<div onClick={expandDropdown} ref={ref}>
-							<ToolbarButtonWrapper
-								tooltip={<div className="text-center text-[14px]">Delete, duplicate, and more...</div>}
-							>
-								<MoreIcon />
+							<ToolbarButtonWrapper tooltip={<div className="text-center text-[14px]">Delete, duplicate, and more...</div>}>
+								<DragHandleIcon />
 							</ToolbarButtonWrapper>
 						</div>
 
 						<div onClick={addPage}>
 							<ToolbarButtonWrapper tooltip={addTooltip()}>
-								<AddBlockIcon />
+								<PlusIcon />
 							</ToolbarButtonWrapper>
 						</div>
 					</>
@@ -370,33 +362,19 @@ const Node = memo(function Node(props: any) {
 			</div>
 
 			<div className="flex flex-col">
-				{expandedPages.includes(props.id) &&
-					props.config.buildingBlocks &&
-					props.config.buildingBlocks.map((block) => (
-						<div key={block.id}>
-							{(block.type == "page-tile" || block.type == "carousel-tile") && (
-								<Node {...block.page} ident={ident} root={props.root} />
-							)}
-						</div>
-					))}
-				{expandedPages.includes(props.id) &&
-					props.config.pages &&
-					props.config.pages.map((page) => <Node key={page.id} {...page} ident={ident} root={props.root} />)}
+				{expandedPages.includes(props.id) && props.config.buildingBlocks && props.config.buildingBlocks.map((block) => <div key={block.id}>{(block.type == "page-tile" || block.type == "carousel-tile") && <Node {...block.page} ident={ident} root={props.root} />}</div>)}
+				{expandedPages.includes(props.id) && props.config.pages && props.config.pages.map((page) => <Node key={page.id} {...page} ident={ident} root={props.root} />)}
 			</div>
 
 			{dropdownActive &&
 				createPortal(
 					<ClickOutsideListener callback={closeDropdown}>
-						<div
-							className={`fixed flex rounded-md p-1 shadow bg-[white]`}
-							style={{ top: rect.top + rect.height, left: rect.x + rect.width - 20 }}
-							ref={portalRef}
-						>
+						<div className={`fixed flex rounded-md p-1 shadow bg-[white]`} style={{ top: rect.top + rect.height, left: rect.x + rect.width - 20 }} ref={portalRef}>
 							<Grid numberOfCols={1}>
 								<Item text="Rename" icon={RenameIcon} action={(e) => openRenamePopup(e)} />
 								<Item text="Duplicate" icon={DuplicateIcon} action={duplicatePage} />
 								<div className="border-b border-default-light" />
-								<Item text="Delete" icon={DeleteBlockIcon} action={(e) => openDeletePopup(e)} />
+								<Item text="Delete" icon={DeleteIcon} action={(e) => openDeletePopup(e)} />
 							</Grid>
 						</div>
 					</ClickOutsideListener>,
@@ -406,10 +384,7 @@ const Node = memo(function Node(props: any) {
 			{deleteActive &&
 				createPortal(
 					<ClickOutsideListener callback={closeDelete}>
-						<div
-							className="fixed flex rounded-md p-3 shadow bg-white w-[250px]"
-							style={{ top: rect.top + rect.height, left: rect.x + rect.width }}
-						>
+						<div className="fixed flex rounded-md p-3 shadow bg-white w-[250px]" style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
 							<div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
 								<p className="font-bold">Delete Page Permanently?</p>
 								<div>Are you sure? This will permanently erase all content.</div>
@@ -428,19 +403,10 @@ const Node = memo(function Node(props: any) {
 			{addingActive &&
 				createPortal(
 					<ClickOutsideListener callback={closeAdding}>
-						<div
-							className="fixed flex rounded-md p-3 shadow bg-white w-[250px]"
-							style={{ top: rect.top + rect.height, left: rect.x + rect.width }}
-						>
+						<div className="fixed flex rounded-md p-3 shadow bg-white w-[250px]" style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
 							<div className="flex flex-col gap-2 w-full" onClick={(e) => e.stopPropagation()}>
 								<p className="font-bold">Choose Page Type</p>
-								<select
-									name="pageType"
-									id="pageType"
-									className="p-2 rounded-md w-full focus:outline-0"
-									onChange={handlePageToCreate}
-									value={tileToAdd}
-								>
+								<select name="pageType" id="pageType" className="p-2 rounded-md w-full focus:outline-0" onChange={handlePageToCreate} value={tileToAdd}>
 									<option value="page-tile">Blank Page</option>
 									<option value="carousel-tile">Carousel</option>
 								</select>
@@ -458,17 +424,9 @@ const Node = memo(function Node(props: any) {
 			{renameActive &&
 				createPortal(
 					<ClickOutsideListener callback={closeRename}>
-						<div
-							className={`fixed flex rounded-md p-1 shadow bg-[white]`}
-							style={{ top: rect.top + rect.height, left: rect.x + rect.width }}
-						>
+						<div className={`fixed flex rounded-md p-1 shadow bg-[white]`} style={{ top: rect.top + rect.height, left: rect.x + rect.width }}>
 							<div className="flex flex-row gap-2">
-								<input
-									className="p-1 rounded-md border w-[100%]"
-									value={renameValue}
-									onChange={(event) => setRenameValue(event.target.value)}
-									autoFocus
-								/>
+								<input className="p-1 rounded-md border w-[100%]" value={renameValue} onChange={(event) => setRenameValue(event.target.value)} autoFocus />
 								<Suspense>
 									<Button text="Rename" size="sm" action={renamePage} />
 								</Suspense>

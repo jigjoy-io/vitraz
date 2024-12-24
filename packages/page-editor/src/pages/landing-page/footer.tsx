@@ -1,7 +1,7 @@
 import React from "react"
-import Linkedin from "../../icons/linkedin"
-import Instagram from "../../icons/instagram"
-import TikTok from "../../icons/tiktok"
+import Linkedin from "@jigjoy-ui/icons/linkedin-icon"
+import Instagram from "@jigjoy-ui/icons/instagram-icon"
+import TikTok from "@jigjoy-ui/icons/tiktok-icon"
 
 function Footer() {
 	return (

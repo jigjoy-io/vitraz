@@ -1,7 +1,7 @@
 import React from "react"
-import ImageEditingIcon from "../../icons/image-editing-icon"
-import MediaSettings from "../shared/media-selector/media-selector"
+import MediaSelector from "./media-selector/media-selector"
+import ImageIcon from "@jigjoy-ui/icons/image-icon"
 
 export default function ImageSelector(props: any) {
-	return <MediaSettings mediaType="image" icon={<ImageEditingIcon />} props={props} />
+	return <MediaSelector mediaType="image" icon={<ImageIcon />} props={props} />
 }

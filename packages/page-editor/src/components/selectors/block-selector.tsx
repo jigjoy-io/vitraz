@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import { createPortal } from "react-dom"
-import { SelectorOptions } from "../../pages/designer/toolbar/block-selector/selector-options"
 import { useActiveBlock, usePage } from "../../util/store"
 import { blockingUpdated } from "../../reducers/editor-reducer"
 import TemplateFactory from "../../util/factories/templates/template-factory"
 import { focusBlock, insertBlock } from "../../reducers/page-reducer"
-import ClickOutsideListener from "../../../../jigjoyui/src/util/click-outside-listener"
-import Item from "../../../../components/item/item"
+import ClickOutsideListener from "@jigjoy-ui/util/click-outside-listener"
+import Item from "@jigjoy-ui/item"
 import { handleTextBlockKeyDown } from "../../util/factories/key-command-factory"
+import { SelectorOptions } from "../../util/selector-options"
 
 export default function BlockSelector(props: any) {
 	const page = usePage()
@@ -39,9 +39,7 @@ export default function BlockSelector(props: any) {
 	}, [activeBlock])
 
 	const filterCommands = (option: any, value: any, index: number) => {
-		option.commands = allOptions[index].commands.filter((command: any) =>
-			command.label.toLowerCase().includes(value.slice(1).toLowerCase()),
-		)
+		option.commands = allOptions[index].commands.filter((command: any) => command.label.toLowerCase().includes(value.slice(1).toLowerCase()))
 		return option
 	}
 
@@ -145,20 +143,12 @@ export default function BlockSelector(props: any) {
 			{showMenu &&
 				createPortal(
 					<ClickOutsideListener callback={closeMenu}>
-						<div
-							style={{ top: top, left: left, transform: `translate(-100%, -${calculateY()}%)` }}
-							className={`fixed flex flex-col w-[100%] md:max-w-[340px] h-auto max-h-[400px] overflow-y-auto bg-white shadow rounded-[5px] p-1 -translate-x-[100%]`}
-						>
+						<div style={{ top: top, left: left, transform: `translate(-100%, -${calculateY()}%)` }} className={`fixed flex flex-col w-[100%] md:max-w-[340px] h-auto max-h-[400px] overflow-y-auto bg-white shadow rounded-[5px] p-1 -translate-x-[100%]`}>
 							{options.map((option: any, index) => (
 								<div key={option.key}>
 									{option.commands.map((command: any) => (
 										<div className="p-1" key={command.key}>
-											<Item
-												icon={command.icon}
-												text={command.label}
-												tabFocus={true}
-												action={(e: any) => insert(e, command.key)}
-											>
+											<Item icon={command.icon} text={command.label} tabFocus={true} action={(e: any) => insert(e, command.key)}>
 												<div className="mt-2">{command.description}</div>
 											</Item>
 										</div>
@@ -171,17 +161,7 @@ export default function BlockSelector(props: any) {
 					document.body,
 				)}
 
-			<input
-				ref={inputRef}
-				type="text"
-				value={option}
-				onFocus={() => setPlaceholder(placeholder)}
-				className="w-full h-10 px-3 py-2 bg-white rounded-md border border-light outline-none"
-				placeholder={placeholder}
-				onChange={handleChange}
-				onKeyDown={handleKeyDown}
-				onBlur={handleLoseFocus}
-			/>
+			<input ref={inputRef} type="text" value={option} onFocus={() => setPlaceholder(placeholder)} className="w-full h-10 px-3 py-2 bg-white rounded-md border border-light outline-none" placeholder={placeholder} onChange={handleChange} onKeyDown={handleKeyDown} onBlur={handleLoseFocus} />
 		</div>
 	)
 }

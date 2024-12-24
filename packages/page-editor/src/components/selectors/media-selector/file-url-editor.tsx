@@ -1,12 +1,11 @@
 import React, { lazy, Suspense, useState } from "react"
-import Alert from "../alert/alert"
-import AlertProps, { AlertType } from "../alert/alert-props"
-import Input from "../../../../../jigjoyui/src/components/input"
-const Button = lazy(() => import("renderer/Button"))
+import Alert, { AlertType } from "@jigjoy-ui/alert"
+import Input from "@jigjoy-ui/input"
+const Button = lazy(() => import("@jigjoy-ui/button"))
 
 export default function FileUrlEditor({ filePath, fileType, callback }) {
 	const [fileUrl, setFileUrl] = useState<string>(filePath)
-	const [urlAlert, setUrlAlert] = useState<AlertProps | null>(null)
+	const [urlAlert, setUrlAlert] = useState<any>(null)
 
 	const handleUrlUpdate = (url) => {
 		if (url) {

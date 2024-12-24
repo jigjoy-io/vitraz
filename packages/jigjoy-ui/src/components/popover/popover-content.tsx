@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
-import ClickOutsideListener from "../../util/click-outside-listener"
+import ClickOutsideListener from "@jigjoy-ui/util/click-outside-listener"
 
 export default function PopoverContent(props: any) {
 	const [isOpen, setIsOpen] = useState(null)

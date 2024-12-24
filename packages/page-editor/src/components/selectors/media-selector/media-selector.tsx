@@ -1,14 +1,14 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
+import { createPortal } from "react-dom"
+import ClickOutsideListener from "@jigjoy-ui/util/click-outside-listener"
+import Tabs from "@jigjoy-ui/tabs"
+import Tab from "@jigjoy-ui/tab"
+import FileUrlEditor from "../media-selector/file-url-editor"
+import FileUploader from "./file-selector"
 import { blockingUpdated } from "../../../reducers/editor-reducer"
 import { updateBlock } from "../../../reducers/page-reducer"
-import { createPortal } from "react-dom"
-import ClickOutsideListener from "../../../../../jigjoyui/src/util/click-outside-listener"
-import Tabs from "../tabs/tabs"
-import Tab from "../tabs/tab"
 import TemplateFactory from "../../../util/factories/templates/template-factory"
-import FileUrlEditor from "../media-selector/file-url-editor"
-import FileUploader from "../media-selector/file-uploader"
 
 interface MediaSettingsProps {
 	mediaType: "image" | "audio" | "video"
@@ -16,7 +16,7 @@ interface MediaSettingsProps {
 	props: any
 }
 
-export default function MediaSettings({ mediaType, icon, props }: MediaSettingsProps) {
+export default function MediaSelector({ mediaType, icon, props }: MediaSettingsProps) {
 	const [display, setDisplay] = useState(props.display)
 	const [value, setValue] = useState(props.value)
 
@@ -110,11 +110,7 @@ export default function MediaSettings({ mediaType, icon, props }: MediaSettingsP
 					document.body,
 				)}
 
-			<div
-				ref={ref}
-				onClick={openConfigurer}
-				className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60"
-			>
+			<div ref={ref} onClick={openConfigurer} className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60">
 				{icon}
 				<div className="pl-2">Click to add an {mediaType}</div>
 			</div>

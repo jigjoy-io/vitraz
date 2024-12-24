@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useState } from "react"
 
-const Button = lazy(() => import("renderer/Button"))
-import TextArea from "../../../../components/textarea/textarea"
+const Button = lazy(() => import("@jigjoy-ui/button"))
+import TextArea from "@jigjoy-ui/textarea"
 import { getCurrentUser } from "aws-amplify/auth"
 import { RequestType, saveUserFeedback } from "../../../../api/feedback"
 
@@ -48,9 +48,7 @@ export default function UserFeedback({ heading, description, requestType }: User
 				<p>{description}</p>
 			</div>
 			{success ? (
-				<div className="text-[green] text-center">
-					Your message has been successfully saved. Our team will contact you shortly.
-				</div>
+				<div className="text-[green] text-center">Your message has been successfully saved. Our team will contact you shortly.</div>
 			) : (
 				<>
 					<div className="max-w-[500px] w-[100%]">

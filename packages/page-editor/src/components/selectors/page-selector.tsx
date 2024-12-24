@@ -1,16 +1,16 @@
 import React, { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from "react"
-import CarouselIcon from "../../icons/carousel-icon"
-const Button = lazy(() => import("renderer/Button"))
-import Checkbox from "../../../../jigjoyui/src/components/checkbox"
-import ClickOutsideListener from "../../util/click-outside-listener"
+import CarouselIcon from "@jigjoy-ui/icons/carousel-icon"
+const Button = lazy(() => import("@jigjoy-ui/button"))
+import Checkbox from "@jigjoy-ui/checkbox"
+import ClickOutsideListener from "@jigjoy-ui/util/click-outside-listener"
 import { updateBlock } from "../../reducers/page-reducer"
 import { useDispatch } from "react-redux"
 import { usePage } from "../../util/store"
 import { blockingUpdated } from "../../reducers/editor-reducer"
 import { createPortal } from "react-dom"
 import TemplateFactory from "../../util/factories/templates/template-factory"
-import Tabs from "../shared/tabs/tabs"
-import Tab from "../shared/tabs/tab"
+import Tabs from "@jigjoy-ui/tabs"
+import Tab from "@jigjoy-ui/tab"
 
 export default function PageSelector(props: any) {
 	const dispatch = useDispatch()
@@ -112,11 +112,7 @@ export default function PageSelector(props: any) {
 													<label className="flex-none flex items-center w-[33%]" htmlFor="headline">
 														Title:
 													</label>
-													<input
-														className="ml-4 p-1 rounded-[5px] border w-[100%]"
-														value={title}
-														onChange={(e: any) => setHeadline(e.target.value)}
-													/>
+													<input className="ml-4 p-1 rounded-[5px] border w-[100%]" value={title} onChange={(e: any) => setHeadline(e.target.value)} />
 												</div>
 											</div>
 
@@ -125,11 +121,7 @@ export default function PageSelector(props: any) {
 													<label className="flex-none flex items-center w-[33%]" htmlFor="headline">
 														Description:
 													</label>
-													<input
-														className="ml-4 p-1 rounded-[5px] border w-[100%]"
-														value={description}
-														onChange={(e: any) => setDescription(e.target.value)}
-													/>
+													<input className="ml-4 p-1 rounded-[5px] border w-[100%]" value={description} onChange={(e: any) => setDescription(e.target.value)} />
 												</div>
 											</div>
 										</Tab>
@@ -138,25 +130,13 @@ export default function PageSelector(props: any) {
 											<div className="w-[100%]">
 												<div className="opacity-30">Coming soon!</div>
 												<div className="flex flex-row w-full mt-3 gap-3">
-													<Checkbox
-														disabled={true}
-														selected={accessType == "freebie"}
-														onChange={() => setAccessType("freebie")}
-													>
+													<Checkbox disabled={true} selected={accessType == "freebie"} onChange={() => setAccessType("freebie")}>
 														Freebie
 													</Checkbox>
-													<Checkbox
-														disabled={true}
-														selected={accessType == "lead magnet"}
-														onChange={() => setAccessType("lead magnet")}
-													>
+													<Checkbox disabled={true} selected={accessType == "lead magnet"} onChange={() => setAccessType("lead magnet")}>
 														Lead magnet
 													</Checkbox>
-													<Checkbox
-														disabled={true}
-														selected={accessType == "paid"}
-														onChange={() => setAccessType("paid")}
-													>
+													<Checkbox disabled={true} selected={accessType == "paid"} onChange={() => setAccessType("paid")}>
 														Paid
 													</Checkbox>
 												</div>
@@ -175,11 +155,7 @@ export default function PageSelector(props: any) {
 					</ClickOutsideListener>,
 					document.body,
 				)}
-			<div
-				ref={ref}
-				onClick={openConfigurer}
-				className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60"
-			>
+			<div ref={ref} onClick={openConfigurer} className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60">
 				<CarouselIcon />
 				<div className="pl-2">Click to add a page</div>
 			</div>

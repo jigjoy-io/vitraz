@@ -1,12 +1,12 @@
 import { lazy, Suspense, useEffect, useState } from "react"
 import React from "react"
-import Input from "../../components/input/input"
-const Button = lazy(() => import("renderer/Button"))
+import Input from "@jigjoy-ui/input"
+const Button = lazy(() => import("@jigjoy-ui/button"))
 import { LazyMotion, m } from "framer-motion"
 import { createSingInChallenge } from "../../api/authorize"
 import { useNavigate } from "@tanstack/react-router"
 import { getCurrentUser } from "aws-amplify/auth"
-import Logo from "../../icons/logo"
+import JigJoyLogo from "@jigjoy-ui/jigjoy-logo"
 
 const animation = {
 	hidden: { opacity: 0 },
@@ -82,7 +82,7 @@ export default function Authorization(props: any) {
 			<LazyMotion features={loadFeatures}>
 				<m.div variants={animation} initial="hidden" animate="show" className="gap-5 flex flex-col w-[400px]">
 					<m.div key="logo" variants={item}>
-						<Logo />
+						<JigJoyLogo />
 					</m.div>
 					<m.div key="title" variants={item}>
 						<div className="my-5">

@@ -3,18 +3,12 @@ import { useNavigate } from "@tanstack/react-router"
 import React, { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { useMode, usePages } from "../../util/store"
-import {
-	carouselPageSwitched,
-	pageExpanded,
-	pagesUpdated,
-	pageUpdated,
-	rootPageUpdated,
-} from "../../reducers/page-reducer"
+import { carouselPageSwitched, pageExpanded, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/page-reducer"
 import { createPage } from "../../api/page"
-import Loader from "../../components/loader/loader"
-import CloseIcon from "../../icons/close-icon"
-import Tile from "../../components/tile/tile"
 import TemplateFactory from "../../util/factories/templates/template-factory"
+import Loader from "@jigjoy-ui/loader"
+import Tile from "@jigjoy-ui/tile"
+import CloseIcon from "@jigjoy-ui/icons/close-icon"
 
 export default function Onboarding() {
 	const navigate = useNavigate()
@@ -74,10 +68,7 @@ export default function Onboarding() {
 				<Loader message="Project initialization in progress" />
 			) : (
 				<div>
-					<div
-						className="absolute top-10 right-10 w-max bg-primary-light border-2 border-primary p-1 rounded-[5px] cursor-pointer"
-						onClick={() => navigate({ to: "/interactive-content-designer" })}
-					>
+					<div className="absolute top-10 right-10 w-max bg-primary-light border-2 border-primary p-1 rounded-[5px] cursor-pointer" onClick={() => navigate({ to: "/interactive-content-designer" })}>
 						<CloseIcon />
 					</div>
 					<div className="flex flex-col mt-20 items-center justify-center">
@@ -86,19 +77,13 @@ export default function Onboarding() {
 						</div>
 
 						<div className="flex flex-row gap-8">
-							<div
-								className="w-[400px] cursor-pointer hover:bg-primary-light hover:rounded-[20px] mt-10"
-								onClick={() => create("blank")}
-							>
+							<div className="w-[400px] cursor-pointer hover:bg-primary-light hover:rounded-[20px] mt-10" onClick={() => create("blank")}>
 								<Tile>
 									<p className="text-heading">Blank Page</p>
 									<p className="mt-4">Create an app from scratch.</p>
 								</Tile>
 							</div>
-							<div
-								className="w-[400px] cursor-pointer hover:bg-primary-light hover:rounded-[20px] mt-10"
-								onClick={() => create("carousel")}
-							>
+							<div className="w-[400px] cursor-pointer hover:bg-primary-light hover:rounded-[20px] mt-10" onClick={() => create("carousel")}>
 								<Tile>
 									<p className="text-heading">Carousel</p>
 									<p className="mt-4">Create a quiz or micro-lesson.</p>

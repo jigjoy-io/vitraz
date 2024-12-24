@@ -1,7 +1,7 @@
 import React from "react"
-import AudioEditingIcon from "../../icons/audio-editing-icon"
-import MediaSettings from "../shared/media-selector/media-selector"
+import MediaSelector from "./media-selector/media-selector"
+import AudioIcon from "@jigjoy-ui/icons/audio-icon"
 
 export default function AudioSelector(props: any) {
-	return <MediaSettings mediaType="audio" icon={<AudioEditingIcon />} props={props} />
+	return <MediaSelector mediaType="audio" icon={<AudioIcon />} props={props} />
 }

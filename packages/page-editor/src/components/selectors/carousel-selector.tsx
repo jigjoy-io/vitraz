@@ -1,9 +1,9 @@
 import React, { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from "react"
 
-import Checkbox from "../../../../jigjoyui/src/components/checkbox"
-import Tabs from "../shared/tabs/tabs"
-import Tab from "../shared/tabs/tab"
-import ClickOutsideListener from "../../util/click-outside-listener"
+import Checkbox from "@jigjoy-ui/checkbox"
+import Tabs from "@jigjoy-ui/tabs"
+import Tab from "@jigjoy-ui/tab"
+import ClickOutsideListener from "@jigjoy-ui/util/click-outside-listener"
 import { updateBlock } from "../../reducers/page-reducer"
 import { useDispatch } from "react-redux"
 import { usePage } from "../../util/store"
@@ -12,7 +12,7 @@ import { blockingUpdated } from "../../reducers/editor-reducer"
 import TemplateFactory from "../../util/factories/templates/template-factory"
 
 const Button = lazy(() => import("@jigjoy-ui/button"))
-import CarouselIcon from "../../icons/carousel-icon"
+import CarouselIcon from "@jigjoy-ui/icons/carousel-icon"
 
 export default function CarouselSelector(props: any) {
 	const dispatch = useDispatch()

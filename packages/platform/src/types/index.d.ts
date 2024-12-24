@@ -1,5 +1,0 @@
-declare module "*.module.css"
-declare module "@jigjoy-ui/text"
-declare module "@jigjoy-ui/heading"
-declare module "@jigjoy-ui/title"
-declare module "@jigjoy-ui/button"

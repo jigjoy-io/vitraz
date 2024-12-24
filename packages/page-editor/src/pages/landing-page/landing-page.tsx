@@ -1,7 +1,7 @@
 import { useNavigate } from "@tanstack/react-router"
 import { LazyMotion, m, useSpring, useTransform } from "framer-motion"
 import React, { useEffect } from "react"
-import JigJoy from "../../icons/jigjoy"
+import JigJoyLogo from "@jigjoy-ui/jigjoy-logo"
 import Footer from "./footer"
 
 const container = {
@@ -42,23 +42,16 @@ function LandingPage() {
 					<div className="grid grid-cols-2">
 						<div className="p-5 flex items-center">
 							<div className=" lg:mx-40 2xl:mx-80 cursor-pointer" onClick={() => navigate({ to: "/" })}>
-								<JigJoy />
+								<JigJoyLogo />
 							</div>
-							<div
-								className=" lg:mx-40 2xl:mx-80 font-bold cursor-pointer"
-								onClick={() => navigate({ to: "/interactive-content-designer" })}
-							>
+							<div className=" lg:mx-40 2xl:mx-80 font-bold cursor-pointer" onClick={() => navigate({ to: "/interactive-content-designer" })}>
 								Blog
 							</div>
 						</div>
 						<div className="hidden lg:block p-5">
 							<div className="justify-end">
 								<div className="flex gap-4 xl:gap-8 lg:mx-40 2xl:mx-80 justify-end">
-									<a
-										className="bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white px-5 p-3 rounded-[30px] cursor-pointer"
-										id="waitlist-button"
-										href="https://jigjoy.io/interactive-content-designer/"
-									>
+									<a className="bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white px-5 p-3 rounded-[30px] cursor-pointer" id="waitlist-button" href="https://jigjoy.io/interactive-content-designer/">
 										<div className="">Try for free</div>
 									</a>
 								</div>
@@ -73,15 +66,10 @@ function LandingPage() {
 									<h1 className="text-4xl lg:text-4xl 2xl:text-5xl text-center font-bold">Personalized AI Companion</h1>
 								</m.div>
 								<m.div variants={item}>
-									<p className="text-xl xl:text-2xl my-4 text-center text-[#454545]">
-										sends you jokes, news, interactive lessons, fitness routines—whatever matches your preferences
-									</p>
+									<p className="text-xl xl:text-2xl my-4 text-center text-[#454545]">sends you jokes, news, interactive lessons, fitness routines—whatever matches your preferences</p>
 								</m.div>
 								<m.div className="max-w-fit mx-auto py-4 xl:py-3 lg:py-8" variants={item}>
-									<div
-										className="relative group cursor-pointer"
-										onClick={() => navigate({ to: "/interactive-content-designer" })}
-									>
+									<div className="relative group cursor-pointer" onClick={() => navigate({ to: "/interactive-content-designer" })}>
 										<m.div
 											className="absolute -inset-1 bg-gradient-to-r from-red-600 to-violet-600 rounded-full"
 											style={{

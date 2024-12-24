@@ -11,7 +11,7 @@ export default function AudioButtonDocumentation() {
 
 			<div className="bg-[#FBFAF0] rounded-lg p-4 border my-4">
 				<div className="text-[gray] pb-2">Example</div>
-				<AudioButton id="example" source="https://s3.eu-west-1.amazonaws.com/jigjoy.io/wrong_answer.wav" />
+				<AudioButton id="example" source="https://s3.eu-west-1.amazonaws.com/jigjoy.io/joyful-snowman.mp3" />
 			</div>
 		</div>
 	)
