@@ -321,6 +321,38 @@ Resources:
               Resource:
                 - !Sub arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:vars*
 
+  migrateAssetsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/adapters/primary/migration/migration-assets.migrateAssetsHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Migrate pages
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PageTable
+      Environment:
+        Variables:
+          PAGE_TABLE: !Ref PageTable
+          ASSETS_BUCKET: "{{resolve:secretsmanager:vars:SecretString:AssetsBucket}}"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /migrate
+            Method: POST
+    Metadata: #Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/adapters/primary/migration/migration-assets.ts
+
   retrievePageFunction:
     Type: AWS::Serverless::Function
     Properties:
