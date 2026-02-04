@@ -2,7 +2,6 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import pageReducer from "../reducers/page-reducer"
 import { useDispatch, useSelector } from "react-redux"
 import toolbarReducer from "../reducers/editor-reducer"
-import authReducer from "../reducers/auth-reducer"
 import sidebarReducer from "../reducers/sidebar-reducer"
 import storage from "redux-persist/lib/storage"
 import { persistStore, persistReducer } from "redux-persist"
@@ -10,7 +9,6 @@ import { persistStore, persistReducer } from "redux-persist"
 const rootReducer = combineReducers({
 	toolbar: toolbarReducer,
 	page: pageReducer,
-	auth: authReducer,
 	sidebar: sidebarReducer,
 })
 
@@ -43,8 +41,6 @@ export const useBlocked = () => useAppSelector((state: any) => state.toolbar.blo
 export const useSidebarVisible = () => useAppSelector((state: any) => state.sidebar.expanded)
 export const useSidebarComponent = () => useAppSelector((state: any) => state.sidebar.component)
 export const useHovered = () => useAppSelector((state: any) => state.sidebar.hovered)
-
-export const useAuthorized = () => useAppSelector((state: any) => state.auth.authorized)
 
 export const usePage = () => useAppSelector((state: any) => state.page.activePage)
 export const useActivePlayer = () => useAppSelector((state: any) => state.page.activePlayer)

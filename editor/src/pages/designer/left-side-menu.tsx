@@ -1,4 +1,3 @@
-import { getCurrentUser } from "aws-amplify/auth"
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { getPages, publishPage, updatePage } from "../../api/page"
@@ -10,10 +9,7 @@ import Node from "./node"
 import { Link, useNavigate, useSearch } from "@tanstack/react-router"
 import { sidebarExpanded } from "../../reducers/sidebar-reducer"
 import Loader from "../../components/loader/loader"
-import HelpIcon from "../../icons/help-icon"
 import AddBlockIcon from "../../icons/add-block-icon"
-import Help from "./right-side-menu/components/help"
-import UserMenu from "../authorization/user-menu/user-menu"
 import Tutorial from "./right-side-menu/components/tutorial"
 import BookIcon from "../../icons/book-icon."
 import AI from "./right-side-menu/components/ai"
@@ -40,9 +36,7 @@ export default function LeftSideMenu() {
 	})
 
 	async function fetchData() {
-		const currentUser = await getCurrentUser()
-
-		let fetchedPages = await getPages(currentUser.signInDetails?.loginId as string)
+		let fetchedPages = await getPages()
 
 		if (!page) {
 			dispatch(rootPageUpdated(fetchedPages[0]))
@@ -100,7 +94,6 @@ export default function LeftSideMenu() {
 
 	return (
 		<div className="h-[100dvh] max-h-[100dvh] bg-[#F2EEF0] bg-opacity-30 border-r border-light shadow-lg flex flex-col flex-none">
-			<UserMenu />
 			<div
 				className="mx-2 mt-5 px-3 py-2 flex flex-row items-center hover:bg-primary-light hover:bg-opacity-60 rounded-[5px] cursor-pointer border"
 				onClick={createNewPage}
@@ -151,17 +144,6 @@ export default function LeftSideMenu() {
 					</div>
 				</div>
 
-				<div
-					className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center"
-					onClick={() => dispatch(sidebarExpanded({ expanded: true, component: Help }))}
-				>
-					<div className="flex flex-row w-[100%] h-[100%]">
-						<div className="pr-2 flex items-center">
-							<HelpIcon />
-						</div>
-						<div className="flex items-center">Help</div>
-					</div>
-				</div>
 			</div>
 
 			<div className="w-full relative h-[300px] min-h-[300px] pt-4">

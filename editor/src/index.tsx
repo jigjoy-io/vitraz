@@ -4,26 +4,12 @@ import "./index.css"
 import { Provider } from "react-redux"
 import { RouterProvider, createRouteMask, createRouter } from "@tanstack/react-router"
 import { routeTree } from "./routeTree.gen"
-import { Amplify } from "aws-amplify"
 import { persistor, store } from "./util/store"
 
 import { PersistGate } from "redux-persist/integration/react"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import { Helmet } from "react-helmet"
-
-const options = {
-	api_host: process.env.REACT_APP_PUBLIC_POSTHOG_HOST,
-}
-
-Amplify.configure({
-	Auth: {
-		Cognito: {
-			userPoolId: process.env.REACT_APP_USER_POOL_ID || "",
-			userPoolClientId: process.env.REACT_APP_USER_POOL_WEB_CLIENT_ID || "",
-		},
-	},
-})
 
 const root = document.createElement("div")
 document.body.appendChild(root)

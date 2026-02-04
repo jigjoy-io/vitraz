@@ -1,4 +1,3 @@
-import { getCurrentUser } from "@aws-amplify/auth"
 import { useNavigate } from "@tanstack/react-router"
 import React, { useEffect } from "react"
 import { useDispatch } from "react-redux"
@@ -24,31 +23,11 @@ export default function Onboarding() {
 	const mode = useMode()
 	const pages = usePages()
 
-	const checkUser = async () => {
-		try {
-			const user = await getCurrentUser()
-			if (!user) {
-				navigate({ to: "/" })
-			}
-		} catch (error) {
-			navigate({ to: "/" })
-			console.error("Error checking user authentication:", error)
-		}
-	}
-
-	useEffect(() => {
-		checkUser()
-	}, [])
-
 	const create = async (type) => {
 		dispatch(carouselPageSwitched(null))
 
 		// page creation
-		const user = await getCurrentUser()
-		const { username, signInDetails } = user
-		const email = signInDetails?.loginId || username
-
-		let page = TemplateFactory.createPage(type, email)
+		let page = TemplateFactory.createPage(type, "ai")
 
 		// state update
 		let allPages = JSON.parse(JSON.stringify(pages))

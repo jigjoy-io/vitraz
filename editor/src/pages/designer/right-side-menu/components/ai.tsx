@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import Heading from "../../../../components/heading/heading"
 import Text from "../../../../components/text/text"
 import Button from "../../../../components/button/button"
-import { getCurrentUser } from "aws-amplify/auth"
 import { createPage, generatePage } from "../../../../api/page"
 import { refinePage } from "../../../../util/traversals/refine-page"
 import { usePages } from "../../../../util/store"
@@ -29,10 +28,6 @@ export default function AI() {
 
 		setLoading(true)
 
-		const user = await getCurrentUser()
-		const { username, signInDetails } = user
-		const email = signInDetails?.loginId || username
-
 		const params = {
 			statement: chatMessage,
 		}
@@ -40,7 +35,7 @@ export default function AI() {
 		let newPage = await generatePage(params)
 
 		newPage = refinePage(newPage)
-		newPage.origin = email
+		newPage.origin = "ai"
 		newPage.environment = "development"
 		newPage.linkedPageId = null
 
