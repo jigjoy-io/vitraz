@@ -42,7 +42,7 @@ export default function Onboarding() {
 		dispatch(pageExpanded(page.id))
 
 		navigate({
-			to: `/interactive-content-designer`,
+			to: `/`,
 			search: {
 				action: "page-creation",
 			},
@@ -57,7 +57,7 @@ export default function Onboarding() {
 				<div>
 					<div
 						className="absolute top-10 right-10 w-max bg-primary-light border-2 border-primary p-1 rounded-[5px] cursor-pointer"
-						onClick={() => navigate({ to: "/interactive-content-designer" })}
+						onClick={() => navigate({ to: "/" })}
 					>
 						<CloseIcon />
 					</div>

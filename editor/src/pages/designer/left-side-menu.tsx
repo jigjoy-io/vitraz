@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useDispatch } from "react-redux"
-import { getPages, publishPage, updatePage } from "../../api/page"
+import { publishPage, updatePage } from "../../api/page"
 import Alert from "../../components/alert/alert"
 import Button from "../../components/button/button"
-import { pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/page-reducer"
+import { pageUpdated, rootPageUpdated } from "../../reducers/page-reducer"
 import { usePages, useRootPage } from "../../util/store"
 import Node from "./node"
-import { Link, useNavigate, useSearch } from "@tanstack/react-router"
+import { Link, useNavigate } from "@tanstack/react-router"
 import { sidebarExpanded } from "../../reducers/sidebar-reducer"
 import Loader from "../../components/loader/loader"
 import AddBlockIcon from "../../icons/add-block-icon"
-import Tutorial from "./right-side-menu/components/tutorial"
 import BookIcon from "../../icons/book-icon."
 import AI from "./right-side-menu/components/ai"
 import MagicIcon from "../../icons/magic-icon"
@@ -25,34 +24,6 @@ export default function LeftSideMenu() {
 	const [showError, setShowError] = useState(false)
 
 	const dispatch = useDispatch()
-
-	const { action } = useSearch({
-		from: "/interactive-content-designer",
-		select: (search: any) => {
-			return {
-				action: search.action,
-			}
-		},
-	})
-
-	async function fetchData() {
-		let fetchedPages = await getPages()
-
-		if (!page) {
-			dispatch(rootPageUpdated(fetchedPages[0]))
-			dispatch(pageUpdated(fetchedPages[0]))
-			dispatch(pagesUpdated(fetchedPages))
-		} else {
-			const fetchedPage = fetchedPages.find((fp) => fp.id == page.id)
-			dispatch(rootPageUpdated(fetchedPage))
-			dispatch(pageUpdated(fetchedPage))
-			dispatch(pagesUpdated(fetchedPages))
-		}
-	}
-
-	useEffect(() => {
-		if (action != "page-creation") fetchData()
-	}, [])
 
 	const enterPreview = () => {
 		navigate({ to: "/preview" })
@@ -131,19 +102,6 @@ export default function LeftSideMenu() {
 						<div className="flex items-center">JigJoy AI</div>
 					</div>
 				</div>
-
-				<div
-					className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center"
-					onClick={() => dispatch(sidebarExpanded({ expanded: true, component: Tutorial }))}
-				>
-					<div className="flex flex-row w-[100%] h-[100%]">
-						<div className="pr-2 flex items-center">
-							<BookIcon />
-						</div>
-						<div className="flex items-center">Tutorial</div>
-					</div>
-				</div>
-
 			</div>
 
 			<div className="w-full relative h-[300px] min-h-[300px] pt-4">

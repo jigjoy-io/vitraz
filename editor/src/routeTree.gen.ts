@@ -11,8 +11,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as InteractiveContentDesignerRouteImport } from './routes/interactive-content-designer'
 import { Route as PageIdRouteImport } from './routes/$pageId'
+import { Route as IndexRouteImport } from './routes/index'
 
 const PreviewLazyRouteImport = createFileRoute('/preview')()
 const OnboardingLazyRouteImport = createFileRoute('/onboarding')()
@@ -27,57 +27,47 @@ const OnboardingLazyRoute = OnboardingLazyRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/onboarding.lazy').then((d) => d.Route))
-const InteractiveContentDesignerRoute =
-  InteractiveContentDesignerRouteImport.update({
-    id: '/interactive-content-designer',
-    path: '/interactive-content-designer',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const PageIdRoute = PageIdRouteImport.update({
   id: '/$pageId',
   path: '/$pageId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/$pageId': typeof PageIdRoute
-  '/interactive-content-designer': typeof InteractiveContentDesignerRoute
   '/onboarding': typeof OnboardingLazyRoute
   '/preview': typeof PreviewLazyRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/$pageId': typeof PageIdRoute
-  '/interactive-content-designer': typeof InteractiveContentDesignerRoute
   '/onboarding': typeof OnboardingLazyRoute
   '/preview': typeof PreviewLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/$pageId': typeof PageIdRoute
-  '/interactive-content-designer': typeof InteractiveContentDesignerRoute
   '/onboarding': typeof OnboardingLazyRoute
   '/preview': typeof PreviewLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/$pageId'
-    | '/interactive-content-designer'
-    | '/onboarding'
-    | '/preview'
+  fullPaths: '/' | '/$pageId' | '/onboarding' | '/preview'
   fileRoutesByTo: FileRoutesByTo
-  to: '/$pageId' | '/interactive-content-designer' | '/onboarding' | '/preview'
-  id:
-    | '__root__'
-    | '/$pageId'
-    | '/interactive-content-designer'
-    | '/onboarding'
-    | '/preview'
+  to: '/' | '/$pageId' | '/onboarding' | '/preview'
+  id: '__root__' | '/' | '/$pageId' | '/onboarding' | '/preview'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   PageIdRoute: typeof PageIdRoute
-  InteractiveContentDesignerRoute: typeof InteractiveContentDesignerRoute
   OnboardingLazyRoute: typeof OnboardingLazyRoute
   PreviewLazyRoute: typeof PreviewLazyRoute
 }
@@ -98,13 +88,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/interactive-content-designer': {
-      id: '/interactive-content-designer'
-      path: '/interactive-content-designer'
-      fullPath: '/interactive-content-designer'
-      preLoaderRoute: typeof InteractiveContentDesignerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/$pageId': {
       id: '/$pageId'
       path: '/$pageId'
@@ -112,12 +95,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PageIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   PageIdRoute: PageIdRoute,
-  InteractiveContentDesignerRoute: InteractiveContentDesignerRoute,
   OnboardingLazyRoute: OnboardingLazyRoute,
   PreviewLazyRoute: PreviewLazyRoute,
 }

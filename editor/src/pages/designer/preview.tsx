@@ -13,7 +13,7 @@ export default function Preview() {
 	}, [])
 
 	const turnOffPreview = () => {
-		navigate({ to: "/interactive-content-designer" })
+		navigate({ to: "/" })
 	}
 
 	return (
