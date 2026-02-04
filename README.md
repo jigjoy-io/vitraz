@@ -1,10 +1,8 @@
-# Interactive Content Designer
-
-Welcome to the Interactive Content Designer repository! This project enables individuals to craft interactive applications using predefined building blocks.
+# Stained Glass Editor
 
 ## Overview
 
-With a modular approach, users can mix and match different components to build unique applications tailored to their needs.
+With a modular approach, users can mix and match different components to build unique interactive documents.
 
 ## Running the Project Locally
 
