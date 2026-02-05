@@ -10,7 +10,6 @@ const Question = lazy(() => import("../../components/question/question"))
 const CarouselTile = lazy(() => import("../../components/carousel/carousel-tile"))
 const Message = lazy(() => import("../../components/message/message"))
 const Reel = lazy(() => import("../../components/reel/reel"))
-const Profile = lazy(() => import("../../components/profile/profile"))
 const CarouselConfigurer = lazy(() => import("../../components/carousel/carousel-configurer"))
 const PageTile = lazy(() => import("../../components/page/page-tile"))
 const PageConfigurer = lazy(() => import("../../components/page/page-configurer"))
@@ -59,9 +58,6 @@ export default class BlockFactory extends React.Component {
 		},
 		"reel-configurer": {
 			component: ReelConfigurer,
-		},
-		profile: {
-			component: Profile,
 		},
 		"carousel-configurer": {
 			component: CarouselConfigurer,

@@ -6,7 +6,6 @@ const gaps = {
 	image: "py-3",
 	question: "py-3",
 	message: "py-3",
-	profile: "py-3",
 	"carousel-tile": "py-3",
 	"page-tile": "py-3",
 	"block-selector": "py-1",

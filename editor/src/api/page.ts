@@ -119,13 +119,6 @@ function seedMockPages(origin: string): any[] {
 		config: {
 			buildingBlocks: [
 				createMockBlock("block-selector"),
-				createMockBlock("profile", {
-					firstName: "Jane",
-					lastName: "Doe",
-					description: "Expert in design.",
-					image: "/public/images/profiletileplaceholderimage.jpg",
-					username: "@jane",
-				}),
 				createMockBlock("title", { text: "Learn something" }),
 				createMockBlock("question", {
 					content: { displayQuestion: true, text: "What is 2 + 2?", displayImage: false, image: "" },

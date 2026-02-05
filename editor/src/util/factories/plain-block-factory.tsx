@@ -9,7 +9,6 @@ export default class PlainBlockFactory extends React.Component {
 		"title",
 		"image",
 		"question",
-		"profile",
 		"carousel-tile",
 		"page-tile",
 		"reel",

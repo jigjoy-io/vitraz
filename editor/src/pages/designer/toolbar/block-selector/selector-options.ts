@@ -1,4 +1,3 @@
-import ProfileIcon from "../../../../icons/profile-icon"
 import PageIcon from "../../../../icons/page-icon"
 import CarouselIcon from "../../../../icons/carousel-icon"
 import RenameIcon from "../../../../icons/rename-icon"
@@ -11,17 +10,6 @@ import MessageIcon from "../../../../icons/message-icon"
 export class SelectorOptions {
 	static getOptions() {
 		let options = [
-			{
-				key: "profile",
-				commands: [
-					{
-						key: "profile",
-						label: "Profile",
-						description: "Showcase personal information and expertise.",
-						icon: ProfileIcon,
-					},
-				],
-			},
 			{
 				key: "pages",
 				commands: [

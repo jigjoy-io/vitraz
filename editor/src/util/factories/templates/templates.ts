@@ -95,14 +95,6 @@ export class TemplatesStorage {
 				source: "https://www.w3schools.com/html/mov_bbb.mp4",
 				display: true,
 			},
-			profile: {
-				type: "profile",
-				firstName: "First Name",
-				lastName: "Last Name",
-				description: "Description...",
-				image: "/public/images/profiletileplaceholderimage.jpg",
-				username: "@username",
-			},
 			"carousel-tile": {
 				type: "carousel-tile",
 				title: "Title",
