@@ -47,7 +47,7 @@ export default function BlockSelector(props: any) {
 		if (inputRef.current) {
 			let rect: any = inputRef.current.getBoundingClientRect()
 
-			setLeft(rect.left + rect.width)
+			setLeft(rect.width)
 
 			if (rect.top + window.innerHeight / 2 > window.innerHeight) {
 				setTop(rect.top)
@@ -145,23 +145,21 @@ export default function BlockSelector(props: any) {
 					<ClickOutsideListener callback={closeMenu}>
 						<div
 							style={{ top: top, left: left, transform: `translate(-100%, -${calculateY()}%)` }}
-							className={`fixed flex flex-col w-[100%] md:max-w-[340px] h-auto max-h-[400px] overflow-y-auto bg-white shadow rounded-[2px] p-1 -translate-x-[100%]`}
+							className={`fixed flex flex-col w-[100%] md:max-w-[340px] h-auto max-h-[400px] overflow-y-auto bg-white shadow rounded-lg -translate-x-[100%]`}
 						>
-							{options.map((option: any, index: any) => (
+							{options.map((option: any, index: number) => (
 								<div key={option.key}>
 									{option.commands.map((command: any) => (
-										<div className="p-1" key={command.key}>
+										<div key={command.key}>
 											<Item
 												icon={command.icon}
 												text={command.label}
 												tabFocus={true}
 												action={(e: any) => insert(e, command.key)}
-											>
-												<div className="mt-2">{command.description}</div>
-											</Item>
+											></Item>
 										</div>
 									))}
-									{options.length != index + 1 && <hr />}
+									{options.length != index + 1 && <hr className="border-default-light" />}
 								</div>
 							))}
 						</div>

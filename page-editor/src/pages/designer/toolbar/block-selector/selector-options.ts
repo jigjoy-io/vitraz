@@ -14,7 +14,6 @@ export class SelectorOptions {
 					{
 						key: "page-configurer",
 						label: "Blank Page",
-						description: "Create a sub-page inside this page",
 						icon: PageIcon,
 					},
 				],
@@ -25,19 +24,16 @@ export class SelectorOptions {
 					{
 						key: "title",
 						label: "Title",
-						description: "Create a bold section heading",
 						icon: RenameIcon,
 					},
 					{
 						key: "heading",
 						label: "Heading",
-						description: "Create a medium section heading",
 						icon: RenameIcon,
 					},
 					{
 						key: "text",
 						label: "Text",
-						description: "Begin writing with plain text",
 						icon: RenameIcon,
 					},
 				],
@@ -49,13 +45,11 @@ export class SelectorOptions {
 					{
 						key: "image-configurer",
 						label: "Image",
-						description: "Upload an image or insert its link.",
 						icon: ImageIcon,
 					},
 					{
 						key: "audio-configurer",
 						label: "Audio",
-						description: "Upload audio or insert its link.",
 						icon: AudioIcon,
 					},
 				],
@@ -66,13 +60,11 @@ export class SelectorOptions {
 					{
 						key: "question",
 						label: "Question",
-						description: "Test user's knowledge by asking question.",
 						icon: QuestionIcon,
 					},
 					{
 						key: "message",
 						label: "Message",
-						description: "Display message bubble.",
 						icon: MessageIcon,
 					},
 				],
