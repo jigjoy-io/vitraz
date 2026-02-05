@@ -18,12 +18,9 @@ export const editorSlice = createSlice({
 		blockingUpdated: (state, action: PayloadAction<any>) => {
 			state.blocked = action.payload
 		},
-		selectBlocks: (state, action: PayloadAction<any>) => {
-			state.selectedBlocks = action.payload
-		},
 	},
 })
 
-export const { blockingUpdated, selectBlocks } = editorSlice.actions
+export const { blockingUpdated } = editorSlice.actions
 
 export default editorSlice.reducer

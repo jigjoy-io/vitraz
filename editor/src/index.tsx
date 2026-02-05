@@ -7,8 +7,6 @@ import { routeTree } from "./routeTree.gen"
 import { persistor, store } from "./util/store"
 
 import { PersistGate } from "redux-persist/integration/react"
-import { DndProvider } from "react-dnd"
-import { HTML5Backend } from "react-dnd-html5-backend"
 
 const root = document.createElement("div")
 document.body.appendChild(root)
@@ -27,12 +25,10 @@ declare module "@tanstack/react-router" {
 
 rootDiv.render(
 	<React.StrictMode>
-		<DndProvider backend={HTML5Backend}>
-			<Provider store={store}>
-				<PersistGate loading={null} persistor={persistor}>
-					<RouterProvider router={router} />
-				</PersistGate>
-			</Provider>
-		</DndProvider>
+		<Provider store={store}>
+			<PersistGate loading={null} persistor={persistor}>
+				<RouterProvider router={router} />
+			</PersistGate>
+		</Provider>
 	</React.StrictMode>,
 )

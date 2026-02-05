@@ -52,11 +52,6 @@ export default function PageConfigurer(props: any) {
 		}
 	}, [display])
 
-	const openConfigurer = () => {
-		setDisplay(true)
-		dispatch(blockingUpdated(true))
-	}
-
 	/**
 	 * Creates a new page block and replace page configurer block with newly created page tile.
 	 * Dispatches an action to replace the existing block with the new block.
@@ -171,14 +166,6 @@ export default function PageConfigurer(props: any) {
 					</ClickOutsideListener>,
 					document.body,
 				)}
-			<div
-				ref={ref}
-				onClick={openConfigurer}
-				className="w-[100%] py-[8px] bg-default-light hover:bg-gray-300 cursor-pointer rounded-[5px] flex items-center pl-5 hover:opacity-60"
-			>
-				<CarouselIcon />
-				<div className="pl-2">Click to add a page</div>
-			</div>
 		</div>
 	)
 }

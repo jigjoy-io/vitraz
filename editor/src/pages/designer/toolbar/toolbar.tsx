@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux"
 import { AddNewBlock } from "./builder/add-new-block"
 import { createPortal } from "react-dom"
 import { AnimatePresence, LazyMotion, m } from "framer-motion"
-import { useSelectedBlocks } from "../../../util/store"
 import { blockingUpdated } from "../../../reducers/editor-reducer"
 import { insertBlock, removeBlock } from "../../../reducers/page-reducer"
 import { duplicateBlock } from "../../../util/traversals/duplcate-block"
@@ -14,8 +13,6 @@ import OpenMenuIcon from "../../../icons/open-menu-icon"
 import DeleteBlockIcon from "../../../icons/delete-block-icon"
 import Grid from "../../../components/grid/grid"
 import Item from "../../../components/item/item"
-import { useDrag } from "react-dnd"
-import { getEmptyImage } from "react-dnd-html5-backend"
 
 const animation = {
 	hidden: { opacity: 0 },
@@ -48,36 +45,6 @@ export default function Toolbar(props: any) {
 	const [editorLeft, setEditorLeft] = useState<number>()
 
 	const dispatch = useDispatch()
-	const selectedBlocks = useSelectedBlocks()
-
-	const [{ isDragging }, drag, dragPreview] = useDrag<any, void, { isDragging: boolean }>(
-		() => ({
-			type: "BLOCK",
-			item: {
-				type: "BLOCK",
-				index: props.index,
-				block: props.block,
-			},
-			collect: (monitor) => ({
-				isDragging: monitor.isDragging(),
-			}),
-			preview: {
-				captureDraggingState: true,
-			},
-		}),
-
-		[props.index, props.block],
-	)
-
-	useEffect(() => {
-		if (containerRef.current && !selectedBlocks) {
-			dragPreview(containerRef.current)
-		}
-	}, [dragPreview])
-
-	useEffect(() => {
-		dragPreview(getEmptyImage(), { captureDraggingState: true })
-	}, [])
 
 	const handleMouseMove = (e: MouseEvent) => {
 		if (containerRef.current) {
@@ -173,7 +140,6 @@ export default function Toolbar(props: any) {
 			onMouseLeave={() => setOn(false)}
 			className={`
             sticky flex flex-col
-            ${isDragging ? "opacity-50 bg-gray-100 rounded-lg" : ""}
         `}
 		>
 			<LazyMotion features={loadFeatures}>
@@ -194,11 +160,7 @@ export default function Toolbar(props: any) {
 												</div>
 											}
 										>
-											<div
-												ref={drag}
-												className="cursor-grab active:cursor-grabbing"
-												style={{ opacity: isDragging ? 0.4 : 1 }}
-											>
+											<div className="cursor-grab active:cursor-grabbing">
 												<OpenMenuIcon />
 											</div>
 										</ToolbarButtonWrapper>
