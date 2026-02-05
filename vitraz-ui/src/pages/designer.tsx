@@ -53,7 +53,7 @@ export default function Designer() {
 					<LeftSideMenu />
 				</div>
 				<div
-					className={`bg-gray-100 flex flex-col p-20 ${sidebarVisible ? "grow" : "w-[100%]"} max-h-[100dvh] h-[100dvh] overflow-y-auto`}
+					className={`bg-gray-100 flex flex-col px-20 pt-20 ${sidebarVisible ? "grow" : "w-[100%]"} max-h-[100dvh] h-[100dvh] overflow-y-auto`}
 				>
 					<div className="grow">{page && <Page />}</div>
 				</div>

@@ -6,7 +6,7 @@ function Page() {
 	const page = usePage()
 
 	return (
-		<div className="flex flex-col h-full justify-center items-center px-10 bg-white rounded-lg">
+		<div className="flex flex-col h-full justify-center items-center p-20 bg-white">
 			{page != null && PageFactory.get(page)}
 		</div>
 	)
