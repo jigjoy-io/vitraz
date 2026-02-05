@@ -9,11 +9,10 @@ import Node from "./node"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { sidebarExpanded } from "../../reducers/sidebar-reducer"
 import Loader from "../../components/loader/loader"
-import AddBlockIcon from "../../icons/add-block-icon"
-import BookIcon from "../../icons/book-icon."
-import AI from "./right-side-menu/components/ai"
+
 import MagicIcon from "../../icons/magic-icon"
 import { v4 as uuidv4 } from "uuid"
+import SidePanel from "./right-side-menu/side-panel"
 
 export default function LeftSideMenu() {
 	const navigate = useNavigate()
@@ -81,13 +80,13 @@ export default function LeftSideMenu() {
 
 				<div
 					className="flex flex-col pl-4 hover:cursor-pointer hover:bg-primary-light h-[30px] items-center"
-					onClick={() => dispatch(sidebarExpanded({ expanded: true, component: AI }))}
+					onClick={() => dispatch(sidebarExpanded({ expanded: true, component: SidePanel }))}
 				>
 					<div className="flex flex-row w-[100%] h-[100%]">
 						<div className="pr-2 flex items-center">
 							<MagicIcon />
 						</div>
-						<div className="flex items-center">JigJoy AI</div>
+						<div className="flex items-center">Right Side Menu</div>
 					</div>
 				</div>
 			</div>

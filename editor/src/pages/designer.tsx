@@ -1,13 +1,13 @@
 import React, { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import Page from "../../components/page"
-import { modeUpdated, rootPageUpdated } from "../../reducers/page-reducer"
-import { AppDispatch, useBlocked, useModified, usePage, useRootPage, useSidebarVisible } from "../../util/store"
-import { updatePage } from "../../api/page"
-import { replaceBlock } from "../../util/traversals/replace-block"
-import LeftSideMenu from "./left-side-menu"
-import { RightSideMenu } from "./right-side-menu/right-side-menu"
-import { blockingUpdated } from "../../reducers/editor-reducer"
+import Page from "../components/page"
+import { modeUpdated, rootPageUpdated } from "../reducers/page-reducer"
+import { AppDispatch, useBlocked, useModified, usePage, useRootPage, useSidebarVisible } from "../util/store"
+import { updatePage } from "../api/page"
+import { replaceBlock } from "../util/traversals/replace-block"
+import LeftSideMenu from "./designer/left-side-menu"
+import { RightSideMenu } from "./designer/right-side-menu/right-side-menu"
+import { blockingUpdated } from "../reducers/editor-reducer"
 
 export default function Designer() {
 	const blocked = useBlocked()

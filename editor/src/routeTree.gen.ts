@@ -15,18 +15,12 @@ import { Route as PageIdRouteImport } from './routes/$pageId'
 import { Route as IndexRouteImport } from './routes/index'
 
 const PreviewLazyRouteImport = createFileRoute('/preview')()
-const OnboardingLazyRouteImport = createFileRoute('/onboarding')()
 
 const PreviewLazyRoute = PreviewLazyRouteImport.update({
   id: '/preview',
   path: '/preview',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/preview.lazy').then((d) => d.Route))
-const OnboardingLazyRoute = OnboardingLazyRouteImport.update({
-  id: '/onboarding',
-  path: '/onboarding',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./routes/onboarding.lazy').then((d) => d.Route))
 const PageIdRoute = PageIdRouteImport.update({
   id: '/$pageId',
   path: '/$pageId',
@@ -41,34 +35,30 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$pageId': typeof PageIdRoute
-  '/onboarding': typeof OnboardingLazyRoute
   '/preview': typeof PreviewLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$pageId': typeof PageIdRoute
-  '/onboarding': typeof OnboardingLazyRoute
   '/preview': typeof PreviewLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$pageId': typeof PageIdRoute
-  '/onboarding': typeof OnboardingLazyRoute
   '/preview': typeof PreviewLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$pageId' | '/onboarding' | '/preview'
+  fullPaths: '/' | '/$pageId' | '/preview'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$pageId' | '/onboarding' | '/preview'
-  id: '__root__' | '/' | '/$pageId' | '/onboarding' | '/preview'
+  to: '/' | '/$pageId' | '/preview'
+  id: '__root__' | '/' | '/$pageId' | '/preview'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PageIdRoute: typeof PageIdRoute
-  OnboardingLazyRoute: typeof OnboardingLazyRoute
   PreviewLazyRoute: typeof PreviewLazyRoute
 }
 
@@ -79,13 +69,6 @@ declare module '@tanstack/react-router' {
       path: '/preview'
       fullPath: '/preview'
       preLoaderRoute: typeof PreviewLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/onboarding': {
-      id: '/onboarding'
-      path: '/onboarding'
-      fullPath: '/onboarding'
-      preLoaderRoute: typeof OnboardingLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$pageId': {
@@ -108,7 +91,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PageIdRoute: PageIdRoute,
-  OnboardingLazyRoute: OnboardingLazyRoute,
   PreviewLazyRoute: PreviewLazyRoute,
 }
 export const routeTree = rootRouteImport
