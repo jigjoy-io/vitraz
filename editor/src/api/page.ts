@@ -1,7 +1,5 @@
 import { v4 as uuidv4 } from "uuid"
 
-export const API_HOST = process.env.REACT_APP_API
-
 // --- In-memory mock store (replaces backend) ---
 const pagesById = new Map<string, any>()
 const publishedById = new Map<string, any>()

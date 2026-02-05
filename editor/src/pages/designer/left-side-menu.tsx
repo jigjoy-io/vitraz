@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import Button from "../../components/button/button"
 import { usePages, useRootPage } from "../../util/store"
 import Node from "./node"
-import { Link, useNavigate } from "@tanstack/react-router"
+import { useNavigate } from "@tanstack/react-router"
 import { sidebarExpanded } from "../../reducers/sidebar-reducer"
 
 import MagicIcon from "../../icons/magic-icon"
