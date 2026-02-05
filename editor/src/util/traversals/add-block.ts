@@ -30,8 +30,6 @@ export function addBlock(page: any, payload: any) {
 	delete page.mode
 	if (page.type == "blank") {
 		page = addToBlankPage(page, payload)
-	} else if (page.type == "carousel") {
-		page = addToCarouselPage(page, payload)
 	}
 	return page
 }

@@ -3,7 +3,7 @@ function traversBlankPage(page: any, block: any) {
 		if (page.config.buildingBlocks[i].id == block.id) {
 			page.config.buildingBlocks[i] = block
 			return page
-		} else if (page.config.buildingBlocks[i].type == "page-tile" || page.config.buildingBlocks[i].type == "carousel-tile") {
+		} else if (page.config.buildingBlocks[i].type == "page-tile") {
 			page.config.buildingBlocks[i].page = traversPage(page.config.buildingBlocks[i].page, block)
 		}
 	}
@@ -42,8 +42,6 @@ function traversPage(page, block) {
 		return page
 	} else if (page.type == "blank") {
 		page = traversBlankPage(page, block)
-	} else if (page.type == "carousel") {
-		page = traversCarouselPage(page, block)
 	}
 	return page
 }

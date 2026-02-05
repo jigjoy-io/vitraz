@@ -12,7 +12,6 @@ interface PageState {
 	mode: string
 	activeBlock: string | null
 	pages: any[]
-	currentCarouselPage: number | null
 	activePlayer: string | null
 	selected: string | null
 	expandedPages: string[]
@@ -25,7 +24,6 @@ let initialState: PageState = {
 	mode: "visiting",
 	activeBlock: null,
 	pages: [],
-	currentCarouselPage: null,
 	activePlayer: null,
 	selected: null,
 	expandedPages: [],
@@ -59,10 +57,6 @@ export const pageSlice = createSlice({
 
 				if (state.activePage.type == "blank") {
 					state.selected = state.activePage.id
-				}
-
-				if (state.activePage.type == "carousel" && state.currentCarouselPage == null) {
-					state.selected = state.activePage.config.pages[0].id
 				}
 			}
 		},
@@ -111,11 +105,6 @@ export const pageSlice = createSlice({
 			state.pages = action.payload
 		},
 
-		carouselPageSwitched: (state, action: PayloadAction<any>) => {
-			state.currentCarouselPage = action.payload
-			state.selected = action.payload
-		},
-
 		activePlayerUpdated: (state, action: PayloadAction<any>) => {
 			state.activePlayer = action.payload
 		},
@@ -128,6 +117,19 @@ export const pageSlice = createSlice({
 	},
 })
 
-export const { pageCollapsed, pageExpanded, rootPageUpdated, pageUpdated, modeUpdated, insertBlock, removeBlock, updateBlock, appendBlock, focusBlock, pagesUpdated, carouselPageSwitched, activePlayerUpdated } = pageSlice.actions
+export const {
+	pageCollapsed,
+	pageExpanded,
+	rootPageUpdated,
+	pageUpdated,
+	modeUpdated,
+	insertBlock,
+	removeBlock,
+	updateBlock,
+	appendBlock,
+	focusBlock,
+	pagesUpdated,
+	activePlayerUpdated,
+} = pageSlice.actions
 
 export default pageSlice.reducer

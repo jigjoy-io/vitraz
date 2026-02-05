@@ -104,7 +104,7 @@ export default function EditPageContent(props: any) {
 	return (
 		<div className="bg-white h-full flex flex-col break-words" onClick={handleClick}>
 			<div className={`relative ${isOver && canDrop ? "bg-gray-50" : ""} flex items-center justify-center`} ref={drop}>
-				<div className="flex flex-col w-full md:max-w-[360px]">
+				<div className="flex flex-col w-full md:max-w-full">
 					<LazyMotion features={loadFeatures}>
 						<m.div variants={animation} initial="hidden" animate="show">
 							<DragSelection />

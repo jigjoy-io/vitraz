@@ -48,25 +48,7 @@ export default class TemplateFactory {
 		return reelBlock
 	}
 
-	static createCarouselPage(origin, numberOfPages = 3) {
-		let page = this.create("carousel")
-		page.origin = origin
-		let pages: any = []
-
-		// create carousel inner pages
-		for (let i = 0; i < numberOfPages; i++) {
-			let innerPage = this.createBlankPage(page.id)
-			pages.push(innerPage)
-		}
-
-		page.config.pages = pages
-
-		return page
-	}
-
 	static createPage(type, origin) {
-		if (type == "carousel") return this.createCarouselPage(origin)
-
 		if (type == "blank") return this.createBlankPage(origin)
 
 		throw "Page not supported"
@@ -84,15 +66,6 @@ export default class TemplateFactory {
 		}
 	}
 
-	static createCarouselTileBlock(origin, numberOfPages = 3) {
-		let block = this.create("carousel-tile")
-		let page = this.createCarouselPage(origin, numberOfPages)
-
-		block.page = page
-
-		return block
-	}
-
 	static createPageTileBlock(origin) {
 		let block = this.create("page-tile")
 		let page = this.createBlankPage(origin)
@@ -103,10 +76,9 @@ export default class TemplateFactory {
 	}
 
 	static createTile(type, origin) {
-		if (type != "carousel-tile" && type != "page-tile") throw "Page not supported"
+		if (type != "page-tile") throw "Page not supported"
 
 		let block: any = null
-		if (type == "carousel-tile") block = this.createCarouselTileBlock(origin)
 
 		if (type == "page-tile") block = this.createPageTileBlock(origin)
 

@@ -28,75 +28,6 @@ function seedMockPages(origin: string): any[] {
 		},
 	}
 
-	const carouselInner1 = {
-		id: uuidv4(),
-		type: "blank",
-		name: "Slide 1",
-		environment: "development",
-		linkedPageId: null,
-		origin: "mock-carousel",
-		config: {
-			buildingBlocks: [
-				createMockBlock("block-selector"),
-				createMockBlock("title", { text: "First slide" }),
-				createMockBlock("text", { text: "Carousel content." }),
-			],
-		},
-	}
-	const carouselInner2 = {
-		id: uuidv4(),
-		type: "blank",
-		name: "Slide 2",
-		environment: "development",
-		linkedPageId: null,
-		origin: "mock-carousel",
-		config: {
-			buildingBlocks: [
-				createMockBlock("block-selector"),
-				createMockBlock("heading", { text: "Second slide" }),
-				createMockBlock("question", {
-					content: { displayQuestion: true, text: "Quiz?", displayImage: false, image: "" },
-					answers: [
-						{ id: uuidv4(), correct: false, text: "A" },
-						{ id: uuidv4(), correct: true, text: "B" },
-					],
-					outcomes: {
-						confirmationButtonText: "Check",
-						correct: { message: "Correct!", title: "Great", type: "success" },
-						incorrect: { message: "Wrong", title: "Oops", type: "danger" },
-					},
-				}),
-			],
-		},
-	}
-	const carouselInner3 = {
-		id: uuidv4(),
-		type: "blank",
-		name: "Slide 3",
-		environment: "development",
-		linkedPageId: null,
-		origin: "mock-carousel",
-		config: {
-			buildingBlocks: [
-				createMockBlock("block-selector"),
-				createMockBlock("message", { message: "Well done!", audio: "", position: "left", color: "rose" }),
-			],
-		},
-	}
-
-	const carouselPage = {
-		id: "mock-carousel",
-		type: "carousel",
-		name: "Carousel demo",
-		environment: "development",
-		linkedPageId: null,
-		origin,
-		config: {
-			pages: [carouselInner1, carouselInner2, carouselInner3],
-			buttons: { previous: "Previous", next: "Next", home: "Back to Home" },
-		},
-	}
-
 	const blankMinimal = {
 		id: "mock-blank-minimal",
 		type: "blank",
@@ -138,7 +69,7 @@ function seedMockPages(origin: string): any[] {
 		},
 	}
 
-	return [blankWithBlocks, carouselPage, blankMinimal, richPage]
+	return [blankWithBlocks, blankMinimal, richPage]
 }
 
 function ensureMockPages(origin: string): any[] {

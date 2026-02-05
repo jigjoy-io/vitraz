@@ -3,7 +3,7 @@ function deleteFromBlankPage(page: any, blockId: any) {
 
 	let filtered: any[] = []
 	page.config.buildingBlocks.forEach((block) => {
-		if (block.type == "carousel-tile" || block.type == "page-tile") {
+		if (block.type == "page-tile") {
 			if (block.page.id !== blockId) {
 				block.page = deletePage(block.page, blockId)
 				filtered.push(block)
@@ -38,8 +38,6 @@ export function deletePage(page: any, blockId: any) {
 
 	if (page.type == "blank") {
 		page = deleteFromBlankPage(page, blockId)
-	} else if (page.type == "carousel") {
-		page = deleteFromCarouselPage(page, blockId)
 	}
 	return page
 }

@@ -16,7 +16,5 @@ function addToCarouselPage(page: any, payload: any) {
 export function pushBlock(page: any, payload: any) {
 	if (page.type == "blank") {
 		return addToBlankPage(page, payload)
-	} else if (page.type == "carousel") {
-		return addToCarouselPage(page, payload)
 	}
 }

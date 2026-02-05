@@ -7,18 +7,7 @@ interface Block {
 
 const getBlocks = () => {
 	const state: any = store.getState().page
-
-	let blocks = []
-	if (state.activePage.type == "carousel") {
-		const currentCarousel = state.currentCarouselPage
-			? state.activePage.config.pages.findIndex((page) => page.id == state.currentCarouselPage)
-			: 0
-
-		blocks = state.activePage.config.pages[currentCarousel].config.buildingBlocks
-	} else {
-		blocks = state.activePage.config.buildingBlocks
-	}
-	return blocks
+	return state.activePage.config.buildingBlocks
 }
 export const findPreviousTextBlock = (currentBlockId: string): Block | null => {
 	const blocks: Block[] = getBlocks()

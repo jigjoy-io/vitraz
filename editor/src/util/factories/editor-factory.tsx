@@ -6,7 +6,6 @@ import EditableQuestion from "../../pages/designer/toolbar/builder/editable-ques
 import EditableReel from "../../pages/designer/toolbar/builder/editable-reel"
 import EditableMessage from "../../pages/designer/toolbar/builder/editable-message"
 import EditableAudio from "../../pages/designer/toolbar/builder/editable-audio"
-import EditableCarouselTile from "../../pages/designer/toolbar/builder/editable-carousel-tile"
 import BasicEditableBlock from "../../pages/designer/toolbar/builder/basic-editable-block"
 import EditablePageTile from "../../pages/designer/toolbar/builder/editable-page-tile"
 
@@ -48,14 +47,8 @@ export default class EditorFactory extends React.Component {
 		"audio-configurer": {
 			builder: new BasicEditableBlock(),
 		},
-		"carousel-tile": {
-			builder: new EditableCarouselTile(),
-		},
 		cta: {
 			builder: new NoneEditableBlock(),
-		},
-		"carousel-configurer": {
-			builder: new BasicEditableBlock(),
 		},
 		"page-configurer": {
 			builder: new BasicEditableBlock(),

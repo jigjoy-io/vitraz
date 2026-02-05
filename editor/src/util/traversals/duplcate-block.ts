@@ -24,15 +24,7 @@ function replaceIds(block) {
 		delete block.ident
 		delete block.mode
 		block = refineBuildingBlocks(block)
-	} else if (block.type == "carousel") {
-		//TODO: REMOVE AFTER REFACTORE
-		delete block.root
-		delete block.ident
-		delete block.mode
-		block = refinePages(block)
 	} else if (block.type == "page-tile") {
-		block.page = replaceIds(block.page)
-	} else if (block.type == "carousel-tile") {
 		block.page = replaceIds(block.page)
 	}
 	return block

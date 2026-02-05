@@ -1,0 +1,30 @@
+{
+  "name": "jigjoy-template",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "rspack serve --config configs/rspack.dev.js",
+    "serve": "rspack serve --config configs/rspack.dev.js",
+    "build": "rspack --config configs/rspack.prod.js",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\""
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@rspack/cli": "^1.2.2",
+    "@rspack/core": "^1.2.2",
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "dotenv-webpack": "^8.1.0",
+    "postcss": "^8.5.1",
+    "postcss-loader": "^8.1.1",
+    "prettier": "^3.4.2",
+    "tailwindcss": "^4.0.0",
+    "ts-checker-rspack-plugin": "^1.1.1",
+    "typescript": "^5.7.2",
+    "webpack-merge": "^6.0.1"
+  }
+}

@@ -7,10 +7,8 @@ const Title = lazy(() => import("../../components/title/title"))
 const Image = lazy(() => import("../../components/image/image"))
 const Button = lazy(() => import("../../components/button/button"))
 const Question = lazy(() => import("../../components/question/question"))
-const CarouselTile = lazy(() => import("../../components/carousel/carousel-tile"))
 const Message = lazy(() => import("../../components/message/message"))
 const Reel = lazy(() => import("../../components/reel/reel"))
-const CarouselConfigurer = lazy(() => import("../../components/carousel/carousel-configurer"))
 const PageTile = lazy(() => import("../../components/page/page-tile"))
 const PageConfigurer = lazy(() => import("../../components/page/page-configurer"))
 const BlockSelector = lazy(() => import("../../pages/designer/toolbar/block-selector/block-selector"))
@@ -47,9 +45,6 @@ export default class BlockFactory extends React.Component {
 		question: {
 			component: Question,
 		},
-		"carousel-tile": {
-			component: CarouselTile,
-		},
 		message: {
 			component: Message,
 		},
@@ -58,9 +53,6 @@ export default class BlockFactory extends React.Component {
 		},
 		"reel-configurer": {
 			component: ReelConfigurer,
-		},
-		"carousel-configurer": {
-			component: CarouselConfigurer,
 		},
 		"page-tile": {
 			component: PageTile,

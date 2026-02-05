@@ -1,6 +1,6 @@
 function traversBlankPage(page: any, innerPage: any, parent) {
 	for (let i = 0; i < page.config.buildingBlocks.length; i++) {
-		if (page.config.buildingBlocks[i].type == "page-tile" || page.config.buildingBlocks[i].type == "carousel-tile") {
+		if (page.config.buildingBlocks[i].type == "page-tile") {
 			if (page.config.buildingBlocks[i].page.id == innerPage.id) {
 				return page
 			}
@@ -8,7 +8,7 @@ function traversBlankPage(page: any, innerPage: any, parent) {
 	}
 
 	for (let i = 0; i < page.config.buildingBlocks.length; i++) {
-		if (page.config.buildingBlocks[i].type == "page-tile" || page.config.buildingBlocks[i].type == "carousel-tile") {
+		if (page.config.buildingBlocks[i].type == "page-tile") {
 			parent = traversePage(page.config.buildingBlocks[i].page, innerPage, parent)
 		}
 	}
@@ -33,8 +33,6 @@ function traversCarouselPage(page: any, innerPage: any, parent) {
 export function traversePage(page, innerPage, parent) {
 	if (page.type == "blank") {
 		parent = traversBlankPage(page, innerPage, parent)
-	} else if (page.type == "carousel") {
-		parent = traversCarouselPage(page, innerPage, parent)
 	}
 
 	return parent

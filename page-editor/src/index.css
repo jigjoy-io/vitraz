@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+
+/* Define your custom colors */
+@theme {
+  --color-surface-1: #151515;
+  --color-surface-2: #252525;
+  --color-surface-3: #2F2F2F;
+  --color-clickable: #90E86F;
+  --color-base: #808080;
+  --color-disabled: #4D4D4D;
+  --color-outline: #4D4D4D;
+  --color-hover: #E5FD78;
+  --color-accent: #B08DF8;
+  --color-error: #E1CFF8;
+  --color-error-surface: #b08df8;
+  --color-heading: #C5C5C5;
+
+  /* Optional: Define your font sizes, fonts, and other variables here */
+  --font-body-size: 13px;
+  --line-height-body: 20px;
+}

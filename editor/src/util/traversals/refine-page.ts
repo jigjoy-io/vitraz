@@ -25,15 +25,7 @@ function refine(block) {
 		delete block.mode
 		block.type = "blank"
 		block = refineBuildingBlocks(block)
-	} else if (block.type == "carousel") {
-		//TODO: REMOVE AFTER REFACTORE
-		delete block.root
-		delete block.ident
-		delete block.mode
-		block = refinePages(block)
 	} else if (block.type == "page-tile") {
-		block.page = refine(block.page)
-	} else if (block.type == "carousel-tile") {
 		block.page = refine(block.page)
 	} else if (block.type == "question") {
 		for (let i = 0; i < block.answers.length; i++) {

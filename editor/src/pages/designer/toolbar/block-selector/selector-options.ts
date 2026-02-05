@@ -1,5 +1,4 @@
 import PageIcon from "../../../../icons/page-icon"
-import CarouselIcon from "../../../../icons/carousel-icon"
 import RenameIcon from "../../../../icons/rename-icon"
 import ImageIcon from "../../../../icons/image-icon"
 import VideoIcon from "../../../../icons/video-icon"
@@ -18,12 +17,6 @@ export class SelectorOptions {
 						label: "Blank Page",
 						description: "Create a sub-page inside this page",
 						icon: PageIcon,
-					},
-					{
-						key: "carousel-configurer",
-						label: "Carousel",
-						description: "Split content into multiple connected pages.",
-						icon: CarouselIcon,
 					},
 				],
 			},

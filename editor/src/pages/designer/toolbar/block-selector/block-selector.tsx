@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import { createPortal } from "react-dom"
-import { SelectorOptions } from "./selector-options"
 import { useActiveBlock, usePage } from "../../../../util/store"
 import { blockingUpdated } from "../../../../reducers/editor-reducer"
 import TemplateFactory from "../../../../util/factories/templates/template-factory"
@@ -26,11 +25,6 @@ export default function BlockSelector(props: any) {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		const selectorOptions = SelectorOptions.getOptions()
-
-		setOptions(page.type == "carousel" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions)
-		setAllOptions(page.type == "carousel" ? selectorOptions.filter((opt: any) => opt.key != "pages") : selectorOptions)
-
 		inputRef.current?.focus()
 	}, [])
 

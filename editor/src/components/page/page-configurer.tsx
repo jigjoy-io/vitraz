@@ -1,5 +1,4 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
-import CarouselIcon from "../../icons/carousel-icon"
 import Button from "../button/button"
 import Checkbox from "../checkbox/checkbox"
 import Tabs from "../tabs/tabs"
@@ -70,7 +69,6 @@ export default function PageConfigurer(props: any) {
 		block.title = title
 		block.description = description
 
-		// replace configurer with carousel block tile
 		block.id = props.id
 
 		dispatch(updateBlock(block))

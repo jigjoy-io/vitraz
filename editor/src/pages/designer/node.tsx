@@ -7,14 +7,7 @@ import DeleteBlockIcon from "../../icons/delete-block-icon"
 import DuplicateIcon from "../../icons/duplicate-icon"
 import ExpandPage from "../../icons/expand-page"
 import MoreIcon from "../../icons/more-icon"
-import {
-	carouselPageSwitched,
-	pageCollapsed,
-	pageExpanded,
-	pagesUpdated,
-	pageUpdated,
-	rootPageUpdated,
-} from "../../reducers/page-reducer"
+import { pageCollapsed, pageExpanded, pagesUpdated, pageUpdated, rootPageUpdated } from "../../reducers/page-reducer"
 import { blockingUpdated } from "../../reducers/editor-reducer"
 import { useExpandedPages, useHovered, usePage, usePages, useSelected } from "../../util/store"
 import { deletePage } from "../../util/traversals/delete-page"
@@ -104,10 +97,6 @@ const Node = memo(function Node(props: any) {
 			let index = parent.config.buildingBlocks.findIndex((block) => block.page?.id == props.id)
 			let clone = duplicateBlock(parent.config.buildingBlocks[index])
 			parent.config.buildingBlocks.splice(index, 0, clone)
-		} else if (parent.type == "carousel") {
-			let index = parent.config.pages.findIndex((page) => page.id == props.id)
-			let clone = duplicateBlock(parent.config.pages[index])
-			parent.config.pages.splice(index, 0, clone)
 		}
 
 		let root = JSON.parse(JSON.stringify(props.root))
@@ -219,9 +208,6 @@ const Node = memo(function Node(props: any) {
 
 		if (props.root.id == selectedPage.id) {
 			dispatch(pageUpdated(props.root))
-			if (selectedPage.type == "carousel") {
-				dispatch(carouselPageSwitched(selectedPage.config.pages[0].id))
-			}
 			return
 		}
 
@@ -229,52 +215,11 @@ const Node = memo(function Node(props: any) {
 
 		if (parent.type == "blank") {
 			dispatch(pageUpdated(selectedPage))
-			if (selectedPage.type == "carousel") {
-				dispatch(carouselPageSwitched(selectedPage.config.pages[0].id))
-			}
-		} else if (parent.type == "carousel") {
-			dispatch(pageUpdated(parent))
-			if (selectedPage.type == "blank") {
-				dispatch(carouselPageSwitched(selectedPage.id))
-			}
 		}
 	}
 
 	const addTooltip = () => {
-		let parent = findParent(props.root, props)
-
-		if (parent && parent.type == "carousel") {
-			return (
-				<div className="text-center text-[14px]">
-					<div>
-						<span className="font-extrabold">Click</span> to add below
-					</div>
-					<span className="font-extrabold">Ctrl-click</span> to add page above
-				</div>
-			)
-		}
-
 		return <div className="text-center text-[14px]">Add page inside</div>
-	}
-
-	const addBlankPageToCarousel = (carousel, position) => {
-		let blankPage = TemplateFactory.createBlankPage(props.id)
-
-		carousel.config.pages.splice(position, 0, blankPage)
-
-		let root = JSON.parse(JSON.stringify(props.root))
-		let newRoot = replaceBlock(root, carousel)
-
-		dispatch(rootPageUpdated(newRoot))
-		updatePage(newRoot)
-
-		let allPages = JSON.parse(JSON.stringify(pages))
-		let index = allPages.findIndex((page) => page.id == newRoot.id)
-		allPages.splice(index, 1, newRoot)
-		dispatch(pagesUpdated(allPages))
-
-		dispatch(pageUpdated(carousel))
-		dispatch(carouselPageSwitched(blankPage.id))
 	}
 
 	const addPage = (e: React.MouseEvent) => {
@@ -282,22 +227,6 @@ const Node = memo(function Node(props: any) {
 
 		let parent = findParent(props.root, props)
 		parent = JSON.parse(JSON.stringify(parent))
-
-		if (parent && parent.type == "carousel") {
-			let pageIndex = parent.config.pages.findIndex((p: any) => p.id == props.id)
-			let position = e.ctrlKey ? pageIndex : pageIndex + 1
-			addBlankPageToCarousel(parent, position)
-			return
-		}
-
-		if (props.type == "carousel") {
-			let carousel = JSON.parse(JSON.stringify(props))
-			let position = carousel.config.pages.length
-
-			addBlankPageToCarousel(carousel, position)
-
-			return
-		}
 
 		if (ref.current) setRect(ref.current.getBoundingClientRect())
 
@@ -374,9 +303,7 @@ const Node = memo(function Node(props: any) {
 					props.config.buildingBlocks &&
 					props.config.buildingBlocks.map((block) => (
 						<div key={block.id}>
-							{(block.type == "page-tile" || block.type == "carousel-tile") && (
-								<Node {...block.page} ident={ident} root={props.root} />
-							)}
+							{block.type == "page-tile" && <Node {...block.page} ident={ident} root={props.root} />}
 						</div>
 					))}
 				{expandedPages.includes(props.id) &&
@@ -440,7 +367,6 @@ const Node = memo(function Node(props: any) {
 									value={tileToAdd}
 								>
 									<option value="page-tile">Blank Page</option>
-									<option value="carousel-tile">Carousel</option>
 								</select>
 								<div className="flex mt-3">
 									<Button size="sm" color="white" text="Create" action={createNewPage} />
