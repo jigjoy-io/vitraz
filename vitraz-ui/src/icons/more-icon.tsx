@@ -1,4 +1,3 @@
-
 export default function MoreIcon() {
 	return (
 		<div role="button" className="flex items-center justify-center w-[24px] h-[24px] rounded-[5px]">

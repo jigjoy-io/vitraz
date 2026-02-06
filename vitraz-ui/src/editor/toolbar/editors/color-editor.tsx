@@ -39,7 +39,7 @@ export default function ColorEditor(props: any) {
 						color={colorVariants[color.key]}
 						id={color.key}
 						selected={value}
-						action={select}
+						onClick={select}
 					/>
 				))}
 			</div>

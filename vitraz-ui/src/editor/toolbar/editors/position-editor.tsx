@@ -37,7 +37,7 @@ export default function PositionEditor(props: any) {
 						icon={position.icon}
 						id={position.key}
 						selected={value}
-						action={select}
+						onClick={select}
 					/>
 				))}
 			</div>

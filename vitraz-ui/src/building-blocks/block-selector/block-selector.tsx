@@ -7,8 +7,8 @@ import { blockingUpdated } from "../../reducers/editor-reducer"
 import TemplateFactory from "../../util/factories/templates/template-factory"
 import { focusBlock, insertBlock } from "../../reducers/page-reducer"
 import ClickOutsideListener from "../../util/click-outside-listener"
-import Item from "../../components/item/item"
 import { handleTextBlockKeyDown } from "../../util/factories/key-command-factory"
+import Item from "../../components/item/item"
 
 export default function BlockSelector(props: any) {
 	const [option, setOption] = useState(props.option || "")
@@ -133,7 +133,7 @@ export default function BlockSelector(props: any) {
 				createPortal(
 					<ClickOutsideListener callback={closeMenu}>
 						<div
-							style={{ top: top, left: left,  }}
+							style={{ top: top, left: left }}
 							className={`fixed flex flex-col h-auto overflow-y-auto bg-white rounded-lg shadow-xl border border-default-light`}
 						>
 							{options.map((option: any, index: number) => (
@@ -144,7 +144,7 @@ export default function BlockSelector(props: any) {
 												icon={command.icon}
 												text={command.label}
 												tabFocus={true}
-												action={(e: any) => insert(e, command.key)}
+												onClick={(e: any) => insert(e, command.key)}
 											></Item>
 										</div>
 									))}

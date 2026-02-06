@@ -1,4 +1,3 @@
-
 export default function AddBlockIcon() {
 	return (
 		<div className="flex items-center justify-center w-[24px] h-[24px] rounded-[5px]">

@@ -4,8 +4,8 @@ import SizeEditor from "../editors/size-editor"
 import Toolbar from "../toolbar"
 import EditableBlock from "./editable-block"
 import SizeIcon from "../../../icons/size-icon"
-import PositionIcon from "../../../icons/position-icon"
 import ImageIcon from "../../../building-blocks/image/image.icon"
+import CenterAlignmentIcon from "../../../icons/alignment-center-icon"
 
 export default class EditableImage extends EditableBlock {
 	getEditingOptions() {
@@ -24,7 +24,7 @@ export default class EditableImage extends EditableBlock {
 			},
 			{
 				name: "Position",
-				icon: PositionIcon,
+				icon: CenterAlignmentIcon,
 				editor: PositionEditor,
 				key: "position",
 			},

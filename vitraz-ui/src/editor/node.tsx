@@ -20,6 +20,7 @@ import RenameIcon from "../icons/rename-icon"
 import TemplateFactory from "../util/factories/templates/template-factory"
 import { nodeHovered } from "../reducers/sidebar-reducer"
 import { Button, Tooltip } from "@jigjoy-io/ui-library"
+import Item from "../components/item/item"
 
 const Node = memo(function Node(props: any) {
 	const activePage = usePage()
@@ -30,7 +31,7 @@ const Node = memo(function Node(props: any) {
 	const [deleteActive, setDeleteActive] = useState(false)
 	const [addingActive, setAddingActive] = useState(false)
 
-	const [ident, setIdent] = useState(props.ident + 12)
+	const [ident, setIdent] = useState(props.ident + 4)
 
 	const [renameValue, setRenameValue] = useState("")
 	const [tileToAdd, setTileToAdd] = useState("page.display")
@@ -260,20 +261,22 @@ const Node = memo(function Node(props: any) {
 			<div
 				key={props.id}
 				onClick={(e: React.MouseEvent) => loadPage(e, props)}
-				className={`w-[100%] h-[30px] p-1 
-            ${selected == props.id ? " bg-primary-light " : ""}
-            hover:bg-primary-light hover:bg-opacity-60 rounded-sm flex flex-row items-center`}
+				className={`w-[100%] h-[28px]
+            	${selected == props.id ? " bg-primary-light " : ""}
+            	hover:bg-primary-light hover:bg-opacity-60 rounded-sm flex flex-row items-center w-full`}
 				onMouseEnter={() => dispatch(nodeHovered(props.id))}
 				onPointerLeave={() => dispatch(nodeHovered(null))}
 				style={{ paddingLeft: `${ident}px` }}
 			>
-				<ExpandPage id={props.id} type={props.type} expand={expandPage} hover={hovered === props.id} />
+				<div className="">
+					<ExpandPage id={props.id} type={props.type} expand={expandPage} hover={hovered === props.id} />
+				</div>
 
-				<div className="ml-1 px-1 text-sm hover:cursor-pointer grow flex truncate text-ellipsis overflow-hidden">
-					{props.name}
+				<div className="ml-1 text-sm hover:cursor-pointer flex grow overflow-hidden">
+					<div className="truncate text-ellipsis"> {props.name} </div>
 				</div>
 				{hovered === props.id && (
-					<>
+					<div className="flex flex-row right-0">
 						<div onClick={expandDropdown} ref={ref}>
 							<Tooltip message="Delete, duplicate, and more...">
 								<MoreIcon />
@@ -285,7 +288,7 @@ const Node = memo(function Node(props: any) {
 								<AddBlockIcon />
 							</Tooltip>
 						</div>
-					</>
+					</div>
 				)}
 			</div>
 
@@ -306,24 +309,15 @@ const Node = memo(function Node(props: any) {
 				createPortal(
 					<ClickOutsideListener callback={closeDropdown}>
 						<div
-							className={`fixed flex rounded-md p-1 shadow bg-[white]`}
+							className={`fixed flex rounded-lg p-1 shadow-xl bg-[white]`}
 							style={{ top: rect.top + rect.height, left: rect.x + rect.width - 20 }}
 							ref={portalRef}
 						>
-							<div className="w-full shadow">
-								<div onClick={openRenamePopup} className="hover:cursor-pointer flex flex-row">
-									<RenameIcon />
-									Rename
-								</div>
-								<div onClick={duplicatePage} className="hover:cursor-pointer flex flex-row">
-									<DuplicateIcon />
-									Duplicate
-								</div>
-								<div className="border-b border-default-light" />
-								<div onClick={openDeletePopup} className="hover:cursor-pointer flex flex-row">
-									<DeleteBlockIcon />
-									Delete
-								</div>
+							<div className="">
+								<Item text="Rename block" tabFocus={false} icon={RenameIcon} onClick={openRenamePopup} />
+								<Item text="Duplicate block" tabFocus={false} icon={DuplicateIcon} onClick={duplicatePage} />
+								<hr className="text-default-light" />
+								<Item text="Delete block" onClick={openDeletePopup} icon={DeleteBlockIcon} />
 							</div>
 						</div>
 					</ClickOutsideListener>,

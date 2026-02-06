@@ -13,7 +13,7 @@ export default function ExpandPage(props: any) {
 	return (
 		<div
 			onClick={(e) => toggleExpand(e)}
-			className="flex items-center justify-center w-[24px] h-[24px] rounded-[5px] bg-[transparent] hover:bg-primary-light border-2 border-[transparent] cursor-pointer"
+			className="flex items-center justify-center w-[24px] h-[24px] rounded-[5px] bg-[transparent] hover:bg-primary-light cursor-pointer"
 		>
 			{!props.hover && props.type == "blank" && <PageIcon />}
 			{props.hover && (

@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react"
 
-export default function Item(props: any) {
+export default function Item(props: {
+	selected?: string
+	tabFocus?: boolean
+	borderOn?: boolean
+	icon?: any
+	onClick: any
+	children?: any
+	color?: string
+	text: string
+	id?: string
+}) {
 	const [selected, setSelected] = useState(props.selected)
 
 	useEffect(() => {
@@ -8,7 +18,7 @@ export default function Item(props: any) {
 	}, [props.selected])
 
 	const callback = (event: any) => {
-		props.action(event, props)
+		props.onClick(event, props)
 	}
 
 	const handleKeyDown = (event: any) => {
@@ -22,7 +32,7 @@ export default function Item(props: any) {
 			onClick={callback}
 			onKeyDown={handleKeyDown}
 			tabIndex={props.tabFocus ? 0 : -1}
-			className={`min-w-[325px] 
+			className={`min-w-[225px] 
 			${selected != null && selected === props.id ? "bg-gradient-custom-opacity" : "bg-[white]"} 
 			border-2 border-[white] md:hover:bg-primary-light  
 			${props.borderOn && "border border-light shadow-md"} 
@@ -34,8 +44,7 @@ export default function Item(props: any) {
 						<props.icon />
 					</div>
 				)}
-				{props.color && <div className={`border w-[25px] h-[25px] mr-4 rounded-[5px] ${props.color}`} />}
-				<div>{props.text}</div>
+				<div className={props.color && `${props.color}`}>{props.text}</div>
 			</div>
 			<div>{props.children}</div>
 		</div>

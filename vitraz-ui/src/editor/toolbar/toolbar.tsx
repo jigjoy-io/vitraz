@@ -11,7 +11,6 @@ import ClickOutsideListener from "../../util/click-outside-listener"
 import DuplicateIcon from "../../icons/duplicate-icon"
 import OpenMenuIcon from "../../icons/open-menu-icon"
 import DeleteBlockIcon from "../../icons/delete-block-icon"
-import Grid from "../../components/grid/grid"
 import Item from "../../components/item/item"
 
 const animation = {
@@ -186,19 +185,13 @@ export default function Toolbar(props: any) {
 				createPortal(
 					<ClickOutsideListener callback={handleToolbarClose}>
 						<div
-							className="fixed flex rounded-[5px] p-1 shadow bg-[white] z-50 -translate-x-[100%]"
+							className="fixed flex rounded-lg p-1 shadow-xl bg-[white] z-50 -translate-x-[100%]"
 							style={{ top: toolbarTop, left: toolbarLeft }}
 							ref={toolbarRef}
 						>
-							<Grid numberOfCols={1}>
-								<Item text="Duplicate block" tabFocus={false} icon={DuplicateIcon} action={duplicate} />
-								<Item
-									text="Delete block"
-									tabFocus={false}
-									textColor="red"
-									icon={DeleteBlockIcon}
-									action={deleteBlock}
-								/>
+							<div className={`grid grid-cols-1 rounded-[5px] gap-1 w-max max-w-[100%]`}>
+								<Item text="Duplicate block" tabFocus={false} icon={DuplicateIcon} onClick={duplicate} />
+								<Item text="Delete block" tabFocus={false} color="red" icon={DeleteBlockIcon} onClick={deleteBlock} />
 								{props.editingOptions.map((option: any, index: number) => (
 									<div
 										key={index}
@@ -211,11 +204,11 @@ export default function Toolbar(props: any) {
 											text={option.name}
 											tabFocus={false}
 											icon={option.icon}
-											action={() => handleOpenEditor(option, index)}
+											onClick={() => handleOpenEditor(option, index)}
 										/>
 									</div>
 								))}
-							</Grid>
+							</div>
 						</div>
 					</ClickOutsideListener>,
 					document.body,

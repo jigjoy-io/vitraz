@@ -1,15 +1,15 @@
+import CenterAlignmentIcon from "../../../icons/alignment-center-icon"
 import ContentEditingText from "../editors/content-editing-text"
 import PositionEditor from "../editors/position-editor"
 import Toolbar from "../toolbar"
 import EditableBlock from "./editable-block"
-import PositionIcon from "../../../icons/position-icon"
 
 export default class EditableText extends EditableBlock {
 	getEditingOptions() {
 		return [
 			{
 				name: "Position",
-				icon: PositionIcon,
+				icon: CenterAlignmentIcon,
 				editor: PositionEditor,
 				key: "position",
 			},

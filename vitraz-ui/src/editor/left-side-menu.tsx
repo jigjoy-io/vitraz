@@ -18,7 +18,7 @@ export default function LeftSideMenu() {
 					<div className="flex flex-col">
 						<div className="w-full">
 							<div className="px-3 py-2 font-bold">Drafts</div>
-							<div className="flex flex-col">
+							<div className="flex flex-col m-1 gap-0.5">
 								{pages.map((page: any) => (
 									<Node key={page.id} {...page} root={page} ident={0} />
 								))}
