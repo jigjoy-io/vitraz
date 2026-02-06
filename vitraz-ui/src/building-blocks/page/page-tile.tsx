@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import Button from "../../components/button/button"
 import Grid from "../../components/grid/grid"
 import { useDispatch } from "react-redux"
-import Tile from "../../components/tile/tile"
 import { pageExpanded, pageUpdated } from "../../reducers/page-reducer"
+import colorVariants from "../../util/style-helper/color-variants"
+import { Button } from "@jigjoy-io/ui-library"
 
 export default function PageTile(props: any) {
 	const [color, setColor] = useState("")
@@ -24,7 +24,7 @@ export default function PageTile(props: any) {
 	}
 
 	return (
-		<Tile color={color}>
+		<div className={`${colorVariants[color]} rounded-[20px] shadow w-[100%] px-4 py-6 border border-light`}>
 			{props.image && (
 				<div className={`${props.title || props.description ? "mb-4" : "mb-20"} px-1 block`}>
 					<img className="float-right rounded-[5px]" height={128} width={128} src={props.image} />
@@ -36,9 +36,9 @@ export default function PageTile(props: any) {
 			{props.description && <div className="pt-4">{props.description}</div>}
 			<div className="pt-4">
 				<Grid numberOfCols={1}>
-					<Button text={cta} color="gradient" rounded action={load} />
+					<Button onClick={load}>{cta}</Button>
 				</Grid>
 			</div>
-		</Tile>
+		</div>
 	)
 }

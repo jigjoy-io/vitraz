@@ -21,9 +21,6 @@ class ClickOutsideListener extends React.Component<any> {
 		document.removeEventListener("mousedown", this.handleClickOutside)
 	}
 
-	/**
-	 * Alert if clicked on outside of element
-	 */
 	handleClickOutside(event: any) {
 		if (this.wrapperRef && !this.wrapperRef.current?.contains(event.target)) {
 			this.props.callback()

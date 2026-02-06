@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { updateBlock } from "../../../reducers/page-reducer"
 import Checkbox from "../../../components/checkbox/checkbox"
-import Button from "../../../components/button/button"
+import { Button } from "@jigjoy-io/ui-library"
 
 const sizes = [
 	{ text: "Small", key: "small" },
@@ -31,7 +31,7 @@ export default function SizeEditor(props: any) {
 					</div>
 				))}
 			</div>
-			<Button text="Update" action={update} />
+			<Button onClick={update}>Update</Button>
 		</div>
 	)
 }

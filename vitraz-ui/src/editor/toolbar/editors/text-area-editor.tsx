@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { updateBlock } from "../../../reducers/page-reducer"
-import Button from "../../../components/button/button"
+import { Button } from "@jigjoy-io/ui-library"
 
 export default function TextAreaEditor(props: any) {
 	const [value, setValue] = useState(props.value)
@@ -20,7 +20,7 @@ export default function TextAreaEditor(props: any) {
 				value={value}
 				onChange={(event) => setValue(event.target.value)}
 			/>
-			<Button text="Update" action={update} />
+			<Button onClick={update}>Update</Button>
 		</div>
 	)
 }

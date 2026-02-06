@@ -16,13 +16,12 @@ import { findParent } from "../util/traversals/find-parent"
 import { replaceBlock } from "../util/traversals/replace-block"
 import { createPortal } from "react-dom"
 import ClickOutsideListener from "../util/click-outside-listener"
-import Button from "../components/button/button"
 import { pushBlock } from "../util/traversals/push-block"
 import AddBlockIcon from "../icons/add-block-icon"
 import RenameIcon from "../icons/rename-icon"
-import ToolbarButtonWrapper from "./toolbar/toolbar-button-wrapper"
 import TemplateFactory from "../util/factories/templates/template-factory"
 import { nodeHovered } from "../reducers/sidebar-reducer"
+import { Button, Tooltip } from "@jigjoy-io/ui-library"
 
 const Node = memo(function Node(props: any) {
 	const activePage = usePage()
@@ -49,7 +48,7 @@ const Node = memo(function Node(props: any) {
 
 	const dispatch = useDispatch()
 
-	const remove = async (event: any) => {
+	const remove = async () => {
 		closeDropdown()
 
 		if (props.root.id == props.id) {
@@ -218,10 +217,6 @@ const Node = memo(function Node(props: any) {
 		}
 	}
 
-	const addTooltip = () => {
-		return <div className="text-center text-[14px]">Add page inside</div>
-	}
-
 	const addPage = (e: React.MouseEvent) => {
 		e.stopPropagation()
 
@@ -282,17 +277,15 @@ const Node = memo(function Node(props: any) {
 				{hovered === props.id && (
 					<>
 						<div onClick={expandDropdown} ref={ref}>
-							<ToolbarButtonWrapper
-								tooltip={<div className="text-center text-[14px]">Delete, duplicate, and more...</div>}
-							>
+							<Tooltip message="Delete, duplicate, and more..." className="bg-[black] text-[white]">
 								<MoreIcon />
-							</ToolbarButtonWrapper>
+							</Tooltip>
 						</div>
 
 						<div onClick={addPage}>
-							<ToolbarButtonWrapper tooltip={addTooltip()}>
+							<Tooltip message="Add page inside" className="bg-[black] text-[white]">
 								<AddBlockIcon />
-							</ToolbarButtonWrapper>
+							</Tooltip>
 						</div>
 					</>
 				)}
@@ -341,8 +334,12 @@ const Node = memo(function Node(props: any) {
 								<p className="font-bold">Delete Page Permanently?</p>
 								<div>Are you sure? This will permanently erase all content.</div>
 								<div className="flex gap-2 mt-3 justify-end">
-									<Button size="sm" color="white" text="Yes" action={remove} />
-									<Button size="sm" color="default" text="No" action={closeDelete} />
+									<Button size="sm" color="white" onClick={remove}>
+										Yes
+									</Button>
+									<Button size="sm" color="default" onClick={closeDelete}>
+										No
+									</Button>
 								</div>
 							</div>
 						</div>
@@ -369,7 +366,9 @@ const Node = memo(function Node(props: any) {
 									<option value="page-tile">Blank Page</option>
 								</select>
 								<div className="flex mt-3">
-									<Button size="sm" color="white" text="Create" action={createNewPage} />
+									<Button size="sm" color="white" onClick={createNewPage}>
+										Create
+									</Button>
 								</div>
 							</div>
 						</div>
@@ -391,7 +390,9 @@ const Node = memo(function Node(props: any) {
 									onChange={(event) => setRenameValue(event.target.value)}
 									autoFocus
 								/>
-								<Button text="Rename" size="sm" action={renamePage} />
+								<Button size="sm" color="white" onClick={renamePage}>
+									Rename
+								</Button>
 							</div>
 						</div>
 					</ClickOutsideListener>,

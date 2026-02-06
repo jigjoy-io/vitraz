@@ -5,7 +5,7 @@ import LeftAlignmentIcon from "../../../icons/alignment-left-icon"
 import RightAlignmentIcon from "../../../icons/alignment-right-icon"
 import CenterAlignmentIcon from "../../../icons/alignment-center-icon"
 import Item from "../../../components/item/item"
-import Button from "../../../components/button/button"
+import { Button } from "@jigjoy-io/ui-library"
 
 export default function PositionEditor(props: any) {
 	const [value, setValue] = useState(props.value)
@@ -41,7 +41,7 @@ export default function PositionEditor(props: any) {
 					/>
 				))}
 			</div>
-			<Button text="Update" action={update} />
+			<Button onClick={update}>Update</Button>
 		</div>
 	)
 }

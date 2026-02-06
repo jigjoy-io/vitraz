@@ -1,10 +1,10 @@
 import { useRef, useState } from "react"
-import Alert from "../../../components/alert/alert"
+import Alert from "./alert"
 import { useRootPage } from "../../../util/store"
-import AlertProps, { AlertType } from "../../../components/alert/alert-props"
+import AlertProps, { AlertType } from "./alert"
 import { FileTooLargeError } from "../../../util/errors/file-too-large-error"
 import FileHelper from "../../../util/file-upload/file-upload"
-import Button from "../../../components/button/button"
+import { Button } from "@jigjoy-io/ui-library"
 
 export default function FileUploader({
 	mediaType,
@@ -59,7 +59,9 @@ export default function FileUploader({
 				accept={`${mediaType}/*`}
 				style={{ display: "none" }}
 			/>
-			<Button width="w-full" text="Upload" action={triggerFileInput} disabled={uploading} />
+			<Button onClick={triggerFileInput} disabled={uploading}>
+				Upload
+			</Button>
 		</>
 	)
 }

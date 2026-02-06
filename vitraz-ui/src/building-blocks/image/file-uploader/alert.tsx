@@ -1,7 +1,19 @@
-import { useState, useEffect} from "react"
-import FailedIcon from "../../icons/failed-icon"
-import SuccessIcon from "../../icons/success-icon"
-import InfoIcon from "../../icons/info-icon"
+import { useState, useEffect } from "react"
+import FailedIcon from "../../../icons/failed-icon"
+import SuccessIcon from "../../../icons/success-icon"
+import InfoIcon from "../../../icons/info-icon"
+
+export enum AlertType {
+	INFO = "info",
+	SUCCESS = "success",
+	DANGER = "danger",
+}
+
+export default interface AlertProps {
+	type: AlertType
+	message?: string
+	title?: string
+}
 
 export default function Alert(props: any) {
 	const [bg, setBg] = useState("bg-alert-success")

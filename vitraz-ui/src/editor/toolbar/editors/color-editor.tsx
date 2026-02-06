@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { updateBlock } from "../../../reducers/page-reducer"
-import Button from "../../../components/button/button"
+import { Button } from "@jigjoy-io/ui-library"
 import colorVariants from "../../../util/style-helper/color-variants"
 import Item from "../../../components/item/item"
 
@@ -43,7 +43,7 @@ export default function ColorEditor(props: any) {
 					/>
 				))}
 			</div>
-			<Button text="Update" action={update} />
+			<Button onClick={update}>Update</Button>
 		</div>
 	)
 }

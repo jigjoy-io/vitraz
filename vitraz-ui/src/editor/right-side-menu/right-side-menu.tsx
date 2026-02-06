@@ -2,7 +2,7 @@ import { AnimatePresence, LazyMotion, m } from "framer-motion"
 import { AppDispatch, useSidebarComponent, useSidebarVisible } from "../../util/store"
 import { useDispatch } from "react-redux"
 import { sidebarExpanded } from "../../reducers/sidebar-reducer"
-import ToolbarButtonWrapper from "../toolbar/toolbar-button-wrapper"
+import { Tooltip } from "@jigjoy-io/ui-library"
 
 const animation = {
 	hidden: {
@@ -41,7 +41,7 @@ export function RightSideMenu() {
 								className="h-[24px] w-[24px] m-2"
 								onClick={() => dispatch(sidebarExpanded({ expanded: false, component: null }))}
 							>
-								<ToolbarButtonWrapper tooltip={<div className="text-[14px]">Close panel</div>}>
+								<Tooltip message="Close panel" className="bg-[black] text-[white]">
 									<div
 										aria-label="Close panel"
 										className="cursor-pointer items-center justify-center rounded-[6px] h-[24px] w-[24px] p-1 bg-[transparent] hover:bg-primary-light"
@@ -53,7 +53,7 @@ export function RightSideMenu() {
 											></path>
 										</svg>
 									</div>
-								</ToolbarButtonWrapper>
+								</Tooltip>
 							</div>
 
 							{sidebar.component && <sidebar.component />}
