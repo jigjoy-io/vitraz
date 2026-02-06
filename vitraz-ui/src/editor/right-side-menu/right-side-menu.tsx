@@ -41,7 +41,7 @@ export function RightSideMenu() {
 								className="h-[24px] w-[24px] m-2"
 								onClick={() => dispatch(sidebarExpanded({ expanded: false, component: null }))}
 							>
-								<Tooltip message="Close panel" className="bg-[black] text-[white]">
+								<Tooltip message="Close panel">
 									<div
 										aria-label="Close panel"
 										className="cursor-pointer items-center justify-center rounded-[6px] h-[24px] w-[24px] p-1 bg-[transparent] hover:bg-primary-light"

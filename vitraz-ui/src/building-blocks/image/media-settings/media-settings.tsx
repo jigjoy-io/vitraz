@@ -4,11 +4,10 @@ import { blockingUpdated } from "../../../reducers/editor-reducer"
 import { updateBlock } from "../../../reducers/page-reducer"
 import { createPortal } from "react-dom"
 import ClickOutsideListener from "../../../util/click-outside-listener"
-import Tabs from "../../../components/tabs/tabs"
-import Tab from "../../../components/tabs/tab"
 import FileUploader from "../file-uploader/file-uploader"
 import TemplateFactory from "../../../util/factories/templates/template-factory"
 import FileUrlEditor from "../file-uploader/file-url-editor"
+import { Tabs, Tab } from "@jigjoy-io/ui-library"
 
 interface MediaSettingsProps {
 	mediaType: "image" | "audio" | "video"

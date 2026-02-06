@@ -277,13 +277,13 @@ const Node = memo(function Node(props: any) {
 				{hovered === props.id && (
 					<>
 						<div onClick={expandDropdown} ref={ref}>
-							<Tooltip message="Delete, duplicate, and more..." className="bg-[black] text-[white]">
+							<Tooltip message="Delete, duplicate, and more...">
 								<MoreIcon />
 							</Tooltip>
 						</div>
 
 						<div onClick={addPage}>
-							<Tooltip message="Add page inside" className="bg-[black] text-[white]">
+							<Tooltip message="Add page inside">
 								<AddBlockIcon />
 							</Tooltip>
 						</div>

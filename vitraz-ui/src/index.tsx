@@ -5,6 +5,7 @@ import { Provider } from "react-redux"
 import { RouterProvider, createRouter } from "@tanstack/react-router"
 import { routeTree } from "./routeTree.gen"
 import { store } from "./util/store"
+import { JigJoyUIProvider } from "@jigjoy-io/ui-library"
 
 const root = document.createElement("div")
 document.body.appendChild(root)
@@ -23,8 +24,10 @@ declare module "@tanstack/react-router" {
 
 rootDiv.render(
 	<React.StrictMode>
-		<Provider store={store}>
-			<RouterProvider router={router} />
-		</Provider>
+		<JigJoyUIProvider theme="dark">
+			<Provider store={store}>
+				<RouterProvider router={router} />
+			</Provider>
+		</JigJoyUIProvider>
 	</React.StrictMode>,
 )

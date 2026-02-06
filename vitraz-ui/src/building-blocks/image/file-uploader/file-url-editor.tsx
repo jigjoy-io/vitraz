@@ -1,8 +1,7 @@
 import { useState } from "react"
 import UrlValidator from "../../../util/file-upload/url-validator"
 import Alert from "./alert"
-import Input from "../../../components/input/input"
-import { Button } from "@jigjoy-io/ui-library"
+import { Button, Input } from "@jigjoy-io/ui-library"
 import AlertProps, { AlertType } from "./alert"
 
 export default function FileUrlEditor({
@@ -33,7 +32,7 @@ export default function FileUrlEditor({
 				</div>
 			)}
 
-			<Input value={fileUrl} onChange={setFileUrl} placeholder={`Enter ${fileType} url`} />
+			<Input value={fileUrl} onChange={(e) => setFileUrl(e.target.value)} placeholder={`Enter ${fileType} url`} />
 
 			<div className="mt-3">
 				<Button onClick={() => handleUrlUpdate(fileUrl)}>Embed</Button>

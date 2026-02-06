@@ -1,8 +1,7 @@
-import Tabs from "../../../components/tabs/tabs"
-import Tab from "../../../components/tabs/tab"
 import FileUploader from "../../../building-blocks/image/file-uploader/file-uploader"
 import FileUrlEditor from "../../../building-blocks/image/file-uploader/file-url-editor"
 import { updateBlock } from "../../../reducers/page-reducer"
+import { Tabs, Tab } from "@jigjoy-io/ui-library"
 import { useDispatch } from "react-redux"
 
 interface FileEditorProps {
