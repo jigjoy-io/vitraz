@@ -1,5 +1,7 @@
+import React from "react"
 import { useDispatch } from "react-redux"
 import { pageExpanded, pageUpdated } from "../../reducers/page-reducer"
+import PageIcon from "../../icons/page-icon"
 
 export default function PageDisplay({ title = "Blank Page", page }: { title: string; page: any }) {
 	const dispatch = useDispatch()
@@ -10,8 +12,8 @@ export default function PageDisplay({ title = "Blank Page", page }: { title: str
 	}
 
 	return (
-		<div className="border border-default-light rounded-sm p-1 w-fit hover:cursor-pointer" onClick={load}>
-			{title}
+		<div className="flex flex-row gap-2 rounded-sm p-1 hover:cursor-pointer" onClick={load}>
+			<PageIcon /> {title}
 		</div>
 	)
 }
